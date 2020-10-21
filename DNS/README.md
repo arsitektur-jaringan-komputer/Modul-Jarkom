@@ -67,7 +67,7 @@ Adalah informasi yang dimiliki oleh suatu DNS zone.
 
 ### 1.2.A Buat Topologi Berikut
 
-![Topologi](gambar/topologi.PNG)
+![Topologi](gambar/topologi.png)
 
 Seperti pada modul pengenalan UML kemaren
 
