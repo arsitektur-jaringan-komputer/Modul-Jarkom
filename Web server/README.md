@@ -264,6 +264,7 @@ Isi file __index.php__ tersebut dengan
 	+ Ubah file __/etc/resolv.conf__ dengan perintah `sudo nano /etc/resolv.conf`
 	+ _Comment_ DNS yang sedang aktif dan tambahkan `nameserver <IP Malang>`
 	+ Simpan hasil perubahannya
+<img src="Gambar/36.png">
 
 #### A.8 Buka browser dan akses _jarkom2020.com_
 
