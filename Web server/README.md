@@ -212,9 +212,10 @@ Akses alamat __http://[IP Mojokerto]:8080__
 
 ## H. Mari Berimajinasi
 ### A. Setting Domain pada Apache
-Rachma adalah seorang mahasiswi Informatika yang ingin membuat website dengan domain __jarkom2020.com__. Dia memiliki _teman_ bernama Ifin yang kebetulan memiliki server yang bisa digunakan sebagai tempat host untuk websitenya. Sayangnya Ifin sedang berada di luar kota dan server-nya tidak dapat diakses dari sana.
+Kamu dan Vinsen adalah satu kelompok dalam mata kuliah Jaringan Komputer. Mereka diperintahkan oleh asisten untuk membuat website dengan domain __jarkom2020.com__, dan diberikan akses ke server yang bisa digunakan sebagai tempat host untuk websitenya. Tapi karena sesuatu dan lain hal, Vinsen tidak bisa membantumu mengerjakan perintah dari asisten. Beruntungnya, Vinsen meninggalkan catatan untuk Kamu ikuti agar Kamu dapat menyelesaikan perintah dari asisten.
 
-Ayo bantu Ifin membahagiakan hati Rachma dengan mengonfigurasi server Ifin sesuai petunjuk yang ia berikan:
+Ayo bantu Kamu dengan mengonfigurasi server sesuai petunjuk yang diberikan Vinsen:
+
 #### A.1 Pindah ke _directory_ `/etc/apache2/sites-available`
 Copy file __default__ menjadi file __jarkom2020.com__
 
@@ -242,7 +243,7 @@ Gunakan perintah `service apache2 restart`
 <img src="Gambar/21.png" width="500">
 
 #### A.5 Pindah ke _directory_ `/var/www`
-Lalu buatlah sebuah _directory_ baru di dalam `var/www` dengan nama __jarkom2020.com__
+Kemudian buatlah sebuah _directory_ baru di dalam `var/www` dengan nama __jarkom2020.com__
 
 <img src="Gambar/22.png" width="500">
 
@@ -271,7 +272,7 @@ Isi file __index.php__ tersebut dengan
 <img src="Gambar/24.png">
 
 ### B. Directory Listing
-Di dalam _directory_ `/var/www/jarkom2020.com` terdapat struktur _directory_ sebagai berikut
+Di dalam _directory_ `/var/www/jarkom2020.com` diberikan struktur _directory_ sebagai berikut.
 ```
 /var/www/jarkom2020.com/
 ├── assets/
@@ -280,9 +281,10 @@ Di dalam _directory_ `/var/www/jarkom2020.com` terdapat struktur _directory_ seb
 └── download/
     └── img/
 ```
-Karena di dalam _directory_ __download__ terdapat file-file yang bisa di-download oleh pengunjung website __jarkom2020.com__, Rachma ingin folder tersebut dapat menampilkan list file yang ada. Lain halnya untuk _directory_ __assets__. Rachma tidak ingin pengunjung website yang mengakses _directory_ __assets__ tahu apa isi _directory_ tersebut.
+Perintah berikutnya dari asisten adalah untuk membuat beberapa direktori, __/assets__, __/data__, dan __/download__. Direktori __/download__ harus dapat menampilkan daftar file yang ada dalam direktori tersebut, sedangkan direktori __/assets__ tidak boleh menampilkan isi direktori tersebut.
 
-Karena ternyata Ifin sangat menyukai Rachma, tentu ia akan berusaha untuk mengabulkan keinginan Rachma. Kalian sebagai teman yang baik dapat membantu Ifin dengan melakukan hal-hal berikut:
+Ayo bantu Kamu yang kebingungan membaca penjelasan dari Vinsen agar dapat mengerjakan perintah asisten. 
+
 #### B.1 Buat _directory-directory_ yang diperlukan oleh website jarkom2020.com milik Rachma
 Gunakan perintah-perintah berikut ini:
 ```
@@ -295,7 +297,7 @@ mkdir /var/www/jarkom2020.com/assets/javascript
 
 <img src="Gambar/25.png" width="500">
 
-#### B.2 Mengaktifkan Directory Listing
+#### B.2 Aktifkan Directory Listing untuk /download
 + Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2020.com___ dan tambahkan
 	```
 	<Directory /var/www/jarkom2020.com/download>
@@ -324,7 +326,7 @@ Contoh untuk mengatur `/var/www/jarkom2020.com/download`
 </Directory>
 ```
 
-#### B.3 Mematikan Directory Listing
+#### B.3 Matikan Directory Listing untuk /assets
 + Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2020.com___ dan tambahkan
 	```
 	<Directory /var/www/jarkom2020.com/assets>
@@ -341,9 +343,10 @@ Contoh untuk mengatur `/var/www/jarkom2020.com/download`
 <img src="Gambar/29.png">
 
 ### C. Directory Alias
-Karena URL __http://[IP Mojokerto]/assets/javascript__ dirasa terlalu panjang, maka Ifin mencoba membuat _directory alias_ menjadi __http://[IP Mojokerto]/assets/js__ agar Rachma tidak capek mengetik.
+Karena URL __http://[IP Mojokerto]/assets/javascript__ dirasa terlalu panjang, maka Kamu mencoba membuat _directory alias_ menjadi __http://[IP Mojokerto]/assets/js__ agar lebih terlihat _simple_.
 
-Berikut adalah langkah-langkah pengerjaan yang diberikan Ifin pada kalian:
+Berikut adalah langkah-langkah pengerjaan yang diberikan Vinsen:
+
 + Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2020.com___ dan tambahkan
 	```    
 	<Directory /var/www/jarkom2020.com/assets/javascript>
@@ -364,18 +367,18 @@ Berikut adalah langkah-langkah pengerjaan yang diberikan Ifin pada kalian:
 <img src="Gambar/31.png">
 
 ### D. Module Rewrite
-#### D.1 Mengaktifkan Module Rewrite
-Setelah dipikir-pikir ternyata __[http://jarkom2020.com/index.php](http://jarkom2020.com/index.php)__ kurang cantik untuk penulisan URL. Oleh sebab itu, Ifin berinisiatif untuk mengaktifkan _module rewrite_ agar ketika mengakses file php tidak perlu menambahkan ekstensi _'.php'_.
-Maka kita perlu melakukan hal-hal di bawah ini:
-+ Menjalankan perintah `a2enmod rewrite` untuk mengaktifkan _module rewrite_.
+#### D.1 Aktifkan Module Rewrite
+Perintah asisten berikutnya adalah menyalakan _module rewrite_ agar penulisan URL menjadi lebih rapi dan tanpa perlu menuliskan ekstensi _.php_ ketika mengakses laman.
+
++ Jalankan perintah `a2enmod rewrite` untuk mengaktifkan _module rewrite_.
 	
 + Restart apache dengan perintah `service apache2 restart`
 
 	<img src="Gambar/32.png" width="500">
 
-Biasanya semua konfigurasi terhadap sebuah website diatur pada file di _directory_ __/etc/apache2/sites-available__. Namun terkadang ada sebuah kasus bahwa kita tidak memiliki hak akses root untuk edit file konfigurasi yang berada di folder __/etc/apache2/sites-available__ atau kita tidak ingin user lain untuk mengedit file konfigurasi yang berada di _directory_ __/etc/apache2/sites-available__.
+Biasanya semua konfigurasi terhadap sebuah website diatur pada file di _directory_ __/etc/apache2/sites-available__. Namun terkadang ada sebuah kasus bahwa   hak akses root untuk mengedit file konfigurasi yang berada di folder __/etc/apache2/sites-available__ tidak dimiliki, atau kita tidak ingin user lain untuk mengedit file konfigurasi yang berada di _directory_ __/etc/apache2/sites-available__.
 
-Untuk mengatasi masalah tersebut, kita dapat membuat file __.htaccess__ pada _directory_ yang ingin kita atur.
+Untuk mengatasi masalah tersebut, buat file __.htaccess__ pada _directory_ yang akan diatur.
 
 Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_ dari __[http://jarkom2020.com](http://jarkom2020.com)__ agar saat mengakses file php kita tidak perlu menuliskan ekstensinya. Maka yang yang perlu kita lakukan adalah
 + Pindah ke _directory_ `/var/www/jarkom2020.com` dan buat file __.htaccess__ dengan isi file
@@ -392,7 +395,7 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 	+ `RewriteCond %{REQUEST_FILENAME} !-d` = aturan tidak akan jalan ketika yang diakses adalah _directory_ (d)
 	+ `RewriteRule ^([^\.]+)$ $1.php [NC,L]` = $1 adalah parameter input yang akan dicari oleh webserver
 	* Lebih detailnya [klik disini](https://httpd.apache.org/docs/2.4/rewrite/flags.html)
-+ Buat file _aboutus.php_ di dalam _directory_ `/var/www/jarkom2020.com/` dengan isi
++ Buat file _about.php_ di dalam _directory_ `/var/www/jarkom2020.com/` dengan isi
 	```
 	<?php
 		echo "Ini adalah halaman About";
@@ -405,7 +408,7 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 	    AllowOverride All
 	</Directory>
 	```
-	jangan lupa untuk menyimpan perubahan tersebut.
+	dan jangan lupa untuk menyimpan perubahan tersebut.
 	
 	<img src="Gambar/34.png" width="500">
 	
@@ -413,8 +416,9 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 	+ `AllowOverride All` ditambahkan agar  konfigurasi __.htaccess__ dapat berjalan.
 	+ `+FollowSymLinks` ditambahkan agar konfigurasi __mod_rewrite__ dapat berjalan.
 	+ `-Multiviews` ditambahkan agar konfigurasi __mod_negotiation__ tidak dapat berjalan. __mod_negotiation__ bisa '_rewrite_' _requests_ sehingga menimpa dan mengganggu __mod_rewrite__.
-	+ Restart apache dengan perintah `service apache2 restart`
-	+ Buka browser dan akses __http://jarkom2020.com/aboutus__
+
++ Restart apache dengan perintah `service apache2 restart`
++ Buka browser dan akses __http://jarkom2020.com/aboutus__
 
 	<img src="Gambar/35.png">
 	
