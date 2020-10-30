@@ -466,7 +466,9 @@ Sedangkan saat pengguna  memiliki __IP NID 10.151.252.0/22__ maka halaman yang m
 
 
 ## Selamat belajar dan tetap semangat!
-<img src="Gambar/klee.png" width="50%">
+<p align="center">
+	<img src="Gambar/klee.png" width="50%">
+</p>
 
 <!-- 
 	<img src="Gambar/36.png" width="500">
