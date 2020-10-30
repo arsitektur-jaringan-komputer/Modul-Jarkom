@@ -456,14 +456,14 @@ Sedangkan saat pengguna  memiliki __IP NID 10.151.252.0/22__ maka halaman yang m
 -->
 
 ## I. Latihan
-#### TBA
-<!-- 1. Download halaman PokePoke di 10.151.36.234/pokepoke.zip
-2. Buat domain baru dengan nama __personalpoke.xx.id__ untuk membuka halaman tersebut.
-3. Atur agar jika kalian mengetikkan __personalpoke.xx.id__, Web PokePoke dapat terbuka. 
+<!-- #### TBA -->
+1. Download halaman jatim di testing.mekanis.me/jatim.zip
+2. Buat domain baru dengan nama __jatim.xx.id__ untuk membuka halaman tersebut.
+3. Atur agar jika kalian mengetikkan __jatim.xx.id__, Web jatim dapat terbuka. 
 ### Catatan
-+ Untuk download halaman web, gunakan perintah `wget 10.151.36.234/pokepoke.zip`
-+ Untuk nomor 2 dan 3, '__xx__' diisi dengan nama kelompok. Contoh: __personalpoke.a4.id__
--->
++ Untuk download halaman web, gunakan perintah `wget testing.mekanis.me/jatim.zip`
++ Untuk nomor 2 dan 3, '__xx__' diisi dengan nama kelompok. Contoh: __jatim.a4.id__
+
 
 ## Selamat belajar dan tetap semangat!
 <img src="Gambar/klee.png">
