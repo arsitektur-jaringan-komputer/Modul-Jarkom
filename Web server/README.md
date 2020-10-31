@@ -1,4 +1,24 @@
 # Web Server
+
+## Daftar Isi
++ A. [Persyaratan Tambahan untuk Mengikuti Sesi Lab ](#a-persyaratan-tambahan-untuk-mengikuti-sesi-lab)
++ B. [Penting Untuk Dibaca](#b-penting-untuk-dibaca)
++ C. [Dasar Teori](#c-dasar-teori)
+  + 1.[ Web Server](#1-web-server)
+  + 2.[ Load Balancing](#2-load-balancing)
+  + 3.[ Apache Web Server](#3-apache-web-server)
++ D. [Instalasi Apache](#d-instalasi-apache)
++ E. [Instalasi PHP](#e-instalasi-php)
++ F. [Mengenal Apache](#f-mengenal-apache)
++ G. [Konfigurasi Apache Sederhana](#g-konfigurasi-apache-sederhana)
+  + A. [Penggunaan Sederhana](#a-penggunaan-sederhana)
+  + B. [Membuat Konfigurasi Website Menggunakan Port 8080](#b-membuat-konfigurasi-website-menggunakan-port-8080)
++ H. [Mari Berimajinasi](#h-mari-berimajinasi)
+  + A. [Setting Domain pada Apache](#a-setting-domain-pada-apache)
+  + B. [Directory Listing](#b-directory-listing)
+  + C. [Directory Alias](#c-directory-alias)
+  + D. [Module Rewrite](#d-module-rewrite)
+
 ## A. Persyaratan Tambahan untuk Mengikuti Sesi Lab
 Record A dan PTR pada jarkom2020.com sudah harus mengarah ke IP MOJOKERTO
 
@@ -100,9 +120,17 @@ Gunakan perintah `cd /etc/apache2/sites-available`
 Dapat dilihat di sana terdapat dua buah file:
 + file __default__, file konfigurasi website default apache untuk http.
 + file __default-ssl__, file konfigurasi website default apache untuk https.
+  
+__Catatan tambahan__ :
+
+Cek versi apache2 yang telah kalian install dengan menggunakan command : `apache2 -v`. Jika versi apache2 yang telah kalian install versi 2.2.x maka mengikuti sesuai modul. Jika versi apache yang telah kalian install versi 2.4.x maka mengikuti sesuai modul dengan catatan tambahan tertentu.
 
 #### A.2. Buka file ___default___
-Gunakan perintah `nano /etc/apache2/sites-available/default`
+Untuk versi 2.2.x gunakan perintah `nano /etc/apache2/sites-available/default`. Sedangkan untuk versi 2.4.x gunakan perintah `nano /etc/apache2/sites-available/default.conf`
+
+__Catatan tambahan__  :
+
+Untuk versi 2.4.x setiap configurasi file yang berada di directory `/etc/apache2/sites-available` nama file-nya ditambahi dengan `.conf`. Contoh : `/etc/apache2/sites-available/default.conf`. Karena jika tidak ditambahi dengan `.conf` maka akan error.
 
 <img src="Gambar/9.png" width="500">
 
@@ -154,13 +182,21 @@ Akses alamat __http://[IP Mojokerto]/index.php__
 
 ### B. Membuat Konfigurasi Website Menggunakan Port 8080
 #### B.1 Pindah ke _directory_ `/etc/apache2/sites-available`
+Pindah ke _directory_ `/etc/apache2/sites-available` menggunakan perintah 
+```
+cd /etc/apache2/sites-available
+```
 Copy file _default_ menjadi file _default-8080_ dengan perintah
 ```
 cp default default-8080
 ```
+Jangan lupa untuk menambahkan `.conf` jika apache2 versi 2.4.x. Jika sudah kalian bisa rename file tersebut menggunakan perintah
+```
+mv default-8080 default-8080.conf
+```
 
 #### B.2 Buka file _default-8080_
-Gunakan perintah `nano /etc/apache2/sites-available/default-8080`
+Buka file yang telah kalian buat pada sebelumnya. Gunakan perintah `nano /etc/apache2/sites-available/default-8080`. Jangan lupa untuk menambahkan `.conf` jika apache2 versi 2.4.x. 
 + Kemudian ubah port yang digunakan. Dimana awalnya port `80` menjadi port `8080`.
 + Ubah juga _DocumentRoot_ yang awalnya `/var/www/html` menjadi `/var/www/web-8080`.
 
@@ -177,7 +213,7 @@ Listen 8080
 <img src="Gambar/13.png" width="500">
 
 #### B.4 Aktifkan konfigurasi _default-8080_
-Untuk mengaktifkan suatu konfigurasi, kita menggunakan perintah `a2ensite` diikuti dengan __nama file konfigurasi tanpa .conf__
+Untuk mengaktifkan suatu konfigurasi, kita menggunakan perintah `a2ensite` diikuti dengan __nama file konfigurasi__ yang telah dibuat.
 Dalam kasus ini perintah yang dijalankan adalah
 ```
 a2ensite default-8080
@@ -217,7 +253,7 @@ Kamu dan Vinsen adalah satu kelompok dalam mata kuliah Jaringan Komputer. Mereka
 Ayo bantu Kamu dengan mengonfigurasi server sesuai petunjuk yang diberikan Vinsen:
 
 #### A.1 Pindah ke _directory_ `/etc/apache2/sites-available`
-Copy file __default__ menjadi file __jarkom2020.com__
+Copy file __default__ menjadi file __jarkom2020.com__. Jangan lupa untuk menambahkan `.conf` jika apache2 versi 2.4.x
 
 <img src="Gambar/19.png" width="500">
 
@@ -335,7 +371,7 @@ Contoh untuk mengatur `/var/www/jarkom2020.com/download`
 	```
 	jangan lupa untuk menyimpan perubahan tersebut agar _directory_  ___assets___ tidak menampilkan isi _directory_-nya.
 	
-	<img src="Gambar/28.jpg" width="500">
+	<img src="Gambar/28.png" width="500">
 	
 + Restart apache dengan perintah `service apache2 restart`
 + Buka browser dan akses http://jarkom2020.com/assets
