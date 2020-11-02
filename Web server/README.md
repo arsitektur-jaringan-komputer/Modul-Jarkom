@@ -173,7 +173,7 @@ Akses alamat __http://[IP Mojokerto]/index.php__
 + __Catatan__:
 	Apabila tampilan web tidak muncul seperti gambar di atas dan hanya muncul plain text isi file index.php, silahkan install **libapache2-mod-php7.0** dengan menjalankan perintah
 	```
-	`apt-get install libapache2-mod-php7.0
+	apt-get install libapache2-mod-php7.0
 	```
 	lalu restart apache dengan perintah
 	```
@@ -493,18 +493,20 @@ Sedangkan saat pengguna  memiliki __IP NID 10.151.252.0/22__ maka halaman yang m
 
 ## I. Latihan
 <!-- #### TBA -->
-1. Download halaman jatim di testing.mekanis.me/jatim.zip
-2. Buat domain baru dengan nama __jatim.xx.id__ untuk membuka halaman tersebut.
-3. Atur agar jika kalian mengetikkan __jatim.xx.id__, Web jatim dapat terbuka. 
+1. Download halaman jatim di 10.151.36.202/jatim.zip
+2. Buat domain baru dengan nama __jatim.yyy.id__ untuk membuka halaman tersebut.
+3. Atur agar jika kalian mengetikkan __jatim.yyy.id__, Web jatim dapat terbuka. 
 ### Catatan
 + Untuk download halaman web, gunakan perintah `wget 10.151.36.202/jatim.zip`
 + Kemudian unzip file tersebut. Jika muncul error seperti `unzip: command not found` maka install unzip terlebih dahulu menggunakan command `apt-get install unzip`.
 + Buat directory hasil unzip file tersebut menjadi _DocumentRoot_ web
-+ Untuk nomor 2 dan 3, '__xx__' diisi dengan nama kelompok. Contoh: __jatim.a4.id__
++ Untuk nomor 2 dan 3, '__yyy__' diisi dengan nama kelompok. Contoh: __jatim.a04.id__
 
 
 ## Selamat belajar dan tetap semangat!
-<img src="Gambar/klee.png">
+<p align="center">
+	<img src="Gambar/klee.png" width="50%">
+</p>
 
 <!-- 
 	<img src="Gambar/36.png" width="500">
