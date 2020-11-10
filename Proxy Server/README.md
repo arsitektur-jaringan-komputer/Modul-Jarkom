@@ -7,7 +7,7 @@
 		- 2.1.2 Fungsi 
 		- 2.1.3 Manfaat
 		- 2.1.4 Software Proxy Server
-		- 2.1.5 Cara Kerja Squid
+		- 2.1.5 Cara Kerja
 	- 2.2 Implementasi
 		- 2.2.1 Instalasi Squid
 		-  2.2.2 Konfigurasi Dasar Squid
@@ -48,3 +48,6 @@ Beberapa contoh software proxy server yang sering digunakan adalah sebagai berik
 2.  WinGate
 3.  Squid
 4.  Nginx
+
+### 2.1.5 Cara Kerja
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/cara-kerja-proxy.JPG)
