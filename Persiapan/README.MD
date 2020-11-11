@@ -8,7 +8,7 @@ Berikut adalah topologi jaringan yang digunakan pada modul 3.
 
 1. Hapus terlebih dahulu file UML yang tidak diperlukan bekas praktikum kemarin
 
-    ` rm SURABAYA SIDOARJO GRESIK MALANG MOJOKERTO `
+    ` rm SURABAYA SIDOARJO GRESIK MALANG MOJOKERTO switch1 switch 2 `
 
     **Himbauan !!**
         
@@ -47,13 +47,13 @@ Dalam modul 3, kita akan menggunakan 3 aplikasi, yaitu:
 
 Lakukan langkah-langkah berikut:
 
-1. Mengupdate package list pada SURABAYA, MALANG dan MOJOKERTO. 
+1. Mengupdate package list pada **SURABAYA**, **MALANG** dan **MOJOKERTO**. 
 
     ```
     apt-get update
     ```
 
-2. Menginstal isc-dhcp-server pada router **SURABAYA**
+2. Menginstal **isc-dhcp-server** pada router **SURABAYA**
 
     ```
     apt-get install isc-dhcp-server
@@ -65,7 +65,7 @@ Lakukan langkah-langkah berikut:
     apt-get install bind9
     ```
 
-4. Menginstal squid3 pada server **MOJOKERTO**
+4. Menginstal **squid3** pada server **MOJOKERTO**
 
     ```
     apt-get install squid3
