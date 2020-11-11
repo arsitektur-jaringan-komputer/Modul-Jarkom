@@ -1,7 +1,7 @@
 # Modul 3 Jaringan Komputer 2020
 
 ## Persiapan
-...
+[Topologi Baru](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-3/Persiapan)
 
 ## Materi
 
