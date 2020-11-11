@@ -12,7 +12,7 @@ Berikut adalah topologi jaringan yang digunakan pada modul 3.
 
     **Himbauan !!**
         
-    * Jangan coba-coba melakukan `rm *` karena akan menghapus semuanya termasuk file **jarkom**. Jika file tersebut terhapus segera hubungi asisten. 
+    * Jangan coba-coba melakukan `rm*` karena akan menghapus semuanya termasuk file **jarkom**. Jika file tersebut terhapus segera hubungi asisten. 
 
 2. Sesuaikan script topologi.sh dengan gambar topologi di atas dengan tambahan ketentuan sebagai berikut: 
 
