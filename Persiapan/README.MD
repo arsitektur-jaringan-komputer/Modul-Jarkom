@@ -8,7 +8,7 @@ Berikut adalah topologi jaringan yang digunakan pada modul 3.
 
 1. Hapus terlebih dahulu file UML yang tidak diperlukan bekas praktikum kemarin
 
-    ` rm SURABAYA SIDOARJO GRESIK MALANG MOJOKERTO switch1 switch 2 `
+    ` rm SURABAYA SIDOARJO GRESIK MALANG MOJOKERTO switch1 switch2 `
 
     **Himbauan !!**
         
@@ -42,8 +42,8 @@ gateway 192.168.0.1
 Dalam modul 3, kita akan menggunakan 3 aplikasi, yaitu:
 
 * **isc-dhcp-server** (DHCP Server)
-* **squid3** (Proxy Server)
 * **bind9** (DNS Server)
+* **squid3** (Proxy Server)
 
 Lakukan langkah-langkah berikut:
 
