@@ -1,20 +1,20 @@
 # 2. Proxy Server
 ## Outline
-- 2. Proxy Server
-	- Outline
-	- 2.1 Pengertian, Fungsi, dan Manfaat
-		- 2.1.1 Pengertian 
-		- 2.1.2 Fungsi 
-		- 2.1.3 Manfaat
-		- 2.1.4 Software Proxy Server
-		- 2.1.5 Cara Kerja
-	- 2.2 Implementasi
-		- 2.2.1 Instalasi Squid
-		-  2.2.2 Konfigurasi Dasar Squid
-		- 2.2.3 Membuat User Login
-		- 2.2.4 Pembatasan Waktu Akses
-		- 2.2.5 Pembatasan Waktu Akses ke Website Tertentu
-		- 2.2.6 Pembatasan Bandwith
+- [2. Proxy Server](#2-proxy-server)
+	- [Outline](#outline)
+	- [2.1 Pengertian, Fungsi, dan Manfaat](#21-pengertian-fungsi-dan-manfaat)
+		- [2.1.1 Pengertian](#211-pengertian) 
+		- [2.1.2 Fungsi](#212-fungsi) 
+		- [2.1.3 Manfaat](#213-manfaat)
+		- [2.1.4 Software Proxy Server](#214-software-proxy-server)
+		- [2.1.5 Cara Kerja](#215-cara-kerja)
+	- [2.2 Implementasi](#22-implementasi)
+		- [2.2.1 Instalasi Squid](#221-instalasi-squid)
+		- [2.2.2 Konfigurasi Dasar Squid](#222-konfigurasi-dasar-squid)
+		- [2.2.3 Membuat User Login](#223-membuat-user-login)
+		- [2.2.4 Pembatasan Waktu Akses](#224-pembatasan-waktu-akses)
+		- [2.2.5 Pembatasan Waktu Akses ke Website Tertentu](#225-pembatasan-waktu-akses-ke-website-tertentu)
+		- [2.2.6 Pembatasan Bandwith](#226-pembatasan-bandwidth)
 	- 2.3 Soal Latihan
 	
 	- 2.4 Referensi
@@ -174,3 +174,117 @@ Kemudian cobalah untuk mengakses web  **elearning.if.its.ac.id**  (usahakan meng
 **STEP 6**  - Isikan username dan password.
 
 **STEP 7**  - E-learning berhasil dibuka.
+
+### 2.2.4 Pembatasan Waktu Akses
+Kita akan mencoba membatasi akses proxy pada hari dan jam tertentu. Asumsikan proxy dapat digunakan hanya pada hari Senin sampai Jumat pada jam 08.00-17.00.
+
+**STEP 1**  - Buat file baru bernama acl.conf di folder squid
+```
+nano /etc/squid/acl.conf
+```
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_1.PNG)
+
+**STEP 2**  - Tambahkan baris berikut
+```
+acl AVAILABLE_WORKING time MTWHF 08:00-17:00
+```
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_2.PNG)
+
+**STEP 3**  - Simpan file acl.conf.
+
+**STEP 4**  - Buka file squid.conf.
+```
+nano /etc/squid/squid.conf
+```
+
+**STEP 5**  - Ubah konfigurasinya menjadi:
+```
+include /etc/squid/acl.conf
+
+http_port 8080
+http_access allow AVAILABLE_WORKING
+http_access deny all
+visible_hostname mojokerto
+```
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_3.PNG)
+
+**STEP 6**  - Simpan file tersebut. Kemudian restart squid.
+
+**STEP 7** - Cobalah untuk mengakses web http://its.ac.id (usahakan menggunakan mode incognito/private). Akan muncul halaman error jika mengakses diluar waktu yang telah ditentukan.
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_4.PNG)
+
+**Keterangan:**
+-   **MTWHF** adalah hari-hari dimana user diperbolehkan menggunakan proxy. (S: Sunday, M: Monday, T: Tuesday, W: Wednesday, H: Thursday, F: Friday, A: Saturday)
+-   Penulisan jam menggunakan format: **h1:m1-h2:m2**. Dengan syarat **h1<h2** dan **m1<m2**
+
+### 2.2.5 Pembatasan Akses ke Website Tertentu
+Kita akan mencoba membatasi akses ke beberapa website. Untuk contoh disini, kita akan memblokir website **monta.if.its.ac.id** dan **elearning.if.its.ac.id**
+
+**STEP 1**  - Buat file bernama restrict-sites.acl di folder squid dengan mengetikkan:
+```
+nano /etc/squid/restrict-sites.acl
+```
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_5.PNG)
+
+**STEP 2**  - Tambahkan alamat url yang akan diblock seperti baris berikut:
+```
+monta.if.its.ac.id
+elearning.if.its.ac.id
+```
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_6.PNG)
+
+**STEP 3**  - Ubah file konfigurasi squid menjadi seperti berikut ini.
+```
+http_port 8080
+visible_hostname mojokerto
+
+acl BLACKLISTS dstdomain "/etc/squid/restrict-sites.acl"
+http_access deny BLACKLISTS
+http_access allow all
+```
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_7.PNG)
+
+**STEP 4**  - Restart squid. Kemudian cobalah untuk mengakses web **monta.if.its.ac.id** , **elearning.if.its.ac.id** , dan **google.com** (usahakan menggunakan mode incognito/private). Seharusnya halaman yang diakses menampilkan tampilan seperti gambar di bawah ini.
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_8.PNG)
+
+**Keterangan:**
+-   dstdomain artinya destination domain/domain tujuan. Sintaksnya bisa diikuti dengan nama domain tujuan atau file yang menampung list-list alamat website.
+
+### 2.2.6 Pembatasan Bandwidth
+Kita akan mencoba untuk membatasi bandwidth yang akan diberikan kepada user proxy. Untuk contoh disini kita akan membatasi penggunaannya maksimal 512 kbps.
+
+**STEP 1** - Buat file bernama acl-bandwidth.conf di folder squid
+```
+nano /etc/squid/acl-bandwidth.conf
+```
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_9.PNG)
+
+**STEP 2**  - Ketikkan baris berikut
+```
+delay_pools 1
+delay_class 1 1
+delay_access 1 allow all
+delay_parameters 1 16000/64000
+```
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_10.PNG)
+
+**STEP 3**  - Ubah konfigurasi pada file squid.conf menjadi:
+```
+include /etc/squid/acl-bandwidth.conf
+http_port 8080
+visible_hostname mojokerto
+
+http_access allow all
+```
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_11.PNG)
+
+**STEP 4**  - Restart Squid
+
+**STEP 5**  - Cobalah untuk melakukan speed test. Berikut perbedaan sebelum dan sesudah adanya pembatasan bandwidth saat melakukan speed test
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_12.PNG)
+
+**Keterangan:**
+-   **delay_pools** digunakan untuk menentukan berapa bagian/pool yang akan dibuat. (Sintaks: **delay_pools JUMLAH_YANG_DIINGINKAN**. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_pools/](http://www.squid-cache.org/Doc/config/delay_class/)).
+-   **delay_class** digunakan untuk menentukan tipe/class pembagian bandwith dari setiap pool. (Sintaks: **delay_class POOL_KE_BERAPA KELAS**.) Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_class/](http://www.squid-cache.org/Doc/config/delay_class/).
+-   **delay_access** mirip seperti http_access, tetapi digunakan untuk mengakses pool yang telah dibuat (Sintaks: **delay_access POOL_KE_BERAPA allow/deny TARGET**. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_access/](http://www.squid-cache.org/Doc/config/delay_access/).
+-   **delay_parameters** digunakan untuk mengatur parameter dari pool yang telah dibuat. Sintaks berbeda-beda sesuai dengan tipe/kelas dari pool yang dibuat. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_parameters/](http://www.squid-cache.org/Doc/config/delay_parameters/)
