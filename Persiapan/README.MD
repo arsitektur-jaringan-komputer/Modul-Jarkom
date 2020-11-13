@@ -4,7 +4,7 @@
 
 Berikut adalah topologi jaringan yang digunakan pada modul 3.
 
-[](images/topologi.jpg)
+![](images/topologi.jpg)
 
 1. Hapus terlebih dahulu file UML yang tidak diperlukan bekas praktikum kemarin
 
