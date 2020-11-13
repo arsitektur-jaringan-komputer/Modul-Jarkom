@@ -20,7 +20,7 @@ Berikut adalah topologi jaringan yang digunakan pada modul 3.
 
     * Memori router **SURABAYA** adalah **256M** karena akan menjadi DHCP Server.
 
-    * Memori server **KATSU** dan **PIZZA** adalah **128M** karena menjadi DNS Server dan Proxy Server.
+    * Memori server **MALANG** dan **MOJOKERTO** adalah **128M** karena menjadi DNS Server dan Proxy Server.
 
 3. Langkah-langkah selengkapnya silahkan mengikuti panduan membuat UML pada [Modul Pengenalan UML](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml).
 
