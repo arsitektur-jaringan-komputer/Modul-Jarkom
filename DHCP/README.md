@@ -247,9 +247,9 @@ Bila IP dan nameserver **GRESIK** telah berubah sesuai dengan konfigurasi yang d
 
 - Client **BANYUWANGI**
 
-![BANYUWANGI 1](images/13.png)
+![BANYUWANGI 1](images/banyuwangi_ifconfig.png)
 
-![BANYUWANGI 2](images/14.png)
+![BANYUWANGI 2](images/banyuwangi_resolv.conf.png)
 
 Setelah IP dipinjamkan ke sebuah client, maka IP tersebut tidak akan diberikan ke client lain. Buktinya, tidak ada client yang mendapatkan IP yang sama.
 
@@ -259,38 +259,38 @@ Setelah IP dipinjamkan ke sebuah client, maka IP tersebut tidak akan diberikan k
 >
 > Ternyata PC **BANYUWANGI** selain menjadi client, juga akan digunakan sebagai server suatu aplikasi, sehingga akan menyulitkan jika IP nya berganti-ganti setiap **BANYUWANGI** terhubung ke jaringan internet. Oleh karena itu, **BANYUWANGI** membutuhkan IP yang tidak berganti-ganti.
 
-Untuk menyelesaikan kasus tersebut, DHCP Server memiliki layanan untuk "menyewakan" alamat IP secara tetap pada suatu host, yakni **Fixed Address**. Dalam kasus ini, **BANYUWANGI** akan mendapatkan IP tetap 192.168.0.15
+Untuk menyelesaikan kasus tersebut, DHCP Server memiliki layanan untuk "menyewakan" alamat IP secara tetap pada suatu host, yakni **Fixed Address**. Dalam kasus ini, **BANYUWANGI** akan mendapatkan IP tetap 192.168.0.10
 
 #### A. Konfigurasi DHCP Server di router SURABAYA
 
 ##### A.1. Buka file konfigurasi DHCP dengan perintah
 
-```
+```sh
 nano /etc/dhcp/dhcpd.conf
 ```
 
 ##### A.2. Tambahkan script berikut
 
-```
+```conf
 host BANYUWANGI {
     hardware ethernet 'hwaddress_BANYUWANGI';
-    fixed-address 192.168.0.15;
+    fixed-address 192.168.0.10;
 }
 ```
 
-![konfigurasi fixed address pada DHCP server](images/15.png)
+![konfigurasi fixed address pada DHCP server](images/surabaya_fixed-address-config.png)
 
 **Penjelasan**:
 
 - Untuk mencari `'hwaddress_BANYUWANGI'` (hardware address) kalian bisa memeriksanya di UML **BANYUWANGI** dengan command `ifconfig`
 
-![HWaddr BANYUWANGI](images/16.png)
+![HWaddr BANYUWANGI](images/banyuwangi_hwaddr.png)
 
 - **fixed-address** adalah alamat IP yang "disewa" tetap oleh **BANYUWANGI**
 
-##### A.3. Restart service `isc-dhcp-server` dengan perintah
+##### A.3. Restart service `isc-dhcp-server` pada **SURABAYA** dengan perintah
 
-```
+```sh
 service isc-dhcp-server restart
 ```
 
@@ -298,7 +298,7 @@ service isc-dhcp-server restart
 
 ##### B.1. Buka `/etc/network/interfaces` untuk mengonfigurasi interface **BANYUWANGI**
 
-```
+```sh
 nano /etc/network/interfaces
 ```
 
@@ -306,26 +306,26 @@ nano /etc/network/interfaces
 
 Lalu tambahkan:
 
-```
+```conf
 hwaddress ether 'hwaddress_BANYUWANGI'
 ```
 
-![interface BANYUWANGI](images/17.png)
+![interface BANYUWANGI](images/banyuwangi_new-network-interface.png)
 
 **Keterangan**:
 Hardware addresss perlu di-_setting_ juga di `/etc/network/interfaces` karena perangkat yang kalian gunakan adalah perangkat virtual (UML), dimana hwaddress-nya akan berubah setiap kali dijalankan.
 
 #### B.3. Restart network dengan perintah `service networking restart`
 
-![hasil restart network](images/18.png)
+![hasil restart network](images/banyuwangi_networking-restart-fixed-address.png)
 
 #### C. Testing
 
 Periksa IP **BANYUWANGI** dengan melakukan `ifconfig`
 
-![ifconfig BANYUWANGI](images/19.png)
+![ifconfig BANYUWANGI](images/banyuwangi_ifconfig-fixed-address.png)
 
-IP **BANYUWANGI** telah berubah menjadi 192.168.0.15 sesuai dengan Fixed Address yang diberikan oleh DHCP Server.
+IP **BANYUWANGI** telah berubah menjadi 192.168.0.10 sesuai dengan Fixed Address yang diberikan oleh DHCP Server.
 
 ### 1.2.5 Testing
 
@@ -335,13 +335,13 @@ Setelah melakukan berbagai konfigurasi di atas, kalian bisa memastikan apakah DH
 2. Jalankan UML kalian kemabali dengan `bash topologi.sh`
 3. Periksa IP di semua client dengan `ifconfig`
 
-![GRESIK setelah restart](images/20.png)
+![GRESIK setelah restart](images/gresik_ifconfig-after-restart.png)
 
-![SIDOARJO setelah restart](images/21.png)
+![SIDOARJO setelah restart](images/sidoarjo_ifconfig-after-restart.png)
 
-![BANYUWANGI setelah restart](images/22.png)
+![BANYUWANGI setelah restart](images/banyuwangi_ifconfig-after-restart.png)
 
-Jika **GRESIK** dan **SIDOARJO** berganti alamat IP sesuai dengan range yang telah dikonfigurasi DHCP dan **BANYUWANGI** tetap mendapatkan IP 192.168.0.15, maka konfigurasi DHCP server kalian berhasil.
+Jika **GRESIK** dan **SIDOARJO** berganti alamat IP sesuai dengan range yang telah dikonfigurasi DHCP dan **BANYUWANGI** tetap mendapatkan IP 192.168.0.10, maka konfigurasi DHCP server kalian berhasil.
 
 ## Referensi
 
