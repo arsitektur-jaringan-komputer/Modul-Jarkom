@@ -16,6 +16,7 @@
     - [1.2.3 Konfigurasi DHCP Client](#123-konfigurasi-dhcp-client)
     - [1.2.4 Fixed Address](#124-fixed-address)
     - [1.2.5 Testing](#125-testing)
+  - [Soal Latihan](#soal-latihan)
   - [Referensi](#referensi)
 
 ## 1.1 Konsep
