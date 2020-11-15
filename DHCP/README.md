@@ -343,8 +343,16 @@ Setelah melakukan berbagai konfigurasi di atas, kalian bisa memastikan apakah DH
 
 Jika **GRESIK** dan **SIDOARJO** berganti alamat IP sesuai dengan range yang telah dikonfigurasi DHCP dan **BANYUWANGI** tetap mendapatkan IP 192.168.0.10, maka konfigurasi DHCP server kalian berhasil.
 
+## Soal Latihan
+
+Buatlah konfigurasi DHCP agar GRESIK dan SIDOARJO mendapatkan IP dengan range 192.168.0.1 - 192.168.0.10 dan 192.168.0.12 - 192.168.0.16 dengan syarat:
+Setiap 1 menit IP yang digunakan client berganti
+DNS mengarah ke DNS server kalian sendiri yaitu MALANG, tetapi tetap bisa digunakan untuk mengakses internet
+Bagaimana cara konfigurasi DHCP dengan 2 interface?
+
 ## Referensi
 
 - **Manual ISC DHCP** : [https://www.isc.org/wp-content/uploads/2018/10/dhcpd44.html](https://www.isc.org/wp-content/uploads/2018/10/dhcpd44.html)
 - [https://www.nada.kth.se/kurser/kth/2D1392/05/lectures/lecture_9.pdf](https://www.nada.kth.se/kurser/kth/2D1392/05/lectures/lecture_9.pdf)
 - [http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm](http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm)
+
