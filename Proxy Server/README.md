@@ -15,9 +15,8 @@
 		- [2.2.4 Pembatasan Waktu Akses](#224-pembatasan-waktu-akses)
 		- [2.2.5 Pembatasan Waktu Akses ke Website Tertentu](#225-pembatasan-waktu-akses-ke-website-tertentu)
 		- [2.2.6 Pembatasan Bandwith](#226-pembatasan-bandwidth)
-	- 2.3 Soal Latihan
+	- [2.3 Latihan](#2.3 Soal Latihan)
 	
-	- 2.4 Referensi
 
 ##  2.1 Pengertian, Fungsi, dan Manfaat
 ### 2.1.1 Pengertian
@@ -289,5 +288,5 @@ http_access allow all
 -   **delay_access** mirip seperti http_access, tetapi digunakan untuk mengakses pool yang telah dibuat (Sintaks: **delay_access POOL_KE_BERAPA allow/deny TARGET**. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_access/](http://www.squid-cache.org/Doc/config/delay_access/).
 -   **delay_parameters** digunakan untuk mengatur parameter dari pool yang telah dibuat. Sintaks berbeda-beda sesuai dengan tipe/kelas dari pool yang dibuat. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_parameters/](http://www.squid-cache.org/Doc/config/delay_parameters/)
 
-2.3 Soal Latihan
+## 2.3 Soal Latihan
 Reli adalah seorang pendaki gunung. Dia ingin mendaki gunung Puncak Jaya untuk menguji keterampilan mendakinya. Salah satu ritual yang dilakukan Reli sebelum mendaki gunung adalah membuat proxynya sendiri. Proxy yang akan dibuat nantinya harus bisa diakses dengan nama puncakjaya.xxx.id dengan port yang digunakan adalah 8080. 	Untuk bisa mengakses proxynya perlu dilakukan login terlebih dahulu. Untuk akun milik Reli, username yang digunakan adalah reli dan password loveToHike-07. Proxy ini hanya bisa diakses pada hari Senin, Kamis, Jumat, dan Sabtu mulai jam 10 malam sampai jam 4 pagi. Karena Reli ingin fokus mendaki, Reli memutuskan untuk memblokir website korindo.co.id dan website if.its.ac.id beserta subdomainnya, ajk.if.its.ac.id. Reli juga mengatur di proxynya agar user mendapatkan bandwith 512 kbps. Bantu Reli melakukan persiapan agar Reli bisa mendaki gunung Puncak Jaya dan menyelesaikan ritualnya!
