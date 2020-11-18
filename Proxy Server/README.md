@@ -55,9 +55,9 @@ Beberapa contoh software proxy server yang sering digunakan adalah sebagai berik
 Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **Squid** dan UML yang digunakan sebagai proxy server adalah **MOJOKERTO**
 
 ### 2.2.1 Instalasi Squid
-**Step 1** - Install squid3 pada UML  **MOJOKERTO**
+**Step 1** - Install squid pada UML  **MOJOKERTO**
 ```
-apt-get install squid3
+apt-get install squid
 ```
 ![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/instalasi-squid.PNG)
 
