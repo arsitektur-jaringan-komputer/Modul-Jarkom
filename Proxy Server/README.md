@@ -141,7 +141,7 @@ Ketikkan password yang diinginkan. Jika sudah maka akan muncul notifikasi:
 http_port 8080
 visible_hostname mojokerto
 
-auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/passwd
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
 auth_param basic children 5
 auth_param basic realm Proxy
 auth_param basic credentialsttl 2 hours
