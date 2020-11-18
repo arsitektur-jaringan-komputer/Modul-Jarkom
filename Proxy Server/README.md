@@ -131,7 +131,7 @@ apt-get install apache2-utils
 
 **STEP 2**  - Buat user dan password baru. Ketikkan:
 ```
-htpasswd -c /etc/squid3/passwd jarkom203
+htpasswd -c /etc/squid/passwd jarkom203
 ```
 Ketikkan password yang diinginkan. Jika sudah maka akan muncul notifikasi:
 ![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/add-userpass.PNG)
