@@ -68,7 +68,7 @@ Lakukan langkah-langkah berikut:
 4. Menginstal **squid3** pada server **MOJOKERTO**
 
     ```
-    apt-get install squid3
+    apt-get install squid
     ```
 
 # Penting untuk diingat
