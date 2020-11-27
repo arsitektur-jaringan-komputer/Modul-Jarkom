@@ -1,3 +1,9 @@
+# Persiapan
+1. Berikut adalah topologi jaringan yang digunakan pada modul 4
+![Gambar](assets/TopologiWithout.png)
+Silahkan mengikuti panduan membuat UML pada [modul pengenalan UML](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml)
+2. Menginstall *Cisco Packet Tracer* versi 7.3
+
 # SUBNETTING AND ROUTING
 
 -   [A. PENGENALAN](#a-pengenalan)
