@@ -261,7 +261,7 @@ Buka aplikasi Cisco Packet Tracer, kita akan membuat topologi baru.
 
 #### 1) Membuat Topologi
 
-![Gambar](assets/TopologiWithout.PNG)
+![Gambar](assets/TopologiWithout.png)
 
 Silakan buat topologi menggunakan **Cisco Packet Tracer**. Untuk menambahkan Router, Switch, dan PC dapat dilakukan dengan _drag and drop_ yang ada pada menu. Pada praktik kali ini, sesuaikan _device_ dengan pilihan dengan kotak merah pada gambar di bawah
 
@@ -296,7 +296,7 @@ Pada UML, buatlah topologi tersebut seperti yang telah diajarkan pada [modul pen
 
 Praktik kali ini akan menerapkan cara routing untuk teknik _subnetting_ **VLSM** yang telah kita lakukan sebelumnya.
 
-![Gambar](assets/Subnet.PNG)
+![Gambar](assets/Subnet.png)
 
 ![Gambar](assets/27.png)
 
@@ -310,15 +310,15 @@ Pada CPT, interface dapat diatur pada menu **Config** > **INTERFACE** > **“nam
 
 Atur IP pada interface SURABAYA yang mengarah ke TULUNGAGUNG dengan **192.168.1.5**.
 
-![Gambar](assets/SurabayaRouting.PNG)
+![Gambar](assets/SurabayaRouting.png)
 
 Atur IP pada interface TULUNGAGUNG yang mengarah ke SURABAYA dengan **192.168.1.6**.
 
-![Gambar](assets/TulungagungRouting.PNG)
+![Gambar](assets/TulungagungRouting.png)
 
 Selanjutnya atur IP pada subnet A3. Atur IP pada interface TULUNGAGUNG yang mengarah ke _client_ dengan **192.168.1.65**.
 
-![Gambar](assets/TulungagungRouting2.PNG)
+![Gambar](assets/TulungagungRouting2.png)
 
 Atur IP pada _client_ (nama UML nya) dengan cara :
 
@@ -336,11 +336,11 @@ Lakukan hal yang sama untuk mengatur alamat IP setiap _**interface**_ pada devic
 
 Pada CPT, _**Routing**_ dapat dilakukan pada menu **Config** > **Routing** > **Static** pada device **Router**. Lalu isi **Static Routes** seperti gambar dibawah pada SURABAYA dan tekan tombol **Add**
 
-![Gambar](assets/SurabayaRoutingAddress.PNG)
+![Gambar](assets/SurabayaRoutingAddress.png)
 
 Pada _static routing_ juga dibutuhkan _**default routing**_ agar router dapat mengirimkan paket sesuai dengan tujuan. Default routing dibutuhkan untuk router yang berada di bawah router utama (router yang terhubung internet), contohnya TULUNGAGUNG
 
-![Gambar](assets/TulungagungRoutingAddress.PNG)
+![Gambar](assets/TulungagungRoutingAddress.png)
 
 _**Keterangan**_ :
 
@@ -416,6 +416,6 @@ Untuk mengetesnya dapat dilakukan dengan cara ping dari client ke IP tujuan atau
 
 ### Latihan!
 
-![Gambar](assets/Latihan.PNG)
+![Gambar](assets/Latihan.png)
 
 Implementasikan subnetting dan routing topologi di atas pada Cisco Packet Tracer dan UML menggunakan teknik subnetting yang berbeda! Contoh pada Cisco Packet Tracer menggunakan CIDR, pada UML menggunakan VLSM atau sebaliknya. (Untuk UML, tiap subnet diwakili satu client/komputer saja)
