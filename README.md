@@ -1,8 +1,14 @@
 # Persiapan
 1. Berikut adalah topologi jaringan yang digunakan pada modul 4
+## Topologi Pada CPT
 ![Gambar](assets/TopologiWithout.png)
-Silahkan mengikuti panduan membuat UML pada [modul pengenalan UML](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml)
-2. Menginstall *Cisco Packet Tracer* versi 7.3
+## Topologi Pada UML
+![Gambar](assets/TopologiUMLEth.png)
+- Silahkan mengikuti panduan membuat UML pada [modul pengenalan UML](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml)
+- Untuk client menggunakan memory 64M
+- Untuk router menggunakan memory 96M
+- Untuk pembuatan topologi pada UML, diantara router juga dibuat switch.
+2. Menginstall *Cisco Packet Tracer* versi 7.3, dapat di download di https://www.netacad.com/courses/packet-tracer
 
 # SUBNETTING AND ROUTING
 
@@ -368,7 +374,7 @@ route -n
 
 ```
 
-Maka sekarang, (nama UML nya) dan _host_ pada (nama UML nya) sudah saling terhubung. Agar semua subnet dapat saling terhubung, tambahkan _static routing_ berikut :
+Maka sekarang, (nama UML nya) dan _host_ pada (nama UML nya) sudah saling terhubung. Agar semua subnet dapat saling terhubung, tambahkan _static routing_ berikut di UML dan CPT sesuai dengan synxtax masing - masing :
 
 1.  Pada SURABAYA
     
