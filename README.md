@@ -8,6 +8,11 @@
 - Untuk client menggunakan memory 64M
 - Untuk router menggunakan memory 96M
 - Untuk pembuatan topologi pada UML, diantara router juga dibuat switch.
+- Penamaan Untuk Topologi UML :  
+  - Gresik (100 Host) 
+  - Banyuwangi (50 Host) 
+  - Madiun (20 Host) 
+  - Bojonegoro (10 Host) 
 2. Menginstall *Cisco Packet Tracer* versi 7.3, dapat di download di https://www.netacad.com/courses/packet-tracer
 
 # SUBNETTING AND ROUTING
