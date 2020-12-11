@@ -6,7 +6,6 @@
 4. [Jenis-jenis Firewall](#4-jenis-jenis-firewall)
 5. [IPTables](#5-iptables)
 
-
 #
 
 ### 1. Definisi
@@ -352,7 +351,7 @@ Penjelasan :
 
 ![Topologi Latihan](img/topo_latihan.png)
 
-1. Komputer di subnet CUBONE tidak diizinkan mengakses server ARTICUNO
-2. Komputer di subnet SNORLAX tidak dapat diakses pada pukul 08.00 - 20.00
-3. Server MEWTWO tidak diperbolehkan menerima koneksi SSH
-4. Semua paket yang menuju subnet SWABLU akan diarahkan ke PIPLUP
+1. Komputer di subnet GRESIK tidak diizinkan mengakses server MOJOKERTO
+2. Komputer di subnet JOMBANG tidak dapat diakses pada pukul 07.00 - 17.00
+3. Server MALANG tidak diperbolehkan menerima koneksi SSH
+4. Semua paket yang menuju subnet TUBAN akan diarahkan ke SIDOARJO
