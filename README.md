@@ -297,10 +297,10 @@ Contoh :
 #### ACCEPT koneksi dari sebuah alamat IP
 
 ```bash
-# iptables -A INPUT -s 10.151.36.100 -j ACCEPT
+# iptables -A INPUT -s 10.151.36.201 -j ACCEPT
 ```
 Penjelasan : 
-- ACCEPTS semua koneksi yang berasal dari IP 10.151.36.100
+- ACCEPTS semua koneksi yang berasal dari IP 10.151.36.201
 #####
 #### DROP koneksi dari sebuah subnet
 
@@ -315,7 +315,7 @@ Penjelasan :
 
 ```bash
 # iptables --policy OUTPUT DROP
-# iptables -A OUTPUT -d 192.168.36.5 -j ACCEPT
+# iptables -A OUTPUT -d 192.168.36.201 -j ACCEPT
 ```
  Penjelasan :
  - DROP semua koneksi yang keluar
