@@ -350,7 +350,7 @@ Penjelasan :
 
 # Soal Latihan
 
-![Topologi Latihan](img/latihan.JPG)
+![Topologi Latihan](img/topo_latihan.png)
 
 1. Komputer di subnet CUBONE tidak diizinkan mengakses server ARTICUNO
 2. Komputer di subnet SNORLAX tidak dapat diakses pada pukul 08.00 - 20.00
