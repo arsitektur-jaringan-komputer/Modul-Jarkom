@@ -300,7 +300,7 @@ Contoh :
 # iptables -A INPUT -s 10.151.36.100 -j ACCEPT
 ```
 Penjelasan : 
-- ACCEPTS semua koneksi yang berasal dari IP 10.10.36.100
+- ACCEPTS semua koneksi yang berasal dari IP 10.151.36.100
 #####
 #### DROP koneksi dari sebuah subnet
 
@@ -311,7 +311,7 @@ Penjelasan :
 - BLOK semua koneksi yang berasal dari subnet 10.151.36.0/24 
 
 
-#### DROP semua koneksi, hanya ALLOW koneksi yang menuju 192.168.36.5
+#### DROP semua koneksi, hanya ALLOW koneksi yang menuju 10.151.36.201
 
 ```bash
 # iptables --policy OUTPUT DROP
@@ -319,7 +319,7 @@ Penjelasan :
 ```
  Penjelasan :
  - DROP semua koneksi yang keluar
- - ALLOW koneksi yang menuju alamat IP 192.168.36.5
+ - ALLOW koneksi yang menuju alamat IP 10.151.36.201
 
 #### DROP koneksi HTTP
 
