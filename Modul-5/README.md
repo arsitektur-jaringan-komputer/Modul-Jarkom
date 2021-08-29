@@ -6,7 +6,6 @@
 4. [Jenis-jenis Firewall](#4-jenis-jenis-firewall)
 5. [IPTables](#5-iptables)
 
-
 #
 
 ### 1. Definisi
@@ -298,10 +297,10 @@ Contoh :
 #### ACCEPT koneksi dari sebuah alamat IP
 
 ```bash
-# iptables -A INPUT -s 10.151.36.100 -j ACCEPT
+# iptables -A INPUT -s 10.151.36.201 -j ACCEPT
 ```
 Penjelasan : 
-- ACCEPTS semua koneksi yang berasal dari IP 10.10.36.100
+- ACCEPTS semua koneksi yang berasal dari IP 10.151.36.201
 #####
 #### DROP koneksi dari sebuah subnet
 
@@ -312,15 +311,15 @@ Penjelasan :
 - BLOK semua koneksi yang berasal dari subnet 10.151.36.0/24 
 
 
-#### DROP semua koneksi, hanya ALLOW koneksi yang menuju 192.168.36.5
+#### DROP semua koneksi, hanya ALLOW koneksi yang menuju 10.151.36.201
 
 ```bash
 # iptables --policy OUTPUT DROP
-# iptables -A OUTPUT -d 192.168.36.5 -j ACCEPT
+# iptables -A OUTPUT -d 192.168.36.201 -j ACCEPT
 ```
  Penjelasan :
  - DROP semua koneksi yang keluar
- - ALLOW koneksi yang menuju alamat IP 192.168.36.5
+ - ALLOW koneksi yang menuju alamat IP 10.151.36.201
 
 #### DROP koneksi HTTP
 
@@ -350,9 +349,9 @@ Penjelasan :
 
 # Soal Latihan
 
-![Topologi Latihan](img/latihan.JPG)
+![Topologi Latihan](img/topo_latihan.png)
 
-1. Komputer di subnet CUBONE tidak diizinkan mengakses server ARTICUNO
-2. Komputer di subnet SNORLAX tidak dapat diakses pada pukul 08.00 - 20.00
-3. Server MEWTWO tidak diperbolehkan menerima koneksi SSH
-4. Semua paket yang menuju subnet SWABLU akan diarahkan ke PIPLUP
+1. Komputer di subnet GRESIK tidak diizinkan mengakses server MOJOKERTO
+2. Komputer di subnet JOMBANG tidak dapat diakses pada pukul 07.00 - 17.00
+3. Server MALANG tidak diperbolehkan menerima koneksi SSH
+4. Semua paket yang menuju subnet TUBAN akan diarahkan ke SIDOARJO

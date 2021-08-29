@@ -9,6 +9,7 @@
 	+ 2.1 [Instalasi](#21-instalasi)
 	+ 2.2 [Filters](#22-filters)
 	+ 2.3 [Export data hasil packet capture](#23-export-data-hasil-paket-capture)
+	+ 2.4 [Penggunaan Wireshark pada FTP Server](#24-penggunaan-wireshark-pada-ftp-server)
 
 ## 1. Wire Crimping
 Dalam jaringan komputer, terjadi komunikasi antara satu perangkat dengan perangkat lainnya. Komunikasi itu tentu membutuhkan suatu media. Walaupun sudah ada teknologi komunikasi nirkabel, peran kabel dalam jaringan masih penting dan belum tergantikan. Oleh karena itu dalam modul kali ini, kita akan belajar cara melakukan _crimping_ pada salah satu jenis kabel jaringan yang bernama kabel UTP (_Unshielded Twisted Pair_).
@@ -38,14 +39,14 @@ Ada beberapa macam konfigurasi kabel. Dari urutan warnanya yang sesuai standar i
 
 Sedangkan dari pemasangannya dibagi menjadi
 #### b. __Kabel Straight-Through__
-  Jenis pengkabelan ini digunakan untuk menyambungkan dua perangkat yang berbeda. misalnya antara router dengan switch/hub, komputer ke switch dan komputer ke hub.
+  Jenis pengkabelan ini digunakan untuk menyambungkan dua tipe perangkat berbeda yang tersambung ke jaringan, yakni perangkat DTE (data terminal equipment) ke DCE (data circuit-terminating equipment) atau sebaliknya. Perangkat DTE adalah perangkat yang melakukan generate data digital dan bertindak sebagai source dan destination untuk data digital, contohnya adalah komputer, mikrokomputer, terminal, printer. DCE adalah perangkat yang menerima dan mengkonversi data ke link telekomunikasi yang sesuai, umumnya DCE adalah perangkat jaringan seperti router, switch, modem.
   
 ![Kabel Straight-Through](images/straight_through.png)
   
   Aturan pemasangannya adalah bahwa tiap ujung kabel harus memiliki urutan warna yang sama. Misal ujung yang satu menggunakan susunan warna berdasarkan aturan T568A maka begitu juga ujung lainnya.
 
 #### b. __Kabel Crossover__
-Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk menyambungkan dua perangkat yang sama. Misalnya antara komputer dengan komputer, router dengan router, switch dengan switch, hub dengan hub.
+Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk menyambungkan dua tipe perangkat yang sama yang tersambung ke jaringan, yakni perangkat DTE ke DTE atau DCE ke DCE. Misalnya antara komputer dengan komputer, router dengan router, router dengan switch, komputer dengan printer.
   
   ![Kabel Crossover](images/crossover.png)
   
@@ -69,7 +70,7 @@ Bagian header berisi alamat dan data lainnya yang dibawa oleh paket. Struktur da
 
 | Intruksi | Keterangan |  
 |--  |---|
-| Panjang paket | Beberapa jaringan sudah memiliki panjang paket yang baku (*fixed-lenght*), sementara yang lain bergantung pada header untuk memuat informasi ini |  
+| Panjang paket | Beberapa jaringan sudah memiliki panjang paket yang baku (*fixed-length*), sementara yang lain bergantung pada header untuk memuat informasi ini |  
 | Sinkronisasi | Beberapa bit yang membantu paket mencocokkan jaringan yang dimaksud |  
 | Nomor paket | Menunjukkan urutan dari total paket yang ada |
 | Protokol | Pada jaringan yang membawa lebih dari satu macam informasi, protokol ini menunjukkan jenis paket yang ditransmiskan: e-mail, halaman web, atau yang lain |  
@@ -110,11 +111,11 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
 | Filter expression / Primitive(s) | Keterangan |
 |--|--|
 | `host 10.151.36.1` | Menangkap semua paket yang spesifik menuju ke atau berasal dari alamat 10.151.36.1 |
-| `src host 10.151.36.1` | Menangkap semua paket spesifik menuju ke atau berasal dari alamat 10.151.36.1 |
-| `net 192.168.0.0/24` atatu `net 192.168.0.0 mask 255.255.255.0` | Menangkap semua paket yang berasal dari atau menuju ke subnet 192.168.0.0/24 |
+| `src host 10.151.36.1` | Menangkap semua paket yang spesifik berasal dari alamat 10.151.36.1 |
+| `net 192.168.0.0/24` atau `net 192.168.0.0 mask 255.255.255.0` | Menangkap semua paket yang berasal dari atau menuju ke subnet 192.168.0.0/24 |
 | `dst net 192.168.0.0/24` | Menangkap semua paket yang menuju ke subnet 192.168.0.0/24 |
 | `udp port 80` | Menangkap semua paket dengan protokol UDP yang menuju ke atau berasal dari port 80 |
-| `tcp src port 22 || host 10.151.36.30` | Menangkap semua paket dengan protokol TCP yang berasal dari port 22 atau semua paket yang berasal dari atau menuju ke alamat 10.151.36.30 |
+| `tcp src port 22 or host 10.151.36.30` | Menangkap semua paket dengan protokol TCP yang berasal dari port 22 atau semua paket yang berasal dari atau menuju ke alamat 10.151.36.30 |
 
  - Contoh capture filter `host 10.151.36.1`
 ![Contoh-capture](images/capture-filter.png)
@@ -141,7 +142,7 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
 | Logical Operator | Keterangan |
 |---|---|
 | `and` atau `&&` | logical AND |
-| `or` atau `||` | logical OR |
+| `or` | logical OR |
 | `xor` atau `^^` | logical XOR |
 | `not` atau `!` | logical NOT |
 | `[...]` | substring operator |
@@ -152,7 +153,7 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
 | Filter expression | Keterangan |
 |---|---|
 | `tcp.port == 443` | Menampilkan semua paket dengan protokol TCP yang menuju ke atau berasal dari port 443 |
-| `ip.src == 192.168.0.1 || ip.dst == 192.168.0.1` | Menampilkan semua paket yang berasal dari alamat 192.168.0.1 atau menuju ke alamat 192.168.0.1 |
+| `ip.src == 192.168.0.1 or ip.dst == 192.168.0.1` | Menampilkan semua paket yang berasal dari alamat 192.168.0.1 atau menuju ke alamat 192.168.0.1 |
 | `http.request.uri constains "login"` | Menampilkan semua paket dengan protokol HTTP yang URI nya mengandung string "login" |
 
  - Contoh display filter `tcp.port == 80`, berikut hasilnya :
@@ -171,11 +172,31 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
 Jalankan aplikasi wireshark sebelum *connect* ke server FTP yang dituju.
 #### 2.4.1 Connect ke Server
 ##### a. Windows
-Untuk pengguna windows kita akan menggunakan bantuan **FileZilla**. Buka FileZilla dan masukkan *Host*, *Username*, *Password*, dan *Port* dari server yang akan disambungkan. Bila sudah yakin, klik *Quickconnect* untuk menyambungkan.
+Untuk pengguna windows kita akan menggunakan bantuan **FileZilla**. Untuk percobaan di server, di sini menggunakan Filezilla Server dan untuk client menggunakan Filezilla Client. Nantinya server dan clientnya bisa komputer yang sama atau berbeda (asal terhubung ke jaringan komputer). 
+
+###### Pembuatan Server FTP di Filezilla Server
+1. Buka Filezilla Server (bisa melalui aplikasi Filezilla Server desktop atau XAMPP dengan start module Filezilla dan klik tombol Admin). Jika muncul pop up "Connect to Server" langsung saja klik Ok. Muncul tampilan berikut.
+
+![Home FileZilla Server](images/fz_server_home.png)
+
+2. Klik menu Edit->Users. Di kolom Users paling kanan, tambahkan user baru dengan cara klik Add dan isikan nama user FTP nya. Berikut hasil setelah menambah user (di sini ditambah user "coba"). Jika ingin menggunakan password, centang "Password" dan masukkan password yang diinginkan.
+
+![Add User FileZilla Server](images/fz_server_add_user.png)
+
+3. Setelah user terbuat, berikutnya masuk ke setting shared folder untuk menentukan folder yang akan dishare atau diremote dengan FTP. Pada kolom Users, pilih user, dan pada kolom Shared folders, klik tombol "Add" untuk menambah direktori. Berikutnya bisa diatur akses yang akan dimiliki oleh user tersebut terhadap shared folder yang dipilih pada kotak-kotak centang pada kolom Files dan Directories.
+
+![Add Shared Folder FileZilla Server](images/fz_server_add_shared_folder.png)
+
+Server untuk FTP berhasil dibuat.
+
+#### 2.4.2 Koneksi dari Client
+
+##### a. Menggunakan Filezilla client
+Buka FileZilla dan masukkan *Host*, *Username*, *Password*, dan *Port* dari server yang akan disambungkan. Bila sudah yakin, klik *Quickconnect* untuk menyambungkan.
 
 ![Login FileZilla](images/filezilla_connect.JPG)
 
-##### b. Linux
+##### b. Menggunakan command Linux
 `$ ftp [Host ip]`
 Masukkan username dan password, kemudian jalankan seperti CLI
 
@@ -188,17 +209,15 @@ Saat hasil capture dari Wireshark dilihat, akan muncul data di bawah ini:
 | USER | Username yang digunakan untuk login ke FTP server |
 | PWD | Password yang digunakan untuk login ke FTP server |)
 
-### 2.3 
-
-#### 2.4.2 Upload File
-##### a. Windows
+#### 2.4.3 Upload File
+##### a. Menggunakan Filezilla client
 Untuk FileZilla drag file dari Local site lalu drop di Remote site
 
 | Perintah | Keterangan |
 |---|---|
 | STOR | Meng-upload file ke FTP server |
 
-##### b. Linux
+##### b. Menggunakan command Linux
 Command upload untuk linux
 ```
 $ put [full path file]
@@ -206,18 +225,17 @@ $ put [full path file]
 
 Saat hasil capture dilihat akan muncul data dibawah ini :
 
-![STOR](images/stor.JPGhttp.accept constains "text"`, berikut hasilnya :
-[Gambar]()
+![STOR](images/stor.JPG)
 
-#### 2.4.3 Download File
-##### a. Windows
+#### 2.4.4 Download File
+##### a. Menggunakan Filezilla client
 Untuk Filezilla drag file dari Remote site ke Local site
 
 | Perintah | Keterangan |
 |---|---|
 | RETR | Men-download suatu file dari FTP server |
 
-##### b. Linux
+##### b. Menggunakan command Linux
 Command download untuk linux
 ```
 $ get [nama file]
@@ -245,13 +263,5 @@ Saat hasil capture dilihat akan muncul data dibawah ini :
 + https://www.wireshark.org/docs/wsug_html_chunked/ChCapCaptureFilterSection.html
 + https://www.wireshark.org/docs/wsug_html_chunked/ChWorkBuildDisplayFilterSection.html
 + https://computer.howstuffworks.com/question5251.htm]
-
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbNjk1MDc1NDgxLC0xMjg1NTQxMTksMTU4MD
-M4MjEzNywxNTc1MDYwMDc1LC0xMjg5NTY4MjU1LC0yMjU5OTYw
-NjUsMTI5MjA3OTQyOSwtMjEwMjIzMTE1NCwtODE1MTk5MzY4LD
-ExNTc2NzgzNiw5MTk3MzM1MiwzNDQxNTI3MjksLTE5ODYwMTc5
-MzYsLTI0NDYwMzY4NSwtODc1OTQ1Nzk2LDg4NDIxMDAwMywxMz
-k4NDAwNzk5LC00MzkzMzc2NiwtMTgwODIxMzQ5NCwtMjA1MjM2
-MTMzMl19
--->
++ https://www.comparitech.com/net-admin/difference-between-straight-through-crossover-rollover-cables/
++ https://www.indowebsite.co.id/kb/cara-mengaktifkan-ftp-pada-localhost-atau-xammp/
