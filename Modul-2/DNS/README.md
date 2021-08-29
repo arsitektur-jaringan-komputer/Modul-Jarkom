@@ -23,7 +23,7 @@ network) yang terhubung dengan internet. DNS Server berfungsi menerjemahkan nama
 
 ### 1.1.B Cara Kerja
 
-![DNS](gambar/1.jpg)
+![DNS](images/1.jpg)
 
 Client akan meminta alamt IP dari suatu domain ke DNS server. Jika pada DNS server data alamat IP dari DNS server tersebut ada maka akan di return alamat IP nya kembali menuju client. Jika DNS server tersebut tidak memiliki alamat IP dari domain tersebut maka dia akan bertanya kepada DNS server yang lain sampai alamat domain itu ditemukan.
 
@@ -67,7 +67,7 @@ Adalah informasi yang dimiliki oleh suatu DNS zone.
 
 ### 1.2.A Buat Topologi Berikut
 
-![Topologi](gambar/topologi.png)
+![Topologi](images/topologi.png)
 
 Seperti pada modul pengenalan UML kemaren
 
@@ -85,7 +85,7 @@ Seperti pada modul pengenalan UML kemaren
 	apt-get install bind9 -y
 	```
 
-![instal bind9](gambar/1.png)
+![instal bind9](images/1.png)
 
 ### 1.2.B Pembuatan Domain
 Pada sesilab ini kita akan membuat domain **jarkom2020.com**.
@@ -105,7 +105,7 @@ Pada sesilab ini kita akan membuat domain **jarkom2020.com**.
   };
   ```
 
-![config jarkom2020.com](gambar/2.png)
+![config jarkom2020.com](images/2.png)
 
 - Buat folder **jarkom** di dalam **/etc/bind**
 
@@ -125,7 +125,7 @@ Pada sesilab ini kita akan membuat domain **jarkom2020.com**.
   nano /etc/bind/jarkom/jarkom2020.com
   ```
 
-![konfig jarkom2020](gambar/3.png)
+![konfig jarkom2020](images/3.png)
 
 - Restart bind9 dengan perintah 
 
@@ -149,7 +149,7 @@ Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu ki
 	nano /etc/resolv.conf
 	```
 
-![ping](gambar/4.png)
+![ping](images/4.png)
 
 - Untuk mencoba koneksi DNS, lakukan ping domain **jarkom2020.com** dengan melakukan  perintah berikut pada client *GRESIK* dan *SIDOARJO*
 
@@ -157,7 +157,7 @@ Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu ki
   ping jarkom2020.com
   ```
 
-![ping](gambar/5.png)
+![ping](images/5.png)
 
 
 
@@ -180,7 +180,7 @@ Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan stri
   };
   ```
 
-![](gambar/6.png)
+![](images/6.png)
 
 - Copykan file **db.local** pada path **/etc/bind** ke dalam folder **jarkom** yang baru saja dibuat dan ubah namanya menjadi **71.151.10.in-addr.arpa**
 
@@ -193,7 +193,7 @@ Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan stri
 - Edit file **71.151.10.in-addr.arpa** menjadi seperti gambar di bawah ini
 
 
-![konfig](gambar/7.png)
+![konfig](images/7.png)
 
 - Kemudian restart bind9 dengan perintah 
 
@@ -213,7 +213,7 @@ Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan stri
   host -t PTR "IP MALANG"
   ```
 
-![host](gambar/8.png)
+![host](images/8.png)
 
 
 
@@ -225,7 +225,7 @@ Langkah-langkah membuat record CNAME:
 - Buka file **jarkom2020.com** pada server *MALANG* dan tambahkan konfigurasi seperti pada gambar berikut:
 
 
-![DNS](gambar/9.png)
+![DNS](images/9.png)
 
 
 
@@ -238,7 +238,7 @@ Langkah-langkah membuat record CNAME:
 - Lalu cek dengan melakukan **host -t CNAME www.jarkom2020.com** atau **ping www.jarkom2020.com**. Hasilnya harus mengarah ke host dengan IP *MALANG*.
 
 
-![DNS](gambar/10.png)
+![DNS](images/10.png)
 
 
 
@@ -260,7 +260,7 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
   };
   ```
 
-  ![DNS](gambar/11.png)
+  ![DNS](images/11.png)
 
 
 
@@ -296,7 +296,7 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
   };
   ```
 
-![DNS](gambar/12.png)
+![DNS](images/12.png)
 
 - Lakukan restart bind9
 
@@ -316,12 +316,12 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
 - Pada client *GRESIK* pastikan pengaturan nameserver mengarah ke IP *MALANG* dan IP *MOJOKERTO*
 
-  ![DNS](gambar/13.png)
+  ![DNS](images/13.png)
 
 - Lakukan ping ke jarkom2020.com pada client *GRESIK*. Jika ping berhasil maka konfigurasi DNS slave telah berhasil
 
 
-![DNS](gambar/14.png)
+![DNS](images/14.png)
 
 
 
@@ -337,7 +337,7 @@ Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu
 
 - Tambahkan konfigurasi seperti pada gambar ke dalam file **jarkom2020.com**.
 
-![DNS](gambar/15.png)
+![DNS](images/15.png)
 
 - Restart service bind  
 
@@ -355,7 +355,7 @@ Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu
   host -t A neko.jarkom2020.com
   ```
 
-  ![DNS](gambar/16.png)
+  ![DNS](images/16.png)
 
 
 
@@ -371,7 +371,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
   nano /etc/bind/jarkom/jarkom2020.com
   ```
 
-![DNS](gambar/17.png)
+![DNS](images/17.png)
 
 - Kemudian edit file **/etc/bind/named.conf.options** pada *MALANG*.
 
@@ -386,7 +386,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
   ```
 
 
-![DNS](gambar/18.png)
+![DNS](images/18.png)
 
 - Kemudian edit file **/etc/bind/named.conf.local** menjadi seperti gambar di bawah:
 
@@ -399,7 +399,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
   ```
 
 
-![DNS](gambar/19.png)
+![DNS](images/19.png)
 
 - Setelah itu restart bind9
 
@@ -421,11 +421,11 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
   allow-query{any;};
   ```
 
-![DNS](gambar/20.png)
+![DNS](images/20.png)
 
 - Lalu edit file **/etc/bind/named.conf.local** menjadi seperti gambar di bawah:
 
-![DNS](gambar/21.png)
+![DNS](images/21.png)
 
 - Kemudian buat direktori dengan nama **delegasi** 
 
@@ -438,7 +438,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 - Kemudian edit file **its.jarkom2020.com** menjadi seperti dibawah ini
 
-![DNS](gambar/22.png)
+![DNS](images/22.png)
 
 - Restart bind9
 
@@ -450,7 +450,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 - Lakukan ping ke domain **its.jarkom2020.com** dan **integra.its.jarkom2020.com** dari client *GRESIK*
 
-![DNS](gambar/23.png)
+![DNS](images/23.png)
 
 
 
@@ -477,12 +477,12 @@ forwarders {
 allow-query{any;};
 ```
 
-![DNS](gambar/24.png)
+![DNS](images/24.png)
 
 - Harusnya jika nameserver pada file **/etc/resolv.conf** di client diubah menjadi IP MALANG maka akan di forward ke IP DNS google yaitu 8.8.8.8 dan bisa mendapatkan koneksi.
 - Coba ping google.com pada GRESIK, kalau benar maka tetap bisa mendapatkan respon dari google
 
-![DNS](gambar/25.png)
+![DNS](images/25.png)
 
 
 
@@ -501,11 +501,11 @@ allow-query{any;};
 
    Contoh:
 
-   ![DNS](gambar/7.png)
+   ![DNS](images/7.png)
 
 2. #### Penggunaan Titik
 
-   ![DNS](gambar/17.png)
+   ![DNS](images/17.png)
 
    Pada salah satu contoh di atas, dapat kita amati pada kolom keempat terdapat record yang menggunakan titik pada akhir kata dan ada yang tidak. Penggunaan titik berfungsi sebagai penentu FQDN (Fully-Qualified Domain Name) suatu domain.
 

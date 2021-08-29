@@ -22,9 +22,9 @@
 ## A. Persyaratan Tambahan untuk Mengikuti Sesi Lab
 Record A dan PTR pada jarkom2020.com sudah harus mengarah ke IP MOJOKERTO
 
-<img src="Gambar/1.png" width="500">
+<img src="images/1.png" width="500">
 
-<img src="Gambar/2.png" width="500">
+<img src="images/2.png" width="500">
 
 ## B. Penting Untuk Dibaca
 1. Pastikan semua UML dapat terhubung ke internet, baik dapat melakukan koneksi ke luar maupun dapat ping dari luar (Khusus DMZ)
@@ -33,7 +33,7 @@ Record A dan PTR pada jarkom2020.com sudah harus mengarah ke IP MOJOKERTO
 4. Ketika mengalami kendala/error __cek syntax dan samakan seperti modul__ terlebih dahulu. Besar kemungkinan masalah yang terjadi dikarenakan adanya kesalahan dalam pengetikan.
 5. ___Khusus untuk pengguna sistem operasi Windows___, demi lancarnya praktikum Web Server, sebelum menjalankan UML, ubah konfigurasi pada file VPN yang kalian gunakan. Tambahkan `dhcp-option DNS "IP MALANG TIAP KELOMPOK"` di file .ovpn yang digunakan, hapus profil VPN, dan buat profil VPN baru menggunakan konfigurasi yang ditambahkan.
 
-<img src="Gambar/PENTING.png">
+<img src="images/PENTING.png">
 
 ## C. Dasar Teori
 ### 1. Web Server
@@ -42,7 +42,7 @@ Terdapat dua pengertian dari web server. Secara _hardware_, web server berarti s
 ### 2. Load Balancing
 ___Load balancing___ adalah suatu mekanisme penyeimbangan beban yang bekerja dengan cara membagi beban pekerjaan. ___Load balancer___ adalah aplikasi atau alat yang bertugas untuk melakukan _load balancing_. _Load balancer_ dapat meggunakan berbagai macam algoritma _load balancing_ yang bertujuan untuk membagi beban pekerjaan seadil-adilnya. Arsitektur minimal untuk _load balancing_ adalah sebagai berikut:
 
-<img src="Gambar/Load Balancer.jpg">
+<img src="images/Load Balancer.jpg">
 
 #### Kenapa dibutuhkan load balancing?
 Untuk menangani banyaknya pengguna yang mengakses layanan pada satu waktu dan menjaga layanan tetap tersedia setiap saat, dibutuhkan lebih dari satu komputer untuk memasang layanannya. Dengan layanan yang tersedia di banyak server, dibutuhkan mekanisme pembagian beban untuk memberikan beban yang seimbang pada setiap server. Dengan meletakkan layanan pada beberapa server dan pembagian beban yang optimal, setiap permintaan pengguna bisa ditangani dengan efisien.
@@ -58,12 +58,12 @@ apt-get install apache2
 ```
 jika muncul tulisan _"Do you want to continue? [Y/n]"_  input `Y` lalu tekan ___enter___. 
 
-<img src="Gambar/3.png" width="500">
+<img src="images/3.png" width="500">
 
 #### 2. Buka browser laptop/komputer masing-masing
 Buka web __IP Mojokerto Masing-Masing Kelompok__ sampai muncul halaman Apache seperti di bawah ini.
 
-<img src="Gambar/4.png">
+<img src="images/4.png">
 
 ## E. Instalasi PHP
 #### 1. Buka UML Mojokerto
@@ -73,7 +73,7 @@ apt-get install php5
 ```
 jika muncul tulisan _"Do you want to continue? [Y/n]"_  input `Y` lalu tekan ___enter___. 
 
-<img src="Gambar/5.png" width="500">
+<img src="images/5.png" width="500">
 
 #### 2. Test apakah php sudah ter-install
 Jalankan perintah di bawah ini untuk memeriksa versi dari __php__ kalian.
@@ -82,12 +82,12 @@ php -v
 ```
 Bila _output_-nya mirip dengan yang di bawah ini, maka __php__ kalian telah ter-_install_.
 
-<img src="Gambar/6.png" width="500">
+<img src="images/6.png" width="500">
 
 ## F. Mengenal Apache
 Web server Apache memiliki _directory_ berisi berbagai konfigurasi yang terletak di `/etc/apache2/`
 
-<img src="Gambar/7.png" width="500">
+<img src="images/7.png" width="500">
 
 Berikut beberapa hal yang penting untuk diketahui:
 + File Konfigurasi di `/etc/apache2`
@@ -115,7 +115,7 @@ Berikut beberapa hal yang penting untuk diketahui:
 #### A.1. Pindah ke _directory_ `/etc/apache2/sites-available`
 Gunakan perintah `cd /etc/apache2/sites-available`
 
-<img src="Gambar/8.png" width="500">
+<img src="images/8.png" width="500">
 
 Dapat dilihat di sana terdapat dua buah file:
 + file __default__, file konfigurasi website default apache untuk http.
@@ -132,7 +132,7 @@ __Catatan tambahan__  :
 
 Untuk versi 2.4.x setiap configurasi file yang berada di directory `/etc/apache2/sites-available` nama file-nya ditambahi dengan `.conf`. Contoh : `/etc/apache2/sites-available/default.conf`. Karena jika tidak ditambahi dengan `.conf` maka akan error.
 
-<img src="Gambar/9.png" width="500">
+<img src="images/9.png" width="500">
 
 #### A.3.  Pada file _default_ terdapat konfigurasi standar apache
 Beberapa diantaranya adalah:
@@ -163,12 +163,12 @@ Gunakan perintah `nano /var/www/html/index.php` dan isi file  tersebut dengan
 ?>
 ```
 
-<img src="Gambar/10.png" width="500">
+<img src="images/10.png" width="500">
 
 #### A.6. Buka browser laptop/komputer masing-masing
 Akses alamat __http://[IP Mojokerto]/index.php__
 
-<img src="Gambar/11.png">
+<img src="images/11.png">
 
 + __Catatan__:
 	Apabila tampilan web tidak muncul seperti gambar di atas dan hanya muncul plain text isi file index.php, silahkan install **libapache2-mod-php7.0** dengan menjalankan perintah
@@ -200,7 +200,7 @@ Buka file yang telah kalian buat pada sebelumnya. Gunakan perintah `nano /etc/ap
 + Kemudian ubah port yang digunakan. Dimana awalnya port `80` menjadi port `8080`.
 + Ubah juga _DocumentRoot_ yang awalnya `/var/www/html` menjadi `/var/www/web-8080`.
 
-<img src="Gambar/12.png" width="500">
+<img src="images/12.png" width="500">
 
 #### B.3 Tambahkan _port 8080_ pada file `ports.conf`
 File __ports.conf__ berada pada _directory_ `/etc/apache2`
@@ -210,7 +210,7 @@ Cara menambahkan port yang perlu didengar adalah dengan menuliskan
 Listen 8080
 ```
 
-<img src="Gambar/13.png" width="500">
+<img src="images/13.png" width="500">
 
 #### B.4 Aktifkan konfigurasi _default-8080_
 Untuk mengaktifkan suatu konfigurasi, kita menggunakan perintah `a2ensite` diikuti dengan __nama file konfigurasi__ yang telah dibuat.
@@ -219,17 +219,17 @@ Dalam kasus ini perintah yang dijalankan adalah
 a2ensite default-8080
 ```
 
-<img src="Gambar/14.png" width="500">
+<img src="images/14.png" width="500">
 
 #### B.5 Restart apache
 Gunakan perintah `service apache2 restart`
 
-<img src="Gambar/15.png" width="500">
+<img src="images/15.png" width="500">
 
 #### B.6 Pindah ke _directory_ `/var/www`
 Buatlah sebuah _directory_ baru di dalam `var/www` dengan nama __web-8080__
 
-<img src="Gambar/16.png" width="500">
+<img src="images/16.png" width="500">
 
 #### B.7 Masuk ke _directory_ `/var/www/web-8080` dan buat file _index.php_
 Isi file __index.php__ tersebut dengan
@@ -239,12 +239,12 @@ Isi file __index.php__ tersebut dengan
 ?>
 ```
 
-<img src="Gambar/17.png" width="500">
+<img src="images/17.png" width="500">
 
 #### B.8 Buka browser laptop/komputer masing-masing
 Akses alamat __http://[IP Mojokerto]:8080__
 
-<img src="Gambar/18.png">
+<img src="images/18.png">
 
 ## H. Mari Berimajinasi
 ### A. Setting Domain pada Apache
@@ -255,7 +255,7 @@ Ayo bantu Kamu dengan mengonfigurasi server sesuai petunjuk yang diberikan Vinse
 #### A.1 Pindah ke _directory_ `/etc/apache2/sites-available`
 Copy file __default__ menjadi file __jarkom2020.com__. Jangan lupa untuk menambahkan `.conf` jika apache2 versi 2.4.x
 
-<img src="Gambar/19.png" width="500">
+<img src="images/19.png" width="500">
 
 #### A.2 Buka file _jarkom2020.com_
 + Tambahkan
@@ -268,7 +268,7 @@ Copy file __default__ menjadi file __jarkom2020.com__. Jangan lupa untuk menamba
 	+ `ServerAlias` adalah "_Alternate names for a host used when matching requests to name-virtual host_"
 + Ubah _DocumentRoot_ menjadi `/var/www/jarkom2020.com`
 
-<img src="Gambar/20.png" width="500">
+<img src="images/20.png" width="500">
 
 #### A.3 Aktifkan konfigurasi _jarkom2020.com_
 Gunakan perintah `a2ensite jarkom2020.com`
@@ -276,12 +276,12 @@ Gunakan perintah `a2ensite jarkom2020.com`
 #### A.4 Restart apache
 Gunakan perintah `service apache2 restart`
 
-<img src="Gambar/21.png" width="500">
+<img src="images/21.png" width="500">
 
 #### A.5 Pindah ke _directory_ `/var/www`
 Kemudian buatlah sebuah _directory_ baru di dalam `var/www` dengan nama __jarkom2020.com__
 
-<img src="Gambar/22.png" width="500">
+<img src="images/22.png" width="500">
 
 #### A.6 Masuk ke _directory_ `/var/www/jarkom2020.com` dan buat file _index.php_
 Isi file __index.php__ tersebut dengan
@@ -291,7 +291,7 @@ Isi file __index.php__ tersebut dengan
 ?>
 ```
 
-<img src="Gambar/23.png" width="500">
+<img src="images/23.png" width="500">
 
 #### A.7 Ganti DNS laptop/komputer sesuai IP Malang masing-masing
 + __Pada Windows__
@@ -301,11 +301,11 @@ Isi file __index.php__ tersebut dengan
 	+ Ubah file __/etc/resolv.conf__ dengan perintah `sudo nano /etc/resolv.conf`
 	+ _Comment_ DNS yang sedang aktif dan tambahkan `nameserver <IP Malang>`
 	+ Simpan hasil perubahannya
-<img src="Gambar/36.png">
+<img src="images/36.png">
 
 #### A.8 Buka browser dan akses _jarkom2020.com_
 
-<img src="Gambar/24.png">
+<img src="images/24.png">
 
 ### B. Directory Listing
 Di dalam _directory_ `/var/www/jarkom2020.com` diberikan struktur _directory_ sebagai berikut.
@@ -331,7 +331,7 @@ mkdir /var/www/jarkom2020.com/assets
 mkdir /var/www/jarkom2020.com/assets/javascript
 ```
 
-<img src="Gambar/25.png" width="500">
+<img src="images/25.png" width="500">
 
 #### B.2 Aktifkan Directory Listing untuk /download
 + Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2020.com___ dan tambahkan
@@ -342,13 +342,13 @@ mkdir /var/www/jarkom2020.com/assets/javascript
 	```
 	jangan lupa untuk menyimpan perubahan tersebut agar _directory_  ___download___ menampilkan isi _directory_-nya.
 	
-	<img src="Gambar/26.png" width="500">
+	<img src="images/26.png" width="500">
 	
 	
 + Restart apache dengan perintah `service apache2 restart`
 + Buka browser dan akses http://jarkom2020.com/download
 
-<img src="Gambar/27.png">
+<img src="images/27.png">
 
 __Keterangan__:
 Untuk mengatur _directory_ pada sebuah web, menggunakan
@@ -371,12 +371,12 @@ Contoh untuk mengatur `/var/www/jarkom2020.com/download`
 	```
 	jangan lupa untuk menyimpan perubahan tersebut agar _directory_  ___assets___ tidak menampilkan isi _directory_-nya.
 	
-	<img src="Gambar/28.png" width="500">
+	<img src="images/28.png" width="500">
 	
 + Restart apache dengan perintah `service apache2 restart`
 + Buka browser dan akses http://jarkom2020.com/assets
 
-<img src="Gambar/29.png">
+<img src="images/29.png">
 
 ### C. Directory Alias
 Karena URL __http://[IP Mojokerto]/assets/javascript__ dirasa terlalu panjang, maka Kamu mencoba membuat _directory alias_ menjadi __http://[IP Mojokerto]/assets/js__ agar lebih terlihat _simple_.
@@ -394,13 +394,13 @@ Berikut adalah langkah-langkah pengerjaan yang diberikan Vinsen:
 
 	jangan lupa untuk menyimpan perubahan tersebut agar _directory_  ___assets/javascript___ dapat menampilkan isi _directory_-nya saat pengguna mengakses __http://[IP Mojokerto]/assets/js__.
 	
-	<img src="Gambar/30.png" width="500">
+	<img src="images/30.png" width="500">
 	
 + Restart apache dengan perintah `service apache2 restart`
 + Pindah ke folder __/var/www/jarkom2020.com/assets/javascript__ dan buat file __app.js__ dengan perintah `touch app.js`
 + Buka browser dan akses http://jarkom2020.com/assets/js
 
-<img src="Gambar/31.png">
+<img src="images/31.png">
 
 ### D. Module Rewrite
 #### D.1 Aktifkan Module Rewrite
@@ -410,7 +410,7 @@ Perintah asisten berikutnya adalah menyalakan _module rewrite_ agar penulisan UR
 	
 + Restart apache dengan perintah `service apache2 restart`
 
-	<img src="Gambar/32.png" width="500">
+	<img src="images/32.png" width="500">
 
 Biasanya semua konfigurasi terhadap sebuah website diatur pada file di _directory_ __/etc/apache2/sites-available__. Namun terkadang ada sebuah kasus bahwa   hak akses root untuk mengedit file konfigurasi yang berada di folder __/etc/apache2/sites-available__ tidak dimiliki, atau kita tidak ingin user lain untuk mengedit file konfigurasi yang berada di _directory_ __/etc/apache2/sites-available__.
 
@@ -424,7 +424,7 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 	RewriteRule ^([^\.]+)$ $1.php [NC,L]
 	```
 
-	<img src="Gambar/33.png" width="500">
+	<img src="images/33.png" width="500">
 
 	__Keterangan__:
 	+ `RewriteEngine On` = untuk flag bahwa menggunakan module rewrite
@@ -446,7 +446,7 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 	```
 	dan jangan lupa untuk menyimpan perubahan tersebut.
 	
-	<img src="Gambar/34.png" width="500">
+	<img src="images/34.png" width="500">
 	
 	__Keterangan__:
 	+ `AllowOverride All` ditambahkan agar  konfigurasi __.htaccess__ dapat berjalan.
@@ -456,7 +456,7 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 + Restart apache dengan perintah `service apache2 restart`
 + Buka browser dan akses __http://jarkom2020.com/aboutus__
 
-	<img src="Gambar/35.png">
+	<img src="images/35.png">
 	
 <!-- ### E. Otorisasi
 Pada web http:jarkom2020.com terdapat path __/data__ yang tidak boleh dibuka sembarang orang. Rachma ingin __/data__ hanya boleh diakses oleh pengguna yang memiliki IP 10.151.252.0/255.255.252.0
@@ -505,17 +505,17 @@ Sedangkan saat pengguna  memiliki __IP NID 10.151.252.0/22__ maka halaman yang m
 
 ## Selamat belajar dan tetap semangat!
 <p align="center">
-	<img src="Gambar/klee.png" width="50%">
+	<img src="images/klee.png" width="50%">
 </p>
 
 <!-- 
-	<img src="Gambar/36.png" width="500">
-	<img src="Gambar/37.png">
-	<img src="Gambar/38.png" width="500">
-	<img src="Gambar/39.png" width="500">
-	<img src="Gambar/40.png" width="500">
-	<img src="Gambar/41.png">
-	<img src="Gambar/42.png" width="500">
-	<img src="Gambar/43.png">
-	<img src="Gambar/44.png">
+	<img src="images/36.png" width="500">
+	<img src="images/37.png">
+	<img src="images/38.png" width="500">
+	<img src="images/39.png" width="500">
+	<img src="images/40.png" width="500">
+	<img src="images/41.png">
+	<img src="images/42.png" width="500">
+	<img src="images/43.png">
+	<img src="images/44.png">
  -->
