@@ -19,9 +19,9 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 ![import-ova-2](images/import-ova-2.jpg)
 
 - Membuat host network adapter baru
-  - Pilih File Menu -> Host Network Manager
+  - Pilih File Menu -> Host Network Manager <br/>
 ![new-host-network-adapter](images/new-host-network-adapter-1.jpg)
-  - Klik Create
+  - Klik Create <br/>
 ![new-host-network-adapter-2](images/new-host-network-adapter-2.jpg)
   - Lalu setting agar IPv4 Address adalah `192.168.0.1`, dan IPv4 Network Mask `255.255.255.0` lalu klik apply
 ![new-host-network-adapter-3](images/new-host-network-adapter-3.jpg)
@@ -30,7 +30,7 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
   - Pergi ke Settings -> Network
   - Ubah Adapter 1 ke Host-only Adapter dan sesuaikan dengan host network yang telah dibuat sebelumnya
 ![setting-network-vm-1](images/setting-network-vm-1.jpg)
-  - Dan ubah Adapter 2 menjadi NAT
+  - Dan ubah Adapter 2 menjadi NAT <br/>
 ![setting-network-vm-2](images/setting-network-vm-2.jpg)
   - Lalu klik OK
 
@@ -57,13 +57,13 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
   - Klik `Add blank project`
   - Masukkan nama project (terserah)
   - Klik `Add project`
-  - Klik tombol `Add a node` di samping kiri
+  - Klik tombol `Add a node` di samping kiri <br/>
 ![test-image-1](images/test-image-1.jpg)
   - Lalu tarik `ubuntu-1` ke area kosong di halaman
   - Tunggu sampai loading selesai
   - Jika berhasil akan menampilkan tampilan yang mirip dengan ini
 ![test-image-2](images/test-image-2.jpg)
-  - Kita bisa start dengan klik kanan di node dan klik `Start`
+  - Kita bisa start dengan klik kanan di node dan klik `Start` <br/>
 ![test-image-3](images/test-image-3.jpg)
 
 - Akses node
