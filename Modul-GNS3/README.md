@@ -1,5 +1,12 @@
-# Modul Pengenalan GNS3
+Modul Pengenalan GNS3
+===============
 
+- [Modul Pengenalan GNS3](#modul-pengenalan-gns3)
+  - [Apakah GNS3 itu?](#apakah-gns3-itu)
+  - [Instalasi GNS3](#instalasi-gns3)
+    - [Menggunakan VM](#menggunakan-vm)
+    - [Menggunakan Ubuntu](#menggunakan-ubuntu)
+  - [Sumber](#sumber)
 
 ## Apakah GNS3 itu?
 **GNS3 (Graphical Network Simulator-3)** adalah alat yang membantu Anda untuk bisa menjalankan sebuah simulasi dari topologi kecil yang hanya terdiri dari beberapa alat saja di komputer Anda sampai dengan topologi yang memiliki banyak alat yang di-hosting di beberapa server.
@@ -67,7 +74,7 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 ![test-image-3](images/test-image-3.jpg)
 
 - Akses node
-  - Bisa dilakukan dengan `Web console` 
+  - Bisa dilakukan dengan `Web console`  <br/>
 ![akses-node-1](images/akses-node-1.jpg)
   - Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` sesuai dengan di kanan, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 192.168.0.16 5000`
 ![akses-node-2](images/akses-node-2.jpg)
