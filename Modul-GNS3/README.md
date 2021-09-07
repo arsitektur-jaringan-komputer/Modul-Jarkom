@@ -82,7 +82,39 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
   - Jika command prompt tidak kunjung keluar, bisa klik enter berkali-kali sampai keluar
 
 ### Menggunakan Ubuntu
+- Install GNS3
+Silahkan ikuti step-stepnya dari link berikut [Ubuntu-based distributions (64-bit only).](https://docs.gns3.com/docs/getting-started/installation/linux/)
 
+- Import image ubuntu
+  - Klik `Edit > preferences`
+  - Klik `Docker container` (biasanya paling bawah)
+  - Klik `New`
+  - Pada `Docker Virtual Machine`, pilih `New image` isikan `kuuhaku86/gns3-ubuntu:1.0.0` di Image name, lalu klik next.
+![insert-image-2](images/insert-imaget-2.png)
+  - Pada `Container name` masukkan `ubuntu-1` sebagai nama container, lalu klik next.
+  - Pada `Network adapters` dan masukkan angka `4`, lalu klik next.
+  - Pada `Start command` biarkan kosong, lalu klik next.
+  - Pada `Console type` pilih `telnet`, lalu klik next.
+  - Pada `Environment` biarkan kosong, lalu klik `finish`.
+  - Kemudian klik tombol `Apply` dan `OK`.
+
+- Coba image yang telah di-import
+  - Klik `End devices` di samping kiri (icon bentuk monitor)
+  <br/>
+![test-image-4](images/test-image-4.png)
+  - Lalu tarik `ubuntu-1` ke area kosong di halaman
+  - Tunggu sampai loading selesai
+  - Jika berhasil akan menampilkan tampilan yang mirip dengan ini
+![test-image-5](images/test-image-5.png)
+  - Kita bisa start dengan klik kanan di node dan klik `Start`.
+
+- Akses node
+  - Bisa dilakukan dengan klik kanan di node dan klik `console`.  <br/>
+![akses-node-3](images/akses-node-3.png)
+  - Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` sesuai dengan di kanan, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 127.0.0.1 5000` (arahkan cursor ke nodenya untuk melihat port node)
+![akses-node-4](images/akses-node-4.png)
+  - Jika menggunakan telnet, hati-hati jika ingin keluar dari node. Gunakan `Ctrl + ]` lalu ketik quit untuk keluar dari node.
+  - Jika command prompt tidak kunjung keluar, bisa klik enter berkali-kali sampai keluar
 
 
 ## Sumber
