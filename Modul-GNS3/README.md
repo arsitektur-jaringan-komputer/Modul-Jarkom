@@ -133,23 +133,24 @@ Dalam praktikum jaringan komputer, Anda akan sering melakukan setting untuk IP d
 #### Pembagian Prefix IP
 
 **Kelas A** 
-KELOMPOK | Prefix IP
----------|------------
-A1 | 192.168
-A2 | 10.0
-A3 | 192.169
-A4 | 10.1
-A5 | 192.170
-A6 | 10.2
-A7 | 192.171
-A8 | 10.3
-A9 | 192.172
-A10 | 10.4
-A11 | 192.173
-A12 | 10.5
-A13 | 192.174
-A14 | 10.6
-A15 | 192.175
+
+KELOMPOK | Prefix IP |
+---------|------------|
+A1 | 192.168 |
+A2 | 10.0 |
+A3 | 192.169 |
+A4 | 10.1 |
+A5 | 192.170 |
+A6 | 10.2 |
+A7 | 192.171 |
+A8 | 10.3 |
+A9 | 192.172 |
+A10 | 10.4 |
+A11 | 192.173 |
+A12 | 10.5 |
+A13 | 192.174 |
+A14 | 10.6 |
+A15 | 192.175 |
 
 Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah kelompok A2 IP adalah `10.0.1.2` 
 
@@ -209,7 +210,7 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
   iface eth0 inet static
   	address [Prefix IP].1.2
   	netmask 255.255.255.0
-    gateway [Prefix IP].1.1
+  	gateway [Prefix IP].1.1
   ```
   - Alabasta
   ```
@@ -217,7 +218,7 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
   iface eth0 inet static
   	address [Prefix IP].1.3
   	netmask 255.255.255.0
-    gateway [Prefix IP].1.1
+  	gateway [Prefix IP].1.1
   ```
   - EniesLobby
   ```
@@ -225,7 +226,7 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
   iface eth0 inet static
   	address [Prefix IP].2.2
   	netmask 255.255.255.0
-    gateway [Prefix IP].2.1
+  	gateway [Prefix IP].2.1
   ```
   - Water7
   ```
@@ -233,7 +234,7 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
   iface eth0 inet static
   	address [Prefix IP].2.3
   	netmask 255.255.255.0
-    gateway [Prefix IP].2.1
+  	gateway [Prefix IP].2.1
   ```
 **Penjelasan Pengertian**
 - **Gateway**: Jalur pada jaringan yang harus dilewati paket-paket data untuk dapat masuk ke jaringan yang lain.
