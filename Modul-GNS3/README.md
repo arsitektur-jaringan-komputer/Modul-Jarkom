@@ -6,6 +6,11 @@ Modul Pengenalan GNS3
   - [Instalasi GNS3](#instalasi-gns3)
     - [Menggunakan VM](#menggunakan-vm)
     - [Menggunakan Ubuntu](#menggunakan-ubuntu)
+  - [Penggunaan GNS3](#penggunaan-gns3)
+    - [Setup IP](#setup-ip)
+      - [Pembagian Prefix IP](#pembagian-prefix-ip)
+      - [Setup IP di Node](#setup-ip-di-node)
+    - [Akses ke Internet](#akses-ke-internet)
   - [Sumber](#sumber)
 
 ## Apakah GNS3 itu?
@@ -83,7 +88,39 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 
 ### Menggunakan Ubuntu
 
+## Penggunaan GNS3
 
+### Setup IP
+Dalam praktikum jaringan komputer, Anda akan sering melakukan setting untuk IP dari node yang digunakan. Lalu untuk membedakan ip jaringan dari masing-masing kelompok, maka 2 oktet awal (Prefix IP) dari IP yang digunakan sudah ditentukan seperti di bawah.
+
+#### Pembagian Prefix IP
+
+**Kelas A** 
+KELOMPOK | Prefix IP
+---------|------------
+A1 | 192.168
+A2 | 10.0
+A3 | 192.169
+A4 | 10.1
+A5 | 192.170
+A6 | 10.2
+A7 | 192.171
+A8 | 10.3
+A9 | 192.172
+A10 | 10.4
+A11 | 192.173
+A12 | 10.5
+A13 | 192.174
+A14 | 10.6
+A15 | 192.175
+
+#### Setup IP di Node
+
+- Klik kanan pada node, buka `Configure`
+- Pada menu `General settings`, cari tombol Edit network configuration
+- Di situ kalian bisa setup IP sesuai dengan interface yang digunakan. Interface adalah sesuatu yang digunakan untuk menghubungkan dua device
+
+### Akses ke Internet
 
 ## Sumber
 - https://docs.gns3.com/docs/
