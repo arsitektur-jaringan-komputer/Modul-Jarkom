@@ -13,7 +13,7 @@
 	+ 2.4 [Wireshark Usage on FTP Server](#24-wireshark-usage-on-ftp-server)
 
 ## 1. Wire Crimping
-In a computer network, communication occurs between one device to the other. For this to happen, of course there needs to be a medium. Although there is already wireless communication technology, wires still have a major role in network and can't be replaced. Therefore, in this module, we will learn how to crimp a type of network cable called UTP (Unshielded Twisted Pair).
+In a computer network, communication occurs between one device to the other. For this to happen, of course there needs a medium. Although there is already wireless communication technology, wires still have a major role in network and can't be replaced. Therefore, in this module, we will learn how to crimp a type of network cable called UTP (Unshielded Twisted Pair).
 
 ### 1.1 Tools needed
 
@@ -69,7 +69,7 @@ While from the cable installation, there are divided into :
 
 ### 1.3 Crimping Steps
 
-  1. Prepare crimping needs (UTP cable, RJ45, crimping pliers, LAN tester)
+  1. Prepare the crimping needs (UTP cable, RJ45, crimping pliers, LAN tester)
   2. Strip the UTP cable shield
   3. Sort the cables according to the configuration needed (Straight/Cross/others).
   4. Cut the ends of the wires to flatten them out.
@@ -81,7 +81,7 @@ While from the cable installation, there are divided into :
 Wireshark is a network packet analyzer application. The network packet analyzer will try to capture network packets and display the packet data as detailed as possible. A computer network is built with the aim of sending or receiving data between one end-point and another. Data is sent in the form of packets. The structure of a package consists of:
 
 ***1. Header***
-The header section contains the address and other data carried by the packet. The structure of the header includes: :
+The header section contains the address and other data carried by the packet. The structure of the header includes:
 
 | Instructions | Description |  
 |--  |---|
@@ -93,7 +93,7 @@ The header section contains the address and other data carried by the packet. Th
 | Source Address | Where did the packet come from |  
 
 ***2. Payload***
-Payload is also referred to as the **body** of the packet. This is where the data that will be sent via the packet is located
+Payload is also referred to the **body** of the packet. This is where the data that will be sent via the packet is located.
 
 ***3. Trailer***
 A trailer, or sometimes called a ***footer***, contains a pair of bits that signal to the reciever that the packet has reached its end. It can also provide some sort of *error checking*.
@@ -275,7 +275,7 @@ When the capture results are available, the data will appear as shown below:
 ## Excercise
 
 1. When accessing a web page, what port does a packet go to?
-2. What is the difference between accessing the main page of if.its.ac.id and monta.if.its.ac.id? Explain your answer.
+2. What is the difference between accessing the main page of its.ac.id and monta.if.its.ac.id? Explain your answer!
 3. How many packets are sent by the web server when downloading a file? Why did it happen?
 4. From the packet analysis result, what is the difference between a persistent connection and a non-persistent connection?
 5. What is the difference between basic authentication method and digest?
