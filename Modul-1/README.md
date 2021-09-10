@@ -247,12 +247,12 @@ Saat hasil capture dilihat akan muncul data dibawah ini :
 
 ## Latihan
 1. Ketika mengakses suatu halaman web, berapakah port yang dituju oleh suatu paket?
-2. Apa sajakah perbedaan ketika mengakses halaman utama website if.its.ac.id dan monta.if.its.ac.id? Jelaskan jawaban anda.
+2. Apa sajakah perbedaan ketika mengakses halaman utama website its.ac.id dan monta.if.its.ac.id? Jelaskan jawaban anda!
 3. Ada berapa jumlah paket yang dikirimkan oleh web server ketika mengunduh file? Mengapa terjadi yang seperti itu?
 4. Dari hasil analisa paket, apa perbedaan ketika menggunakan persistent connection dan non-persistent connection?
 5. Apa perbedaan ketika autentikasi menggunakan method basic dengan digest?
 6. Apa perbedaan ketika mengakses halaman web biasa dengan ketika proses login terjadi?
-7. Apa saja yang selalu dikirimkan browser ke web server?Export data hasil paket capture
+7. Apa saja yang selalu dikirimkan browser ke web server? Export data hasil paket capture!
 
 ## Referensi
 + https://nyengnyeng.com/macam-macam-kabel-jaringan-komputer/
