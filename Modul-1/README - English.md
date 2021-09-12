@@ -281,6 +281,8 @@ When the capture results are available, the data will appear as shown below:
 5. What is the difference between basic authentication method and digest?
 6. What is the difference between accessing a normal web page and accessing a web page when the login process occurs?
 7. What information does the browser always send to the web server? Export the packet capture data.
+8. Are there packets sent by your device when you are not accessing the browser? If so, try to find the domain!
+9. Access the website http://www.columbia.edu/~fdc/sample.html, download the image on the page and try to download that picture again from wireshark!
 
 ## Reference
 + https://nyengnyeng.com/macam-macam-kabel-jaringan-komputer/
