@@ -63,7 +63,7 @@ Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk meny
 
 ### Video crimping Straight
 
-[![video-straight](https://i.ytimg.com/vi/JDiybTG9dGY/maxresdefault.jpg)](https://youtu.be/6Oad-4om8h8)
+[![video-straight](https://i.ytimg.com/vi/JDiybTG9dGY/maxresdefault.jpg)](https://youtu.be/NL0F8bP8k7I)
 
 ## 2. Wireshark
 Wireshark adalah sebuah aplikasi penganalisa paket jaringan. Penganalisa paket jaringan akan mencoba menangkap paket jaringan dan mencoba untuk menampilkan data paket sedetail mungkin. 
