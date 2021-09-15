@@ -61,6 +61,10 @@ Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk meny
 6. Gunakan tang crimping untuk mengunci kabel UTP dalam RJ45 (pastikan ujung kabel masih menempel dengan ujung RJ45 saat penguncian dilakukan)
 7. Terakhir, gunakan LAN tester untuk memastikan kabel yang anda buat bekerja dengan baik.
 
+### Video crimping Straight
+
+[![video-straight](https://i.ytimg.com/vi/JDiybTG9dGY/maxresdefault.jpg)](https://youtu.be/6Oad-4om8h8)
+
 ## 2. Wireshark
 Wireshark adalah sebuah aplikasi penganalisa paket jaringan. Penganalisa paket jaringan akan mencoba menangkap paket jaringan dan mencoba untuk menampilkan data paket sedetail mungkin. 
 Sebuah jaringan komputer dibangun dengan tujuan mengirimkan atau menerima data antara satu end-point dengan end-point lainnya. Data dikirim dalam bentuk paket-paket. Struktur sebuah paket terdiri dari :
