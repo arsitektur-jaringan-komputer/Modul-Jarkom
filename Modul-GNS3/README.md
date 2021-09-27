@@ -40,14 +40,15 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
   - Klik Create <br/>
 ![new-host-network-adapter-2](images/new-host-network-adapter-2.jpg)
   - Lalu setting agar IPv4 Address adalah `192.168.0.1`, dan IPv4 Network Mask `255.255.255.0` lalu klik apply
-![new-host-network-adapter-3](images/new-host-network-adapter-3.jpg)
+![new-host-network-adapter-4](images/new-host-network-adapter-4.jpg)
+![new-host-network-adapter-5](images/new-host-network-adapter-5.jpg)
 
 5. Ubah Network Adapter di VM 
   - Pergi ke Settings -> Network
   - Ubah Adapter 1 ke Host-only Adapter dan sesuaikan dengan host network yang telah dibuat sebelumnya
 ![setting-network-vm-1](images/setting-network-vm-1.jpg)
   - Dan ubah Adapter 2 menjadi NAT <br/>
-![setting-network-vm-2](images/setting-network-vm-2.jpg)
+![setting-network-vm-3](images/setting-network-vm-3.jpg)
   - Lalu klik OK
 
 6.  Jalankan VM
@@ -85,7 +86,7 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 9. Akses node
   - Bisa dilakukan dengan `Web console`  <br/>
 ![akses-node-1](images/akses-node-1.jpg)
-  - Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` sesuai dengan di kanan, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 192.168.0.16 5000`
+  - Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` di terminal lokal pc kita, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 192.168.0.16 5000`
 ![akses-node-2](images/akses-node-2.jpg)
   - Jika menggunakan telnet, hati-hati jika ingin keluar dari node. Gunakan `Ctrl + ]` lalu ketik quit untuk keluar dari node.
   - Jika command prompt tidak kunjung keluar, bisa klik enter berkali-kali sampai keluar
