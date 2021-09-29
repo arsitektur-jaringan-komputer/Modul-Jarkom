@@ -23,10 +23,10 @@ Modul Pengenalan GNS3
 ## Instalasi GNS3
 ### Menggunakan VM
 1. Install VirtualBox
-Silahkan mendownload dari [link berikut](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html) atau dengan [link berikut (Drive ITS).](https://drive.google.com/file/d/10R5GyMtn0R8yWLDvhmxKMl_GySD2gXUK/view?usp=sharing)
+Silahkan mendownload dari [link berikut](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
 
 2. Download Image VM GNS3
-Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/releases/download/v2.2.19/GNS3.VM.VirtualBox.2.2.19.zip). Sehabis itu langsung saja extract.
+Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/releases/download/v2.2.19/GNS3.VM.VirtualBox.2.2.19.zip) atau dengan [link berikut (Drive ITS)](https://drive.google.com/file/d/10R5GyMtn0R8yWLDvhmxKMl_GySD2gXUK/view?usp=sharing). Sehabis itu langsung saja extract.
 
 3. Import file .ova ke VirtualBox
 
@@ -46,9 +46,9 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 5. Ubah Network Adapter di VM 
   - Pergi ke Settings -> Network
   - Ubah Adapter 1 ke Host-only Adapter dan sesuaikan dengan host network yang telah dibuat sebelumnya
-![setting-network-vm-1](images/setting-network-vm-1.jpg)
+![setting-network-vm-1](images/setting-network-vm-3.jpg)
   - Dan ubah Adapter 2 menjadi NAT <br/>
-![setting-network-vm-3](images/setting-network-vm-3.jpg)
+![setting-network-vm-3](images/setting-network-vm-2.jpg)
   - Lalu klik OK
 
 6.  Jalankan VM
@@ -136,112 +136,112 @@ Dalam praktikum jaringan komputer, Anda akan sering melakukan setting untuk IP d
 **Kelas A** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-A1 | 192.168 |
+A1 | 192.169 |
 A2 | 10.0 |
-A3 | 192.169 |
+A3 | 192.170 |
 A4 | 10.1 |
-A5 | 192.170 |
+A5 | 192.171 |
 A6 | 10.2 |
-A7 | 192.171 |
+A7 | 192.172 |
 A8 | 10.3 |
-A9 | 192.172 |
+A9 | 192.173 |
 A10 | 10.4 |
-A11 | 192.173 |
+A11 | 192.174 |
 A12 | 10.5 |
-A13 | 192.174 |
+A13 | 192.175 |
 A14 | 10.6 |
-A15 | 192.175 |
+A15 | 192.176 |
 A16 | 10.7 |
 
 **Kelas B** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-B1 | 192.176 |
+B1 | 192.177 |
 B2 | 10.8 |
-B3 | 192.177 |
+B3 | 192.178 |
 B4 | 10.9 |
-B5 | 192.178 |
+B5 | 192.179 |
 B6 | 10.10 |
-B7 | 192.179 |
+B7 | 192.180 |
 B8 | 10.11 |
-B9 | 192.180 |
+B9 | 192.181 |
 B10 | 10.12 |
-B11 | 192.181 |
+B11 | 192.182 |
 B12 | 10.13 |
-B13 | 192.182 |
+B13 | 192.183 |
 B14 | 10.14 |
 
 **Kelas C** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-C1 | 192.183 |
+C1 | 192.184 |
 C2 | 10.15 |
-C3 | 192.184 |
+C3 | 192.185 |
 C4 | 10.16 |
-C5 | 192.185 |
+C5 | 192.186 |
 C6 | 10.17 |
-C7 | 192.186 |
+C7 | 192.187 |
 C8 | 10.18 |
-C9 | 192.187 |
+C9 | 192.188 |
 C10 | 10.19 |
-C11 | 192.188 |
+C11 | 192.189 |
 C12 | 10.20 |
-C13 | 192.189 |
+C13 | 192.190 |
 C14 | 10.21 |
-C15 | 192.190 |
+C15 | 192.191 |
 
 **Kelas D** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-D1 | 192.191 |
+D1 | 192.192 |
 D2 | 10.22 |
-D3 | 192.192 |
+D3 | 192.193 |
 D4 | 10.23 |
-D5 | 192.193 |
+D5 | 192.194 |
 D6 | 10.24 |
-D7 | 192.194 |
+D7 | 192.195 |
 D8 | 10.25 |
-D9 | 192.195 |
+D9 | 192.196 |
 D10 | 10.26 |
-D11 | 192.196 |
+D11 | 192.197 |
 D12 | 10.27 |
-D13 | 192.197 |
+D13 | 192.198 |
 D14 | 10.28 |
-D15 | 192.198 |
+D15 | 192.199 |
 D16 | 10.29 |
 
 **Kelas E** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-E1 | 192.199 |
+E1 | 192.200 |
 E2 | 10.30 |
-E3 | 192.200 |
+E3 | 192.201 |
 E4 | 10.31 |
-E5 | 192.201 |
+E5 | 192.202 |
 E6 | 10.32 |
-E7 | 192.202 |
+E7 | 192.203 |
 E8 | 10.33 |
-E9 | 192.203 |
+E9 | 192.204 |
 E10 | 10.34 |
-E11 | 192.204 |
+E11 | 192.205 |
 E12 | 10.35 |
-E13 | 192.205 |
+E13 | 192.206 |
 E14 | 10.36 |
-E15 | 192.206 |
+E15 | 192.207 |
 E16 | 10.37 |
-E17 | 192.207 |
+E17 | 192.208 |
 
 **Kelas IUP** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
 IUP1 | 10.38 |
-IUP2 | 192.208 |
+IUP2 | 192.209 |
 IUP3 | 10.39 |
-IUP4 | 192.209 |
+IUP4 | 192.210 |
 IUP5 | 10.40 |
-IUP6 | 192.210 |
+IUP6 | 192.211 |
 IUP7 | 10.41 |
-IUP8 | 192.211 |
+IUP8 | 192.212 |
 
 **Kelas TI** 
 KELOMPOK | Prefix IP |
