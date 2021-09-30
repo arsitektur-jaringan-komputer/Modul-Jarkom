@@ -374,7 +374,8 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
 ![tips-trik-1](images/tips-trik-1.jpg)
 - Anda bisa melakukan ekspor project jika bekerja secara tim dengan pergi ke menu `Project settings` -> `Export portable project`.
 ![tips-trik-2](images/tips-trik-2.jpg)
-
+- Ketika ada update image, import lagi imagenya seperti yang kita lakukan di langkah `Import image ubuntu` dan sesuaikan nama image dan versinya, contohnya jika ada versi 1.0.1 maka masukkan `kuuhaku86/gns3-ubuntu:1.0.1` ke bagian New Image dan penamaan container jadikan `ubuntu-101`.
+![tips-trik-3](images/insert-imaget-2.jpg)
 ## Troubleshooting
 - 
 
