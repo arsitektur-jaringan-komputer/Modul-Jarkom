@@ -1,17 +1,3 @@
-# **PENTING UNTUK DIBACA**
-1. Pastikan UML *MALANG* dan *MOJOKERTO* Memory yang sebelumnya **96 diganti 256** pada file topologi.sh.
-
-2. Jalankan **iptables** agar client *GRESIK* dan *SIDOARJO* bisa terhubung ke internet.
-
-3. Ketika ingin mengakses internet pastikan sudah mengexport proxy terlebih dahulu. **syntaxnya cek modul pengenalan UML** .
-
-4. Jangan melakukan apapun sebelum asisten memberikan perintah.
-
-5. Ikuti apa yang asisten arahkan.
-
-6. Ketika point 4 dan 5 tidak ditaati **resiko tanggung sendiri!!!**
-
-
 # 1. DNS (Domain Name System)
 
 ## 1.1 Teori
@@ -65,21 +51,21 @@ Adalah informasi yang dimiliki oleh suatu DNS zone.
 
 ## 1.2 Praktik
 
-### 1.2.A Buat Topologi Berikut
+### 1.2.A Buat Topologi
 
-![Topologi](images/topologi.png)
+Buat topologi seperti di [pengenalan GNS3](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-GNS3#membuat-topologi) kemarin.
 
-Seperti pada modul pengenalan UML kemaren
+Kita akan membuat node `EniesLobby` sebagai DNS server.
 
 ### 1.2.A Instalasi bind
 
-- Buka *MALANG* dan update package lists dengan menjalankan command:
+- Buka *EniesLobby* dan update package lists dengan menjalankan command:
 
 	```
 	apt-get update
 	```
 
-- Setalah melakukan update silahkan install aplikasi bind9 pada *MALANG* dengan perintah:
+- Setalah melakukan update silahkan install aplikasi bind9 pada *EniesLobby* dengan perintah:
 
 	```
 	apt-get install bind9 -y
@@ -88,24 +74,24 @@ Seperti pada modul pengenalan UML kemaren
 ![instal bind9](images/1.png)
 
 ### 1.2.B Pembuatan Domain
-Pada sesilab ini kita akan membuat domain **jarkom2020.com**.
+Pada sesilab ini kita akan membuat domain **jarkom2021.com**.
 
-- Lakukan perintah pada *MALANG*. Isikan seperti berikut:
+- Lakukan perintah pada *EniesLobby*. Isikan seperti berikut:
 
   ```
    nano /etc/bind/named.conf.local
   ```
 
-- Isikan configurasi domain **jarkom2020.com** sesuai dengan syntax berikut:
+- Isikan configurasi domain **jarkom2021.com** sesuai dengan syntax berikut:
 
   ```
-  zone "jarkom2020.com" {
+  zone "jarkom2021.com" {
   	type master;
-  	file "/etc/bind/jarkom/jarkom2020.com";
+  	file "/etc/bind/jarkom/jarkom2021.com";
   };
   ```
 
-![config jarkom2020.com](images/2.png)
+![config jarkom2021.com](images/2.png)
 
 - Buat folder **jarkom** di dalam **/etc/bind**
 
@@ -113,19 +99,19 @@ Pada sesilab ini kita akan membuat domain **jarkom2020.com**.
   mkdir /etc/bind/jarkom
   ```
 
-- Copykan file **db.local** pada path **/etc/bind** ke dalam folder **jarkom** yang baru saja dibuat dan ubah namanya menjadi **jarkom2020.com**
+- Copykan file **db.local** pada path **/etc/bind** ke dalam folder **jarkom** yang baru saja dibuat dan ubah namanya menjadi **jarkom2021.com**
 
   ```
-  cp /etc/bind/db.local /etc/bind/jarkom/jarkom2020.com
+  cp /etc/bind/db.local /etc/bind/jarkom/jarkom2021.com
   ```
 
-- Kemudian buka file **jarkom2020.com** dan edit seperti gambar berikut dengan IP *MALANG* masing-masing kelompok:
+- Kemudian buka file **jarkom2021.com** dan edit seperti gambar berikut dengan IP *EniesLobby* masing-masing kelompok:
 
   ```
-  nano /etc/bind/jarkom/jarkom2020.com
+  nano /etc/bind/jarkom/jarkom2021.com
   ```
 
-![konfig jarkom2020](images/3.png)
+![konfig jarkom2021](images/3.png)
 
 - Restart bind9 dengan perintah 
 
@@ -143,7 +129,7 @@ Pada sesilab ini kita akan membuat domain **jarkom2020.com**.
 
 Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu kita harus merubah settingan nameserver yang ada pada client kita.
 
-- Pada client *GRESIK* dan *SIDOARJO* arahkan nameserver menuju IP *MALANG* dengan mengedit file _resolv.conf_ dengan mengetikkan perintah 
+- Pada client *Loguetown* dan *Alabasta* arahkan nameserver menuju IP *MALANG* dengan mengedit file _resolv.conf_ dengan mengetikkan perintah 
 
 	```
 	nano /etc/resolv.conf
@@ -151,10 +137,10 @@ Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu ki
 
 ![ping](images/4.png)
 
-- Untuk mencoba koneksi DNS, lakukan ping domain **jarkom2020.com** dengan melakukan  perintah berikut pada client *GRESIK* dan *SIDOARJO*
+- Untuk mencoba koneksi DNS, lakukan ping domain **jarkom2021.com** dengan melakukan  perintah berikut pada client *Loguetown* dan *Alabasta*
 
   ```
-  ping jarkom2020.com
+  ping jarkom2021.com
   ```
 
 ![ping](images/5.png)
@@ -163,34 +149,34 @@ Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu ki
 
 ### 1.2.D Reverse DNS (Record PTR)
 
-Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan string domain **jarkom2020.com** kedalam alamat IP agar dapat dibuka, maka Reverse DNS atau Record PTR digunakan untuk menerjemahkan alamat IP ke alamat domain yang sudah diterjemahkan sebelumnya.
+Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan string domain **jarkom2021.com** kedalam alamat IP agar dapat dibuka, maka Reverse DNS atau Record PTR digunakan untuk menerjemahkan alamat IP ke alamat domain yang sudah diterjemahkan sebelumnya.
 
-- Edit file **/etc/bind/named.conf.local** pada *MALANG*
+- Edit file **/etc/bind/named.conf.local** pada *EniesLobby*
 
   ```
   nano /etc/bind/named.conf.local
   ```
 
-- Lalu tambahkan konfigurasi berikut ke dalam file **named.conf.local**
+- Lalu tambahkan konfigurasi berikut ke dalam file **named.conf.local**. Tambahkan reverse dari 3 byte awal dari IP yang ingin dilakukan Reverse DNS. Karena di contoh saya menggunakan IP `10.40.2` untuk IP dari records, maka reversenya adalah `2.40.10` 
 
   ```
-  zone "71.151.10.in-addr.arpa" {
+  zone "2.40.10.in-addr.arpa" {
       type master;
-      file "/etc/bind/jarkom/71.151.10.in-addr.arpa";
+      file "/etc/bind/jarkom/2.40.10.in-addr.arpa";
   };
   ```
 
 ![](images/6.png)
 
-- Copykan file **db.local** pada path **/etc/bind** ke dalam folder **jarkom** yang baru saja dibuat dan ubah namanya menjadi **71.151.10.in-addr.arpa**
+- Copykan file **db.local** pada path **/etc/bind** ke dalam folder **jarkom** yang baru saja dibuat dan ubah namanya menjadi **2.40.10.in-addr.arpa**
 
   ```
-  cp /etc/bind/db.local /etc/bind/jarkom/71.151.10.in-addr.arpa
+  cp /etc/bind/db.local /etc/bind/jarkom/2.40.10.in-addr.arpa
   ```
 
-  *Keterangan 71.151.10 adalah 3 byte pertama IP MALANG yang dibalik urutan penulisannya*
+  *Keterangan 2.40.10 adalah 3 byte pertama IP EniesLobby yang dibalik urutan penulisannya*
 
-- Edit file **71.151.10.in-addr.arpa** menjadi seperti gambar di bawah ini
+- Edit file **2.40.10.in-addr.arpa** menjadi seperti gambar di bawah ini
 
 
 ![konfig](images/7.png)
@@ -201,16 +187,16 @@ Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan stri
   service bind9 restart
   ```
 
-- Untuk mengecek apakah konfigurasi sudah benar atau belum, lakukan perintah berikut pada client *GRESIK* 
+- Untuk mengecek apakah konfigurasi sudah benar atau belum, lakukan perintah berikut pada client *Loguetown* 
 
   ```
   // Install package dnsutils
-  // Pastikan nameserver telah dikembalikan ke settingan awal
+  // Pastikan nameserver di /etc/resolv.conf telah dikembalikan sama dengan nameserver dari Foosha
   apt-get update
   apt-get install dnsutils
   
-  //Kembalikan nameserver agar tersambung dengan MALANG
-  host -t PTR "IP MALANG"
+  //Kembalikan nameserver agar tersambung dengan EniesLobby
+  host -t PTR "IP EniesLobby"
   ```
 
 ![host](images/8.png)
@@ -222,7 +208,7 @@ Record CNAME adalah sebuah record yang membuat alias name dan mengarahkan domain
 
 Langkah-langkah membuat record CNAME:
 
-- Buka file **jarkom2020.com** pada server *MALANG* dan tambahkan konfigurasi seperti pada gambar berikut:
+- Buka file **jarkom2021.com** pada server *MALANG* dan tambahkan konfigurasi seperti pada gambar berikut:
 
 
 ![DNS](images/9.png)
@@ -235,7 +221,7 @@ Langkah-langkah membuat record CNAME:
   service bind9 restart
   ```
 
-- Lalu cek dengan melakukan **host -t CNAME www.jarkom2020.com** atau **ping www.jarkom2020.com**. Hasilnya harus mengarah ke host dengan IP *MALANG*.
+- Lalu cek dengan melakukan **host -t CNAME www.jarkom2021.com** atau **ping www.jarkom2021.com**. Hasilnya harus mengarah ke host dengan IP *MALANG*.
 
 
 ![DNS](images/10.png)
@@ -251,12 +237,12 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 - Edit file **/etc/bind/named.conf.local** dan sesuaikan dengan syntax berikut
 
   ```
-  zone "jarkom2020.com" {
+  zone "jarkom2021.com" {
       type master;
       notify yes;
       also-notify { "IP MOJOKERTO"; }; // Masukan IP MOJOKERTO tanpa tanda petik
       allow-transfer { "IP MOJOKERTO"; }; // Masukan IP MOJOKERTO tanpa tanda petik
-      file "/etc/bind/jarkom/jarkom2020.com";
+      file "/etc/bind/jarkom/jarkom2021.com";
   };
   ```
 
@@ -289,10 +275,10 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 - Kemudian buka file **/etc/bind/named.conf.local** pada MOJOKERTO dan tambahkan syntax berikut:
 
   ```
-  zone "jarkom2020.com" {
+  zone "jarkom2021.com" {
       type slave;
       masters { "IP MALANG"; }; // Masukan IP MALANG tanpa tanda petik
-      file "/var/lib/bind/jarkom2020.com";
+      file "/var/lib/bind/jarkom2021.com";
   };
   ```
 
@@ -318,7 +304,7 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
   ![DNS](images/13.png)
 
-- Lakukan ping ke jarkom2020.com pada client *GRESIK*. Jika ping berhasil maka konfigurasi DNS slave telah berhasil
+- Lakukan ping ke jarkom2021.com pada client *GRESIK*. Jika ping berhasil maka konfigurasi DNS slave telah berhasil
 
 
 ![DNS](images/14.png)
@@ -327,15 +313,15 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
 ### 1.2.G Membuat Subdomain
 
-Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu ke suatu alamat fisik di sebuah situs contohnya: **jarkom2020.com** merupakan sebuah domain induk. Sedangkan **neko.jarkom2020.com** merupakan sebuah subdomain.
+Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu ke suatu alamat fisik di sebuah situs contohnya: **jarkom2021.com** merupakan sebuah domain induk. Sedangkan **neko.jarkom2021.com** merupakan sebuah subdomain.
 
-- Edit file **/etc/bind/jarkom/jarkom2020.com** lalu tambahkan subdomain untuk **jarkom2020.com** yang mengarah ke IP *MALANG*.
+- Edit file **/etc/bind/jarkom/jarkom2021.com** lalu tambahkan subdomain untuk **jarkom2021.com** yang mengarah ke IP *MALANG*.
 
   ```
-  nano /etc/bind/jarkom/jarkom2020.com
+  nano /etc/bind/jarkom/jarkom2021.com
   ```
 
-- Tambahkan konfigurasi seperti pada gambar ke dalam file **jarkom2020.com**.
+- Tambahkan konfigurasi seperti pada gambar ke dalam file **jarkom2021.com**.
 
 ![DNS](images/15.png)
 
@@ -348,11 +334,11 @@ Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu
 - Coba ping ke subdomain dengan perintah berikut dari client *GRESIK*
 
   ```
-  ping neko.jarkom2020.com
+  ping neko.jarkom2021.com
   
   ATAU
   
-  host -t A neko.jarkom2020.com
+  host -t A neko.jarkom2021.com
   ```
 
   ![DNS](images/16.png)
@@ -365,10 +351,10 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 #### I. Konfigurasi Pada Server *MALANG*
 
-- Pada *MALANG*, edit file **/etc/bind/jarkom/jarkom2020.com** dan ubah menjadi seperti di bawah ini sesuai dengan pembagian IP *MALANG* kelompok masing-masing.
+- Pada *MALANG*, edit file **/etc/bind/jarkom/jarkom2021.com** dan ubah menjadi seperti di bawah ini sesuai dengan pembagian IP *MALANG* kelompok masing-masing.
 
   ```
-  nano /etc/bind/jarkom/jarkom2020.com
+  nano /etc/bind/jarkom/jarkom2021.com
   ```
 
 ![DNS](images/17.png)
@@ -391,9 +377,9 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 - Kemudian edit file **/etc/bind/named.conf.local** menjadi seperti gambar di bawah:
 
   ```
-  zone "jarkom2020.com" {
+  zone "jarkom2021.com" {
       type master;
-      file "/etc/bind/jarkom/jarkom2020.com";
+      file "/etc/bind/jarkom/jarkom2021.com";
       allow-transfer { "IP MOJOKERTO"; }; // Masukan IP MOJOKERTO tanpa tanda petik
   };
   ```
@@ -429,14 +415,14 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 - Kemudian buat direktori dengan nama **delegasi** 
 
-- Copy **db.local** ke direktori pucang dan edit namanya menjadi **its.jarkom2020.com** 
+- Copy **db.local** ke direktori pucang dan edit namanya menjadi **its.jarkom2021.com** 
 
   ```
   mkdir /etc/bind/delegasi
-  cp /etc/bind/db.local /etc/bind/delegasi/its.jarkom2020.com
+  cp /etc/bind/db.local /etc/bind/delegasi/its.jarkom2021.com
   ```
 
-- Kemudian edit file **its.jarkom2020.com** menjadi seperti dibawah ini
+- Kemudian edit file **its.jarkom2021.com** menjadi seperti dibawah ini
 
 ![DNS](images/22.png)
 
@@ -448,7 +434,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 #### III. Testing
 
-- Lakukan ping ke domain **its.jarkom2020.com** dan **integra.its.jarkom2020.com** dari client *GRESIK*
+- Lakukan ping ke domain **its.jarkom2021.com** dan **integra.its.jarkom2021.com** dari client *GRESIK*
 
 ![DNS](images/23.png)
 
@@ -509,7 +495,7 @@ allow-query{any;};
 
    Pada salah satu contoh di atas, dapat kita amati pada kolom keempat terdapat record yang menggunakan titik pada akhir kata dan ada yang tidak. Penggunaan titik berfungsi sebagai penentu FQDN (Fully-Qualified Domain Name) suatu domain.
 
-   Contohnya jika "**jarkom2020.com.**" di akhiri dengan titik maka akan dianggap sebagai FQDN dan akan dibaca sebagai "**jarkom2020.com**" , sedangkan ns1 di atas tidak menggunakan titik sehingga dia tidak terbaca sebagai FQDN. Maka ns1 akan di tambahkan di depan terhadap nilai $ORIGIN sehinga ns1 akan terbaca sebagai "**ns1.jarkom2020.com**" . Nilai $ORIGIN diambil dari penamaan zone yang terdapat pada  */etc/bind/named.conf.local*.
+   Contohnya jika "**jarkom2021.com.**" di akhiri dengan titik maka akan dianggap sebagai FQDN dan akan dibaca sebagai "**jarkom2021.com**" , sedangkan ns1 di atas tidak menggunakan titik sehingga dia tidak terbaca sebagai FQDN. Maka ns1 akan di tambahkan di depan terhadap nilai $ORIGIN sehinga ns1 akan terbaca sebagai "**ns1.jarkom2021.com**" . Nilai $ORIGIN diambil dari penamaan zone yang terdapat pada  */etc/bind/named.conf.local*.
 
 3. #### Penulisan Name Server (NS) record
 
@@ -519,8 +505,9 @@ allow-query{any;};
 
 ## Latihan
 
-1. Buatlah agar bila kita mengecek *IP MALANG* menggunakan dnsutils (host -t PTR 'IP MALANG') hasilnya ip tersebut dimiliki oleh domain **jarkom.com** !
-2. Buatlah subdomain **ngerjain.jarkom.com**. Lalu buatlah subdomain dalam subdomain dalam subdomain **yyy.lagi.ngerjain.jarkom.com** ! (yyy = nama kelompok)
+1. Buatlah domain **seru.jarkom.com**, **pre-test.jarkom.com**, dan **cool.jarkom.com** yang mengarah ke *IP MOJOKERTO*!
+2. Buatlah agar bila kita mengecek *IP MALANG* menggunakan dnsutils (host -t PTR 'IP MALANG') hasilnya ip tersebut dimiliki oleh domain **jarkom.com** !
+3. Buatlah subdomain **ngerjain.jarkom.com**. Lalu buatlah subdomain dalam subdomain dalam subdomain **yyy.lagi.ngerjain.jarkom.com** ! (yyy = nama kelompok)
 
 ## References
 * https://computer.howstuffworks.com/dns.htm
