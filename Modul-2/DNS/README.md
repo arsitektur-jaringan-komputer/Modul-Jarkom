@@ -129,7 +129,7 @@ Pada sesilab ini kita akan membuat domain **jarkom2021.com**.
 
 Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu kita harus merubah settingan nameserver yang ada pada client kita.
 
-- Pada client *Loguetown* dan *Alabasta* arahkan nameserver menuju IP *MALANG* dengan mengedit file _resolv.conf_ dengan mengetikkan perintah 
+- Pada client *Loguetown* dan *Alabasta* arahkan nameserver menuju IP *EniesLobby* dengan mengedit file _resolv.conf_ dengan mengetikkan perintah 
 
 	```
 	nano /etc/resolv.conf
@@ -208,7 +208,7 @@ Record CNAME adalah sebuah record yang membuat alias name dan mengarahkan domain
 
 Langkah-langkah membuat record CNAME:
 
-- Buka file **jarkom2021.com** pada server *MALANG* dan tambahkan konfigurasi seperti pada gambar berikut:
+- Buka file **jarkom2021.com** pada server *EniesLobby* dan tambahkan konfigurasi seperti pada gambar berikut:
 
 
 ![DNS](images/9.png)
@@ -221,7 +221,7 @@ Langkah-langkah membuat record CNAME:
   service bind9 restart
   ```
 
-- Lalu cek dengan melakukan **host -t CNAME www.jarkom2021.com** atau **ping www.jarkom2021.com**. Hasilnya harus mengarah ke host dengan IP *MALANG*.
+- Lalu cek dengan melakukan **host -t CNAME www.jarkom2021.com** atau **ping www.jarkom2021.com**. Hasilnya harus mengarah ke host dengan IP *EniesLobby*.
 
 
 ![DNS](images/10.png)
@@ -230,9 +230,9 @@ Langkah-langkah membuat record CNAME:
 
 ### 1.2.F Membuat DNS Slave
 
-DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami kegagalan. Kita akan menjadikan server *MOJOKERTO* sebagai DNS slave dan server *MALANG* sebagai DNS masternya.
+DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami kegagalan. Kita akan menjadikan server *Water7* sebagai DNS slave dan server *EniesLobby* sebagai DNS masternya.
 
-#### I. Konfigurasi Pada Server MALANG
+#### I. Konfigurasi Pada Server EniesLobby
 
 - Edit file **/etc/bind/named.conf.local** dan sesuaikan dengan syntax berikut
 
@@ -240,8 +240,8 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
   zone "jarkom2021.com" {
       type master;
       notify yes;
-      also-notify { "IP MOJOKERTO"; }; // Masukan IP MOJOKERTO tanpa tanda petik
-      allow-transfer { "IP MOJOKERTO"; }; // Masukan IP MOJOKERTO tanpa tanda petik
+      also-notify { "IP Water7"; }; // Masukan IP Water7 tanpa tanda petik
+      allow-transfer { "IP Water7"; }; // Masukan IP Water7 tanpa tanda petik
       file "/etc/bind/jarkom/jarkom2021.com";
   };
   ```
@@ -258,26 +258,26 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
 
 
-#### II. Konfigurasi Pada Server MOJOKERTO
+#### II. Konfigurasi Pada Server Water7
 
-- Buka *MOJOKERTO* dan update package lists dengan menjalankan command:
+- Buka *Water7* dan update package lists dengan menjalankan command:
 
   ```
   apt-get update
   ```
 
-- Setalah melakukan update silahkan install aplikasi bind9 pada *MOJOKERTO* dengan perintah:
+- Setalah melakukan update silahkan install aplikasi bind9 pada *Water7* dengan perintah:
 
   ```
   apt-get install bind9 -y
   ```
 
-- Kemudian buka file **/etc/bind/named.conf.local** pada MOJOKERTO dan tambahkan syntax berikut:
+- Kemudian buka file **/etc/bind/named.conf.local** pada Water7 dan tambahkan syntax berikut:
 
   ```
   zone "jarkom2021.com" {
       type slave;
-      masters { "IP MALANG"; }; // Masukan IP MALANG tanpa tanda petik
+      masters { "IP EniesLobby"; }; // Masukan IP EniesLobby tanpa tanda petik
       file "/var/lib/bind/jarkom2021.com";
   };
   ```
@@ -294,17 +294,17 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
 #### III. Testing
 
-- Pada server *MALANG* silahkan matikan service bind9
+- Pada server *EniesLobby* silahkan matikan service bind9
 
   ```
   service bind9 stop
   ```
 
-- Pada client *GRESIK* pastikan pengaturan nameserver mengarah ke IP *MALANG* dan IP *MOJOKERTO*
+- Pada client *Loguetown* pastikan pengaturan nameserver mengarah ke IP *EniesLobby* dan IP *Water7*
 
   ![DNS](images/13.png)
 
-- Lakukan ping ke jarkom2021.com pada client *GRESIK*. Jika ping berhasil maka konfigurasi DNS slave telah berhasil
+- Lakukan ping ke jarkom2021.com pada client *Loguetown*. Jika ping berhasil maka konfigurasi DNS slave telah berhasil
 
 
 ![DNS](images/14.png)
@@ -313,9 +313,9 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
 ### 1.2.G Membuat Subdomain
 
-Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu ke suatu alamat fisik di sebuah situs contohnya: **jarkom2021.com** merupakan sebuah domain induk. Sedangkan **neko.jarkom2021.com** merupakan sebuah subdomain.
+Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu ke suatu alamat fisik di sebuah situs contohnya: **jarkom2021.com** merupakan sebuah domain induk. Sedangkan **luffy.jarkom2021.com** merupakan sebuah subdomain.
 
-- Edit file **/etc/bind/jarkom/jarkom2021.com** lalu tambahkan subdomain untuk **jarkom2021.com** yang mengarah ke IP *MALANG*.
+- Edit file **/etc/bind/jarkom/jarkom2021.com** lalu tambahkan subdomain untuk **jarkom2021.com** yang mengarah ke IP *Water7*.
 
   ```
   nano /etc/bind/jarkom/jarkom2021.com
@@ -331,14 +331,14 @@ Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu
   service bind9 restart
   ```
 
-- Coba ping ke subdomain dengan perintah berikut dari client *GRESIK*
+- Coba ping ke subdomain dengan perintah berikut dari client *Loguetown*
 
   ```
-  ping neko.jarkom2021.com
+  ping luffy.jarkom2021.com
   
   ATAU
   
-  host -t A neko.jarkom2021.com
+  host -t A luffy.jarkom2021.com
   ```
 
   ![DNS](images/16.png)
@@ -349,9 +349,9 @@ Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu
 
 Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS baru.
 
-#### I. Konfigurasi Pada Server *MALANG*
+#### I. Konfigurasi Pada Server *EniesLobby*
 
-- Pada *MALANG*, edit file **/etc/bind/jarkom/jarkom2021.com** dan ubah menjadi seperti di bawah ini sesuai dengan pembagian IP *MALANG* kelompok masing-masing.
+- Pada *EniesLobby*, edit file **/etc/bind/jarkom/jarkom2021.com** dan ubah menjadi seperti di bawah ini sesuai dengan pembagian IP *EniesLobby* kelompok masing-masing.
 
   ```
   nano /etc/bind/jarkom/jarkom2021.com
@@ -359,7 +359,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 ![DNS](images/17.png)
 
-- Kemudian edit file **/etc/bind/named.conf.options** pada *MALANG*.
+- Kemudian edit file **/etc/bind/named.conf.options** pada *EniesLobby*.
 
   ```
   nano /etc/bind/named.conf.options
@@ -380,7 +380,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
   zone "jarkom2021.com" {
       type master;
       file "/etc/bind/jarkom/jarkom2021.com";
-      allow-transfer { "IP MOJOKERTO"; }; // Masukan IP MOJOKERTO tanpa tanda petik
+      allow-transfer { "IP Water7"; }; // Masukan IP Water7 tanpa tanda petik
   };
   ```
 
@@ -393,9 +393,9 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
   service bind9 restart
   ```
 
-#### II. Konfigurasi Pada Server *MOJOKERTO*
+#### II. Konfigurasi Pada Server *Water7*
 
-- Pada *MOJOKERTO* edit file **/etc/bind/named.conf.options**
+- Pada *Water7* edit file **/etc/bind/named.conf.options**
 
   ```
   nano /etc/bind/named.conf.options
@@ -407,7 +407,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
   allow-query{any;};
   ```
 
-![DNS](images/20.png)
+![DNS](images/18.png)
 
 - Lalu edit file **/etc/bind/named.conf.local** menjadi seperti gambar di bawah:
 
@@ -434,7 +434,7 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 #### III. Testing
 
-- Lakukan ping ke domain **its.jarkom2021.com** dan **integra.its.jarkom2021.com** dari client *GRESIK*
+- Lakukan ping ke domain **its.jarkom2021.com** dan **integra.its.jarkom2021.com** dari client *Loguetown*
 
 ![DNS](images/23.png)
 
@@ -444,12 +444,12 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 DNS Forwarder digunakan untuk mengarahkan DNS Server ke IP yang ingin dituju.
 
-- Edit file **/etc/bind/named.conf.options** pada server *MALANG*
+- Edit file **/etc/bind/named.conf.options** pada server *EniesLobby*
 - Uncomment pada bagian ini
 
 ```
 forwarders {
-    8.8.8.8;
+    "IP nameserver dari Foosha";
 };
 ```
 - Comment pada bagian ini
@@ -464,9 +464,14 @@ allow-query{any;};
 ```
 
 ![DNS](images/24.png)
+- Restart bind9
 
-- Harusnya jika nameserver pada file **/etc/resolv.conf** di client diubah menjadi IP MALANG maka akan di forward ke IP DNS google yaitu 8.8.8.8 dan bisa mendapatkan koneksi.
-- Coba ping google.com pada GRESIK, kalau benar maka tetap bisa mendapatkan respon dari google
+  ```
+  service bind9 restart
+  ```
+
+- Harusnya jika nameserver pada file **/etc/resolv.conf** di client diubah menjadi IP EniesLobby maka akan di forward ke IP DNS GNS3 yaitu IP nameserver yang ada di Foosha dan bisa mendapatkan koneksi.
+- Coba ping google.com pada Loguetown, kalau benar maka tetap bisa mendapatkan respon dari google
 
 ![DNS](images/25.png)
 
@@ -505,8 +510,8 @@ allow-query{any;};
 
 ## Latihan
 
-1. Buatlah domain **seru.jarkom.com**, **pre-test.jarkom.com**, dan **cool.jarkom.com** yang mengarah ke *IP MOJOKERTO*!
-2. Buatlah agar bila kita mengecek *IP MALANG* menggunakan dnsutils (host -t PTR 'IP MALANG') hasilnya ip tersebut dimiliki oleh domain **jarkom.com** !
+1. Buatlah domain **seru.jarkom.com**, **pre-test.jarkom.com**, dan **cool.jarkom.com** yang mengarah ke *IP Water7*!
+2. Buatlah agar bila kita mengecek *IP EniesLobby* menggunakan dnsutils (host -t PTR 'IP EniesLobby') hasilnya ip tersebut dimiliki oleh domain **jarkom.com** !
 3. Buatlah subdomain **ngerjain.jarkom.com**. Lalu buatlah subdomain dalam subdomain dalam subdomain **yyy.lagi.ngerjain.jarkom.com** ! (yyy = nama kelompok)
 
 ## References
