@@ -493,14 +493,14 @@ Sedangkan saat pengguna  memiliki __IP NID 10.151.252.0/22__ maka halaman yang m
 
 ## I. Latihan
 <!-- #### TBA -->
-1. Download halaman jatim di 10.151.36.202/jatim.zip
-2. Buat domain baru dengan nama __jatim.yyy.id__ untuk membuka halaman tersebut.
-3. Atur agar jika kalian mengetikkan __jatim.yyy.id__, Web jatim dapat terbuka. 
+1. Download halaman soal latihan di https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/raw/master/Modul-2/Web%20server/page.zip (Gunakan wget)
+2. Buat domain baru dengan nama __jarkom.yyy.id__ untuk membuka halaman tersebut.
+3. Edit kata `yyy` yang ada di index.php dengan nama kelompok kalian.
+4. Atur agar jika kalian mengetikkan __jarkom.yyy.id__, Web jatim dapat terbuka dengan lynx. 
 ### Catatan
-+ Untuk download halaman web, gunakan perintah `wget 10.151.36.202/jatim.zip`
 + Kemudian unzip file tersebut. Jika muncul error seperti `unzip: command not found` maka install unzip terlebih dahulu menggunakan command `apt-get install unzip`.
 + Buat directory hasil unzip file tersebut menjadi _DocumentRoot_ web
-+ Untuk nomor 2 dan 3, '__yyy__' diisi dengan nama kelompok. Contoh: __jatim.a04.id__
++ Untuk nomor 2 dan 3, '__yyy__' diisi dengan nama kelompok. Contoh: __jarkom.E01.id__
 
 
 ## Selamat belajar dan tetap semangat!
