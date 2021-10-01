@@ -63,7 +63,9 @@ lynx google.com
 ```
 Kalau ada pilihan seperti gambar di bawah ini, pilihlah sesuai keinginan.
 <img src="images/lynx-confirm.png" width="700">
+<br/>
 Kalau sudah terinstall dengan benar, akan muncul tampilan seperti di bawah ini.
+<br/>
 <img src="images/google.png" width="700">
 
 ## E. Instalasi Apache
