@@ -500,7 +500,7 @@ Sedangkan saat pengguna  memiliki __IP NID 10.151.252.0/22__ maka halaman yang m
 ### Catatan
 + Kemudian unzip file tersebut. Jika muncul error seperti `unzip: command not found` maka install unzip terlebih dahulu menggunakan command `apt-get install unzip`.
 + Buat directory hasil unzip file tersebut menjadi _DocumentRoot_ web
-+ Untuk nomor 2 dan 3, '__yyy__' diisi dengan nama kelompok. Contoh: __jarkom.E01.id__
++ Untuk nomor 2 dan 4, '__yyy__' diisi dengan nama kelompok. Contoh: __jarkom.E01.id__
 
 
 ## Selamat belajar dan tetap semangat!
