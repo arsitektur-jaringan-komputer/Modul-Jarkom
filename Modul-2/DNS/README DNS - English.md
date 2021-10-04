@@ -1,17 +1,3 @@
-# **IMPORTANT TO READ**
-1. Make sure UML *MALANG*'s and *MOJOKERTO*'s Memory which were previously **96 were changed 256** in the file topologi.sh.
-
-2. Run **iptables** so that client *GRESIK* dan *SIDOARJO* can be connected to the internet.
-
-3. When you want to access the internet, make sure you have exported the proxy first. **Check the syntax in UML Introduction Module** .
-
-4. Do not do anything before the assistant gives the order.
-
-5. Follow what the assistant directs.
-
-6. When point 4 and point 5 were not adhered **The risk is your own!!!**
-
-
 # 1. DNS (Domain Name System)
 
 ## 1.1 Theory
