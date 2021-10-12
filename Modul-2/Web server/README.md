@@ -190,7 +190,7 @@ Akses alamat menggunakan lynx __http://[IP Water7]/index.php__
 	```
 	lalu restart apache dengan perintah
 	```
-	service apache restart
+	service apache2 restart
 	```
 
 ### B. Membuat Konfigurasi Website Menggunakan Port 8080
