@@ -454,7 +454,7 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 	+ `-Multiviews` ditambahkan agar konfigurasi __mod_negotiation__ tidak dapat berjalan. __mod_negotiation__ bisa '_rewrite_' _requests_ sehingga menimpa dan mengganggu __mod_rewrite__.
 
 + Restart apache dengan perintah `service apache2 restart`
-+ Buka browser dan akses __http://jarkom2021.com/aboutus__
++ Buka browser dan akses __http://jarkom2021.com/about__
 
 	<img src="images/35.png">
 	
