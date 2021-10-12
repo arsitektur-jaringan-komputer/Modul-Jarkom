@@ -256,7 +256,7 @@ Akses alamat __http://[IP Water7]:8080__
 
 <img src="images/18.png">
 
-## H. Mari Berimajinasi
+## I. Mari Berimajinasi
 ### A. Setting Domain pada Apache
 Fulan dan Poyoyo adalah satu kelompok dalam mata kuliah Jaringan Komputer. Mereka diperintahkan oleh asisten untuk membuat website dengan domain __jarkom2021.com__, dan diberikan akses ke server yang bisa digunakan sebagai tempat host untuk websitenya. Tapi karena sesuatu dan lain hal, Poyoyo tidak bisa membantumu mengerjakan perintah dari asisten. Beruntungnya, Poyoyo meninggalkan catatan untuk Fulan ikuti agar Fulan dapat menyelesaikan perintah dari asisten.
 
