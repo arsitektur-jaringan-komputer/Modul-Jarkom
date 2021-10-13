@@ -376,8 +376,9 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
 ![tips-trik-2](images/tips-trik-2.jpg)
 - Ketika ada update image, import lagi imagenya seperti yang kita lakukan di langkah `Import image ubuntu` dan sesuaikan nama image dan versinya, contohnya jika ada versi 1.0.1 maka masukkan `kuuhaku86/gns3-ubuntu:1.0.1` ke bagian New Image dan penamaan container jadikan `ubuntu-101`.
 ![tips-trik-3](images/insert-imaget-2.jpg)
+- Jika mengerjakan menggunakan VM di local kalian sendiri. Kalian bisa mencegah hilangnya aplikasi atau file config dengan mematikan VM di mode save state.
 ## Troubleshooting
-- 
+- Apabila sudah mencoba menggunakan VM dan tidak bisa-bisa setelah konsultasi ke asdos, silahkan coba menggunakan aplikasi GNS3.
 
 
 ## Sumber
