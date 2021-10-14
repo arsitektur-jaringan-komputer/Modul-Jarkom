@@ -78,6 +78,11 @@ jika muncul tulisan _"Do you want to continue? [Y/n]"_  input `Y` lalu tekan ___
 
 <img src="images/3.png" width="700">
 
+Apabila telah selesai melakukan instalasi Apache2, silakan jalankan perintah
+```
+service apache2 start
+```
+
 #### 2. Buka browser laptop/komputer masing-masing
 Buka web __IP Water7 Masing-Masing Kelompok__ dengan `lynx` sampai muncul halaman Apache seperti di bawah ini.
 
