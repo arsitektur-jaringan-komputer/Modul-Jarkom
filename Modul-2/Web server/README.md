@@ -83,7 +83,7 @@ Apabila telah selesai melakukan instalasi Apache2, silakan jalankan perintah
 service apache2 start
 ```
 
-#### 2. Buka browser laptop/komputer masing-masing
+#### 2. Gunakan `lynx` untuk mengakses web.
 Buka web __IP Water7 Masing-Masing Kelompok__ dengan `lynx` sampai muncul halaman Apache seperti di bawah ini.
 
 <img src="images/5.png">
