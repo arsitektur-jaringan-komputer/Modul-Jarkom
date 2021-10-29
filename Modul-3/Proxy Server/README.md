@@ -49,23 +49,24 @@ Beberapa contoh software proxy server yang sering digunakan adalah sebagai berik
 4.  Nginx
 
 ### 2.1.5 Cara Kerja
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/cara-kerja-proxy.JPG)
+![image](https://user-images.githubusercontent.com/61197343/139414632-c0e8515a-1a0d-43f2-a479-5dd189307102.png)
+
+---
 
 ## 2.2 Implementasi
-Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **Squid** dan UML yang digunakan sebagai proxy server adalah **MOJOKERTO**
+Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **Squid** dan UML yang digunakan sebagai proxy server adalah **Water7**
 
 ### 2.2.1 Instalasi Squid
-**Step 1** - Install squid pada UML  **MOJOKERTO**
+**Step 1** - Install squid pada UML  **Water7**
 ```
 apt-get install squid
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/instalasi-squid.PNG)
 
 **Step 2** - Cek status squid untuk memastikan bahwa Squid telah berjalan dengan baik
 ```
 service squid status
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/squid-status.PNG)
+![image](https://user-images.githubusercontent.com/61197343/139424987-892e322e-59ef-410e-864f-a0b503c3b9f6.png)
 
 Jika muncul status **ok** maka instalasi telah berhasil.
 
@@ -74,20 +75,17 @@ Jika muncul status **ok** maka instalasi telah berhasil.
 ```
 mv /etc/squid/squid.conf /etc/squid/squid.conf.bak
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/backup-squid-config.PNG)
 
-**Step 2** - Buat konfigurasi baru dengan mengetikkan 
-```
-nano /etc/squid/squid.conf
-```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/buat-config-squid.PNG)
+**Step 2** - Buat konfigurasi Squid baru
 
-**Step 3** - Kemudian, pada file config yang baru, ketikkan script :
+Pada file `/etc/squid/squid.conf`
+
+**Step 3** - Kemudian, pada file config yang baru, masukkan script :
 ```
 http_port 8080
-visible_hostname mojokerto
+visible_hostname Water7
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/conf-squid-new.PNG)
+![image](https://user-images.githubusercontent.com/61197343/139425202-442b599a-2b56-4d56-829e-80153b8627ea.png)
 
 **Keterangan:**
 
@@ -98,19 +96,34 @@ visible_hostname mojokerto
 ```
 service squid restart
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/restart-squid-1.PNG)
 
-**STEP 5** - Ubah pengaturan proxy browser. Gunakan **MOJOKERTO** sebagai host dan isikan port **8080**. Pada OS Windows :
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/setting-proxy-system.PNG)
+Apabila status squid telah **OK**, saatnya kita mencoba di client.
 
-Kemudian cobalah untuk mengakses web **[http://its.ac.id](http://its.ac.id/)** (usahakan menggunakan mode **incognito/private**). Maka akan muncul halaman seperti berikut:
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/its-ac-id-error.PNG)
+**STEP 5** - Pada Loguetown, lakukan konfigurasi proxy
+
+Berikut syntax dari konfigurasi proxy:
+
+```
+export http_proxy="http://ip-proxy-server:port"
+```
+
+Dalam kasus ini, `ip-proxy-server` merupakan IP dari Water7, dengan port yang sudah didefinisikan pada saat melakukan konfigurasi Squid.
+
+![image](https://user-images.githubusercontent.com/61197343/139425703-eb521f0f-2fb2-45fb-9963-85c76ce8f5d8.png)
+
+Untuk memeriksa apakah konfigurasi proxy pada Loguetown berhasil, silakan lakukan perintah `env | grep -i proxy`. Apabila berhasil, maka environment kita telah berhasil menggunakan proxy.
+
+![image](https://user-images.githubusercontent.com/61197343/139425807-eb2430de-0c06-46a7-942a-1da42ad0bba6.png)
+
+Kemudian cobalah untuk mengakses web **[http://its.ac.id](http://its.ac.id/)**. Maka akan muncul halaman seperti berikut:
+
+![image](https://user-images.githubusercontent.com/61197343/139426103-fb4a72fc-b4f5-40b9-b56d-3cb1e0402523.png)
 
 **Step 6** - Supaya bisa mengakses web **[http://its.ac.id](http://its.ac.id/)**, maka kalian harus menambah sebaris script pada konfigurasi squid. Buka kembali file konfigurasi tadi dan tambahkan baris berikut:
 ```
 http_access allow all
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/allow-all-conf.PNG)
+![image](https://user-images.githubusercontent.com/61197343/139426209-003df7ba-fc39-4d88-b2c0-ed7ad75cb726.png)
 
 **Keterangan:**
 
@@ -120,21 +133,19 @@ http_access allow all
 **Step 7** - **Simpan**  file konfigurasi tersebut, lalu  **restart**  squid. Refresh halaman web  **[http://its.ac.id](http://its.ac.id/)**.
 
 Seharusnya halaman yang ditampilkan kembali normal.
+![image](https://user-images.githubusercontent.com/61197343/139426331-008ff04c-7cbb-4fe1-ba8b-312421d96106.png)
 
 ### 2.2.3 Membuat User Login
 
-**STEP 1**  - Install  `apache2-utils`  pada UML  **MOJOKERTO**. Sebelumnya kalian sudah harus melakukan  `apt-get update`. Ketikkan:
-```
-apt-get install apache2-utils
-```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/install-apache-utils.PNG)
+**STEP 1**  - Install  `apache2-utils`  pada UML  **Water7**. Sebelumnya kalian sudah harus melakukan  `apt-get update`
 
 **STEP 2**  - Buat user dan password baru. Ketikkan:
 ```
 htpasswd -c /etc/squid/passwd jarkom203
 ```
 Ketikkan password yang diinginkan. Jika sudah maka akan muncul notifikasi:
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/add-userpass.PNG)
+
+![image](https://user-images.githubusercontent.com/61197343/139426496-fde1564a-bad8-4ae4-b1cd-57e333dc256e.png)
 
 **STEP 3** - Edit konfigurasi squid menjadi:
 ```
@@ -149,7 +160,8 @@ auth_param basic casesensitive on
 acl USERS proxy_auth REQUIRED
 http_access allow USERS
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/user-pass.PNG)
+![image](https://user-images.githubusercontent.com/61197343/139426611-a96bb572-2dec-42f4-bfca-23c152f5b4d7.png)
+
 
 **Keterangan:**
 
@@ -164,15 +176,16 @@ http_access allow USERS
 
 **STEP 4**  - Restart squid
 
-**STEP 5**  - Ubah pengaturan proxy browser. Gunakan  **IP MOJOKERTO**  sebagai host, dan isikan port  **8080**. 
+**STEP 5**  - Ubah pengaturan proxy browser. Gunakan  **IP Water7**  sebagai host, dan isikan port  **8080**. 
 ![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/setting-proxy-system.PNG)
 
-Kemudian cobalah untuk mengakses web  **elearning.if.its.ac.id**  (usahakan menggunakan mode  **incognito/private**), akan muncul pop-up untuk login.
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/user-pass-its.PNG)
+Kemudian cobalah untuk mengakses web  **its.ac.id**, akan muncul prompt untuk login.
+
+![recording](https://user-images.githubusercontent.com/61197343/139427026-f6a01919-b5fa-4ba3-a1f9-9d945550ba52.gif)
 
 **STEP 6**  - Isikan username dan password.
 
-**STEP 7**  - E-learning berhasil dibuka.
+**STEP 7**  - Website ITS berhasil dibuka 🙆‍♂️
 
 ### 2.2.4 Pembatasan Waktu Akses
 Kita akan mencoba membatasi akses proxy pada hari dan jam tertentu. Asumsikan proxy dapat digunakan hanya pada hari Senin sampai Jumat pada jam 08.00-17.00.
