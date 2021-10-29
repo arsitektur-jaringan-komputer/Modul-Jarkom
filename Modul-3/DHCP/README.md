@@ -178,6 +178,8 @@ service isc-dhcp-server status
 Selamat 🎉
 Konfigurasi DHCP Server selesai!
 
+---
+
 ### 1.2.3 Konfigurasi DHCP Client
 
 Setelah mengonfigurasi server, kita juga perlu mengonfigurasi interface client supaya bisa mendapatkan layanan dari DHCP server. Di dalam topologi ini, clientnya adalah **Alabasta**, **Loguetown**, dan **Jipangu**.
@@ -242,6 +244,8 @@ Kalian telah berhasil!
 
 
 Setelah IP dipinjamkan ke sebuah client, maka IP tersebut tidak akan diberikan ke client lain. Buktinya, tidak ada client yang mendapatkan IP yang sama.
+
+---
 
 ### 1.2.4 Fixed Address
 
@@ -311,26 +315,24 @@ Periksa IP **Jipangu** dengan melakukan `ip a`
 
 IP **Jipangu** telah berubah menjadi 192.168.0.13 sesuai dengan Fixed Address yang diberikan oleh DHCP Server.
 
-### 1.2.5 Testing
+👋👋👋
+
+---
+
+### 1.2.5 Menguji Konfigurasi DHCP pada Topologi
 
 Setelah melakukan berbagai konfigurasi di atas, kalian bisa memastikan apakah DHCP Server kalian berhasil dengan cara:
 
-1. Matikan UML kalian dengan `bash bye.sh`
-2. Jalankan UML kalian kemabali dengan `bash topologi.sh`
-3. Periksa IP di semua client dengan `ifconfig`
+1. Matikan semua node melalui halaman GNS3
+2. Menyalakan kembali semua node
+3. Lakukan perintah `ip a` pada setiap node
 
-![GRESIK setelah restart](images/gresik_ifconfig-after-restart.png)
-
-![SIDOARJO setelah restart](images/sidoarjo_ifconfig-after-restart.png)
-
-![BANYUWANGI setelah restart](images/banyuwangi_ifconfig-after-restart.png)
-
-Jika **GRESIK** dan **SIDOARJO** berganti alamat IP sesuai dengan range yang telah dikonfigurasi DHCP dan **BANYUWANGI** tetap mendapatkan IP 192.168.0.10, maka konfigurasi DHCP server kalian berhasil.
+Jika node client berganti alamat IP sesuai dengan range yang telah dikonfigurasi pada DHCP Server dan **Jipangu** tetap mendapatkan IP 192.168.0.13, maka konfigurasi DHCP server kalian berhasil.
 
 ## Soal Latihan
 
-1. Buatlah konfigurasi DHCP agar GRESIK dan SIDOARJO mendapatkan IP dengan range 192.168.0.2 - 192.168.0.10 dan 192.168.0.12 - 192.168.0.16 dengan syarat:
-Setiap 1 menit ip yg digunakan client berubah dan juga dns diarahkan ke dns server kalian sendiri tetapi tetap bisa digunakan untuk mengakses internet.
+1. Buatlah konfigurasi DHCP agar Loguetown dan Alabasta mendapatkan IP dengan range [Prefix IP].0.100 - [Prefix IP].0.169 dan [Prefix IP].0.200 - [Prefix IP].0.202 dengan syarat:
+Setiap 1 menit, IP pada client berubah dan juga DNS diarahkan ke DNS server kalian sendiri tetapi client tetap bisa digunakan untuk mengakses internet.
 
 ## Referensi
 - [https://www.isc.org/dhcp/](https://www.isc.org/dhcp/)
