@@ -338,3 +338,7 @@ Setiap 1 menit, IP pada client berubah dan juga DNS diarahkan ke DNS server kali
 - [https://www.isc.org/dhcp/](https://www.isc.org/dhcp/)
 - [http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm](http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm)
 
+
+# Salam dari Foosha
+
+<img src="https://c.tenor.com/6GdFsIPn71cAAAAS/faiz.gif" width="833" height="833">
