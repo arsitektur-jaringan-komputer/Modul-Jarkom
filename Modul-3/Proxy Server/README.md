@@ -15,7 +15,8 @@
 		- [2.2.4 Pembatasan Waktu Akses](#224-pembatasan-waktu-akses)
 		- [2.2.5 Pembatasan Waktu Akses ke Website Tertentu](#225-pembatasan-waktu-akses-ke-website-tertentu)
 		- [2.2.6 Pembatasan Bandwith](#226-pembatasan-bandwidth)
-	- [2.3 Soal Latihan](#23-soal-latihan)
+	- [2.3 Aktif dan Nonaktifkan Proxy](#23-aktif-dan-nonaktifkan-proxy)
+	- [2.4 Soal Latihan](#24-soal-latihan)
 	
 
 ##  2.1 Pengertian, Fungsi, dan Manfaat
@@ -49,23 +50,23 @@ Beberapa contoh software proxy server yang sering digunakan adalah sebagai berik
 4.  Nginx
 
 ### 2.1.5 Cara Kerja
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/cara-kerja-proxy.JPG?raw=true)
+![image](https://user-images.githubusercontent.com/61197343/139414632-c0e8515a-1a0d-43f2-a479-5dd189307102.png)
+
 
 ## 2.2 Implementasi
-Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **Squid** dan UML yang digunakan sebagai proxy server adalah **MOJOKERTO**
+Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **Squid** dan node yang digunakan sebagai proxy server adalah **Water7**
 
 ### 2.2.1 Instalasi Squid
-**Step 1** - Install squid pada UML  **MOJOKERTO**
+**Step 1** - Install squid pada node  **Water7**
 ```
 apt-get install squid
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/instalasi-squid.PNG?raw=true)
 
 **Step 2** - Cek status squid untuk memastikan bahwa Squid telah berjalan dengan baik
 ```
 service squid status
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/squid-status.PNG?raw=true)
+![image](https://user-images.githubusercontent.com/61197343/139424987-892e322e-59ef-410e-864f-a0b503c3b9f6.png)
 
 Jika muncul status **ok** maka instalasi telah berhasil.
 
@@ -74,43 +75,43 @@ Jika muncul status **ok** maka instalasi telah berhasil.
 ```
 mv /etc/squid/squid.conf /etc/squid/squid.conf.bak
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/backup-squid-config.PNG?raw=true)
 
-**Step 2** - Buat konfigurasi baru dengan mengetikkan 
-```
-nano /etc/squid/squid.conf
-```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/buat-config-squid.PNG?raw=true)
+**Step 2** - Buat konfigurasi Squid baru
+Pada file `/etc/squid/squid.conf`
 
-**Step 3** - Kemudian, pada file config yang baru, ketikkan script :
+**Step 3** - Kemudian, pada file config yang baru, masukkan script :
 ```
 http_port 8080
-visible_hostname mojokerto
+visible_hostname Water7
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/conf-squid-new.PNG?raw=true)
+
+![image](https://user-images.githubusercontent.com/61197343/139425202-442b599a-2b56-4d56-829e-80153b8627ea.png)
 
 **Keterangan:**
 
 -   `http_port 8080`  : Port yang digunakan untuk mengakses proxy, dalam kasus ini adalah  **8080**. (Sintaks:  `http_port 'PORT_YANG_DIINGINKAN'`)
--   `visible_hostname mojokerto`  : Nama proxy yang akan terlihat oleh user (Sintaks:  `visible_hostname 'NAMA_YANG_DIINGINKAN'`)
+-   `visible_hostname Water7`  : Nama proxy yang akan terlihat oleh user (Sintaks:  `visible_hostname 'NAMA_YANG_DIINGINKAN'`)
 
 **STEP 4**  - Restart squid dengan cara mengetikkan perintah:
 ```
 service squid restart
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/restart-squid-1.PNG?raw=true)
+Apabila status squid telah **OK**, saatnya kita mencoba di client.
 
-**STEP 5** - Ubah pengaturan proxy browser. Gunakan **MOJOKERTO** sebagai host dan isikan port **8080**. Pada OS Windows :
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/setting-proxy-system.PNG?raw=true)
+**STEP 5** - Pada Loguetown, lakukan konfigurasi proxy
 
-Kemudian cobalah untuk mengakses web **[http://its.ac.id](http://its.ac.id/)** (usahakan menggunakan mode **incognito/private**). Maka akan muncul halaman seperti berikut:
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/its-ac-id-error.PNG?raw=true)
+Silakan lihat pada bagian [Aktif dan Nonaktifkan Proxy](#23-aktif-dan-nonaktifkan-proxy)
+
+Kemudian cobalah untuk mengakses web **[http://its.ac.id](http://its.ac.id/)**. Maka akan muncul halaman seperti berikut:
+
+![image](https://user-images.githubusercontent.com/61197343/139426103-fb4a72fc-b4f5-40b9-b56d-3cb1e0402523.png)
 
 **Step 6** - Supaya bisa mengakses web **[http://its.ac.id](http://its.ac.id/)**, maka kalian harus menambah sebaris script pada konfigurasi squid. Buka kembali file konfigurasi tadi dan tambahkan baris berikut:
 ```
 http_access allow all
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/allow-all-conf.PNG?raw=true)
+
+![image](https://user-images.githubusercontent.com/61197343/139426209-003df7ba-fc39-4d88-b2c0-ed7ad75cb726.png)
 
 **Keterangan:**
 
@@ -120,26 +121,25 @@ http_access allow all
 **Step 7** - **Simpan**  file konfigurasi tersebut, lalu  **restart**  squid. Refresh halaman web  **[http://its.ac.id](http://its.ac.id/)**.
 
 Seharusnya halaman yang ditampilkan kembali normal.
+![image](https://user-images.githubusercontent.com/61197343/139426331-008ff04c-7cbb-4fe1-ba8b-312421d96106.png)
 
 ### 2.2.3 Membuat User Login
 
-**STEP 1**  - Install  `apache2-utils`  pada UML  **MOJOKERTO**. Sebelumnya kalian sudah harus melakukan  `apt-get update`. Ketikkan:
-```
-apt-get install apache2-utils
-```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/install-apache-utils.PNG?raw=true)
+
+**STEP 1**  - Install  `apache2-utils`  pada node  **Water7**. Sebelumnya kalian sudah harus melakukan  `apt-get update`
 
 **STEP 2**  - Buat user dan password baru. Ketikkan:
 ```
 htpasswd -c /etc/squid/passwd jarkom203
 ```
 Ketikkan password yang diinginkan. Jika sudah maka akan muncul notifikasi:
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/add-userpass.PNG?raw=true)
+
+![image](https://user-images.githubusercontent.com/61197343/139426496-fde1564a-bad8-4ae4-b1cd-57e333dc256e.png)
 
 **STEP 3** - Edit konfigurasi squid menjadi:
 ```
 http_port 8080
-visible_hostname mojokerto
+visible_hostname Water7
 
 auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
 auth_param basic children 5
@@ -149,7 +149,7 @@ auth_param basic casesensitive on
 acl USERS proxy_auth REQUIRED
 http_access allow USERS
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/user-pass.PNG?raw=true)
+![image](https://user-images.githubusercontent.com/61197343/139426611-a96bb572-2dec-42f4-bfca-23c152f5b4d7.png)
 
 **Keterangan:**
 
@@ -164,15 +164,16 @@ http_access allow USERS
 
 **STEP 4**  - Restart squid
 
-**STEP 5**  - Ubah pengaturan proxy browser. Gunakan  **IP MOJOKERTO**  sebagai host, dan isikan port  **8080**. 
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/setting-proxy-system.PNG?raw=true)
+**STEP 5**  - Ubah pengaturan proxy browser. Gunakan  **IP Water7**  sebagai host, dan isikan port  **8080**. 
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/setting-proxy-system.PNG)
 
-Kemudian cobalah untuk mengakses web  **elearning.if.its.ac.id**  (usahakan menggunakan mode  **incognito/private**), akan muncul pop-up untuk login.
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/user-pass-its.PNG?raw=true)
+Kemudian cobalah untuk mengakses web  **its.ac.id**, akan muncul prompt untuk login.
+
+![recording](https://user-images.githubusercontent.com/61197343/139427026-f6a01919-b5fa-4ba3-a1f9-9d945550ba52.gif)
 
 **STEP 6**  - Isikan username dan password.
 
-**STEP 7**  - E-learning berhasil dibuka.
+**STEP 7**  - Website ITS berhasil dibuka 🙆‍♂️
 
 ### 2.2.4 Pembatasan Waktu Akses
 Kita akan mencoba membatasi akses proxy pada hari dan jam tertentu. Asumsikan proxy dapat digunakan hanya pada hari Senin sampai Jumat pada jam 08.00-17.00.
@@ -181,20 +182,16 @@ Kita akan mencoba membatasi akses proxy pada hari dan jam tertentu. Asumsikan pr
 ```
 nano /etc/squid/acl.conf
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_1.PNG?raw=true)
 
 **STEP 2**  - Tambahkan baris berikut
 ```
 acl AVAILABLE_WORKING time MTWHF 08:00-17:00
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_2.PNG?raw=true)
+![image](https://user-images.githubusercontent.com/61197343/139427316-cac65710-c5d5-4c82-a017-097f8fe9f863.png)
 
 **STEP 3**  - Simpan file acl.conf.
 
 **STEP 4**  - Buka file squid.conf.
-```
-nano /etc/squid/squid.conf
-```
 
 **STEP 5**  - Ubah konfigurasinya menjadi:
 ```
@@ -203,48 +200,48 @@ include /etc/squid/acl.conf
 http_port 8080
 http_access allow AVAILABLE_WORKING
 http_access deny all
-visible_hostname mojokerto
+visible_hostname Water7
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_3.PNG?raw=true)
+![image](https://user-images.githubusercontent.com/61197343/139427485-b85aa7cc-6f06-47ef-bba1-d846c1ed9ce5.png)
 
 **STEP 6**  - Simpan file tersebut. Kemudian restart squid.
 
-**STEP 7** - Cobalah untuk mengakses web http://its.ac.id (usahakan menggunakan mode incognito/private). Akan muncul halaman error jika mengakses diluar waktu yang telah ditentukan.
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_4.PNG?raw=true)
+**STEP 7** - Cobalah untuk mengakses web http://its.ac.id. Akan muncul halaman error jika mengakses diluar waktu yang telah ditentukan.
+
+![recording (2)](https://user-images.githubusercontent.com/61197343/139428083-7cf40267-0beb-4668-8aea-ce589a3dd374.gif)
 
 **Keterangan:**
 -   **MTWHF** adalah hari-hari dimana user diperbolehkan menggunakan proxy. (S: Sunday, M: Monday, T: Tuesday, W: Wednesday, H: Thursday, F: Friday, A: Saturday)
 -   Penulisan jam menggunakan format: **h1:m1-h2:m2**. Dengan syarat **h1<h2** dan **m1<m2**
 
 ### 2.2.5 Pembatasan Akses ke Website Tertentu
-Kita akan mencoba membatasi akses ke beberapa website. Untuk contoh disini, kita akan memblokir website **monta.if.its.ac.id** dan **elearning.if.its.ac.id**
+Kita akan mencoba membatasi akses ke beberapa website. Untuk contoh disini, kita akan memblokir website **monta.if.its.ac.id** dan **monkp.if.its.ac.id**
 
 **STEP 1**  - Buat file bernama restrict-sites.acl di folder squid dengan mengetikkan:
 ```
 nano /etc/squid/restrict-sites.acl
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_5.PNG?raw=true)
-
 **STEP 2**  - Tambahkan alamat url yang akan diblock seperti baris berikut:
 ```
 monta.if.its.ac.id
-elearning.if.its.ac.id
+monkp.if.its.ac.id
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_6.PNG?raw=true)
+![image](https://user-images.githubusercontent.com/61197343/139428263-1d3894f4-0699-4627-b40f-7ae654147006.png)
 
 **STEP 3**  - Ubah file konfigurasi squid menjadi seperti berikut ini.
 ```
 http_port 8080
-visible_hostname mojokerto
+visible_hostname Water7
 
 acl BLACKLISTS dstdomain "/etc/squid/restrict-sites.acl"
 http_access deny BLACKLISTS
 http_access allow all
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_7.PNG?raw=true)
+![image](https://user-images.githubusercontent.com/61197343/139428335-efeaca07-697d-4776-a5ef-bcaee5686780.png)
 
-**STEP 4**  - Restart squid. Kemudian cobalah untuk mengakses web **monta.if.its.ac.id** , **elearning.if.its.ac.id** , dan **google.com** (usahakan menggunakan mode incognito/private). Seharusnya halaman yang diakses menampilkan tampilan seperti gambar di bawah ini.
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_8.PNG?raw=true)
+**STEP 4**  - Restart squid. Kemudian cobalah untuk mengakses web **monta.if.its.ac.id** , **monkp.if.its.ac.id** , dan **google.com**. Seharusnya halaman yang diakses menampilkan tampilan seperti gambar di bawah ini.
+
+![recording (3)](https://user-images.githubusercontent.com/61197343/139428715-5ead80be-3a9e-4391-9fe5-2d24dee8f63f.gif)
 
 **Keterangan:**
 -   dstdomain artinya destination domain/domain tujuan. Sintaksnya bisa diikuti dengan nama domain tujuan atau file yang menampung list-list alamat website.
@@ -256,31 +253,49 @@ Kita akan mencoba untuk membatasi bandwidth yang akan diberikan kepada user prox
 ```
 nano /etc/squid/acl-bandwidth.conf
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_9.PNG?raw=true)
 
-**STEP 2**  - Ketikkan baris berikut
+**STEP 2**  - Masukkan script berikut
 ```
 delay_pools 1
 delay_class 1 1
 delay_access 1 allow all
 delay_parameters 1 16000/64000
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_10.PNG?raw=true)
+![image](https://user-images.githubusercontent.com/61197343/139428802-f4caeacd-f807-4008-bde6-48e0d14bf04e.png)
 
 **STEP 3**  - Ubah konfigurasi pada file squid.conf menjadi:
 ```
 include /etc/squid/acl-bandwidth.conf
 http_port 8080
-visible_hostname mojokerto
+visible_hostname Water7
 
 http_access allow all
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_11.PNG?raw=true)
+![image](https://user-images.githubusercontent.com/61197343/139428864-e4bcb4ef-6fb8-4bea-9c1f-a9bbf109f07c.png)
 
 **STEP 4**  - Restart Squid
 
-**STEP 5**  - Cobalah untuk melakukan speed test. Berikut perbedaan sebelum dan sesudah adanya pembatasan bandwidth saat melakukan speed test
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/acl_12.PNG?raw=true)
+**STEP 5**  - Cobalah untuk melakukan speed test.
+
+Untuk melakukan speed test pada CLI, kita akan menggunakan [Speedtest CLI](https://www.speedtest.net/apps/cli). Jalankan script berikut pada client:
+
+_Note: Jangan lupa untuk mematikan proxy terlebih dahulu. Silakan lihat pada bagian [Aktif dan Nonaktifkan Proxy](#23-aktif-dan-nonaktifkan-proxy)
+
+```
+apt-get update
+apt install speedtest-cli
+```
+
+Jika sudah terinstall, jalankan script `export PYTHONHTTPSVERIFY=0` untuk menonaktifkan verifikasi certificate pada saat menjalankan script Python.
+
+Selanjutnya, silakan eksekusi speed test dengan perintah `speedtest`.
+
+Silakan bandingkan kecepatan internet apabila proxy aktif dan non aktif
+
+- Non Aktif
+![image](https://user-images.githubusercontent.com/61197343/139430867-baa17fe9-fbed-45d5-ab35-34dab8901aec.png)
+- Aktif
+![image](https://user-images.githubusercontent.com/61197343/139431490-efa75289-83eb-4738-888c-71ba16ebe606.png)
 
 **Keterangan:**
 -   **delay_pools** digunakan untuk menentukan berapa bagian/pool yang akan dibuat. (Sintaks: **delay_pools JUMLAH_YANG_DIINGINKAN**. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_pools/](http://www.squid-cache.org/Doc/config/delay_class/)).
@@ -288,5 +303,27 @@ http_access allow all
 -   **delay_access** mirip seperti http_access, tetapi digunakan untuk mengakses pool yang telah dibuat (Sintaks: **delay_access POOL_KE_BERAPA allow/deny TARGET**. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_access/](http://www.squid-cache.org/Doc/config/delay_access/).
 -   **delay_parameters** digunakan untuk mengatur parameter dari pool yang telah dibuat. Sintaks berbeda-beda sesuai dengan tipe/kelas dari pool yang dibuat. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_parameters/](http://www.squid-cache.org/Doc/config/delay_parameters/)
 
-## 2.3 Soal Latihan
+## 2.3 Aktif dan Nonaktifkan Proxy
+
+### Aktifkan Proxy
+
+Berikut syntax dari konfigurasi proxy:
+
+```
+export http_proxy="http://ip-proxy-server:port"
+```
+
+Dalam kasus ini, `ip-proxy-server` merupakan IP dari Water7, dengan port yang sudah didefinisikan pada saat melakukan konfigurasi Squid.
+
+![image](https://user-images.githubusercontent.com/61197343/139425703-eb521f0f-2fb2-45fb-9963-85c76ce8f5d8.png)
+
+Untuk memeriksa apakah konfigurasi proxy pada client berhasil, silakan lakukan perintah `env | grep -i proxy`. Apabila berhasil, maka environment kita telah berhasil menggunakan proxy.
+
+![image](https://user-images.githubusercontent.com/61197343/139425807-eb2430de-0c06-46a7-942a-1da42ad0bba6.png)
+
+### Nonaktifkan Proxy
+
+Silakan jalankan perintah `unset http_proxy` pada client yang ingin dinonaktifkan koneksi proxy.
+
+## 2.4 Soal Latihan
 Reli adalah seorang pendaki gunung. Dia ingin mendaki gunung Puncak Jaya untuk menguji keterampilan mendakinya. Salah satu ritual yang dilakukan Reli sebelum mendaki gunung adalah membuat proxynya sendiri. Proxy yang akan dibuat nantinya harus bisa diakses dengan nama puncakjaya.xxx.id dengan port yang digunakan adalah 8080. 	Untuk bisa mengakses proxynya perlu dilakukan login terlebih dahulu. Untuk akun milik Reli, username yang digunakan adalah reli dan password loveToHike-07. Proxy ini hanya bisa diakses pada hari Senin, Kamis, Jumat, dan Sabtu mulai jam 10 malam sampai jam 4 pagi. Karena Reli ingin fokus mendaki, Reli memutuskan untuk memblokir website korindo.co.id dan website if.its.ac.id beserta subdomainnya, ajk.if.its.ac.id. Reli juga mengatur di proxynya agar user mendapatkan bandwith 512 kbps. Bantu Reli melakukan persiapan agar Reli bisa mendaki gunung Puncak Jaya dan menyelesaikan ritualnya!

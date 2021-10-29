@@ -70,28 +70,34 @@ Terdapat 5 tahapan yang dilakukan dalam proses peminjaman alamat IP pada DHCP:
 ![Flowchart cara kerja DHCP](images/cara-kerja-2.png)
 
 Lebih lanjut: [https://www.nada.kth.se/kurser/kth/2D1392/05/lectures/lecture_9.pdf](https://www.nada.kth.se/kurser/kth/2D1392/05/lectures/lecture_9.pdf)
+Video: [https://youtu.be/S43CFcpOZSI](https://youtu.be/S43CFcpOZSI)
 
 ## 1.2 Implementasi
 
 ### 1.2.1 Instalasi ISC-DHCP-Server
 
-Pada topologi ini, kita akan menjadikan router **SURABAYA** sebagai DHCP Server. Oleh sebab itu, kita harus meng-_install_ **isc-dhcp-server** di **SURABAYA** dengan melakukan langkah-langkah berikut:
+Pada topologi ini, kita akan menjadikan router **Foosha** sebagai DHCP Server. Oleh sebab itu, kita harus meng-_install_ **isc-dhcp-server** di **Foosha** dengan melakukan langkah-langkah berikut:
 
-1. Update _package lists_ di router **SURABAYA** dengan perintah
+1. Update _package lists_ di router **Foosha** dengan perintah
 
 ```
 apt-get update
 ```
 
-2. Install **isc-dhcp-server** di router **SURABAYA**
+2. Install **isc-dhcp-server** di router **Foosha**
 
 ```
 apt-get install isc-dhcp-server
 ```
 
-![install DHCP Server](images/dhcp_install.png)
+3. Pastikan **isc-dhcp-server** telah terinstall dengan perintah
 
-Abaikan **error** tersebut setelah instalasi isc-dhcp server. Hal itu terjadi karena belum adanya konfigurasi dhcp servernya.
+```
+dhcpd --version
+```
+
+![image](https://user-images.githubusercontent.com/61197343/139392770-655e93b6-70f9-4cd9-8d67-8323b9cd25dc.png)
+
 
 ### 1.2.2 Konfigurasi DHCP Server
 
@@ -99,23 +105,17 @@ Langkah-langkah yang harus dilakukan setelah instalasi adalah:
 
 #### A. Menentukan interface mana yang akan diberi layanan DHCP
 
-##### A.1. Buka file konfigurasi interface dengan perintah
+##### A.1. Buka file konfigurasi interface
 
-```sh
-nano /etc/default/isc-dhcp-server
-```
+Silakan edit file konfigurasi isc-dhcp-server pada `/etc/default/isc-dhcp-server`
 
 ##### A.2. Tentukan interface
 
-Coba perhatikan topologi yang telah kalian buat. Interface dari router **SURABAYA** yang menuju ke client **GRESIK**, **SIDOARJO**, dan **BANYUWANGI** adalah `eth2`, maka kita akan memilih interface `eth2` untuk diberikan layanan DHCP.
+Coba perhatikan topologi yang telah kalian buat. Contoh dari topologi yang dibuat adalah interface dari router **Foosha** yang menuju ke switch kiri adalah `eth1`, maka kita akan memilih interface `eth1` untuk diberikan layanan DHCP.
 
-```sh
-INTERFACES="eth2"
-```
+![image](https://user-images.githubusercontent.com/61197343/139393762-9f2f6df2-489d-42bc-84bf-e2270b74f71f.png)
 
-![setting interface](images/dhcp_add-interface.png)
-
-#### B. Langkah selanjutnya adalah mengonfigurasi DHCP
+#### B. Melakukan konfigurasi pada isc-dhcp-server
 
 Ada banyak hal yang dapat dikonfigurasi, antara lain:
 
@@ -127,9 +127,7 @@ Ada banyak hal yang dapat dikonfigurasi, antara lain:
 
 ##### B.1. Buka file konfigurasi DHCP dengan perintah
 
-```sh
-nano /etc/dhcp/dhcpd.conf
-```
+Edit file konfigurasi isc-dhcp-server pada `/etc/dhcp/dhcpd.conf`
 
 ##### B.2. Tambahkan script berikut
 
@@ -148,8 +146,8 @@ Script tersebut mengatur parameter jaringan yang dapat didistribusikan oleh DHCP
 
 | **No** | **Parameter Jaringan**                             | **Keterangan**                                                                                                                                                                                                                                                                                         |
 | ------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1      | `subnet 'NID'`                                     | Netword ID pada subnet                                                                                                                                                                                                                                                                                 |
-| 2      | `netmask 'Netmask`                                 | Netmask pada subnet                                                                                                                                                                                                                                                                                    |
+| 1      | `subnet 'NID'`                                     | Network ID pada subnet interface. Sederhananya pada kasus pembelajaran praktikum kita, nilai NID merupakan 3 bytes dari IP interface tujuan (sesuai dengan langkah [A2](#a2-tentukan-interface)) **pada router** (dalam kasus ini adalah Foosha) dengan byte terakhirnya adalah 0. Contoh, jika interface yang kamu pilih adalah `eth1` dengan IP 10.9.0.1, maka NID subnetnya adalah 10.9.0.0. **NB: Cara menentukan NID yang proper akan dijelaskan pada modul berikutnya**                                                                                                                                                                                                                                                                                   |
+| 2      | `netmask 'Netmask`                                 | Netmask pada subnet. Dapat dilihat pada konfigurasi network router dengan cara: Ke topologi (GNS3) → klik kanan router → Configure → Edit Network Configuration → Lihat nilai netmask pada interface yang diinginkan                                                                                                                                                                                                                                                                                    |
 | 3      | `range 'IP_Awal' 'IP_Akhir'`                       | Rentang alamat IP yang akan didistribusikan dan digunakan secara dinamis                                                                                                                                                                                                                               |
 | 4      | `option routers 'Gateway'`                         | IP gateway dari router menuju client sesuai konfigurasi subnet                                                                                                                                                                                                                                         |
 | 5      | `option broadcast-address 'IP_Broadcast'`          | IP broadcast pada subnet                                                                                                                                                                                                                                                                               |
@@ -158,198 +156,189 @@ Script tersebut mengatur parameter jaringan yang dapat didistribusikan oleh DHCP
 | 8      | `default-lease-time 'Waktu'`                       | Lama waktu DHCP server meminjamkan alamat IP kepada client, dalam satuan detik. Default 600 detik                                                                                                                                                                                                      |
 | 9      | `max-lease-time 'Waktu'`                           | Waktu maksimal yang di alokasikan untuk peminjaman IP oleh DHCP server ke client dalam satuan detik. Default 7200 detik                                                                                                                                                                                |
 
-Sehingga konfigurasinya menjadi:
+Pada contoh berikut, kita akan menggunakan DNS 202.46.129.2. Maka konfigurasinya menjadi:
 
-![konfigurasi DHCP Server](images/dhcp_config.png)
+![image](https://user-images.githubusercontent.com/61197343/139402619-96aaa7ee-896e-4632-b80c-621d0a8781b8.png)
 
 ##### A.3. Restart service `isc-dhcp-server` dengan perintah
 
-```sh
+```
 service isc-dhcp-server restart
 ```
 
-Jika terjadi **failed!**, maka stop dulu, kemudian start kembali
+Jika terjadi **failed!**, maka service harus dihentikan dulu (stop), kemudian jalankan kembali (start)
 
-```sh
-service isc-dhcp-server stop
-service isc-dhcp-server start
+Untuk memastikan isc-dhcp-server berjalan, silakan gunakan perintah
+
+
+```
+service isc-dhcp-server status
 ```
 
-![restart isc-dhcp-server](images/dhcp_restart.png)
-
+Selamat 🎉
 Konfigurasi DHCP Server selesai!
+
+---
 
 ### 1.2.3 Konfigurasi DHCP Client
 
-Setelah mengonfigurasi server, kita juga perlu mengonfigurasi interface client supaya bisa mendapatkan layanan dari DHCP server. Di dalam topologi ini, clientnya adalah **GRESIK**, **SIDOARJO**, dan **BANYUWANGI**.
+Setelah mengonfigurasi server, kita juga perlu mengonfigurasi interface client supaya bisa mendapatkan layanan dari DHCP server. Di dalam topologi ini, clientnya adalah **Alabasta**, **Loguetown**, dan **Jipangu**.
 
 #### A. Mengonfigurasi Client
 
-##### A.1. Periksa IP GRESIK dengan `ifconfig`
+##### A.1. Periksa IP Alabasta dengan `ip a`
 
-![IP GRESIK](images/gresik_ifconfig-static.png)
+![image](https://user-images.githubusercontent.com/61197343/139403919-e197fc94-8146-4b2b-812e-b2d4cbc70dda.png)
 
-Dari konfigurasi sebelumnya, **GRESIK** telah diberikan IP statis 192.168.0.3
+Dari konfigurasi sebelumnya, **Alabasta** telah diberikan IP statis 192.168.1.3
 
-##### A.2. Buka `/etc/network/interfaces` untuk mengonfigurasi interface **GRESIK**
+##### A.2. Buka `/etc/network/interfaces` untuk mengonfigurasi interface **Alabasta**
 
-```sh
-nano /etc/network/interfaces
-```
+Silakan edit file `/etc/network/interfaces`
+
 
 ##### A.3. Comment atau hapus konfigurasi yang lama (konfigurasi IP statis)
 
 Lalu tambahkan:
 
-```sh
+```
 auto eth0
 iface eth0 inet dhcp
 ```
 
-![interface GRESIK](images/gresik_network-interface.png)
+![image](https://user-images.githubusercontent.com/61197343/139404262-352673c1-c1f7-4d51-8ba0-b5c2d8919cda.png)
 
 **Keterangan**:
 
 - **eth0** adalah interface yang digunakan client
 - `iface eth0 inet dhcp`: memberikan konfigurasi DHCP pada interface eth0, bukan konfigurasi statis
 
-##### A.4. Restart network dengan perintah `service networking restart`
+##### A.4. Restart Alabasta
 
-![hasil restart network](images/gresik_network-restart.png)
+Untuk melakukan restart Alabasta, silakan menuju GNS3 → klik kanan Alabasta → klik Stop → klik kanan kembali Alabasta → klik Start.
+
 
 #### B. Testing
 
-Cek kembali IP **GRESIK** dengan menjalankan `ifconfig`
+Cek kembali IP **Alabasta** dengan menjalankan `ip a`
 
-![IP GRESIK](images/gresik_ifconfig.png)
+![image](https://user-images.githubusercontent.com/61197343/139404826-8740d662-c2e8-44cd-901b-1398ad328fce.png)
 
-Periksa juga apakah **GRESIK** sudah mendapatkan DNS server sesuai konfigurasi di DHCP. Periksa `/etc/resolv.conf` dengan menggunakan perintah
+Periksa juga apakah **Alabasta** sudah mendapatkan DNS server sesuai konfigurasi di DHCP Server. Periksa `/etc/resolv.conf` dengan menggunakan perintah
 
-```sh
-cat /etc/resolv.conf
-```
+![image](https://user-images.githubusercontent.com/61197343/139404948-a7c6aea2-4557-4c41-997d-732c893b487e.png)
 
-![DNS GRESIK](images/gresik_resolv.conf.png)
-
-Bila IP dan nameserver **GRESIK** telah berubah sesuai dengan konfigurasi yang diberikan oleh DHCP, maka selamat. Kalian telah berhasil!
+Bila IP dan nameserver **Alabasta** telah berubah sesuai dengan konfigurasi yang diberikan oleh DHCP, maka selamat 🎉🎉
+Kalian telah berhasil!
 
 **Keterangan**:
 
-- Jika IP **GRESIK** masih belum berubah, jangan panik. Lakukanlah kembali `service networking restart`
+- Jika IP **Alabasta** masih belum berubah, jangan panik. Silakan restart kembali node melalui halaman GNS3
 - Jika masih belum berubah juga, jangan buru-buru bertanya. Coba periksa lagi semua konfigurasi yang telah kalian lakukan, mungkin terdapat kesalahan penulisan.
 
-#### C. Lakukan kembali langkah - langkah di atas pada client SIDOARJO dan BANYUWANGI
+#### C. Lakukan kembali langkah - langkah di atas pada client Loguetown dan Jipangu
 
-- Client **SIDOARJO**
+- Client **Loguetown** dan **Jipangu**
 
-![SIDOARJO 1](images/sidoarjo_ifconfig.png)
+![image](https://user-images.githubusercontent.com/61197343/139405760-ff97af44-1e02-4dde-b67c-4816e8a0c786.png)
 
-![SIDOARJO 2](images/sidoarjo_resolv.conf.png)
-
-- Client **BANYUWANGI**
-
-![BANYUWANGI 1](images/banyuwangi_ifconfig.png)
-
-![BANYUWANGI 2](images/banyuwangi_resolv.conf.png)
 
 Setelah IP dipinjamkan ke sebuah client, maka IP tersebut tidak akan diberikan ke client lain. Buktinya, tidak ada client yang mendapatkan IP yang sama.
 
+---
+
 ### 1.2.4 Fixed Address
 
-> **Sebuah Kasus**:
+![](https://thumbs.gfycat.com/FalseNiftyCrab-max-1mb.gif)
+
+> **Studi Kasus**:
 >
-> Ternyata PC **BANYUWANGI** selain menjadi client, juga akan digunakan sebagai server suatu aplikasi, sehingga akan menyulitkan jika IP nya berganti-ganti setiap **BANYUWANGI** terhubung ke jaringan internet. Oleh karena itu, **BANYUWANGI** membutuhkan IP yang tidak berganti-ganti.
+> Ternyata kapal milik Franky yang diparkir di **Jipangu** selain menjadi client, juga akan digunakan sebagai server suatu aplikasi jual beli kapal, sehingga akan menyulitkan jika alamat IPnya berganti-ganti setiap **Jipangu** terhubung ke jaringan internet. Oleh karena itu, **Jipangu** membutuhkan IP yang tetap dan tidak berganti-ganti.
 
-Untuk menyelesaikan kasus tersebut, DHCP Server memiliki layanan untuk "menyewakan" alamat IP secara tetap pada suatu host, yakni **Fixed Address**. Dalam kasus ini, **BANYUWANGI** akan mendapatkan IP tetap 192.168.0.10
+Masalah yang dihadapi oleh Franky adalah IP address dari Jipangu yang berganti-ganti. Sehingga, requirementnya adalah IP address yang tetap. Oleh karena itu, solusi yang dapat ditawarkan adalah dengan fitur dari DHCP Server, yaitu layanan untuk "menyewakan" alamat IP secara tetap pada suatu host, yakni **Fixed Address**. Dalam kasus ini, **Jipangu** akan mendapatkan IP tetap 192.168.1.13
 
-#### A. Konfigurasi DHCP Server di router SURABAYA
+#### A. Konfigurasi DHCP Server di router Foosha
 
-##### A.1. Buka file konfigurasi DHCP dengan perintah
+##### A.1. Buka file konfigurasi isc-dhcp-server
 
-```sh
-nano /etc/dhcp/dhcpd.conf
-```
+Buka dan edit file `/etc/dhcp/dhcpd.conf`
 
 ##### A.2. Tambahkan script berikut
 
-```conf
-host BANYUWANGI {
-    hardware ethernet 'hwaddress_BANYUWANGI';
-    fixed-address 192.168.0.10;
+```
+host Jipangu {
+    hardware ethernet 'hwaddress_milik_Jipangu';
+    fixed-address 192.168.0.13;
 }
 ```
 
-![konfigurasi fixed address pada DHCP server](images/surabaya_fixed-address-config.png)
+![image](https://user-images.githubusercontent.com/61197343/139408258-00413d72-cd37-4a6f-8df8-8af62ac81dc2.png)
 
 **Penjelasan**:
 
-- Untuk mencari `'hwaddress_BANYUWANGI'` (hardware address) kalian bisa memeriksanya di UML **BANYUWANGI** dengan command `ifconfig`
+- Untuk mencari `hwaddress_milik_Jipangu` (hardware address milik Jipangu), kamu bisa mengeksekusi perintah `ip a` di Jipangu, kemudian lihat interface yang berhubungan dengan router, dalam kasus ini adalah `eth0`, dan lihat pada bagian `link/ether`. Silakan copy address tersebut dan masukkan pada konfigurasi isc-dhcp-server di Foosha.
 
-![HWaddr BANYUWANGI](images/banyuwangi_hwaddr.png)
+![image](https://user-images.githubusercontent.com/61197343/139408469-54699b15-3ce3-43e0-828a-5a1fdef434e5.png)
 
-- **fixed-address** adalah alamat IP yang "disewa" tetap oleh **BANYUWANGI**
+- **fixed-address** adalah alamat IP yang "disewa" tetap oleh **Jipangu**
 
-##### A.3. Restart service `isc-dhcp-server` pada **SURABAYA** dengan perintah
+##### A.3. Restart service `isc-dhcp-server` pada **Foosha**
 
-```sh
-service isc-dhcp-server restart
-```
 
 #### B. Konfigurasi DHCP Client
 
-##### B.1. Buka `/etc/network/interfaces` untuk mengonfigurasi interface **BANYUWANGI**
+##### B.1. Konfigurasi network interface **Jipangu**
 
-```sh
-nano /etc/network/interfaces
+Network interface dapat diakses pada `/etc/network/interfaces`
+
+
+##### B.2. Tambah konfigurasi berikut
+
+```
+hwaddress ether 'hwaddress_milik_Jipangu'
 ```
 
-##### B.2. Buka `/etc/network/interfaces` untuk mengonfigurasi interface **BANYUWANGI**
-
-Lalu tambahkan:
-
-```conf
-hwaddress ether 'hwaddress_BANYUWANGI'
-```
-
-![interface BANYUWANGI](images/banyuwangi_new-network-interface.png)
+![image](https://user-images.githubusercontent.com/61197343/139409129-4ced81d2-2248-4582-ade5-bbba00aaf434.png)
 
 **Keterangan**:
-Hardware addresss perlu di-_setting_ juga di `/etc/network/interfaces` karena perangkat yang kalian gunakan adalah perangkat virtual (UML), dimana hwaddress-nya akan berubah setiap kali dijalankan.
+Hardware addresss perlu di-_setting_ juga di `/etc/network/interfaces` untuk mencegah bergantinya hwaddress saat project GNS3 dimatikan atau diexport.
 
-#### B.3. Restart network dengan perintah `service networking restart`
+#### B.3. Restart node Jipangu
 
-![hasil restart network](images/banyuwangi_networking-restart-fixed-address.png)
+Silakan restart node Jipangu di halaman GNS3
 
 #### C. Testing
 
-Periksa IP **BANYUWANGI** dengan melakukan `ifconfig`
+Periksa IP **Jipangu** dengan melakukan `ip a`
 
-![ifconfig BANYUWANGI](images/banyuwangi_ifconfig-fixed-address.png)
+![image](https://user-images.githubusercontent.com/61197343/139409496-78bc3496-a836-4ec9-9aa6-c4dfa778d32d.png)
 
-IP **BANYUWANGI** telah berubah menjadi 192.168.0.10 sesuai dengan Fixed Address yang diberikan oleh DHCP Server.
+IP **Jipangu** telah berubah menjadi 192.168.0.13 sesuai dengan Fixed Address yang diberikan oleh DHCP Server.
 
-### 1.2.5 Testing
+👋👋👋
+
+---
+
+### 1.2.5 Menguji Konfigurasi DHCP pada Topologi
 
 Setelah melakukan berbagai konfigurasi di atas, kalian bisa memastikan apakah DHCP Server kalian berhasil dengan cara:
 
-1. Matikan UML kalian dengan `bash bye.sh`
-2. Jalankan UML kalian kemabali dengan `bash topologi.sh`
-3. Periksa IP di semua client dengan `ifconfig`
+1. Matikan semua node melalui halaman GNS3
+2. Menyalakan kembali semua node
+3. Lakukan perintah `ip a` pada setiap node
 
-![GRESIK setelah restart](images/gresik_ifconfig-after-restart.png)
-
-![SIDOARJO setelah restart](images/sidoarjo_ifconfig-after-restart.png)
-
-![BANYUWANGI setelah restart](images/banyuwangi_ifconfig-after-restart.png)
-
-Jika **GRESIK** dan **SIDOARJO** berganti alamat IP sesuai dengan range yang telah dikonfigurasi DHCP dan **BANYUWANGI** tetap mendapatkan IP 192.168.0.10, maka konfigurasi DHCP server kalian berhasil.
+Jika node client berganti alamat IP sesuai dengan range yang telah dikonfigurasi pada DHCP Server dan **Jipangu** tetap mendapatkan IP 192.168.0.13, maka konfigurasi DHCP server kalian berhasil.
 
 ## Soal Latihan
 
-1. Buatlah konfigurasi DHCP agar GRESIK dan SIDOARJO mendapatkan IP dengan range 192.168.0.2 - 192.168.0.10 dan 192.168.0.12 - 192.168.0.16 dengan syarat:
-Setiap 1 menit ip yg digunakan client berubah dan juga dns diarahkan ke dns server kalian sendiri tetapi tetap bisa digunakan untuk mengakses internet.
+1. Buatlah konfigurasi DHCP agar Loguetown dan Alabasta mendapatkan IP dengan range [Prefix IP].0.100 - [Prefix IP].0.169 dan [Prefix IP].0.200 - [Prefix IP].0.202 dengan syarat:
+Setiap 1 menit, IP pada client berubah dan juga DNS diarahkan ke DNS server kalian sendiri tetapi client tetap bisa digunakan untuk mengakses internet.
 
 ## Referensi
 - [https://www.isc.org/dhcp/](https://www.isc.org/dhcp/)
 - [http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm](http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm)
 
+
+# Salam dari Foosha 🙆‍♀️🙆‍♂️
+
+<img src="https://c.tenor.com/6GdFsIPn71cAAAAS/faiz.gif" width="500" height="500">
