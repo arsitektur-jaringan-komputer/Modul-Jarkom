@@ -339,6 +339,6 @@ Setiap 1 menit, IP pada client berubah dan juga DNS diarahkan ke DNS server kali
 - [http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm](http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm)
 
 
-# Salam dari Foosha
+# Salam dari Foosha 🙆‍♀️🙆‍♂️
 
-<img src="https://c.tenor.com/6GdFsIPn71cAAAAS/faiz.gif" width="833" height="833">
+<img src="https://c.tenor.com/6GdFsIPn71cAAAAS/faiz.gif" width="500" height="500">
