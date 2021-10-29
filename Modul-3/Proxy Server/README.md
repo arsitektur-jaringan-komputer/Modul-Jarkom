@@ -101,7 +101,7 @@ Apabila status squid telah **OK**, saatnya kita mencoba di client.
 
 **STEP 5** - Pada Loguetown, lakukan konfigurasi proxy
 
-Silakan lihat pada bagian [Aktif dan Nonaktifkan Proxy]
+Silakan lihat pada bagian [Aktif dan Nonaktifkan Proxy](#23-aktif-dan-nonaktifkan-proxy)
 
 Kemudian cobalah untuk mengakses web **[http://its.ac.id](http://its.ac.id/)**. Maka akan muncul halaman seperti berikut:
 
@@ -284,7 +284,7 @@ http_access allow all
 
 Untuk melakukan speed test pada CLI, kita akan menggunakan [Speedtest CLI](https://www.speedtest.net/apps/cli). Jalankan script berikut pada client:
 
-_Note: Jangan lupa untuk mematikan proxy terlebih dahulu. Silakan lihat pada bagian [Aktif dan Nonaktifkan Proxy]()
+_Note: Jangan lupa untuk mematikan proxy terlebih dahulu. Silakan lihat pada bagian [Aktif dan Nonaktifkan Proxy](#23-aktif-dan-nonaktifkan-proxy)
 
 ```
 apt-get update
