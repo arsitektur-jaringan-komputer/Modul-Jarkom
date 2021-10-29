@@ -49,7 +49,7 @@ Beberapa contoh software proxy server yang sering digunakan adalah sebagai berik
 4.  Nginx
 
 ### 2.1.5 Cara Kerja
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/cara-kerja-proxy.JPG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/cara-kerja-proxy.JPG)
 
 ## 2.2 Implementasi
 Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **Squid** dan UML yang digunakan sebagai proxy server adalah **MOJOKERTO**
@@ -59,13 +59,13 @@ Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **S
 ```
 apt-get install squid
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/instalasi-squid.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/instalasi-squid.PNG)
 
 **Step 2** - Cek status squid untuk memastikan bahwa Squid telah berjalan dengan baik
 ```
 service squid status
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/squid-status.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/squid-status.PNG)
 
 Jika muncul status **ok** maka instalasi telah berhasil.
 
@@ -74,20 +74,20 @@ Jika muncul status **ok** maka instalasi telah berhasil.
 ```
 mv /etc/squid/squid.conf /etc/squid/squid.conf.bak
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/backup-squid-config.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/backup-squid-config.PNG)
 
 **Step 2** - Buat konfigurasi baru dengan mengetikkan 
 ```
 nano /etc/squid/squid.conf
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/buat-config-squid.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/buat-config-squid.PNG)
 
 **Step 3** - Kemudian, pada file config yang baru, ketikkan script :
 ```
 http_port 8080
 visible_hostname mojokerto
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/conf-squid-new.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/conf-squid-new.PNG)
 
 **Keterangan:**
 
@@ -98,19 +98,19 @@ visible_hostname mojokerto
 ```
 service squid restart
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/restart-squid-1.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/restart-squid-1.PNG)
 
 **STEP 5** - Ubah pengaturan proxy browser. Gunakan **MOJOKERTO** sebagai host dan isikan port **8080**. Pada OS Windows :
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/setting-proxy-system.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/setting-proxy-system.PNG)
 
 Kemudian cobalah untuk mengakses web **[http://its.ac.id](http://its.ac.id/)** (usahakan menggunakan mode **incognito/private**). Maka akan muncul halaman seperti berikut:
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/its-ac-id-error.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/its-ac-id-error.PNG)
 
 **Step 6** - Supaya bisa mengakses web **[http://its.ac.id](http://its.ac.id/)**, maka kalian harus menambah sebaris script pada konfigurasi squid. Buka kembali file konfigurasi tadi dan tambahkan baris berikut:
 ```
 http_access allow all
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/allow-all-conf.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/allow-all-conf.PNG)
 
 **Keterangan:**
 
@@ -127,14 +127,14 @@ Seharusnya halaman yang ditampilkan kembali normal.
 ```
 apt-get install apache2-utils
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/install-apache-utils.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/install-apache-utils.PNG)
 
 **STEP 2**  - Buat user dan password baru. Ketikkan:
 ```
 htpasswd -c /etc/squid/passwd jarkom203
 ```
 Ketikkan password yang diinginkan. Jika sudah maka akan muncul notifikasi:
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/add-userpass.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/add-userpass.PNG)
 
 **STEP 3** - Edit konfigurasi squid menjadi:
 ```
@@ -149,7 +149,7 @@ auth_param basic casesensitive on
 acl USERS proxy_auth REQUIRED
 http_access allow USERS
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/user-pass.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/user-pass.PNG)
 
 **Keterangan:**
 
@@ -165,10 +165,10 @@ http_access allow USERS
 **STEP 4**  - Restart squid
 
 **STEP 5**  - Ubah pengaturan proxy browser. Gunakan  **IP MOJOKERTO**  sebagai host, dan isikan port  **8080**. 
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/setting-proxy-system.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/setting-proxy-system.PNG)
 
 Kemudian cobalah untuk mengakses web  **elearning.if.its.ac.id**  (usahakan menggunakan mode  **incognito/private**), akan muncul pop-up untuk login.
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/user-pass-its.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/user-pass-its.PNG)
 
 **STEP 6**  - Isikan username dan password.
 
@@ -181,13 +181,13 @@ Kita akan mencoba membatasi akses proxy pada hari dan jam tertentu. Asumsikan pr
 ```
 nano /etc/squid/acl.conf
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_1.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_1.PNG)
 
 **STEP 2**  - Tambahkan baris berikut
 ```
 acl AVAILABLE_WORKING time MTWHF 08:00-17:00
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_2.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_2.PNG)
 
 **STEP 3**  - Simpan file acl.conf.
 
@@ -205,12 +205,12 @@ http_access allow AVAILABLE_WORKING
 http_access deny all
 visible_hostname mojokerto
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_3.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_3.PNG)
 
 **STEP 6**  - Simpan file tersebut. Kemudian restart squid.
 
 **STEP 7** - Cobalah untuk mengakses web http://its.ac.id (usahakan menggunakan mode incognito/private). Akan muncul halaman error jika mengakses diluar waktu yang telah ditentukan.
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_4.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_4.PNG)
 
 **Keterangan:**
 -   **MTWHF** adalah hari-hari dimana user diperbolehkan menggunakan proxy. (S: Sunday, M: Monday, T: Tuesday, W: Wednesday, H: Thursday, F: Friday, A: Saturday)
@@ -223,14 +223,14 @@ Kita akan mencoba membatasi akses ke beberapa website. Untuk contoh disini, kita
 ```
 nano /etc/squid/restrict-sites.acl
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_5.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_5.PNG)
 
 **STEP 2**  - Tambahkan alamat url yang akan diblock seperti baris berikut:
 ```
 monta.if.its.ac.id
 elearning.if.its.ac.id
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_6.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_6.PNG)
 
 **STEP 3**  - Ubah file konfigurasi squid menjadi seperti berikut ini.
 ```
@@ -241,10 +241,10 @@ acl BLACKLISTS dstdomain "/etc/squid/restrict-sites.acl"
 http_access deny BLACKLISTS
 http_access allow all
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_7.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_7.PNG)
 
 **STEP 4**  - Restart squid. Kemudian cobalah untuk mengakses web **monta.if.its.ac.id** , **elearning.if.its.ac.id** , dan **google.com** (usahakan menggunakan mode incognito/private). Seharusnya halaman yang diakses menampilkan tampilan seperti gambar di bawah ini.
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_8.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_8.PNG)
 
 **Keterangan:**
 -   dstdomain artinya destination domain/domain tujuan. Sintaksnya bisa diikuti dengan nama domain tujuan atau file yang menampung list-list alamat website.
@@ -256,7 +256,7 @@ Kita akan mencoba untuk membatasi bandwidth yang akan diberikan kepada user prox
 ```
 nano /etc/squid/acl-bandwidth.conf
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_9.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_9.PNG)
 
 **STEP 2**  - Ketikkan baris berikut
 ```
@@ -265,7 +265,7 @@ delay_class 1 1
 delay_access 1 allow all
 delay_parameters 1 16000/64000
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_10.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_10.PNG)
 
 **STEP 3**  - Ubah konfigurasi pada file squid.conf menjadi:
 ```
@@ -275,12 +275,12 @@ visible_hostname mojokerto
 
 http_access allow all
 ```
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_11.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_11.PNG)
 
 **STEP 4**  - Restart Squid
 
 **STEP 5**  - Cobalah untuk melakukan speed test. Berikut perbedaan sebelum dan sesudah adanya pembatasan bandwidth saat melakukan speed test
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/acl_12.PNG)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/modul-3/Proxy%20Server/img/acl_12.PNG)
 
 **Keterangan:**
 -   **delay_pools** digunakan untuk menentukan berapa bagian/pool yang akan dibuat. (Sintaks: **delay_pools JUMLAH_YANG_DIINGINKAN**. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_pools/](http://www.squid-cache.org/Doc/config/delay_class/)).
