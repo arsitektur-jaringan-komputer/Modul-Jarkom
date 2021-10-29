@@ -22,7 +22,7 @@
 ##  2.1 Pengertian, Fungsi, dan Manfaat
 ### 2.1.1 Pengertian
 Proxy server adalah sebuah server atau program komputer yang berperan sebagai penghubung antara suatu komputer dengan jaringan internet. Atau dalam kata lain, proxy server adalah suatu jaringan yang menjadi perantara antara jaringan lokal dan jaringan internet. Program Internet seperti browser, download manager dan lain-lain berhubungan dengan proxy server, dan proxy server tersebut yang akan berkomunikasi dengan server lain di Internet.
-![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/Proxy%20Server/img/proxy%20server.png)
+![](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/Proxy%20Server/img/proxy%20server.png?raw=true)
 Proxy server dapat berupa suatu sistem komputer ataupun sebuah aplikasi yang bertugas menjadi gateway atau pintu masuk yang menghubungan komputer kita dengan jaringan luar.
 
 ### 2.1.2 Fungsi
@@ -52,7 +52,6 @@ Beberapa contoh software proxy server yang sering digunakan adalah sebagai berik
 ### 2.1.5 Cara Kerja
 ![image](https://user-images.githubusercontent.com/61197343/139414632-c0e8515a-1a0d-43f2-a479-5dd189307102.png)
 
----
 
 ## 2.2 Implementasi
 Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **Squid** dan node yang digunakan sebagai proxy server adalah **Water7**
@@ -78,7 +77,6 @@ mv /etc/squid/squid.conf /etc/squid/squid.conf.bak
 ```
 
 **Step 2** - Buat konfigurasi Squid baru
-
 Pada file `/etc/squid/squid.conf`
 
 **Step 3** - Kemudian, pada file config yang baru, masukkan script :
@@ -86,6 +84,7 @@ Pada file `/etc/squid/squid.conf`
 http_port 8080
 visible_hostname Water7
 ```
+
 ![image](https://user-images.githubusercontent.com/61197343/139425202-442b599a-2b56-4d56-829e-80153b8627ea.png)
 
 **Keterangan:**
@@ -97,7 +96,6 @@ visible_hostname Water7
 ```
 service squid restart
 ```
-
 Apabila status squid telah **OK**, saatnya kita mencoba di client.
 
 **STEP 5** - Pada Loguetown, lakukan konfigurasi proxy
@@ -112,6 +110,7 @@ Kemudian cobalah untuk mengakses web **[http://its.ac.id](http://its.ac.id/)**. 
 ```
 http_access allow all
 ```
+
 ![image](https://user-images.githubusercontent.com/61197343/139426209-003df7ba-fc39-4d88-b2c0-ed7ad75cb726.png)
 
 **Keterangan:**
@@ -125,6 +124,7 @@ Seharusnya halaman yang ditampilkan kembali normal.
 ![image](https://user-images.githubusercontent.com/61197343/139426331-008ff04c-7cbb-4fe1-ba8b-312421d96106.png)
 
 ### 2.2.3 Membuat User Login
+
 
 **STEP 1**  - Install  `apache2-utils`  pada node  **Water7**. Sebelumnya kalian sudah harus melakukan  `apt-get update`
 
@@ -150,7 +150,6 @@ acl USERS proxy_auth REQUIRED
 http_access allow USERS
 ```
 ![image](https://user-images.githubusercontent.com/61197343/139426611-a96bb572-2dec-42f4-bfca-23c152f5b4d7.png)
-
 
 **Keterangan:**
 
@@ -211,7 +210,6 @@ visible_hostname Water7
 
 ![recording (2)](https://user-images.githubusercontent.com/61197343/139428083-7cf40267-0beb-4668-8aea-ce589a3dd374.gif)
 
-
 **Keterangan:**
 -   **MTWHF** adalah hari-hari dimana user diperbolehkan menggunakan proxy. (S: Sunday, M: Monday, T: Tuesday, W: Wednesday, H: Thursday, F: Friday, A: Saturday)
 -   Penulisan jam menggunakan format: **h1:m1-h2:m2**. Dengan syarat **h1<h2** dan **m1<m2**
@@ -223,14 +221,12 @@ Kita akan mencoba membatasi akses ke beberapa website. Untuk contoh disini, kita
 ```
 nano /etc/squid/restrict-sites.acl
 ```
-
 **STEP 2**  - Tambahkan alamat url yang akan diblock seperti baris berikut:
 ```
 monta.if.its.ac.id
 monkp.if.its.ac.id
 ```
 ![image](https://user-images.githubusercontent.com/61197343/139428263-1d3894f4-0699-4627-b40f-7ae654147006.png)
-
 
 **STEP 3**  - Ubah file konfigurasi squid menjadi seperti berikut ini.
 ```
@@ -246,7 +242,6 @@ http_access allow all
 **STEP 4**  - Restart squid. Kemudian cobalah untuk mengakses web **monta.if.its.ac.id** , **monkp.if.its.ac.id** , dan **google.com**. Seharusnya halaman yang diakses menampilkan tampilan seperti gambar di bawah ini.
 
 ![recording (3)](https://user-images.githubusercontent.com/61197343/139428715-5ead80be-3a9e-4391-9fe5-2d24dee8f63f.gif)
-
 
 **Keterangan:**
 -   dstdomain artinya destination domain/domain tujuan. Sintaksnya bisa diikuti dengan nama domain tujuan atau file yang menampung list-list alamat website.
@@ -267,7 +262,6 @@ delay_access 1 allow all
 delay_parameters 1 16000/64000
 ```
 ![image](https://user-images.githubusercontent.com/61197343/139428802-f4caeacd-f807-4008-bde6-48e0d14bf04e.png)
-
 
 **STEP 3**  - Ubah konfigurasi pada file squid.conf menjadi:
 ```
@@ -302,7 +296,6 @@ Silakan bandingkan kecepatan internet apabila proxy aktif dan non aktif
 ![image](https://user-images.githubusercontent.com/61197343/139430867-baa17fe9-fbed-45d5-ab35-34dab8901aec.png)
 - Aktif
 ![image](https://user-images.githubusercontent.com/61197343/139431490-efa75289-83eb-4738-888c-71ba16ebe606.png)
-
 
 **Keterangan:**
 -   **delay_pools** digunakan untuk menentukan berapa bagian/pool yang akan dibuat. (Sintaks: **delay_pools JUMLAH_YANG_DIINGINKAN**. Lebih lengkap lihat di [http://www.squid-cache.org/Doc/config/delay_pools/](http://www.squid-cache.org/Doc/config/delay_class/)).
