@@ -70,28 +70,34 @@ Terdapat 5 tahapan yang dilakukan dalam proses peminjaman alamat IP pada DHCP:
 ![Flowchart cara kerja DHCP](images/cara-kerja-2.png)
 
 Lebih lanjut: [https://www.nada.kth.se/kurser/kth/2D1392/05/lectures/lecture_9.pdf](https://www.nada.kth.se/kurser/kth/2D1392/05/lectures/lecture_9.pdf)
+Video: [https://youtu.be/S43CFcpOZSI](https://youtu.be/S43CFcpOZSI)
 
 ## 1.2 Implementasi
 
 ### 1.2.1 Instalasi ISC-DHCP-Server
 
-Pada topologi ini, kita akan menjadikan router **SURABAYA** sebagai DHCP Server. Oleh sebab itu, kita harus meng-_install_ **isc-dhcp-server** di **SURABAYA** dengan melakukan langkah-langkah berikut:
+Pada topologi ini, kita akan menjadikan router **Foosha** sebagai DHCP Server. Oleh sebab itu, kita harus meng-_install_ **isc-dhcp-server** di **Foosha** dengan melakukan langkah-langkah berikut:
 
-1. Update _package lists_ di router **SURABAYA** dengan perintah
+1. Update _package lists_ di router **Foosha** dengan perintah
 
 ```
 apt-get update
 ```
 
-2. Install **isc-dhcp-server** di router **SURABAYA**
+2. Install **isc-dhcp-server** di router **Foosha**
 
 ```
 apt-get install isc-dhcp-server
 ```
 
-![install DHCP Server](images/dhcp_install.png)
+3. Pastikan **isc-dhcp-server** telah terinstall dengan perintah
 
-Abaikan **error** tersebut setelah instalasi isc-dhcp server. Hal itu terjadi karena belum adanya konfigurasi dhcp servernya.
+```
+dhcpd --version
+```
+
+![image](https://user-images.githubusercontent.com/61197343/139392770-655e93b6-70f9-4cd9-8d67-8323b9cd25dc.png)
+
 
 ### 1.2.2 Konfigurasi DHCP Server
 
@@ -99,23 +105,17 @@ Langkah-langkah yang harus dilakukan setelah instalasi adalah:
 
 #### A. Menentukan interface mana yang akan diberi layanan DHCP
 
-##### A.1. Buka file konfigurasi interface dengan perintah
+##### A.1. Buka file konfigurasi interface
 
-```sh
-nano /etc/default/isc-dhcp-server
-```
+Silakan edit file konfigurasi isc-dhcp-server pada `/etc/default/isc-dhcp-server`
 
 ##### A.2. Tentukan interface
 
-Coba perhatikan topologi yang telah kalian buat. Interface dari router **SURABAYA** yang menuju ke client **GRESIK**, **SIDOARJO**, dan **BANYUWANGI** adalah `eth2`, maka kita akan memilih interface `eth2` untuk diberikan layanan DHCP.
+Coba perhatikan topologi yang telah kalian buat. Contoh dari topologi yang dibuat adalah interface dari router **Foosha** yang menuju ke switch kiri adalah `eth1`, maka kita akan memilih interface `eth1` untuk diberikan layanan DHCP.
 
-```sh
-INTERFACES="eth2"
-```
+![image](https://user-images.githubusercontent.com/61197343/139393762-9f2f6df2-489d-42bc-84bf-e2270b74f71f.png)
 
-![setting interface](images/dhcp_add-interface.png)
-
-#### B. Langkah selanjutnya adalah mengonfigurasi DHCP
+#### B. Melakukan konfigurasi pada isc-dhcp-server
 
 Ada banyak hal yang dapat dikonfigurasi, antara lain:
 
@@ -127,9 +127,7 @@ Ada banyak hal yang dapat dikonfigurasi, antara lain:
 
 ##### B.1. Buka file konfigurasi DHCP dengan perintah
 
-```sh
-nano /etc/dhcp/dhcpd.conf
-```
+Edit file konfigurasi isc-dhcp-server pada `/etc/dhcp/dhcpd.conf`
 
 ##### B.2. Tambahkan script berikut
 
@@ -148,8 +146,8 @@ Script tersebut mengatur parameter jaringan yang dapat didistribusikan oleh DHCP
 
 | **No** | **Parameter Jaringan**                             | **Keterangan**                                                                                                                                                                                                                                                                                         |
 | ------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1      | `subnet 'NID'`                                     | Netword ID pada subnet                                                                                                                                                                                                                                                                                 |
-| 2      | `netmask 'Netmask`                                 | Netmask pada subnet                                                                                                                                                                                                                                                                                    |
+| 1      | `subnet 'NID'`                                     | Network ID pada subnet interface. Sederhananya pada kasus pembelajaran praktikum kita, nilai NID merupakan 3 bytes dari IP interface tujuan (sesuai dengan langkah [A2](#A-2)) **pada router** (dalam kasus ini adalah Foosha) dengan byte terakhirnya adalah 0. Contoh, jika interface yang kamu pilih adalah `eth1` dengan IP 10.9.0.1, maka NID subnetnya adalah 10.9.0.0. **NB: Cara menentukan NID yang proper akan dijelaskan pada modul berikutnya**                                                                                                                                                                                                                                                                                   |
+| 2      | `netmask 'Netmask`                                 | Netmask pada subnet. Dapat dilihat pada konfigurasi network router dengan cara: Ke topologi (GNS3) → klik kanan router → Configure → Edit Network Configuration → Lihat nilai netmask pada interface yang diinginkan                                                                                                                                                                                                                                                                                    |
 | 3      | `range 'IP_Awal' 'IP_Akhir'`                       | Rentang alamat IP yang akan didistribusikan dan digunakan secara dinamis                                                                                                                                                                                                                               |
 | 4      | `option routers 'Gateway'`                         | IP gateway dari router menuju client sesuai konfigurasi subnet                                                                                                                                                                                                                                         |
 | 5      | `option broadcast-address 'IP_Broadcast'`          | IP broadcast pada subnet                                                                                                                                                                                                                                                                               |
@@ -158,25 +156,26 @@ Script tersebut mengatur parameter jaringan yang dapat didistribusikan oleh DHCP
 | 8      | `default-lease-time 'Waktu'`                       | Lama waktu DHCP server meminjamkan alamat IP kepada client, dalam satuan detik. Default 600 detik                                                                                                                                                                                                      |
 | 9      | `max-lease-time 'Waktu'`                           | Waktu maksimal yang di alokasikan untuk peminjaman IP oleh DHCP server ke client dalam satuan detik. Default 7200 detik                                                                                                                                                                                |
 
-Sehingga konfigurasinya menjadi:
+Pada contoh berikut, kita akan menggunakan DNS 202.46.129.2. Maka konfigurasinya menjadi:
 
-![konfigurasi DHCP Server](images/dhcp_config.png)
+![image](https://user-images.githubusercontent.com/61197343/139402619-96aaa7ee-896e-4632-b80c-621d0a8781b8.png)
 
 ##### A.3. Restart service `isc-dhcp-server` dengan perintah
 
-```sh
+```
 service isc-dhcp-server restart
 ```
 
-Jika terjadi **failed!**, maka stop dulu, kemudian start kembali
+Jika terjadi **failed!**, maka service harus dihentikan dulu (stop), kemudian jalankan kembali (start)
 
-```sh
-service isc-dhcp-server stop
-service isc-dhcp-server start
+Untuk memastikan isc-dhcp-server berjalan, silakan gunakan perintah
+
+
+```
+service isc-dhcp-server status
 ```
 
-![restart isc-dhcp-server](images/dhcp_restart.png)
-
+Selamat 🎉
 Konfigurasi DHCP Server selesai!
 
 ### 1.2.3 Konfigurasi DHCP Client
@@ -262,7 +261,7 @@ Setelah IP dipinjamkan ke sebuah client, maka IP tersebut tidak akan diberikan k
 
 Untuk menyelesaikan kasus tersebut, DHCP Server memiliki layanan untuk "menyewakan" alamat IP secara tetap pada suatu host, yakni **Fixed Address**. Dalam kasus ini, **BANYUWANGI** akan mendapatkan IP tetap 192.168.0.10
 
-#### A. Konfigurasi DHCP Server di router SURABAYA
+#### A. Konfigurasi DHCP Server di router Foosha
 
 ##### A.1. Buka file konfigurasi DHCP dengan perintah
 
@@ -289,7 +288,7 @@ host BANYUWANGI {
 
 - **fixed-address** adalah alamat IP yang "disewa" tetap oleh **BANYUWANGI**
 
-##### A.3. Restart service `isc-dhcp-server` pada **SURABAYA** dengan perintah
+##### A.3. Restart service `isc-dhcp-server` pada **Foosha** dengan perintah
 
 ```sh
 service isc-dhcp-server restart
