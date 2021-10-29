@@ -60,8 +60,11 @@ Lakukan langkah-langkah berikut:
 Lakukan beberapa hal dasar di bawah ini setiap kali kamu **menjalankan GNS3**:
 
 1. Menjalankan `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s [Prefix IP].0.0/16` pada router **Foosha** agar semua node bisa terhubung dengan internet.
-2. Melakukan `apt-get update` sebelum menginstal sesuatu.
+2. Jangan lupa cek Domain Name System resolver di `/etc/resolv.conf` setiap node. Samakan Domain Name System resolver setiap node dengan miliknya **Foosha**
+3. Melakukan `apt-get update` sebelum menginstal sesuatu.
 
 ## Selamat mengerjakan :)
 
-n.b. Jika terjadi masalah, silahkan membuka [troubleshoot](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/modul-3/troubleshoot.md). Jika masalah yang dihadapi tidak ada di troubleshoot tersebut, silahkan gugling. Jika masih juga belum menemukan solusinya, silahkan bertanya pada asisten kesayangan anda :') semangat, 2 modul lagi hahahahhahaha. 
+n.b. Jika terjadi masalah, silahkan restart GNS3 nya atau VM nya. Jika masih juga belum menemukan solusinya, silakan tanya ke asisten masing-masing. **Jika** masih belum belum juga nemuin solusinya, silakan kontak [master](https://github.com/kuuhaku86). Suemangatttt 🤓
+
+![](https://64.media.tumblr.com/fb2eb1aa1d88b93a8fec36fd81b051cb/fbcc43fc5be59b7e-17/s500x750/b90ad78abd57064acf96ae5bde0ffed0b23ac968.gifv)
