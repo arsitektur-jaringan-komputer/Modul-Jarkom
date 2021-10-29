@@ -15,7 +15,8 @@
 		- [2.2.4 Pembatasan Waktu Akses](#224-pembatasan-waktu-akses)
 		- [2.2.5 Pembatasan Waktu Akses ke Website Tertentu](#225-pembatasan-waktu-akses-ke-website-tertentu)
 		- [2.2.6 Pembatasan Bandwith](#226-pembatasan-bandwidth)
-	- [2.3 Soal Latihan](#23-soal-latihan)
+	- [2.3 Aktif dan Nonaktifkan Proxy](#23-aktif-dan-nonaktifkan-proxy)
+	- [2.4 Soal Latihan](#24-soal-latihan)
 	
 
 ##  2.1 Pengertian, Fungsi, dan Manfaat
