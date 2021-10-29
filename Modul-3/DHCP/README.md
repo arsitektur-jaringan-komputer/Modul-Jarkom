@@ -245,77 +245,71 @@ Setelah IP dipinjamkan ke sebuah client, maka IP tersebut tidak akan diberikan k
 
 ### 1.2.4 Fixed Address
 
-> **Sebuah Kasus**:
->
-> Ternyata PC **BANYUWANGI** selain menjadi client, juga akan digunakan sebagai server suatu aplikasi, sehingga akan menyulitkan jika IP nya berganti-ganti setiap **BANYUWANGI** terhubung ke jaringan internet. Oleh karena itu, **BANYUWANGI** membutuhkan IP yang tidak berganti-ganti.
+![](https://thumbs.gfycat.com/FalseNiftyCrab-max-1mb.gif)
 
-Untuk menyelesaikan kasus tersebut, DHCP Server memiliki layanan untuk "menyewakan" alamat IP secara tetap pada suatu host, yakni **Fixed Address**. Dalam kasus ini, **BANYUWANGI** akan mendapatkan IP tetap 192.168.0.10
+> **Studi Kasus**:
+>
+> Ternyata kapal milik Franky yang diparkir di **Jipangu** selain menjadi client, juga akan digunakan sebagai server suatu aplikasi jual beli kapal, sehingga akan menyulitkan jika alamat IPnya berganti-ganti setiap **Jipangu** terhubung ke jaringan internet. Oleh karena itu, **Jipangu** membutuhkan IP yang tetap dan tidak berganti-ganti.
+
+Masalah yang dihadapi oleh Franky adalah IP address dari Jipangu yang berganti-ganti. Sehingga, requirementnya adalah IP address yang tetap. Oleh karena itu, solusi yang dapat ditawarkan adalah dengan fitur dari DHCP Server, yaitu layanan untuk "menyewakan" alamat IP secara tetap pada suatu host, yakni **Fixed Address**. Dalam kasus ini, **Jipangu** akan mendapatkan IP tetap 192.168.1.13
 
 #### A. Konfigurasi DHCP Server di router Foosha
 
-##### A.1. Buka file konfigurasi DHCP dengan perintah
+##### A.1. Buka file konfigurasi isc-dhcp-server
 
-```sh
-nano /etc/dhcp/dhcpd.conf
-```
+Buka dan edit file `/etc/dhcp/dhcpd.conf`
 
 ##### A.2. Tambahkan script berikut
 
-```conf
-host BANYUWANGI {
-    hardware ethernet 'hwaddress_BANYUWANGI';
-    fixed-address 192.168.0.10;
+```
+host Jipangu {
+    hardware ethernet 'hwaddress_milik_Jipangu';
+    fixed-address 192.168.0.13;
 }
 ```
 
-![konfigurasi fixed address pada DHCP server](images/surabaya_fixed-address-config.png)
+![image](https://user-images.githubusercontent.com/61197343/139408258-00413d72-cd37-4a6f-8df8-8af62ac81dc2.png)
 
 **Penjelasan**:
 
-- Untuk mencari `'hwaddress_BANYUWANGI'` (hardware address) kalian bisa memeriksanya di UML **BANYUWANGI** dengan command `ifconfig`
+- Untuk mencari `hwaddress_milik_Jipangu` (hardware address milik Jipangu), kamu bisa mengeksekusi perintah `ip a` di Jipangu, kemudian lihat interface yang berhubungan dengan router, dalam kasus ini adalah `eth0`, dan lihat pada bagian `link/ether`. Silakan copy address tersebut dan masukkan pada konfigurasi isc-dhcp-server di Foosha.
 
-![HWaddr BANYUWANGI](images/banyuwangi_hwaddr.png)
+![image](https://user-images.githubusercontent.com/61197343/139408469-54699b15-3ce3-43e0-828a-5a1fdef434e5.png)
 
-- **fixed-address** adalah alamat IP yang "disewa" tetap oleh **BANYUWANGI**
+- **fixed-address** adalah alamat IP yang "disewa" tetap oleh **Jipangu**
 
-##### A.3. Restart service `isc-dhcp-server` pada **Foosha** dengan perintah
+##### A.3. Restart service `isc-dhcp-server` pada **Foosha**
 
-```sh
-service isc-dhcp-server restart
-```
 
 #### B. Konfigurasi DHCP Client
 
-##### B.1. Buka `/etc/network/interfaces` untuk mengonfigurasi interface **BANYUWANGI**
+##### B.1. Konfigurasi network interface **Jipangu**
 
-```sh
-nano /etc/network/interfaces
+Network interface dapat diakses pada `/etc/network/interfaces`
+
+
+##### B.2. Tambah konfigurasi berikut
+
+```
+hwaddress ether 'hwaddress_milik_Jipangu'
 ```
 
-##### B.2. Buka `/etc/network/interfaces` untuk mengonfigurasi interface **BANYUWANGI**
-
-Lalu tambahkan:
-
-```conf
-hwaddress ether 'hwaddress_BANYUWANGI'
-```
-
-![interface BANYUWANGI](images/banyuwangi_new-network-interface.png)
+![image](https://user-images.githubusercontent.com/61197343/139409129-4ced81d2-2248-4582-ade5-bbba00aaf434.png)
 
 **Keterangan**:
-Hardware addresss perlu di-_setting_ juga di `/etc/network/interfaces` karena perangkat yang kalian gunakan adalah perangkat virtual (UML), dimana hwaddress-nya akan berubah setiap kali dijalankan.
+Hardware addresss perlu di-_setting_ juga di `/etc/network/interfaces` untuk mencegah bergantinya hwaddress saat project GNS3 dimatikan atau diexport.
 
-#### B.3. Restart network dengan perintah `service networking restart`
+#### B.3. Restart node Jipangu
 
-![hasil restart network](images/banyuwangi_networking-restart-fixed-address.png)
+Silakan restart node Jipangu di halaman GNS3
 
 #### C. Testing
 
-Periksa IP **BANYUWANGI** dengan melakukan `ifconfig`
+Periksa IP **Jipangu** dengan melakukan `ip a`
 
-![ifconfig BANYUWANGI](images/banyuwangi_ifconfig-fixed-address.png)
+![image](https://user-images.githubusercontent.com/61197343/139409496-78bc3496-a836-4ec9-9aa6-c4dfa778d32d.png)
 
-IP **BANYUWANGI** telah berubah menjadi 192.168.0.10 sesuai dengan Fixed Address yang diberikan oleh DHCP Server.
+IP **Jipangu** telah berubah menjadi 192.168.0.13 sesuai dengan Fixed Address yang diberikan oleh DHCP Server.
 
 ### 1.2.5 Testing
 
