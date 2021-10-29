@@ -146,7 +146,7 @@ Script tersebut mengatur parameter jaringan yang dapat didistribusikan oleh DHCP
 
 | **No** | **Parameter Jaringan**                             | **Keterangan**                                                                                                                                                                                                                                                                                         |
 | ------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1      | `subnet 'NID'`                                     | Network ID pada subnet interface. Sederhananya pada kasus pembelajaran praktikum kita, nilai NID merupakan 3 bytes dari IP interface tujuan (sesuai dengan langkah [A2](#A-2)) **pada router** (dalam kasus ini adalah Foosha) dengan byte terakhirnya adalah 0. Contoh, jika interface yang kamu pilih adalah `eth1` dengan IP 10.9.0.1, maka NID subnetnya adalah 10.9.0.0. **NB: Cara menentukan NID yang proper akan dijelaskan pada modul berikutnya**                                                                                                                                                                                                                                                                                   |
+| 1      | `subnet 'NID'`                                     | Network ID pada subnet interface. Sederhananya pada kasus pembelajaran praktikum kita, nilai NID merupakan 3 bytes dari IP interface tujuan (sesuai dengan langkah [A2](#a2-tentukan-interface)) **pada router** (dalam kasus ini adalah Foosha) dengan byte terakhirnya adalah 0. Contoh, jika interface yang kamu pilih adalah `eth1` dengan IP 10.9.0.1, maka NID subnetnya adalah 10.9.0.0. **NB: Cara menentukan NID yang proper akan dijelaskan pada modul berikutnya**                                                                                                                                                                                                                                                                                   |
 | 2      | `netmask 'Netmask`                                 | Netmask pada subnet. Dapat dilihat pada konfigurasi network router dengan cara: Ke topologi (GNS3) → klik kanan router → Configure → Edit Network Configuration → Lihat nilai netmask pada interface yang diinginkan                                                                                                                                                                                                                                                                                    |
 | 3      | `range 'IP_Awal' 'IP_Akhir'`                       | Rentang alamat IP yang akan didistribusikan dan digunakan secara dinamis                                                                                                                                                                                                                               |
 | 4      | `option routers 'Gateway'`                         | IP gateway dari router menuju client sesuai konfigurasi subnet                                                                                                                                                                                                                                         |
@@ -180,76 +180,66 @@ Konfigurasi DHCP Server selesai!
 
 ### 1.2.3 Konfigurasi DHCP Client
 
-Setelah mengonfigurasi server, kita juga perlu mengonfigurasi interface client supaya bisa mendapatkan layanan dari DHCP server. Di dalam topologi ini, clientnya adalah **GRESIK**, **SIDOARJO**, dan **BANYUWANGI**.
+Setelah mengonfigurasi server, kita juga perlu mengonfigurasi interface client supaya bisa mendapatkan layanan dari DHCP server. Di dalam topologi ini, clientnya adalah **Alabasta**, **Loguetown**, dan **Jipangu**.
 
 #### A. Mengonfigurasi Client
 
-##### A.1. Periksa IP GRESIK dengan `ifconfig`
+##### A.1. Periksa IP Alabasta dengan `ip a`
 
-![IP GRESIK](images/gresik_ifconfig-static.png)
+![image](https://user-images.githubusercontent.com/61197343/139403919-e197fc94-8146-4b2b-812e-b2d4cbc70dda.png)
 
-Dari konfigurasi sebelumnya, **GRESIK** telah diberikan IP statis 192.168.0.3
+Dari konfigurasi sebelumnya, **Alabasta** telah diberikan IP statis 192.168.1.3
 
-##### A.2. Buka `/etc/network/interfaces` untuk mengonfigurasi interface **GRESIK**
+##### A.2. Buka `/etc/network/interfaces` untuk mengonfigurasi interface **Alabasta**
 
-```sh
-nano /etc/network/interfaces
-```
+Silakan edit file `/etc/network/interfaces`
+
 
 ##### A.3. Comment atau hapus konfigurasi yang lama (konfigurasi IP statis)
 
 Lalu tambahkan:
 
-```sh
+```
 auto eth0
 iface eth0 inet dhcp
 ```
 
-![interface GRESIK](images/gresik_network-interface.png)
+![image](https://user-images.githubusercontent.com/61197343/139404262-352673c1-c1f7-4d51-8ba0-b5c2d8919cda.png)
 
 **Keterangan**:
 
 - **eth0** adalah interface yang digunakan client
 - `iface eth0 inet dhcp`: memberikan konfigurasi DHCP pada interface eth0, bukan konfigurasi statis
 
-##### A.4. Restart network dengan perintah `service networking restart`
+##### A.4. Restart Alabasta
 
-![hasil restart network](images/gresik_network-restart.png)
+Untuk melakukan restart Alabasta, silakan menuju GNS3 → klik kanan Alabasta → klik Stop → klik kanan kembali Alabasta → klik Start.
+
 
 #### B. Testing
 
-Cek kembali IP **GRESIK** dengan menjalankan `ifconfig`
+Cek kembali IP **Alabasta** dengan menjalankan `ip a`
 
-![IP GRESIK](images/gresik_ifconfig.png)
+![image](https://user-images.githubusercontent.com/61197343/139404826-8740d662-c2e8-44cd-901b-1398ad328fce.png)
 
-Periksa juga apakah **GRESIK** sudah mendapatkan DNS server sesuai konfigurasi di DHCP. Periksa `/etc/resolv.conf` dengan menggunakan perintah
+Periksa juga apakah **Alabasta** sudah mendapatkan DNS server sesuai konfigurasi di DHCP Server. Periksa `/etc/resolv.conf` dengan menggunakan perintah
 
-```sh
-cat /etc/resolv.conf
-```
+![image](https://user-images.githubusercontent.com/61197343/139404948-a7c6aea2-4557-4c41-997d-732c893b487e.png)
 
-![DNS GRESIK](images/gresik_resolv.conf.png)
-
-Bila IP dan nameserver **GRESIK** telah berubah sesuai dengan konfigurasi yang diberikan oleh DHCP, maka selamat. Kalian telah berhasil!
+Bila IP dan nameserver **Alabasta** telah berubah sesuai dengan konfigurasi yang diberikan oleh DHCP, maka selamat 🎉🎉
+Kalian telah berhasil!
 
 **Keterangan**:
 
-- Jika IP **GRESIK** masih belum berubah, jangan panik. Lakukanlah kembali `service networking restart`
+- Jika IP **Alabasta** masih belum berubah, jangan panik. Silakan restart kembali node melalui halaman GNS3
 - Jika masih belum berubah juga, jangan buru-buru bertanya. Coba periksa lagi semua konfigurasi yang telah kalian lakukan, mungkin terdapat kesalahan penulisan.
 
-#### C. Lakukan kembali langkah - langkah di atas pada client SIDOARJO dan BANYUWANGI
+#### C. Lakukan kembali langkah - langkah di atas pada client Loguetown dan Jipangu
 
-- Client **SIDOARJO**
+- Client **Loguetown** dan **Jipangu**
 
-![SIDOARJO 1](images/sidoarjo_ifconfig.png)
+![image](https://user-images.githubusercontent.com/61197343/139405760-ff97af44-1e02-4dde-b67c-4816e8a0c786.png)
 
-![SIDOARJO 2](images/sidoarjo_resolv.conf.png)
-
-- Client **BANYUWANGI**
-
-![BANYUWANGI 1](images/banyuwangi_ifconfig.png)
-
-![BANYUWANGI 2](images/banyuwangi_resolv.conf.png)
 
 Setelah IP dipinjamkan ke sebuah client, maka IP tersebut tidak akan diberikan ke client lain. Buktinya, tidak ada client yang mendapatkan IP yang sama.
 
