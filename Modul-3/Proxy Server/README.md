@@ -54,10 +54,10 @@ Beberapa contoh software proxy server yang sering digunakan adalah sebagai berik
 ---
 
 ## 2.2 Implementasi
-Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **Squid** dan UML yang digunakan sebagai proxy server adalah **Water7**
+Untuk praktikum jarkom kali ini, software proxy server yang digunakan adalah **Squid** dan node yang digunakan sebagai proxy server adalah **Water7**
 
 ### 2.2.1 Instalasi Squid
-**Step 1** - Install squid pada UML  **Water7**
+**Step 1** - Install squid pada node  **Water7**
 ```
 apt-get install squid
 ```
@@ -125,7 +125,7 @@ Seharusnya halaman yang ditampilkan kembali normal.
 
 ### 2.2.3 Membuat User Login
 
-**STEP 1**  - Install  `apache2-utils`  pada UML  **Water7**. Sebelumnya kalian sudah harus melakukan  `apt-get update`
+**STEP 1**  - Install  `apache2-utils`  pada node  **Water7**. Sebelumnya kalian sudah harus melakukan  `apt-get update`
 
 **STEP 2**  - Buat user dan password baru. Ketikkan:
 ```
