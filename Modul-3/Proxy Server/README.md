@@ -326,4 +326,18 @@ Untuk memeriksa apakah konfigurasi proxy pada client berhasil, silakan lakukan p
 Silakan jalankan perintah `unset http_proxy` pada client yang ingin dinonaktifkan koneksi proxy.
 
 ## 2.4 Soal Latihan
-Reli adalah seorang pendaki gunung. Dia ingin mendaki gunung Puncak Jaya untuk menguji keterampilan mendakinya. Salah satu ritual yang dilakukan Reli sebelum mendaki gunung adalah membuat proxynya sendiri. Proxy yang akan dibuat nantinya harus bisa diakses dengan nama puncakjaya.xxx.id dengan port yang digunakan adalah 8080. 	Untuk bisa mengakses proxynya perlu dilakukan login terlebih dahulu. Untuk akun milik Reli, username yang digunakan adalah reli dan password loveToHike-07. Proxy ini hanya bisa diakses pada hari Senin, Kamis, Jumat, dan Sabtu mulai jam 10 malam sampai jam 4 pagi. Karena Reli ingin fokus mendaki, Reli memutuskan untuk memblokir website korindo.co.id dan website if.its.ac.id beserta subdomainnya, ajk.if.its.ac.id. Reli juga mengatur di proxynya agar user mendapatkan bandwith 512 kbps. Bantu Reli melakukan persiapan agar Reli bisa mendaki gunung Puncak Jaya dan menyelesaikan ritualnya!
+Usopp sangat kangen dengan bapaknya, Yasopp. Sehingga Usopp ingin mencari bapaknya di lautan. Maka, Usopp membuat kapal dengan proxynya sendiri.
+
+Proxy yang akan dibuat nantinya harus bisa diakses dengan nama yasoppdicariusopp.xxx.id dengan port yang digunakan adalah 69 (1)
+
+Untuk bisa mengakses proxynya perlu dilakukan login terlebih dahulu (2)
+
+Usopp sebagai bajak laut yang baik, menggunakan username adalah kangenyasopp dan password BapakkuIlangNjirAkuSedih (3)
+
+Karena Usopp merupakan bajak laut yang gigih tetapi juga taat beribadah, Usopp hanya bisa mengakses proxy kecuali hari Jumat mulai jam 12 siang sampai jam 1 siang (4)
+
+Karena Usopp ingin fokus mencari bapaknya saja tanpa menjadi _**Sniper King**_, Usopp memutuskan untuk memblokir website sniperking.id dan website monta.if.its.ac.id (5)
+
+Usopp juga mengatur di proxynya agar user mendapatkan bandwith 512 kbps (6)
+
+Bantu Usopp agar gasin blar bler 🔥🎉😭♥
