@@ -328,18 +328,18 @@ To check whether the configuration on the client is successful, run `env | grep 
 Run `unset http_proxy` on the client that the proxy will be deactivated at.
 
 ## 2.4 Excercises
-Usopp sangat kangen dengan bapaknya, Yasopp. Sehingga Usopp ingin mencari bapaknya di lautan. Maka, Usopp membuat kapal dengan proxynya sendiri.
+Usopp really miss his dad, Yasopp, so he want to search for his dad in the sea. So, Usopp made his own ship with his own proxy.
 
-Proxy yang akan dibuat nantinya harus bisa diakses dengan nama yasoppdicariusopp.xxx.id dengan port yang digunakan adalah 69 (1)
+Proxy that will be made should be accessible with the name yasoppdicariusopp.xxx.id with the port number of 69. (1)
 
-Untuk bisa mengakses proxynya perlu dilakukan login terlebih dahulu (2)
+To be able to access the proxy, one should be logged in first (2)
 
-Usopp sebagai bajak laut yang baik, menggunakan username adalah kangenyasopp dan password BapakkuIlangNjirAkuSedih (3)
+Usopp, as a kind pirate, using username of kangenyasopp and the password is BapakkuIlangNjirAkuSedih (3)
 
-Karena Usopp merupakan bajak laut yang gigih tetapi juga taat beribadah, Usopp hanya bisa mengakses proxy kecuali hari Jumat mulai jam 12 siang sampai jam 1 siang (4)
+Because Usopp is a hard working pirate but also religious, Usopp can only access the proxy except in Friday, 12 AM - 1 PM (4)
 
-Karena Usopp ingin fokus mencari bapaknya saja tanpa menjadi Sniper King, Usopp memutuskan untuk memblokir website sniperking.id dan website monta.if.its.ac.id (5)
+Because Usopp wants to focus on searching his dad and not becoming Sniper King, Usopp decided to block the sniperking.id site and monta.if.its.ac.id site (5)
 
-Usopp juga mengatur di proxynya agar user mendapatkan bandwith 512 kbps (6)
+Usopp also set his proxy so that user only get a bandwidth of 512Kbps (6)
 
-Bantu Usopp agar gasin blar bler 🔥🎉😭♥
+Help Usopp so that he can succeed! 🔥🎉😭♥
