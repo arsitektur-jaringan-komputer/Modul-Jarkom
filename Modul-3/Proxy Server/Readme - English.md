@@ -328,4 +328,18 @@ To check whether the configuration on the client is successful, run `env | grep 
 Run `unset http_proxy` on the client that the proxy will be deactivated at.
 
 ## 2.4 Excercises
-Reli is a mountain climber. He wants to climb the Puncak Jaya mountain to test his climbing skills. One of the rituals that Reli had before climbing is to make his own proxy. Proxy that will be made should be accessible from the name puncakjaya.xxx.id with the port 8080. To be able to access the proxy, one must do authentication beforehand. For Reli's account, the username is reli and the password is loveToHike-07. This proxy can only be used on Monday, Thursday, Friday, and Saturday, starting at 10 PM up until 4 AM. Because Reli wants to focus on climbing, Reli decided to block the korindo.co.id site and if.its.ac.id including the subdomain, ajk.if.its.ac.id. Reli also want to set the proxy so that user will get a bandwidth of 512Kbps. Help Reli do the preparation so that Reli can climb the Puncak Jaya mountain and finish his rituals!
+Usopp sangat kangen dengan bapaknya, Yasopp. Sehingga Usopp ingin mencari bapaknya di lautan. Maka, Usopp membuat kapal dengan proxynya sendiri.
+
+Proxy yang akan dibuat nantinya harus bisa diakses dengan nama yasoppdicariusopp.xxx.id dengan port yang digunakan adalah 69 (1)
+
+Untuk bisa mengakses proxynya perlu dilakukan login terlebih dahulu (2)
+
+Usopp sebagai bajak laut yang baik, menggunakan username adalah kangenyasopp dan password BapakkuIlangNjirAkuSedih (3)
+
+Karena Usopp merupakan bajak laut yang gigih tetapi juga taat beribadah, Usopp hanya bisa mengakses proxy kecuali hari Jumat mulai jam 12 siang sampai jam 1 siang (4)
+
+Karena Usopp ingin fokus mencari bapaknya saja tanpa menjadi Sniper King, Usopp memutuskan untuk memblokir website sniperking.id dan website monta.if.its.ac.id (5)
+
+Usopp juga mengatur di proxynya agar user mendapatkan bandwith 512 kbps (6)
+
+Bantu Usopp agar gasin blar bler 🔥🎉😭♥
