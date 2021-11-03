@@ -277,7 +277,7 @@ http_access allow all
 
 **STEP 5**  - Cobalah untuk melakukan speed test.
 
-Untuk melakukan speed test pada CLI, kita akan menggunakan [Speedtest CLI](https://www.speedtest.net/apps/cli). Jalankan script berikut pada client:
+Untuk melakukan speed test pada CLI, kita akan menggunakan [Speedtest CLI (Web Resmi)](https://www.speedtest.net/apps/cli) atau [di sini (GitHub)](https://github.com/sivel/speedtest-cli). Jalankan script berikut pada client:
 
 _Note: Jangan lupa untuk mematikan proxy terlebih dahulu. Silakan lihat pada bagian [Aktif dan Nonaktifkan Proxy](#23-aktif-dan-nonaktifkan-proxy)
 
