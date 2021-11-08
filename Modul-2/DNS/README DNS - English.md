@@ -1,17 +1,3 @@
-# **IMPORTANT TO READ**
-1. Make sure UML *MALANG*'s and *MOJOKERTO*'s Memory which were previously **96 were changed 256** in the file topologi.sh.
-
-2. Run **iptables** so that client *GRESIK* dan *SIDOARJO* can be connected to the internet.
-
-3. When you want to access the internet, make sure you have exported the proxy first. **Check the syntax in UML Introduction Module** .
-
-4. Do not do anything before the assistant gives the order.
-
-5. Follow what the assistant directs.
-
-6. When point 4 and point 5 were not adhered **The risk is your own!!!**
-
-
 # 1. DNS (Domain Name System)
 
 ## 1.1 Theory
@@ -25,7 +11,7 @@ network) connected to the internet. DNS Server functions is to translate domain 
 
 ![DNS](images/1.jpg)
 
-Client will request the IP address of a domain into the DNS Server. If the DNS server records the IP address of the DNS server, it will return the IP address back to the client. If the DNS server does not have the IP address of the domain then it will ask other DNS servers until the domain address is found..
+Client will request the IP address of a domain into the DNS Server. If the DNS server records the IP address of the DNS server, it will return the IP address back to the client. If the DNS server does not have the IP address of the domain then it will ask other DNS servers until the domain address is found.
 
 ### 1.1.C Application of DNS Server
 
@@ -69,13 +55,13 @@ is information that belongs to a DNS zone.
 
 ### 1.2.A Create the Following Topography
 
-![Topology](images/topologi.png)
+Create a topology like in [GNS3 introduction](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-GNS3#membuat-topologi) from last Module.
 
-Like in yesterday's UML introduction module
+We will create `EniesLobby` node as DNS server.
 
 ### 1.2.A Bind Installation
 
-- Open *MALANG* and update package lists by running the command:
+- Open *EniesLobby* and update package lists by running the command:
 
 	```
 	apt-get update
@@ -90,24 +76,24 @@ Like in yesterday's UML introduction module
 ![instal bind9](images/1.png)
 
 ### 1.2.B Domain Creation
-In this lab session we will create a domain **jarkom2020.com**.
+In this lab session we will create a domain **jarkom2021.com**.
 
-- Perform the command on *POOR*. Fill in as follows:
+- Perform the command on *EniesLobby*. Fill in as follows:
 
   ```
    nano /etc/bind/named.conf.local
   ```
 
-- Fill in the domain configuration **jarkom2020.com** according to the following syntax:
+- Fill in the domain configuration **jarkom2021.com** according to the following syntax:
 
   ```
-  zone "jarkom2020.com" {
+  zone "jarkom2021.com" {
   	type master;
-  	file "/etc/bind/jarkom/jarkom2020.com";
+  	file "/etc/bind/jarkom/jarkom2021.com";
   };
   ```
 
-![config jarkom2020.com](images/2.png)
+![config jarkom2021.com](images/2.png)
 
 - Make folder **jarkom** inside **/etc/bind**
 
@@ -115,19 +101,19 @@ In this lab session we will create a domain **jarkom2020.com**.
   mkdir /etc/bind/jarkom
   ```
 
-- Copy the **db.local** file in the path **/etc/bind** into the **jarkom** folder you just created and rename it to **jarkom2020.com**
+- Copy the **db.local** file in the path **/etc/bind** into the **jarkom** folder you just created and rename it to **jarkom2021.com**
 
   ```
-  cp /etc/bind/db.local /etc/bind/jarkom/jarkom2020.com
+  cp /etc/bind/db.local /etc/bind/jarkom/jarkom2021.com
   ```
 
-- Then open the **jarkom2020.com** file and edit it like the following picture with the IP *MALANG* for each group:
+- Then open the **jarkom2021.com** file and edit it like the following picture with the IP *EniesLobby* for each group:
 
   ```
-  nano /etc/bind/jarkom/jarkom2020.com
+  nano /etc/bind/jarkom/jarkom2021.com
   ```
 
-![konfig jarkom2020](images/3.png)
+![konfig jarkom2021](images/3.png)
 
 - Restart bind9 with command
 
@@ -145,7 +131,7 @@ In this lab session we will create a domain **jarkom2020.com**.
 
 The domain that we create will not be immediately recognized by the client, so we have to change the nameserver settings on our client.
 
-- On the client *GRESIK* and *SIDOARJO* point the nameserver to IP *MALANG* by editing the _resolv.conf_ file by typing the command
+- On the client *Loguetown* and *Alabasta* point the nameserver to IP *EniesLobby* by editing the _resolv.conf_ file by typing the command
 
 	```
 	nano /etc/resolv.conf
@@ -153,10 +139,10 @@ The domain that we create will not be immediately recognized by the client, so w
 
 ![ping](images/4.png)
 
-- To try a DNS connection, ping the domain **jarkom2020.com** by doing the following command on the client *GRESIK* and *SIDOARJO*
+- To try a DNS connection, ping the domain **jarkom2021.com** by doing the following command on the client *Loguetown* and *Alabasta*
 
   ```
-  ping jarkom2020.com
+  ping jarkom2021.com
   ```
 
 ![ping](images/5.png)
@@ -165,34 +151,34 @@ The domain that we create will not be immediately recognized by the client, so w
 
 ### 1.2.D Reverse DNS (Record PTR)
 
-If in the previous domain creation our DNS server worked to translate the domain string **jarkom2020.com** into an IP address so that it could be opened, then Reverse DNS or PTR Records are used to translate IP addresses to previously translated domain addresses.
+If in the previous domain creation our DNS server worked to translate the domain string **jarkom2021.com** into an IP address so that it could be opened, then Reverse DNS or PTR Records are used to translate IP addresses to previously translated domain addresses.
 
-- Edit the file **/etc/bind/named.conf.local** in *MALANG*
+- Edit the file **/etc/bind/named.conf.local** in *EniesLobby*
 
   ```
   nano /etc/bind/named.conf.local
   ```
 
-- Then add the following configuration into the **named.conf.local** file
+- Then add the following configuration into the **named.conf.local** file. Add a reverse of the first 3 bytes of the IP that you want to do Reverse DNS. Because in the example I used IP `10.40.2` for the IP of the records, then the reverse is `2.40.10`
 
   ```
-  zone "71.151.10.in-addr.arpa" {
+  zone "2.40.10.in-addr.arpa" {
       type master;
-      file "/etc/bind/jarkom/71.151.10.in-addr.arpa";
+      file "/etc/bind/jarkom/2.40.10.in-addr.arpa";
   };
   ```
 
 ![](images/6.png)
 
-- Copy the **db.local** file in the path **/etc/bind** into the **jarkom** folder you just created and rename it to **71.151.10.in-addr.arpa**
+- Copy the **db.local** file in the path **/etc/bind** into the **jarkom** folder you just created and rename it to **2.40.10.in-addr.arpa**
 
   ```
-  cp /etc/bind/db.local /etc/bind/jarkom/71.151.10.in-addr.arpa
+  cp /etc/bind/db.local /etc/bind/jarkom/2.40.10.in-addr.arpa
   ```
 
-  *Note: 71.151.10 is the first 3 bytes of IP MALANG which is reversed in the writing order*
+  *Note: 2.40.10 is the first 3 bytes of IP EniesLobby which is reversed in the writing order*
 
-- Edit the **71.151.10.in-addr.arpa** file to be like the image below
+- Edit the **2.40.10.in-addr.arpa** file to be like the image below
 
 
 ![konfig](images/7.png)
@@ -203,16 +189,16 @@ If in the previous domain creation our DNS server worked to translate the domain
   service bind9 restart
   ```
 
-- To check whether the configuration is correct or not, perform the following command on the client *GRESIK*
+- To check whether the configuration is correct or not, perform the following command on the client *Loguetown*
 
   ```
   // Install package dnsutils
-  // Make sure the nameservers have been returned to their initial settings
+  // Make sure the nameservers in /etc/resolv.conf have returned the same as the nameservers from Foosha
   apt-get update
   apt-get install dnsutils
   
-  //Return the nameservers to connect with MALANG
-  host -t PTR "IP MALANG"
+  //Restore nameservers to connect with EniesLobby
+  host -t PTR "IP EniesLobby"
   ```
 
 ![host](images/8.png)
@@ -224,7 +210,7 @@ A CNAME record is a record that creates an alias name and points the domain to a
 
 Steps to create a CNAME record:
 
-- Open the **jarkom2020.com** file on the *MALANG* server and add the configuration as shown in the following image:
+- Open the **jarkom2021.com** file on the *EniesLobby* server and add the configuration as shown in the following image:
 
 
 ![DNS](images/9.png)
@@ -237,7 +223,7 @@ Steps to create a CNAME record:
   service bind9 restart
   ```
 
-- Then check by doing **host -t CNAME www.jarkom2020.com** or **ping www.jarkom2020.com**. The result should point to the host with the IP *MALANG*.
+- Then check by doing **host -t CNAME www.jarkom2021.com** or **ping www.jarkom2021.com**. The result should point to the host with the IP *EniesLobby*.
 
 
 ![DNS](images/10.png)
@@ -246,19 +232,19 @@ Steps to create a CNAME record:
 
 ### 1.2.F Making DNS Slave
 
-DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami kegagalan. Kita akan menjadikan server *MOJOKERTO* sebagai DNS slave dan server *MALANG* sebagai DNS masternya.
+DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami kegagalan. Kita akan menjadikan server *Water7* sebagai DNS slave dan server *EniesLobby* sebagai DNS masternya.
 
-#### I. Konfigurasi Pada Server MALANG
+#### I. Konfigurasi Pada Server EniesLobby
 
 - Edit the file **/etc/bind/named.conf.local** and adjust it with the following syntax
 
   ```
-  zone "jarkom2020.com" {
+  zone "jarkom2021.com" {
       type master;
       notify yes;
-      also-notify { "IP MOJOKERTO"; }; // Masukan IP MOJOKERTO tanpa tanda petik
-      allow-transfer { "IP MOJOKERTO"; }; // Masukan IP MOJOKERTO tanpa tanda petik
-      file "/etc/bind/jarkom/jarkom2020.com";
+      also-notify { "IP Water7"; }; // Enter IP Water7 without quotes
+      allow-transfer { "IP Water7"; }; // Enter IP Water7 without quotes
+      file "/etc/bind/jarkom/jarkom2021.com";
   };
   ```
 
@@ -274,27 +260,27 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
 
 
-#### II. Configuration on MOJOKERTO Server
+#### II. Configuration on Water7 Server
 
-- Open *MOJOKERTO* and update package lists by running the command:
+- Open *Water7* and update package lists by running the command:
 
   ```
   apt-get update
   ```
 
-- After updating, please install the bind9 application in *MOJOKERTO* with the command:
+- After updating, please install the bind9 application in *Water7* with the command:
 
   ```
   apt-get install bind9 -y
   ```
 
-- Then open the **/etc/bind/named.conf.local** file in MOJOKERTO and add the following syntax:
+- Then open the **/etc/bind/named.conf.local** file in Water7 and add the following syntax:
 
   ```
-  zone "jarkom2020.com" {
+  zone "jarkom2021.com" {
       type slave;
-      masters { "IP MALANG"; }; // Masukan IP MALANG tanpa tanda petik
-      file "/var/lib/bind/jarkom2020.com";
+      masters { "IP EniesLobby"; }; // Enter IP EniesLobby without quotes
+      file "/var/lib/bind/jarkom2021.com";
   };
   ```
 
@@ -310,17 +296,17 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
 #### III. Testing
 
-- On the *MALANG* server, please turn off the bind9 service
+- On the *EniesLobby* server, please turn off the bind9 service
 
   ```
   service bind9 stop
   ```
 
-- On the *GRESIK* client, make sure the nameserver settings point to IP *MALANG* and IP *MOJOKERTO*
+- On the *Loguetown* client, make sure the nameserver settings point to IP *EniesLobby* and IP *Water7*
 
   ![DNS](images/13.png)
 
-- Ping jarkom2020.com on the *GRESIK* client. If the ping is successful then the slave DNS configuration has been successful
+- Ping jarkom2021.com on the *Loguetown* client. If the ping is successful then the slave DNS configuration has been successful
 
 
 ![DNS](images/14.png)
@@ -329,15 +315,15 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
 ### 1.2.G Making Subdomain
 
-A subdomain is part of a parent domain name. A subdomain generally refers to a physical address on a site for example: **jarkom2020.com** is a parent domain. Meanwhile **neko.jarkom2020.com** is a subdomain.
+A subdomain is part of a parent domain name. A subdomain generally refers to a physical address on a site for example: **jarkom2021.com** is a parent domain. Meanwhile **luffy.jarkom2021.com** is a subdomain.
 
-- Edit the file **/etc/bind/jarkom/jarkom2020.com** then add a subdomain for **jarkom2020.com** which points to the IP *MALANG*.
+- Edit the file **/etc/bind/jarkom/jarkom2021.com** then add a subdomain for **jarkom2021.com** which points to the IP *Water7*.
 
   ```
-  nano /etc/bind/jarkom/jarkom2020.com
+  nano /etc/bind/jarkom/jarkom2021.com
   ```
 
-- Add the configuration as in the picture into the **jarkom2020.com** file.
+- Add the configuration as in the picture into the **jarkom2021.com** file.
 
 ![DNS](images/15.png)
 
@@ -347,14 +333,14 @@ A subdomain is part of a parent domain name. A subdomain generally refers to a p
   service bind9 restart
   ```
 
-- Try pinging the subdomain with the following command from the client *GRESIK*
+- Try pinging the subdomain with the following command from the client *Loguetown*
 
   ```
-  ping neko.jarkom2020.com
+  ping luffy.jarkom2021.com
   
   OR
   
-  host -t A neko.jarkom2020.com
+  host -t A luffy.jarkom2021.com
   ```
 
   ![DNS](images/16.png)
@@ -365,17 +351,17 @@ A subdomain is part of a parent domain name. A subdomain generally refers to a p
 
 Subdomain delegation is the delegation of authority over a subdomain to a new DNS.
 
-#### I. *MALANG* Server Configuration
+#### I. *EniesLobby* Server Configuration
 
-- In *MALANG*, edit the file **/etc/bind/jarkom/jarkom2020.com** and change it to be as below according to the IP *MALANG* division of each group.
+- In *EniesLobby*, edit the file **/etc/bind/jarkom/jarkom2021.com** and change it to be as below according to the IP *EniesLobby* division/distribution of each group.
 
   ```
-  nano /etc/bind/jarkom/jarkom2020.com
+  nano /etc/bind/jarkom/jarkom2021.com
   ```
 
 ![DNS](images/17.png)
 
-- Then edit the file **/etc/bind/named.conf.options** in *MALANG*.
+- Then edit the file **/etc/bind/named.conf.options** in *EniesLobby*.
 
   ```
   nano /etc/bind/named.conf.options
@@ -393,10 +379,10 @@ Subdomain delegation is the delegation of authority over a subdomain to a new DN
 - Then edit the **/etc/bind/named.conf.local** file to be like the image below:
 
   ```
-  zone "jarkom2020.com" {
+  zone "jarkom2021.com" {
       type master;
-      file "/etc/bind/jarkom/jarkom2020.com";
-      allow-transfer { "IP MOJOKERTO"; }; // Masukan IP MOJOKERTO tanpa tanda petik
+      file "/etc/bind/jarkom/jarkom2021.com";
+      allow-transfer { "IP Water7"; }; // Enter IP Water7 without quotes
   };
   ```
 
@@ -409,9 +395,9 @@ Subdomain delegation is the delegation of authority over a subdomain to a new DN
   service bind9 restart
   ```
 
-#### II. *MOJOKERTO* Server Configuration
+#### II. *Water7* Server Configuration
 
-- In *MOJOKERTO* edit the file **/etc/bind/named.conf.options**
+- In *Water7* edit the file **/etc/bind/named.conf.options**
 
   ```
   nano /etc/bind/named.conf.options
@@ -423,22 +409,22 @@ Subdomain delegation is the delegation of authority over a subdomain to a new DN
   allow-query{any;};
   ```
 
-![DNS](images/20.png)
+![DNS](images/18.png)
 
 - Then edit the **/etc/bind/named.conf.local** file to be like the image below:
 
 ![DNS](images/21.png)
 
-- Then create a directory with the name **delegates**
+- Then create a directory with the name **delegasi**
 
-- Copy **db.local** to the pucang directory and edit the name to **its.jarkom2020.com** 
+- Copy **db.local** to the pucang directory and edit the name to **its.jarkom2021.com** 
 
   ```
   mkdir /etc/bind/delegasi
-  cp /etc/bind/db.local /etc/bind/delegasi/its.jarkom2020.com
+  cp /etc/bind/db.local /etc/bind/delegasi/its.jarkom2021.com
   ```
 
-- Then edit the **its.jarkom2020.com** file to be like this
+- Then edit the **its.jarkom2021.com** file to be like this
 
 ![DNS](images/22.png)
 
@@ -450,7 +436,7 @@ Subdomain delegation is the delegation of authority over a subdomain to a new DN
 
 #### III. Testing
 
-- Ping the domains **its.jarkom2020.com** and **integra.its.jarkom2020.com** from the *GRESIK* client
+- Ping the domains **its.jarkom2021.com** and **integra.its.jarkom2021.com** from the *Loguetown* client
 
 ![DNS](images/23.png)
 
@@ -460,15 +446,15 @@ Subdomain delegation is the delegation of authority over a subdomain to a new DN
 
 DNS Forwarder is used to direct the DNS Server to the IP you want to go to.
 
-- Edit the file **/etc/bind/named.conf.options** on the *MALANG* server
+- Edit the file **/etc/bind/named.conf.options** on the *EniesLobby* server
 - Uncomment in this section
 
 ```
 forwarders {
-    8.8.8.8;
+    "IP nameserver dari Foosha";
 };
 ```
-- Comment in this section
+- Comment on this section
 
 ```
 // dnssec-validation auto;
@@ -480,9 +466,14 @@ allow-query{any;};
 ```
 
 ![DNS](images/24.png)
+- Restart bind9
 
-- It should be that if the nameserver in the **/etc/resolv.conf** file on the client is changed to IP MALANG it will be forwarded to Google's DNS IP which is 8.8.8.8 and can get a connection.
-- Try pinging google.com on GRESIK, if it's true then you can still get a response from google
+  ```
+  service bind9 restart
+  ```
+
+- It should be that if the nameserver in the **/etc/resolv.conf** file on the client is changed to IP EniesLobby it will be forwarded to GNS3's DNS IP which is IP nameservers in Foosha and can get a connection.
+- Try pinging google.com on Loguetown, if it's true then you can still get a response from google
 
 ![DNS](images/25.png)
 
@@ -511,7 +502,7 @@ allow-query{any;};
 
    In one of the examples above, we can observe that in the fourth column there are records that use a dot at the end of the word and some do not. The use of dots serves as a determinant of the FQDN (Fully-Qualified Domain Name) of a domain.
 
-   For example, if "**jarkom2020.com.**" ends with a period/dot it will be treated as an FQDN and will be read as "**jarkom2020.com**" , while ns1 above does not use a period/dot so it is not read as an FQDN. Then ns1 will be added in front of the $ORIGIN value so that ns1 will read as "**ns1.jarkom2020.com**" . The $ORIGIN value is taken from the zone name found in */etc/bind/named.conf.local*.
+   For example, if "**jarkom2021.com.**" ends with a period/dot it will be treated as an FQDN and will be read as "**jarkom2021.com**" , while ns1 above does not use a period/dot so it is not read as an FQDN. Then ns1 will be added in front of the $ORIGIN value so that ns1 will read as "**ns1.jarkom2021.com**" . The $ORIGIN value is taken from the zone name found in */etc/bind/named.conf.local*.
 
 3. #### Writing Name Server (NS) records
 
@@ -521,8 +512,11 @@ allow-query{any;};
 
 ## Excercise
 
-1. Make it so that when we check *IP MALANG* using dnsutils (host -t PTR 'IP MALANG') the result is that the IP belongs to the domain **jarkom.com** !
-2. Create a subdomain **ngerjain.jarkom.com**. Then create a subdomain within a subdomain within a subdomain **yyy.lagi.ngerjain.jarkom.com** ! (yyy = group name)
+1. Make it so that when we check *IP EniesLobby* using dnsutils (host -t PTR 'IP EniesLobby') the result is that the IP belongs to the domain **jarkom.com** !
+2. Create subdomains **seru.jarkom.com**, **pre-test.jarkom.com**, and **cool.jarkom.com** that point to *IP Water7*!
+3. Create a subdomain **kerja.jarkom.com**. Then create a subdomain within a subdomain in the **yyy.lagi.ngerjain.jarkom.com** subdomain that points to EniesLobby ! (yyy = group name)
+4. Create CNAME records **bagus.jarkom.com** and **semangat.yyy.jarkom.com** that point to **jarkom.com**! (yyy = group name)
+5. Delegate **yyy.ngerjain.jarkom.com** and **fun.yyy.ngerjain.jarkom.com** subdomains from EniesLobby to Water7 ! (yyy = group name)
 
 ## References
 * https://computer.howstuffworks.com/dns.htm
