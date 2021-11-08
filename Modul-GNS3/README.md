@@ -5,6 +5,9 @@ Modul Pengenalan GNS3
   - [Apakah GNS3 itu?](#apakah-gns3-itu)
   - [Instalasi GNS3](#instalasi-gns3)
     - [Menggunakan VM](#menggunakan-vm)
+      - [Import Image di VirtualBox](#import-image-di-virtualbox)
+      - [Import Image di VMWare](#import-image-di-vmware)
+      - [Memasukkan Image Ubuntu ke GNS3](#memasukkan-image-ubuntu-ke-gns3)
     - [Menggunakan Ubuntu](#menggunakan-ubuntu)
   - [Penggunaan GNS3](#penggunaan-gns3)
     - [Setup IP](#setup-ip)
@@ -22,6 +25,7 @@ Modul Pengenalan GNS3
 
 ## Instalasi GNS3
 ### Menggunakan VM
+#### Import Image di VirtualBox
 1. Install VirtualBox
 Silahkan mendownload dari [link berikut](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
 
@@ -57,7 +61,44 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
   - Lalu buka alamat dengan keterangan "To launch the Web-UI" di browser
 ![vm-2](images/vm-2.jpg)
 
-7. Import image ubuntu
+Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#memasukkan-image-ubuntu-ke-gns3)
+
+
+#### Import Image di VMWare
+1. Install VMWare
+Silahkan mendownload dari [link berikut](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
+
+2. Download Image VM GNS3
+Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/releases/download/v2.2.26/GNS3.VM.VMware.Workstation.2.2.26.zip). Sehabis itu langsung saja extract.
+
+3. Import file .ova ke VMWare dan namai VM. 
+
+![import-ova](images/insert-image-vmware-1.png)
+
+![import-ova-2](images/insert-image-vmware-2.png)
+
+![import-ova-3](images/insert-image-vmware-3.png)
+
+4. Sesuaikan settingan VMWare dengan klik `Edit virtual machine settings`.
+- Pastikan settingan Network sudah sesuai.
+
+![settingan-vmware-1](images/settingan-vmware-1.png)
+
+- Jika ada error `Virtualized ... Not Supported on Platform` saat vm nanti dijalankan, coba disable virtualisasi di settingan processor
+
+![settingan-vmware-2](images/settingan-vmware-2.png)
+
+5.  Jalankan VM
+  - Maka VM seharusnya bisa menampilkan ini
+![vm](images/vm-vmware-1.png)
+  - Lalu buka alamat dengan keterangan "To launch the Web-UI" di browser
+![vm-2](images/vm-vmware-2.png)
+
+Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#memasukkan-image-ubuntu-ke-gns3)
+
+#### Memasukkan Image Ubuntu ke GNS3
+
+1. Import image ubuntu
   - Klik `Go to preferences`
   - Klik `Docker`
   - Klik `Add Docker container template`
@@ -68,7 +109,7 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
   - Klik `Network adapters` dan masukkan angka 4 
   - Lalu klik tombol `Add template` di bawah sendiri
 
-8. Coba image yang telah di-import
+2. Coba image yang telah di-import
   - Klik `Servers` di kiri atas
   - Klik `local`
   - Klik `Add blank project`
@@ -83,7 +124,7 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
   - Kita bisa start dengan klik kanan di node dan klik `Start` <br/>
 ![test-image-3](images/test-image-3.jpg)
 
-9. Akses node
+3. Akses node
   - Bisa dilakukan dengan `Web console`  <br/>
 ![akses-node-1](images/akses-node-1.jpg)
   - Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` di terminal lokal pc kita, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 192.168.0.16 5000`
