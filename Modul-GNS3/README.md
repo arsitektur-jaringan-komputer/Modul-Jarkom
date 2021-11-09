@@ -421,8 +421,8 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
 - Manfaatkan bash scripting untuk install-install aplikasi yang diperlukan sehingga tidak perlu memasukkan command satu-satu, lalu save ke `/root`.
 ## Troubleshooting
 - Apabila sudah mencoba menggunakan VM dan tidak bisa-bisa setelah konsultasi ke asdos, silahkan coba menggunakan aplikasi GNS3.
-- Ada sesuatu yang biasanya bisa tetapi tiba-tiba tidak bisa? Coba matikan dulu VM nya baru nyalakan kembali
-- Masih tidak bisa? Coba cari cara instal GNS3 yang lain dahulu sebelum bertanya ke asisten
+- Ada sesuatu yang biasanya bisa tetapi tiba-tiba tidak bisa? Coba matikan dulu VM nya baru nyalakan kembali.
+- Masih tidak bisa? Coba cara instal GNS3 yang lain dahulu sebelum bertanya ke asisten.
 
 
 ## Sumber
