@@ -66,7 +66,7 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
 
 #### Import Image di VMWare
 1. Install VMWare
-Silahkan mendownload dari [link berikut](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
+Silahkan mendownload dari [link berikut](https://customerconnect.vmware.com/downloads/info/slug/desktop_end_user_computing/vmware_workstation_player/16_0).
 
 2. Download Image VM GNS3
 Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/releases/download/v2.2.26/GNS3.VM.VMware.Workstation.2.2.26.zip). Sehabis itu langsung saja extract.
