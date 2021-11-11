@@ -325,7 +325,7 @@ Pada CPT, interface dapat diatur pada menu **Config** > **INTERFACE** > **“nam
 
 Atur IP pada interface Foosha yang mengarah ke Pucci dengan **192.168.1.5**.
 
-![Gambar](assets/foshaatopucci.png)
+![Gambar](assets/fooshatopucci.png)
 
 Atur IP pada interface Pucci yang mengarah ke Foosha dengan **192.168.1.6**.
 
@@ -387,21 +387,18 @@ Maka sekarang, (nama GNS3 nya) dan _host_ pada (nama GNS3 nya) sudah saling terh
      Network 192.168.1.12 Netmask 255.255.255.252 Next Hop 192.168.1.10
      Network 192.168.1.16 Netmask 255.255.255.240 Next Hop 192.168.1.10
      Network 192.168.1.32 Netmask 255.255.255.224 Next Hop 192.168.1.10
-    
     ```
     
 2.  Pada Pucci
     
     ```
-     Network 192.168.1.128 Netmask 255.255.255.128 Next Hop 192.168.1.2
-    
+     Network 192.168.1.128 Netmask 255.255.255.128 Next Hop 192.168.1.2    
     ```
     
 3.  Pada Water7
     
     ```
-     Network 0.0.0.0 Netmask 0.0.0.0 Next Hop 192.168.1.1
-    
+     Network 0.0.0.0 Netmask 0.0.0.0 Next Hop 192.168.1.1    
     ```
     
 4.  Pada Guanhao
@@ -409,15 +406,13 @@ Maka sekarang, (nama GNS3 nya) dan _host_ pada (nama GNS3 nya) sudah saling terh
     ```
      Network 0.0.0.0 Netmask 0.0.0.0 Next Hop 192.168.1.9
      Network 192.168.1.16 Netmask 255.255.255.240 Next Hop 192.168.1.14
-     Network 192.168.1.32 Netmask 255.255.255.224 Next Hop 192.168.1.14
-    
+     Network 192.168.1.32 Netmask 255.255.255.224 Next Hop 192.168.1.14    
     ```
     
 5.  Pada Arabasta
     
     ```
-     Network 0.0.0.0 Netmask 0.0.0.0 Next Hop 192.168.1.13
-    
+     Network 0.0.0.0 Netmask 0.0.0.0 Next Hop 192.168.1.13    
     ```
     
 
