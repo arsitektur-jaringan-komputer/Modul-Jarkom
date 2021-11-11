@@ -1,19 +1,17 @@
 # Persiapan
 1. Berikut adalah topologi jaringan yang digunakan pada modul 4
 ## Topologi Pada CPT
-![Gambar](assets/TopologiWithout.png)
-## Topologi Pada UML
-![Gambar](assets/TopologiUMLEth.png)
-- Silahkan mengikuti panduan membuat UML pada [modul pengenalan UML](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml)
-- Untuk client menggunakan memory 64M
-- Untuk router menggunakan memory 96M
-- Untuk pembuatan topologi pada UML, diantara router juga dibuat switch.
-- Penamaan Untuk Topologi UML :  
-  - Gresik (100 Host) 
-  - Banyuwangi (50 Host) 
-  - Madiun (20 Host) 
-  - Bojonegoro (10 Host) 
-2. Menginstall *Cisco Packet Tracer* versi 7.3, dapat di download di https://www.netacad.com/courses/packet-tracer
+![Gambar](assets/topologicisco.png)
+## Topologi Pada GNS3
+![Gambar](assets/topologigns3.png)
+- Silahkan mengikuti panduan membuat GNS3 pada [modul pengenalan GNS3](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-GNS3)
+- Untuk pembuatan topologi pada GNS3, diantara router juga dibuat switch.
+- Penamaan Untuk Topologi GNS3 :  
+  - San Faldo (100 Host) 
+  - Merveille (50 Host) 
+  - Rakesh (20 Host) 
+  - Enies Loby (10 Host) 
+2. Menginstall *Cisco Packet Tracer* versi 8.0, dapat di download di https://www.netacad.com/courses/packet-tracer
 
 # SUBNETTING AND ROUTING
 
@@ -167,11 +165,11 @@ Pembagian IP dengan menggunakan metode ini didasarkan pada pembagian class pada 
 
 Contoh penerapan pembagian alamat IP dengan metode _**Classful**_ sebagai berikut.
 
-![Gambar](assets/TopologiWithout.png)
+![Gambar](assets/topologicisco.png)
 
 Anggap kita memiliki topologi jaringan seperti gambar di atas. Lalu, tentukan jumlah subnet yang ada di dalam topologi tersebut.
 
-![Gambar](assets/Subnet.png)
+![Gambar](assets/classful.png)
 
 Terdapat 8 subnet di dalam topologi. Dengan menggunakan teknik classful setiap subnet akan memiliki netmask /24 karena semua subnet memiliki jumlah host di bawah 256. Sehingga pembagian IP yang memungkinkan untuk topologi di atas adalah sebagai berikut.
 
@@ -226,11 +224,11 @@ Perhitungan pada teknik CIDR juga didasarkan pada jumlah komputer/ host yang ada
 
 **Langkah 1** - Tentukan subnet yang ada dalam topologi dan lakukan _labelling_ netmask terhadap masing-masing subnet. Contohnya dapat dilihat pada gambar berikut.
 
-![Gambar](assets/CIDR1.png)
+![Gambar](assets/cidr_1.png)
 
 Langkah 2 - Gabungkan subnet paling bawah di dalam topologi. Paling bawah berarti subnet yang paling jauh dari internet (gambar awan). Maka pada topologi yang digunakan kali ini, subnet yang dapat digabungkan adalah A1 dengan A2 dan subnet A7 dengan A8. Subnet yang digabung tersebut akan membentuk sebuah subnet lebih besar dari subnet-subnet kecil yang ada di dalamnya. 
 
-![Gambar](assets/CIDR2.png)
+![Gambar](assets/cidr_2.png)
 
 Subnet **B1** merupakan hasil penggabungan dari subnet **A1** dan **A2**, Subnet **B2** merupakan hasil penggabungan dari subnet **A7** dan **A8**.
 
@@ -240,9 +238,9 @@ Perhatikan subnet **A1** dan **A2**. Subnet **A1** memiliki netmask /25, dan sub
 
 Lalu ulangi langkah tersebut sampai menjadi sebuah subnet besar yang mencakup 1 topologi yang kita miliki.
 
-![Gambar](assets/CIDR3.png)
-![Gambar](assets/CIDR4.png)
-![Gambar](assets/CIDR5.png)
+![Gambar](assets/cidr_3.png)
+![Gambar](assets/cidr_4.png)
+![Gambar](assets/cidr_5.png)
 
 **Langkah 3** - Dari proses penggabungan yang telah dilakukan, didapatkan sebuah subnet besar dengan netmask **/21**. Kali ini dapat menggunakan NID **192.168.0.0**, netmask **255.255.248.0**.
 
@@ -278,7 +276,7 @@ Buka aplikasi Cisco Packet Tracer, kita akan membuat topologi baru.
 
 #### 1) Membuat Topologi
 
-![Gambar](assets/TopologiWithout.png)
+![Gambar](assets/topologicisco.png)
 
 Silakan buat topologi menggunakan **Cisco Packet Tracer**. Untuk menambahkan Router, Switch, dan PC dapat dilakukan dengan _drag and drop_ yang ada pada menu. Pada praktik kali ini, sesuaikan _device_ dengan pilihan dengan kotak merah pada gambar di bawah
 
@@ -306,66 +304,66 @@ Silakan buat topologi menggunakan **Cisco Packet Tracer**. Untuk menambahkan Rou
 
 ![Gambar](assets/PortIns.png)
 
-Pada UML, buatlah topologi tersebut seperti yang telah diajarkan pada [modul pengenalan UML](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml) dengan **catatan** setiap _device_ yang akan terhubung **harus** dihubungkan menggunakan _**switch**_.
+Pada GNS3, buatlah topologi tersebut seperti yang telah diajarkan pada [modul pengenalan GNS3](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-GNS3) dengan **catatan** setiap _device_ yang akan terhubung **harus** dihubungkan menggunakan _**switch**_.
 
 
 #### 2) Subnetting
 
 Praktik kali ini akan menerapkan cara routing untuk teknik _subnetting_ **VLSM** yang telah kita lakukan sebelumnya.
 
-![Gambar](assets/Subnet.png)
+![Gambar](assets/classful.png)
 
 ![Gambar](assets/27.png)
 
 Atur IP untuk masing-masing **interface** yang ada di setiap _device_ sesuai dengan pembagian subnet pada pohon **VLSM**.
 
-Pada UML, buka /etc/network/interfaces untuk mengatur interface pada setiap perangkat.
+Pada GNS3, buka `Configure > Edit Network Configuration` untuk mengatur interface pada setiap perangkat.
 
 Pada CPT, interface dapat diatur pada menu **Config** > **INTERFACE** > **“nama interface”** (contoh: FastEthernet0/0). Isi alamat IP dan subnet mask dari subnet interface tersebut. Berikut contoh untuk mengatur IP pada subnet **A4**.
 
 > Untuk melihat arah port, dapat menghover device pada saat di *logic view*, atau dapat selalu diaktifkan di **Options** > **Preferences** > **Always Show Port Labels in Logical Workspace**
 
-Atur IP pada interface SURABAYA yang mengarah ke TULUNGAGUNG dengan **192.168.1.5**.
+Atur IP pada interface Foosha yang mengarah ke Pucci dengan **192.168.1.5**.
 
-![Gambar](assets/SurabayaRouting.png)
+![Gambar](assets/foshaatopucci.png)
 
-Atur IP pada interface TULUNGAGUNG yang mengarah ke SURABAYA dengan **192.168.1.6**.
+Atur IP pada interface Pucci yang mengarah ke Foosha dengan **192.168.1.6**.
 
-![Gambar](assets/TulungagungRouting.png)
+![Gambar](assets/puccitofoshaa.png)
 
-Selanjutnya atur IP pada subnet A3. Atur IP pada interface TULUNGAGUNG yang mengarah ke _client_ dengan **192.168.1.65**.
+Selanjutnya atur IP pada subnet A3. Atur IP pada interface Pucci yang mengarah ke _client_ dengan **192.168.1.65**.
 
-![Gambar](assets/TulungagungRouting2.png)
+![Gambar](assets/puccitoclient.png)
 
-Atur IP pada _client_ (nama UML nya) dengan cara :
+Atur IP pada _client_ dengan cara :
 
 -   Masuk ke _client_
 -   Pilih tab Desktop
 -   Pilih IP Configuration
 
-![Gambar](assets/50KomputerDesktop.png)
+![Gambar](assets/hostdesktop.png)
 
-![Gambar](assets/50KomputerRouting.png)
+![Gambar](assets/hostipconfig.png)
 
 Lakukan hal yang sama untuk mengatur alamat IP setiap _**interface**_ pada device yang ada dalam topologi. Setelah selesai, lakukan langkah selanjutnya yaitu _**Routing**_ agar topologi dapat berfungsi dengan semestinya.
 
 #### 3) Routing
 
-Pada CPT, _**Routing**_ dapat dilakukan pada menu **Config** > **Routing** > **Static** pada device **Router**. Lalu isi **Static Routes** seperti gambar dibawah pada SURABAYA dan tekan tombol **Add**
+Pada CPT, _**Routing**_ dapat dilakukan pada menu **Config** > **Routing** > **Static** pada device **Router**. Lalu isi **Static Routes** seperti gambar dibawah pada Foosha dan tekan tombol **Add**
 
-![Gambar](assets/SurabayaRoutingAddress.png)
+![Gambar](assets/routingfoosha.png)
 
-Pada _static routing_ juga dibutuhkan _**default routing**_ agar router dapat mengirimkan paket sesuai dengan tujuan. Default routing dibutuhkan untuk router yang berada di bawah router utama (router yang terhubung internet), contohnya TULUNGAGUNG
+Pada _static routing_ juga dibutuhkan _**default routing**_ agar router dapat mengirimkan paket sesuai dengan tujuan. Default routing dibutuhkan untuk router yang berada di bawah router utama (router yang terhubung internet), contohnya Pucci
 
-![Gambar](assets/TulungagungRoutingAddress.png)
+![Gambar](assets/routingpucci.png)
 
 _**Keterangan**_ :
 
 1.  Network 192.168.1.64 adalah Network ID yang akan dihubungkan
 2.  Mask 255.255.255.192 adalah netmask dari subnet A3
-3.  Next Hop 192.168.1.65 (disebut **gateway**), adalah IP yang dituju ketika ingin menuju subnet poin 1, yaitu interface pada TULUNGAGUNG yang mengarah ke SURABAYA
+3.  Next Hop 192.168.1.65 (disebut **gateway**), adalah IP yang dituju ketika ingin menuju subnet poin 1, yaitu interface pada Pucci yang mengarah ke Foosha
 
-Pada **UML**, _routing_ dilakukan pada device _**router**_ dengan perintah :
+Pada **GNS3**, _routing_ dilakukan pada device _**router**_ dengan perintah :
 
 ```
 route add -net <NID subnet> netmask <netmask> gw <IP gateway>
@@ -379,9 +377,9 @@ route -n
 
 ```
 
-Maka sekarang, (nama UML nya) dan _host_ pada (nama UML nya) sudah saling terhubung. Agar semua subnet dapat saling terhubung, tambahkan _static routing_ berikut di UML dan CPT sesuai dengan synxtax masing - masing :
+Maka sekarang, (nama GNS3 nya) dan _host_ pada (nama GNS3 nya) sudah saling terhubung. Agar semua subnet dapat saling terhubung, tambahkan _static routing_ berikut di GNS3 dan CPT sesuai dengan synxtax masing - masing :
 
-1.  Pada SURABAYA
+1.  Pada Foosha
     
     ```
      Network 192.168.1.128 Netmask 255.255.255.128 Next Hop 192.168.1.6
@@ -392,21 +390,21 @@ Maka sekarang, (nama UML nya) dan _host_ pada (nama UML nya) sudah saling terhub
     
     ```
     
-2.  Pada TULUNGAGUNG
+2.  Pada Pucci
     
     ```
      Network 192.168.1.128 Netmask 255.255.255.128 Next Hop 192.168.1.2
     
     ```
     
-3.  Pada BATU
+3.  Pada Water7
     
     ```
      Network 0.0.0.0 Netmask 0.0.0.0 Next Hop 192.168.1.1
     
     ```
     
-4.  Pada JOMBANG
+4.  Pada Guanhao
     
     ```
      Network 0.0.0.0 Netmask 0.0.0.0 Next Hop 192.168.1.9
@@ -415,7 +413,7 @@ Maka sekarang, (nama UML nya) dan _host_ pada (nama UML nya) sudah saling terhub
     
     ```
     
-5.  Pada KEDIRI
+5.  Pada Arabasta
     
     ```
      Network 0.0.0.0 Netmask 0.0.0.0 Next Hop 192.168.1.13
@@ -433,6 +431,6 @@ Untuk mengetesnya dapat dilakukan dengan cara ping dari client ke IP tujuan atau
 
 ### Latihan!
 
-![Gambar](assets/Latihan.png)
+![Gambar](assets/soal.png)
 
-Implementasikan subnetting dan routing topologi di atas pada Cisco Packet Tracer dan UML menggunakan teknik subnetting yang berbeda! Contoh pada Cisco Packet Tracer menggunakan CIDR, pada UML menggunakan VLSM atau sebaliknya. (Untuk UML, tiap subnet diwakili satu client/komputer saja)
+Implementasikan subnetting dan routing topologi di atas pada Cisco Packet Tracer dan GNS3 menggunakan teknik subnetting yang berbeda! Contoh pada Cisco Packet Tracer menggunakan CIDR, pada GNS3 menggunakan VLSM atau sebaliknya. (tiap subnet diwakili satu client/komputer saja)
