@@ -349,9 +349,9 @@ Penjelasan :
 
 # Soal Latihan
 
-![Topologi Latihan](img/topo_latihan.png)
+![image](https://user-images.githubusercontent.com/58405725/143586683-ffbf45db-13a0-48d9-abde-454a8ac8de39.png)
 
-1. Komputer di subnet GRESIK tidak diizinkan mengakses server MOJOKERTO
-2. Komputer di subnet JOMBANG tidak dapat diakses pada pukul 07.00 - 17.00
-3. Server MALANG tidak diperbolehkan menerima koneksi SSH
-4. Semua paket yang menuju subnet TUBAN akan diarahkan ke SIDOARJO
+1. PC Baratie tidak diizinkan mengakses server Water7
+2. PC Arabasta tidak dapat diakses pada pukul 07.00 - 17.00
+3. Server Water7 tidak diperbolehkan menerima koneksi HTTP
+4. Semua paket yang menuju PC Baratie akan diarahkan ke PC Mariejois
