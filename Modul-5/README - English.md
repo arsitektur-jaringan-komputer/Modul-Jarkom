@@ -356,9 +356,9 @@ Explanation :
 
 # Exercise
 
-![exercise topology](img/topo_latihan.png)
+![image](https://user-images.githubusercontent.com/58405725/143586683-ffbf45db-13a0-48d9-abde-454a8ac8de39.png)
 
-1. Computers in the GRESIK subnet are not allowed to access the MOJOKERTO server
-2. Computers on the JOMBANG subnet cannot be accessed at 07.00 - 17.00
-3. MALANG server is not allowed to accept SSH connections
-4. All packets going to the TUBAN subnet will be directed to SIDOARJO
+1. Baratie PC not allowed to access the Water7 server
+2. Arabasta PC cannot be accessed at 07.00 - 17.00
+3. Water7 server is not allowed to accept HTTP connections
+4. All packets going to the Baratie PC will be directed to Mariejois
