@@ -184,7 +184,7 @@ NAT Table berfungsi untuk mentranslasikan jaringan lokal yang melewati firewall 
     
     Hal ini sangat penting, dikarenakan berarti tools lain yang di dalam router itu (routing, packet filtering) akan melihat paket itu tidak berubah. Hal ini juga berarti opsi -o (outgoing interface) juga bisa digunakan. Source dispesifikasikan dengan menggunakan -j SNAT, dan juga opsi --to-source untuk menspesifikasikan sebuah alamat IP, range alamat IP dan port atau range port (hanya untuk protokol UDP dan TCP) yang sifatnya optional. 
     
-    Sebagai contoh, pada modul pengenalan UML kita telah menjalankan IP masquerading dengan syntax berikut:
+    Sebagai contoh, pada modul pengenalan GNS3 kita telah menjalankan IP masquerading dengan syntax berikut:
     ```
     # iptables --table nat --append POSTROUTING --out-interface eth0 --jump MASQUERADE
 
