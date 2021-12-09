@@ -15,30 +15,34 @@
 
 # SUBNETTING AND ROUTING
 
--   [A. PENGENALAN](#a-pengenalan)
-    -   [Istilah](#istilah)
-    -   [IP Address](#ip-address)
-    -   [Subnet](#subnet)
-    -   [Network ID, Broadcast Address, dan Available Hosts](#network-id-broadcast-address-dan-available-hosts)
-        -   [Network ID](#network-id)
-        -   [Broadcast Address](#broadcast-address)
-        -   [Available Hosts](#available-hosts)
-    -   [IP Publik dan IP Privat](#ip-publik-dan-ip-privat)
--   [B. SUBNETTING](#b-subnetting)
-    -   [Pengertian](#pengertian)
-    -   [Perhitungan Subnet](#perhitungan-subnet)
-        -   [A. Classful](#a-classful)
-        -   [B. Classless](#b-classless)
-            -   [1. VLSM (Variable Length Subnet Masking)](#vlsm-(variable-length-subnet-masking))
-            -   [2. CIDR (Classless Inter Domain Routing)](#2-cidr-(classless-inter-domain-routing))
--   [C. ROUTING](#c-routing)
-    -   [Pengertian](#pengertian)
-    -   [Praktik](#praktik)
-        -   [1) Membuat Topologi](#1-membuat-topologi)
-        -   [2) Subnetting](#2-subnetting)
-        -   [3) Routing](#3-routing)
-        -   [4) Testing](#4-testing)
--   [LATIHAN!](#-latihan!)
+- [Persiapan](#persiapan)
+  - [Topologi Pada CPT](#topologi-pada-cpt)
+  - [Topologi Pada GNS3](#topologi-pada-gns3)
+- [SUBNETTING AND ROUTING](#subnetting-and-routing)
+  - [A. Pengenalan](#a-pengenalan)
+    - [Istilah](#istilah)
+    - [IP Address](#ip-address)
+    - [Subnet](#subnet)
+    - [Network ID, Broadcast Address, dan Available Hosts](#network-id-broadcast-address-dan-available-hosts)
+      - [Network ID](#network-id)
+      - [Broadcast Address](#broadcast-address)
+      - [Available Hosts](#available-hosts)
+    - [IP Publik dan IP Privat](#ip-publik-dan-ip-privat)
+  - [B. SUBNETTING](#b-subnetting)
+    - [Pengertian](#pengertian)
+    - [Perhitungan Subnet](#perhitungan-subnet)
+      - [A. Classful](#a-classful)
+      - [B. Classless](#b-classless)
+        - [1. VLSM (Variable Length Subnet Masking)](#1-vlsm-variable-length-subnet-masking)
+        - [2. CIDR (Classless Inter Domain Routing)](#2-cidr-classless-inter-domain-routing)
+  - [C. ROUTING](#c-routing)
+    - [Pengertian](#pengertian-1)
+    - [Praktik](#praktik)
+      - [1) Membuat Topologi](#1-membuat-topologi)
+      - [2) Subnetting](#2-subnetting)
+      - [3) Routing](#3-routing)
+      - [4) Testing](#4-testing)
+    - [Latihan!](#latihan)
 
 ## A. Pengenalan
 
@@ -331,7 +335,7 @@ Atur IP pada interface Pucci yang mengarah ke Foosha dengan **192.168.1.6**.
 
 ![Gambar](assets/puccitofoshaa.png)
 
-Selanjutnya atur IP pada subnet A3. Atur IP pada interface Pucci yang mengarah ke _client_ dengan **192.168.1.65**.
+Selanjutnya atur IP pada subnet A3. Atur IP pada interface Pucci yang mengarah ke _client_ dengan **192.168.1.65**. Dan jangan lupa untuk set Port Status ke **On** agar interface bisa digunakan.
 
 ![Gambar](assets/puccitoclient.png)
 

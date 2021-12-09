@@ -283,7 +283,6 @@ Untuk opsi command maupun parameter lebih lengkap dapat dilihat pada dokumentasi
 ```bash
 # iptables -L | grep policy
 ```
-#### 
 #### Change default policy for a Chain
 ```bash
 # iptables --policy {ACCEPT | DROP | REJECT}
@@ -301,7 +300,6 @@ Contoh :
 ```
 Penjelasan : 
 - ACCEPTS semua koneksi yang berasal dari IP 10.151.36.201
-#####
 #### DROP koneksi dari sebuah subnet
 
 ```bash
@@ -346,6 +344,9 @@ Penjelasan :
 ```bash
 # iptables -L
 ```
+
+#### Testing
+Untuk melakukan test bisa menggunakan aplikasi dengan command `apt-get install netcat`. Lalu setelah itu bisa melakukan testing, testing ini tergantung dengan cara penggunaan. Untuk kasus firewall dengan port tertentu bisa dengan command `nc -l -p [PORT]` di receiver dan nc `[IP Receiver] [PORT]` di sender, lalu jika sudah tersambung kita bisa memasukkan kalimat apapun di sender dan receiver akan menerimanya.
 
 # Soal Latihan
 
