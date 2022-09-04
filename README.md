@@ -1,3 +1,3 @@
-# Modul Jarkom 2021
+# Modul Jarkom 2022
 
-Modul Jaringan Komputer tahun 2021
+Modul Jaringan Komputer tahun 2022
