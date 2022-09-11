@@ -250,15 +250,11 @@ Saat hasil capture dilihat akan muncul data dibawah ini :
 ![STOR](images/retr.JPG)
 
 ## Latihan
-1. Ketika mengakses suatu halaman web, berapakah port yang dituju oleh suatu paket?
-2. Apa sajakah perbedaan ketika mengakses halaman utama website its.ac.id dan monta.if.its.ac.id? Jelaskan jawaban anda!
-3. Ada berapa jumlah paket yang dikirimkan oleh web server ketika mengunduh file? Mengapa terjadi yang seperti itu?
-4. Dari hasil analisa paket, apa perbedaan ketika menggunakan persistent connection dan non-persistent connection?
-5. Apa perbedaan ketika autentikasi menggunakan method basic dengan digest?
-6. Apa perbedaan ketika mengakses halaman web biasa dengan ketika proses login terjadi?
-7. Apa saja yang selalu dikirimkan browser ke web server? Export data hasil paket capture!
-8. Apakah ada paket yang dikirimkan oleh perangkat anda pada saat tidak sedang mengakses browser? Kalau ada, coba temukan domainnya!
-9. Akses website http://www.columbia.edu/~fdc/sample.html, download gambar pada halaman tersebut lalu coba ambil gambar dari wireshark!
+1. Apakah perbedaan capture filter dan display filter pada wireshark berdasarkan paket yang ditangkap?
+2. Apa perbedaan filter `ip.dst` dengan `ip.dst_host`
+3. Lakukan `ping` pada `1.1.1.1` (server dns cloudflare), terapkan display filter yang menampilkan paket-paket yang bersangkutan, lalu carilah apa protokol yang digunakan!
+4. Buka halaman `https://example.com/index.html` dan dapatkan source file `index.html` nya mengunakan wireshark!
+
 
 ## Referensi
 + https://nyengnyeng.com/macam-macam-kabel-jaringan-komputer/
