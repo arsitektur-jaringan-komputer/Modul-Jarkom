@@ -274,15 +274,11 @@ When the capture results are available, the data will appear as shown below:
 
 ## Excercise
 
-1. When accessing a web page, what port does a packet go to?
-2. What is the difference between accessing the main page of its.ac.id and monta.if.its.ac.id? Explain your answer!
-3. How many packets are sent by the web server when downloading a file? Why did it happen?
-4. From the packet analysis result, what is the difference between a persistent connection and a non-persistent connection?
-5. What is the difference between basic authentication method and digest?
-6. What is the difference between accessing a normal web page and accessing a web page when the login process occurs?
-7. What information does the browser always send to the web server? Export the packet capture data.
-8. Are there packets sent by your device when you are not accessing the browser? If so, try to find the domain!
-9. Access the website http://www.columbia.edu/~fdc/sample.html, download the image on the page and try to download that picture again from wireshark!
+1. What is the difference between capture filter and display filter in wireshark based on captured packets?
+2. What is the difference between `ip.dst` filter and `ip.dst_host` filter?
+3. Do a `ping` on `1.1.1.1` (cloudflare dns server), apply a display filter that shows the packets in question, then find out what protocol is used!
+4. Go to `https://example.com/index.html` page and get the source file `index.html` using wireshark!
+
 
 ## Reference
 + https://nyengnyeng.com/macam-macam-kabel-jaringan-komputer/
