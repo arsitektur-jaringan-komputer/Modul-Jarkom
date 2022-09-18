@@ -277,7 +277,7 @@ When the capture results are available, the data will appear as shown below:
 1. What is the difference between capture filter and display filter in wireshark based on captured packets?
 2. What is the difference between `ip.dst` filter and `ip.dst_host` filter?
 3. Do a `ping` on `1.1.1.1` (cloudflare dns server), apply a display filter that shows the packets in question, then find out what protocol is used!
-4. Go to `https://example.com/index.html` page and get the source file `index.html` using wireshark!
+4. Go to `http://example.com/index.html` page and get the source file `index.html` using wireshark!
 
 
 ## Reference
