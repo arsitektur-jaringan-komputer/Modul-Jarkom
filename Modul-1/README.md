@@ -253,7 +253,7 @@ Saat hasil capture dilihat akan muncul data dibawah ini :
 1. Apakah perbedaan capture filter dan display filter pada wireshark berdasarkan paket yang ditangkap?
 2. Apa perbedaan filter `ip.dst` dengan `ip.dst_host`
 3. Lakukan `ping` pada `1.1.1.1` (server dns cloudflare), terapkan display filter yang menampilkan paket-paket yang bersangkutan, lalu carilah apa protokol yang digunakan!
-4. Buka halaman `https://example.com/index.html` dan dapatkan source file `index.html` nya mengunakan wireshark!
+4. Buka halaman `http://example.com/index.html` dan dapatkan source file `index.html` nya mengunakan wireshark!
 
 
 ## Referensi
