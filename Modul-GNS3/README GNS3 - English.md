@@ -4,8 +4,9 @@ GNS3 Introductory Module
 - [GNS3 Introductory Module](#gns3-introductory-module)
   - [what is GNS3?](#what-is-gns3)
   - [GNS3 Installation](#gns3-installation)
-    - [Using VM](#using-vm)
-    - [Using Ubuntu](#using-ubuntu)
+    - [Import Image on VirtualBox](#import-image-on-virtualbox)
+    - [Import Image on VMWare](#import-image-on-vmware)
+    - [Insert Ubuntu Image into GNS3](#insert-ubuntu-image-into-gns3)
   - [GNS3 Usage](#gns3-usage)
     - [Setup IP](#setup-ip)
       - [Prefix IP Distribution](#prefix-ip-distribution)
@@ -21,9 +22,9 @@ GNS3 Introductory Module
 **GNS3 (Graphical Network Simulator-3)** is a tool that helps you to be able to run a simulation from a small topology consisting of only a few tools on your computer to a topology that has many tools hosted on several servers.
 
 ## GNS3 Installation
-### VM Using
+### Import Image on VirtualBox
 1. Installing VirtualBox
-Please download from [following link](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html) or [the following link (Drive ITS).](https://drive.google.com/file/d/10R5GyMtn0R8yWLDvhmxKMl_GySD2gXUK/view?usp=sharing)
+Please download from [following link](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html)
 
 2. Download Image VM GNS3
 Please download from [following link](https://github.com/GNS3/gns3-gui/releases/download/v2.2.19/GNS3.VM.VirtualBox.2.2.19.zip). After that, extract it.
@@ -40,14 +41,15 @@ Please download from [following link](https://github.com/GNS3/gns3-gui/releases/
   - Click Create <br/>
 ![new-host-network-adapter-2](images/new-host-network-adapter-2.jpg)
   - Then set the IPv4 Address to `192.168.0.1`, and the IPv4 Network Mask to `255.255.255.0` then click apply
-![new-host-network-adapter-3](images/new-host-network-adapter-3.jpg)
+![new-host-network-adapter-4](images/new-host-network-adapter-4.jpg)
+![new-host-network-adapter-5](images/new-host-network-adapter-5.jpg)
 
 5. Change Network Adapter in VM 
   - Go to Settings -> Network
   - Change Adapter 1 to Host-only Adapter and match it with the previously created network host
-![setting-network-vm-1](images/setting-network-vm-1.jpg)
+![setting-network-vm-1](images/setting-network-vm-3.jpg)
   - And change Adapter 2 to NAT <br/>
-![setting-network-vm-2](images/setting-network-vm-2.jpg)
+![setting-network-vm-3](images/setting-network-vm-2.jpg)
   - Then click OK
 
 6.  Run the VM
@@ -56,18 +58,56 @@ Please download from [following link](https://github.com/GNS3/gns3-gui/releases/
   - Then open the address with the caption "To launch the Web-UI" in the browser
 ![vm-2](images/vm-2.jpg)
 
-7. Import ubuntu image
+After that please proceed to import the Ubuntu image into GNS3 [here](#insert-ubuntu-image-into-gns3)
+
+
+### Import Image on VMWare
+1. Install VMWare
+Please download from [link below](https://customerconnect.vmware.com/downloads/info/slug/desktop_end_user_computing/vmware_workstation_player/16_0).
+
+2. Download Image VM GNS3
+Please download from [link below](https://github.com/GNS3/gns3-gui/releases/download/v2.2.26/GNS3.VM.VMware.Workstation.2.2.26.zip). After that, just extract.
+
+3. Import the .ova file into VMWare and name the VM. 
+
+![import-ova](images/insert-image-vmware-1.png)
+
+![import-ova-2](images/insert-image-vmware-2.png)
+
+![import-ova-3](images/insert-image-vmware-3.png)
+
+4. Adjust VMWare settings by clicking `Edit virtual machine settings`.
+- Make sure the Network settings are correct.
+
+![settingan-vmware-1](images/settingan-vmware-1.png)
+
+- If there is an error `Virtualized ... Not Supported on Platform` when the vm is running, try disabling virtualization in the processor settings
+
+![settingan-vmware-2](images/settingan-vmware-2.png)
+
+5.  Run the VM
+  - Then the VM should be able to display this
+![vm](images/vm-vmware-1.png)
+  - Then open the address with the caption "To launch the Web-UI" in the browser
+![vm-2](images/vm-vmware-2.png)
+
+After that please continue to import the Ubuntu image into GNS3 [here](#insert-ubuntu-image-into-gns3)
+
+### Insert Ubuntu Image into GNS3
+
+1. Import ubuntu image
   - Click `Go to preferences`
   - Click `Docker`
   - Click `Add Docker container template`
   - `Server type` choose `Run this Docker container locally`
-  - Click `Docker Virtual Machine`, choose `New image` fill `kuuhaku86/gns3-ubuntu:1.0.0` in Image name
-![insert-image-1](images/insert-imaget-1.jpg)
+  - Click `Docker Virtual Machine`, choose `New image` fill `kuuhaku86/gns3-ubuntu:1.0.1` in Image name<br>
+![insert-image-1](images/insert-imaget-2.jpg)
   - Click `Container name` fill `ubuntu-1` as container name
   - Click `Network adapters` and enter the number 4 
+  - Click `Start command` and enter `/bin/bash`
   - Then click `Add template` button on the bottom.
 
-8. Try the imported image
+2. Try the imported image
   - Click `Servers` on upper left
   - Click `local`
   - Click `Add blank project`
@@ -82,46 +122,11 @@ Please download from [following link](https://github.com/GNS3/gns3-gui/releases/
   - We can start by right-clicking on node and click `Start` <br/>
 ![test-image-3](images/test-image-3.jpg)
 
-9. Access the node
+3. Access the node
   - Can be done with `Web console` <br/>
 ![akses-node-1](images/akses-node-1.jpg)
   - This can be done using the command `telnet [VM IP] [Port node]` according to the one on the right, if you use the example in the picture, the command is `telnet 192.168.0.16 5000`
 ![akses-node-2](images/akses-node-2.jpg)
-  - If using telnet, be careful if you want to exit the node. Use `Ctrl + ]` then type quit to exit the node.
-  - If the command prompt doesn't come out, you can click enter many times until it comes out
-
-### Using Ubuntu
-1. Install GNS3
-Please follow the steps from the following link [Ubuntu-based distributions (64-bit only).](https://docs.gns3.com/docs/getting-started/installation/linux/)
-
-2. Import ubuntu image
-  - Click `Edit > preferences`
-  - Click `Docker container` (usually on the bottom most)
-  - Click `New`
-  - In `Docker Virtual Machine`, choose `New image` fill `kuuhaku86/gns3-ubuntu:1.0.0` in Image name, then click next.
-![insert-image-2](images/insert-imaget-2.png)
-  - In `Container name` enter `ubuntu-1` as the container name, then click next.
-  - In `Network adapters` and enter the number `4`, then click next.
-  - In the `Start command` leave blank, then click next.
-  - In `Console type` select `telnet`, then click next.
-  - In `Environment` leave blank, then click `finish`.
-  - Then click `Apply` and `OK` button.
-
-3. Try the imported image
-  - Click `End devices` on the left side (monitor shape icon)
-  <br/>
-![test-image-4](images/test-image-4.png)
-  - Then drag `ubuntu-1` to an empty area on the page
-  - Wait until loading is complete
-  - If successful will display a display similar to this
-![test-image-5](images/test-image-5.png)
-  - We can start by right-clicking on the node and clicking `Start`.
-
-4. Access the node
-  - This can be done by right-clicking on the node and clicking `console`. <br/>
-![akses-node-3](images/akses-node-3.png)
-  - Can be done using the command `telnet [IP VM] [Port node]` according to the right, if using the example in the picture, then the command is `telnet 127.0.0.1 5000` (hover the cursor to the node to see the port node)
-![akses-node-4](images/akses-node-4.png)
   - If using telnet, be careful if you want to exit the node. Use `Ctrl + ]` then type quit to exit the node.
   - If the command prompt doesn't come out, you can click enter many times until it comes out
 
@@ -133,133 +138,142 @@ In computer network practicum, you will often do the setting for the IP of the n
 #### Prefix IP Distribution
 
 **Class A** 
-GROUP | Prefix IP |
+Group | Prefix IP |
 ---------|------------ |
-A1 | 192.168 |
-A2 | 10.0 |
-A3 | 192.169 |
-A4 | 10.1 |
-A5 | 192.170 |
-A6 | 10.2 |
-A7 | 192.171 |
-A8 | 10.3 |
-A9 | 192.172 |
-A10 | 10.4 |
-A11 | 192.173 |
-A12 | 10.5 |
-A13 | 192.174 |
-A14 | 10.6 |
-A15 | 192.175 |
-A16 | 10.7 |
+A01 | 192.169 |
+A02 | 10.0 |
+A03 | 192.170 |
+A04 | 10.1 |
+A05 | 192.171 |
+A06 | 10.2 |
+A07 | 192.172 |
+A08 | 10.3 |
 
 **Class B** 
-GROUP | Prefix IP |
+Group | Prefix IP |
 ---------|------------ |
-B1 | 192.176 |
-B2 | 10.8 |
-B3 | 192.177 |
-B4 | 10.9 |
-B5 | 192.178 |
-B6 | 10.10 |
-B7 | 192.179 |
-B8 | 10.11 |
-B9 | 192.180 |
-B10 | 10.12 |
-B11 | 192.181 |
-B12 | 10.13 |
-B13 | 192.182 |
-B14 | 10.14 |
+B01 | 192.173 |
+B02 | 10.4 |
+B03 | 192.174 |
+B04 | 10.5 |
+B05 | 192.175 |
+B06 | 10.6 |
+B07 | 192.176 |
+B08 | 10.7 |
+B09 | 192.177 |
+B10 | 10.8 |
+B11 | 192.178 |
+B12 | 10.9 |
+B13 | 192.179 |
 
 **Class C** 
-GROUP | Prefix IP |
+Group | Prefix IP |
 ---------|------------ |
-C1 | 192.183 |
-C2 | 10.15 |
-C3 | 192.184 |
-C4 | 10.16 |
-C5 | 192.185 |
-C6 | 10.17 |
-C7 | 192.186 |
-C8 | 10.18 |
-C9 | 192.187 |
-C10 | 10.19 |
-C11 | 192.188 |
-C12 | 10.20 |
-C13 | 192.189 |
-C14 | 10.21 |
-C15 | 192.190 |
+C01 | 10.10 |
+C02 | 192.180 |
+C03 | 10.11 |
+C04 | 192.181 |
+C05 | 10.12 |
+C06 | 192.182 |
+C07 | 10.13 |
+C08 | 192.183 |
+C09 | 10.14 |
+C10 | 192.184 |
+C11 | 10.15 |
 
 **Class D** 
-GROUP | Prefix IP |
+Group | Prefix IP |
 ---------|------------ |
-D1 | 192.191 |
-D2 | 10.22 |
-D3 | 192.192 |
-D4 | 10.23 |
-D5 | 192.193 |
-D6 | 10.24 |
-D7 | 192.194 |
-D8 | 10.25 |
-D9 | 192.195 |
-D10 | 10.26 |
-D11 | 192.196 |
-D12 | 10.27 |
-D13 | 192.197 |
-D14 | 10.28 |
-D15 | 192.198 |
-D16 | 10.29 |
+D01 | 192.185 |
+D02 | 10.16 |
+D03 | 192.186 |
+D04 | 10.17 |
+D05 | 192.187 |
+D06 | 10.18 |
+D07 | 192.188 |
+D08 | 10.19 |
+D09 | 192.189 |
+D10 | 10.20 |
+D11 | 192.190 |
+D12 | 10.21 |
+D13 | 192.191 |
+D14 | 192.192 |
 
 **Class E** 
-GROUP | Prefix IP |
+Group | Prefix IP |
 ---------|------------ |
-E1 | 192.199 |
-E2 | 10.30 |
-E3 | 192.200 |
-E4 | 10.31 |
-E5 | 192.201 |
-E6 | 10.32 |
-E7 | 192.202 |
-E8 | 10.33 |
-E9 | 192.203 |
-E10 | 10.34 |
-E11 | 192.204 |
-E12 | 10.35 |
-E13 | 192.205 |
-E14 | 10.36 |
-E15 | 192.206 |
-E16 | 10.37 |
-E17 | 192.207 |
+E01 | 10.22 |
+E02 | 192.193 |
+E03 | 10.23 |
+E04 | 192.194 |
+E05 | 10.24 |
+E06 | 192.195 |
+E07 | 10.25 |
+E08 | 192.196 |
+E09 | 10.26 |
+E10 | 192.197 |
+E11 | 10.27 |
+E12 | 192.198 |
+E13 | 10.28 |
+E14 | 192.199 |
+
+**Class F**
+Group | Prefix IP |
+---------|-----------|
+F01 | 10.29 |
+F02 | 192.200 |
+F03 | 10.30 |
+F04 | 192.201 |
+F05 | 10.31 |
+F06 | 192.202 |
+F07 | 10.32 |
+F08 | 192.203 |
+F09 | 10.33 |
+F10 | 192.204 |
+F11 | 10.34 |
+F12 | 192.205 |
+F13 | 10.35 |
+F14 | 192.206 |
 
 **Class IUP** 
-GROUP | Prefix IP |
+Group | Prefix IP |
 ---------|------------ |
-IUP1 | 10.38 |
-IUP2 | 192.208 |
-IUP3 | 10.39 |
-IUP4 | 192.209 |
-IUP5 | 10.40 |
-IUP6 | 192.210 |
-IUP7 | 10.41 |
-IUP8 | 192.211 |
+I01 | 10.36 |
+I02 | 192.207 |
+I02 | 10.37 |
+I03 | 192.208 |
+I04 | 10.38 |
+I05 | 192.209 |
+I06 | 10.39 |
+I07 | 192.210 |
 
-**Class TI** 
-GROUP | Prefix IP |
+**Class IT A** 
+Group | Prefix IP |
 ---------|------------ |
-TI1 | 10.42 |
-TI2 | 192.212 |
-TI3 | 10.43 |
-TI4 | 192.213 |
-TI5 | 10.44 |
-TI6 | 192.214 |
-TI7 | 10.45 |
-TI8 | 192.215 |
-TI9 | 10.46 |
-TI10 | 192.216 |
-TI11 | 10.47 |
-TI12 | 192.217 |
-TI13 | 10.48 |
-TI14 | 192.218 |
-TI15 | 10.49 |
+ITA01 | 10.40 |
+ITA02 | 192.211 |
+ITA03 | 10.41 |
+ITA04 | 192.212 |
+ITA05 | 10.42 |
+ITA06 | 192.212 |
+ITA07 | 10.43 |
+ITA08 | 192.213 |
+ITA09 | 10.44 |
+ITA10 | 192.214 |
+
+**Class IT B**
+Group | PREFIX IP |
+---------|-----------|
+ITB01 | 10.45 |
+ITB02 | 192.215 |
+ITB03 | 10.46 |
+ITB04 | 192.216 |
+ITB05 | 10.47 |
+ITB06 | 192.217 |
+ITB07 | 10.48 |
+ITB08 | 192.218 |
+ITB09 | 10.49 |
+ITB10 | 192.219 |
 
 If there is a command using IP `[Prefix IP].1.2` then example if I am group A2 the IP is `10.0.1.2` 
 
@@ -369,13 +383,15 @@ If there is a command using IP `[Prefix IP].1.2` then example if I am group A2 t
 ## Warnings, Advice, Tips and Tricks
 - What's installed on node **is not persistent**, meaning when you work on the project again you need to re-install the app
 - So, **always** save the config on the node to the `/root` directory before exiting the project
-- You can enter the commands you want to always run on that node into the `/root/.bashrc` file at the very bottom. (Example: iptables command and echo nameserver earlier)
+- You can enter the commands you want to always run on that node into the `/root/.bashrc` file at the very bottom. (Example: iptables command and echo nameserver earlier)<br>
 ![tips-trik-1](images/tips-trik-1.jpg)
 - You can export a project if you are working as a team by going to the `Project settings` -> `Export portable project` menu.
 ![tips-trik-2](images/tips-trik-2.jpg)
-
+- If working using a VM on your own local. You can prevent the loss of applications or config files by turning off the VM in save state mode.
+- Take advantage of bash scripting to install the necessary applications so you don't have to enter commands one by one, then save to `/root`.
 ## Troubleshooting
-- 
+- Something you used to do but suddenly couldn't? Try turning off the VM first and then turning it back on. Still not able? Try another way to install GNS3 before asking the assistant.
+- Can't install in one method? Try another install method first before asking the assistant.
 
 
 ## References

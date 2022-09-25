@@ -4,11 +4,9 @@ Modul Pengenalan GNS3
 - [Modul Pengenalan GNS3](#modul-pengenalan-gns3)
   - [Apakah GNS3 itu?](#apakah-gns3-itu)
   - [Instalasi GNS3](#instalasi-gns3)
-    - [Menggunakan VM](#menggunakan-vm)
-      - [Import Image di VirtualBox](#import-image-di-virtualbox)
-      - [Import Image di VMWare](#import-image-di-vmware)
-      - [Memasukkan Image Ubuntu ke GNS3](#memasukkan-image-ubuntu-ke-gns3)
-    - [Menggunakan Ubuntu](#menggunakan-ubuntu)
+    - [Import Image di VirtualBox](#import-image-di-virtualbox)
+    - [Import Image di VMWare](#import-image-di-vmware)
+    - [Memasukkan Image Ubuntu ke GNS3](#memasukkan-image-ubuntu-ke-gns3)
   - [Penggunaan GNS3](#penggunaan-gns3)
     - [Setup IP](#setup-ip)
       - [Pembagian Prefix IP](#pembagian-prefix-ip)
@@ -24,13 +22,12 @@ Modul Pengenalan GNS3
 **GNS3 (Graphical Network Simulator-3)** adalah alat yang membantu Anda untuk bisa menjalankan sebuah simulasi dari topologi kecil yang hanya terdiri dari beberapa alat saja di komputer Anda sampai dengan topologi yang memiliki banyak alat yang di-hosting di beberapa server.
 
 ## Instalasi GNS3
-### Menggunakan VM
-#### Import Image di VirtualBox
+### Import Image di VirtualBox
 1. Install VirtualBox
 Silahkan mendownload dari [link berikut](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
 
 2. Download Image VM GNS3
-Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/releases/download/v2.2.19/GNS3.VM.VirtualBox.2.2.19.zip) atau dengan [link berikut (Drive ITS)](https://drive.google.com/file/d/10R5GyMtn0R8yWLDvhmxKMl_GySD2gXUK/view?usp=sharing). Sehabis itu langsung saja extract.
+Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/releases/download/v2.2.19/GNS3.VM.VirtualBox.2.2.19.zip). Sehabis itu langsung saja extract.
 
 3. Import file .ova ke VirtualBox
 
@@ -64,7 +61,7 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#memasukkan-image-ubuntu-ke-gns3)
 
 
-#### Import Image di VMWare
+### Import Image di VMWare
 1. Install VMWare
 Silahkan mendownload dari [link berikut](https://customerconnect.vmware.com/downloads/info/slug/desktop_end_user_computing/vmware_workstation_player/16_0).
 
@@ -96,17 +93,18 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 
 Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#memasukkan-image-ubuntu-ke-gns3)
 
-#### Memasukkan Image Ubuntu ke GNS3
+### Memasukkan Image Ubuntu ke GNS3
 
 1. Import image ubuntu
   - Klik `Go to preferences`
   - Klik `Docker`
   - Klik `Add Docker container template`
   - `Server type` pilih `Run this Docker container locally`
-  - Klik `Docker Virtual Machine`, pilih `New image` isikan `kuuhaku86/gns3-ubuntu:1.0.0` di Image name
-![insert-image-1](images/insert-imaget-1.jpg)
+  - Klik `Docker Virtual Machine`, pilih `New image` isikan `kuuhaku86/gns3-ubuntu:1.0.1` di Image name<br>
+  ![insert-image-1](images/insert-imaget-2.jpg)
   - Klik `Container name` masukkan `ubuntu-1` sebagai nama container
   - Klik `Network adapters` dan masukkan angka 4 
+  - Klik `Start command` dan masukkan `/bin/bash`
   - Lalu klik tombol `Add template` di bawah sendiri
 
 2. Coba image yang telah di-import
@@ -132,41 +130,6 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
   - Jika menggunakan telnet, hati-hati jika ingin keluar dari node. Gunakan `Ctrl + ]` lalu ketik quit untuk keluar dari node.
   - Jika command prompt tidak kunjung keluar, bisa klik enter berkali-kali sampai keluar
 
-### Menggunakan Ubuntu
-1. Install GNS3
-Silahkan ikuti step-stepnya dari link berikut [Ubuntu-based distributions (64-bit only).](https://docs.gns3.com/docs/getting-started/installation/linux/)
-
-2. Import image ubuntu
-  - Klik `Edit > preferences`
-  - Klik `Docker container` (biasanya paling bawah)
-  - Klik `New`
-  - Pada `Docker Virtual Machine`, pilih `New image` isikan `kuuhaku86/gns3-ubuntu:1.0.0` di Image name, lalu klik next.
-![insert-image-2](images/insert-imaget-2.png)
-  - Pada `Container name` masukkan `ubuntu-1` sebagai nama container, lalu klik next.
-  - Pada `Network adapters` dan masukkan angka `4`, lalu klik next.
-  - Pada `Start command` biarkan kosong, lalu klik next.
-  - Pada `Console type` pilih `telnet`, lalu klik next.
-  - Pada `Environment` biarkan kosong, lalu klik `finish`.
-  - Kemudian klik tombol `Apply` dan `OK`.
-
-3. Coba image yang telah di-import
-  - Klik `End devices` di samping kiri (icon bentuk monitor)
-  <br/>
-![test-image-4](images/test-image-4.png)
-  - Lalu tarik `ubuntu-1` ke area kosong di halaman
-  - Tunggu sampai loading selesai
-  - Jika berhasil akan menampilkan tampilan yang mirip dengan ini
-![test-image-5](images/test-image-5.png)
-  - Kita bisa start dengan klik kanan di node dan klik `Start`.
-
-4. Akses node
-  - Bisa dilakukan dengan klik kanan di node dan klik `console`.  <br/>
-![akses-node-3](images/akses-node-3.png)
-  - Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` sesuai dengan di kanan, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 127.0.0.1 5000` (arahkan cursor ke nodenya untuk melihat port node)
-![akses-node-4](images/akses-node-4.png)
-  - Jika menggunakan telnet, hati-hati jika ingin keluar dari node. Gunakan `Ctrl + ]` lalu ketik quit untuk keluar dari node.
-  - Jika command prompt tidak kunjung keluar, bisa klik enter berkali-kali sampai keluar
-
 ## Penggunaan GNS3
 
 ### Setup IP
@@ -177,131 +140,140 @@ Dalam praktikum jaringan komputer, Anda akan sering melakukan setting untuk IP d
 **Kelas A** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-A1 | 192.169 |
-A2 | 10.0 |
-A3 | 192.170 |
-A4 | 10.1 |
-A5 | 192.171 |
-A6 | 10.2 |
-A7 | 192.172 |
-A8 | 10.3 |
-A9 | 192.173 |
-A10 | 10.4 |
-A11 | 192.174 |
-A12 | 10.5 |
-A13 | 192.175 |
-A14 | 10.6 |
-A15 | 192.176 |
-A16 | 10.7 |
+A01 | 192.169 |
+A02 | 10.0 |
+A03 | 192.170 |
+A04 | 10.1 |
+A05 | 192.171 |
+A06 | 10.2 |
+A07 | 192.172 |
+A08 | 10.3 |
 
 **Kelas B** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-B1 | 192.177 |
-B2 | 10.8 |
-B3 | 192.178 |
-B4 | 10.9 |
-B5 | 192.179 |
-B6 | 10.10 |
-B7 | 192.180 |
-B8 | 10.11 |
-B9 | 192.181 |
-B10 | 10.12 |
-B11 | 192.182 |
-B12 | 10.13 |
-B13 | 192.183 |
-B14 | 10.14 |
+B01 | 192.173 |
+B02 | 10.4 |
+B03 | 192.174 |
+B04 | 10.5 |
+B05 | 192.175 |
+B06 | 10.6 |
+B07 | 192.176 |
+B08 | 10.7 |
+B09 | 192.177 |
+B10 | 10.8 |
+B11 | 192.178 |
+B12 | 10.9 |
+B13 | 192.179 |
 
 **Kelas C** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-C1 | 192.184 |
-C2 | 10.15 |
-C3 | 192.185 |
-C4 | 10.16 |
-C5 | 192.186 |
-C6 | 10.17 |
-C7 | 192.187 |
-C8 | 10.18 |
-C9 | 192.188 |
-C10 | 10.19 |
-C11 | 192.189 |
-C12 | 10.20 |
-C13 | 192.190 |
-C14 | 10.21 |
-C15 | 192.191 |
+C01 | 10.10 |
+C02 | 192.180 |
+C03 | 10.11 |
+C04 | 192.181 |
+C05 | 10.12 |
+C06 | 192.182 |
+C07 | 10.13 |
+C08 | 192.183 |
+C09 | 10.14 |
+C10 | 192.184 |
+C11 | 10.15 |
 
 **Kelas D** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-D1 | 192.192 |
-D2 | 10.22 |
-D3 | 192.193 |
-D4 | 10.23 |
-D5 | 192.194 |
-D6 | 10.24 |
-D7 | 192.195 |
-D8 | 10.25 |
-D9 | 192.196 |
-D10 | 10.26 |
-D11 | 192.197 |
-D12 | 10.27 |
-D13 | 192.198 |
-D14 | 10.28 |
-D15 | 192.199 |
-D16 | 10.29 |
+D01 | 192.185 |
+D02 | 10.16 |
+D03 | 192.186 |
+D04 | 10.17 |
+D05 | 192.187 |
+D06 | 10.18 |
+D07 | 192.188 |
+D08 | 10.19 |
+D09 | 192.189 |
+D10 | 10.20 |
+D11 | 192.190 |
+D12 | 10.21 |
+D13 | 192.191 |
+D14 | 192.192 |
 
 **Kelas E** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-E1 | 192.200 |
-E2 | 10.30 |
-E3 | 192.201 |
-E4 | 10.31 |
-E5 | 192.202 |
-E6 | 10.32 |
-E7 | 192.203 |
-E8 | 10.33 |
-E9 | 192.204 |
-E10 | 10.34 |
-E11 | 192.205 |
-E12 | 10.35 |
-E13 | 192.206 |
-E14 | 10.36 |
-E15 | 192.207 |
-E16 | 10.37 |
-E17 | 192.208 |
+E01 | 10.22 |
+E02 | 192.193 |
+E03 | 10.23 |
+E04 | 192.194 |
+E05 | 10.24 |
+E06 | 192.195 |
+E07 | 10.25 |
+E08 | 192.196 |
+E09 | 10.26 |
+E10 | 192.197 |
+E11 | 10.27 |
+E12 | 192.198 |
+E13 | 10.28 |
+E14 | 192.199 |
+
+**Kelas F**
+KELOMPOK | Prefix IP |
+---------|-----------|
+F01 | 10.29 |
+F02 | 192.200 |
+F03 | 10.30 |
+F04 | 192.201 |
+F05 | 10.31 |
+F06 | 192.202 |
+F07 | 10.32 |
+F08 | 192.203 |
+F09 | 10.33 |
+F10 | 192.204 |
+F11 | 10.34 |
+F12 | 192.205 |
+F13 | 10.35 |
+F14 | 192.206 |
 
 **Kelas IUP** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-IUP1 | 10.38 |
-IUP2 | 192.209 |
-IUP3 | 10.39 |
-IUP4 | 192.210 |
-IUP5 | 10.40 |
-IUP6 | 192.211 |
-IUP7 | 10.41 |
-IUP8 | 192.212 |
+I01 | 10.36 |
+I02 | 192.207 |
+I02 | 10.37 |
+I03 | 192.208 |
+I04 | 10.38 |
+I05 | 192.209 |
+I06 | 10.39 |
+I07 | 192.210 |
 
-**Kelas TI** 
+**Kelas IT A** 
 KELOMPOK | Prefix IP |
 ---------|------------ |
-TI1 | 10.42 |
-TI2 | 192.212 |
-TI3 | 10.43 |
-TI4 | 192.213 |
-TI5 | 10.44 |
-TI6 | 192.214 |
-TI7 | 10.45 |
-TI8 | 192.215 |
-TI9 | 10.46 |
-TI10 | 192.216 |
-TI11 | 10.47 |
-TI12 | 192.217 |
-TI13 | 10.48 |
-TI14 | 192.218 |
-TI15 | 10.49 |
+ITA01 | 10.40 |
+ITA02 | 192.211 |
+ITA03 | 10.41 |
+ITA04 | 192.212 |
+ITA05 | 10.42 |
+ITA06 | 192.212 |
+ITA07 | 10.43 |
+ITA08 | 192.213 |
+ITA09 | 10.44 |
+ITA10 | 192.214 |
+
+**Kelas IT B**
+KELOMPOK | PREFIX IP |
+---------|-----------|
+ITB01 | 10.45 |
+ITB02 | 192.215 |
+ITB03 | 10.46 |
+ITB04 | 192.216 |
+ITB05 | 10.47 |
+ITB06 | 192.217 |
+ITB07 | 10.48 |
+ITB08 | 192.218 |
+ITB09 | 10.49 |
+ITB10 | 192.219 |
 
 Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah kelompok A2 IP adalah `10.0.1.2` 
 
@@ -411,12 +383,10 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
 ## Peringatan, Saran, Tips, dan Trik
 - Apa yang diinstal di node **tidak persisten**, artinya saat Anda mengerjakan project tersebut lagi Anda perlu menginstal aplikasi itu kembali
 - Maka **selalu** simpan config di node ke directory `/root` sebelum keluar dari project
-- Anda bisa memasukkan command yang ingin selalu dijalankan di node tersebut ke file `/root/.bashrc` di bagian paling bawah. (Contoh : command iptables dan echo nameserver tadi)
+- Anda bisa memasukkan command yang ingin selalu dijalankan di node tersebut ke file `/root/.bashrc` di bagian paling bawah. (Contoh : command iptables dan echo nameserver tadi)</br>
 ![tips-trik-1](images/tips-trik-1.jpg)
-- Anda bisa melakukan ekspor project jika bekerja secara tim dengan pergi ke menu `Project settings` -> `Export portable project`.
+- Anda bisa melakukan ekspor project jika bekerja secara tim dengan pergi ke menu `Project settings` -> `Export portable project`.</br>
 ![tips-trik-2](images/tips-trik-2.jpg)
-- Ketika ada update image, import lagi imagenya seperti yang kita lakukan di langkah `Import image ubuntu` dan sesuaikan nama image dan versinya, contohnya jika ada versi 1.0.1 maka masukkan `kuuhaku86/gns3-ubuntu:1.0.1` ke bagian New Image dan penamaan container jadikan `ubuntu-101`.
-![tips-trik-3](images/insert-imaget-2.jpg)
 - Jika mengerjakan menggunakan VM di local kalian sendiri. Kalian bisa mencegah hilangnya aplikasi atau file config dengan mematikan VM di mode save state.
 - Manfaatkan bash scripting untuk install-install aplikasi yang diperlukan sehingga tidak perlu memasukkan command satu-satu, lalu save ke `/root`.
 ## Troubleshooting
