@@ -104,7 +104,7 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
   ![insert-image-1](images/insert-imaget-2.jpg)
   - Klik `Container name` masukkan `ubuntu-1` sebagai nama container
   - Klik `Network adapters` dan masukkan angka 4 
-  - Klik `Start command` dan masukkan `/bin/bash`
+  - Kosongi bagian `Start command`.
   - Lalu klik tombol `Add template` di bawah sendiri
 
 2. Coba image yang telah di-import
