@@ -74,24 +74,24 @@ Kita akan membuat node `EniesLobby` sebagai DNS server.
 ![instal bind9](images/1.png)
 
 ### 1.2.B Pembuatan Domain
-Pada sesilab ini kita akan membuat domain **jarkom2021.com**.
+Pada sesilab ini kita akan membuat domain **jarkom2022.com**.
 
 - Lakukan perintah pada *EniesLobby*. Isikan seperti berikut:
 
   ```
-   nano /etc/bind/named.conf.local
+  nano /etc/bind/named.conf.local
   ```
 
-- Isikan configurasi domain **jarkom2021.com** sesuai dengan syntax berikut:
+- Isikan configurasi domain **jarkom2022.com** sesuai dengan syntax berikut:
 
   ```
-  zone "jarkom2021.com" {
+  zone "jarkom2022.com" {
   	type master;
-  	file "/etc/bind/jarkom/jarkom2021.com";
+  	file "/etc/bind/jarkom/jarkom2022.com";
   };
   ```
 
-![config jarkom2021.com](images/2.png)
+![config jarkom2022.com](images/2-2.png)
 
 - Buat folder **jarkom** di dalam **/etc/bind**
 
@@ -99,19 +99,19 @@ Pada sesilab ini kita akan membuat domain **jarkom2021.com**.
   mkdir /etc/bind/jarkom
   ```
 
-- Copykan file **db.local** pada path **/etc/bind** ke dalam folder **jarkom** yang baru saja dibuat dan ubah namanya menjadi **jarkom2021.com**
+- Copykan file **db.local** pada path **/etc/bind** ke dalam folder **jarkom** yang baru saja dibuat dan ubah namanya menjadi **jarkom2022.com**
 
   ```
-  cp /etc/bind/db.local /etc/bind/jarkom/jarkom2021.com
+  cp /etc/bind/db.local /etc/bind/jarkom/jarkom2022.com
   ```
 
-- Kemudian buka file **jarkom2021.com** dan edit seperti gambar berikut dengan IP *EniesLobby* masing-masing kelompok:
+- Kemudian buka file **jarkom2022.com** dan edit seperti gambar berikut dengan IP *EniesLobby* masing-masing kelompok:
 
   ```
-  nano /etc/bind/jarkom/jarkom2021.com
+  nano /etc/bind/jarkom/jarkom2022.com
   ```
 
-![konfig jarkom2021](images/3.png)
+![konfig jarkom2022](images/3-1.png)
 
 - Restart bind9 dengan perintah 
 
@@ -135,21 +135,21 @@ Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu ki
 	nano /etc/resolv.conf
 	```
 
-![ping](images/4.png)
+![ping](images/4-1.png)
 
-- Untuk mencoba koneksi DNS, lakukan ping domain **jarkom2021.com** dengan melakukan  perintah berikut pada client *Loguetown* dan *Alabasta*
+- Untuk mencoba koneksi DNS, lakukan ping domain **jarkom2022.com** dengan melakukan  perintah berikut pada client *Loguetown* dan *Alabasta*
 
   ```
-  ping jarkom2021.com
+  ping jarkom2022.com -c 5
   ```
 
-![ping](images/5.png)
+![ping](images/5-1.png)
 
 
 
 ### 1.2.D Reverse DNS (Record PTR)
 
-Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan string domain **jarkom2021.com** kedalam alamat IP agar dapat dibuka, maka Reverse DNS atau Record PTR digunakan untuk menerjemahkan alamat IP ke alamat domain yang sudah diterjemahkan sebelumnya.
+Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan string domain **jarkom2022.com** kedalam alamat IP agar dapat dibuka, maka Reverse DNS atau Record PTR digunakan untuk menerjemahkan alamat IP ke alamat domain yang sudah diterjemahkan sebelumnya.
 
 - Edit file **/etc/bind/named.conf.local** pada *EniesLobby*
 
@@ -157,29 +157,29 @@ Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan stri
   nano /etc/bind/named.conf.local
   ```
 
-- Lalu tambahkan konfigurasi berikut ke dalam file **named.conf.local**. Tambahkan reverse dari 3 byte awal dari IP yang ingin dilakukan Reverse DNS. Karena di contoh saya menggunakan IP `10.40.2` untuk IP dari records, maka reversenya adalah `2.40.10` 
+- Lalu tambahkan konfigurasi berikut ke dalam file **named.conf.local**. Tambahkan reverse dari 3 byte awal dari IP yang ingin dilakukan Reverse DNS. Karena di contoh saya menggunakan IP `192.168.2` untuk IP dari records, maka reversenya adalah `2.168.192` 
 
   ```
-  zone "2.40.10.in-addr.arpa" {
+  zone "2.168.192.in-addr.arpa" {
       type master;
-      file "/etc/bind/jarkom/2.40.10.in-addr.arpa";
+      file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
   };
   ```
 
-![](images/6.png)
+![](images/6-1.png)
 
-- Copykan file **db.local** pada path **/etc/bind** ke dalam folder **jarkom** yang baru saja dibuat dan ubah namanya menjadi **2.40.10.in-addr.arpa**
+- Copykan file **db.local** pada path **/etc/bind** ke dalam folder **jarkom** yang baru saja dibuat dan ubah namanya menjadi **2.168.192.in-addr.arpa**
 
   ```
-  cp /etc/bind/db.local /etc/bind/jarkom/2.40.10.in-addr.arpa
+  cp /etc/bind/db.local /etc/bind/jarkom/2.168.192.in-addr.arpa
   ```
 
-  *Keterangan 2.40.10 adalah 3 byte pertama IP EniesLobby yang dibalik urutan penulisannya*
+  *Keterangan 2.168.192 adalah 3 byte pertama IP EniesLobby yang dibalik urutan penulisannya*
 
-- Edit file **2.40.10.in-addr.arpa** menjadi seperti gambar di bawah ini
+- Edit file **2.168.192.in-addr.arpa** menjadi seperti gambar di bawah ini
 
 
-![konfig](images/7.png)
+![konfig](images/7-1.png)
 
 - Kemudian restart bind9 dengan perintah 
 
@@ -199,7 +199,7 @@ Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan stri
   host -t PTR "IP EniesLobby"
   ```
 
-![host](images/8.png)
+![host](images/8-1.png)
 
 
 
@@ -208,10 +208,10 @@ Record CNAME adalah sebuah record yang membuat alias name dan mengarahkan domain
 
 Langkah-langkah membuat record CNAME:
 
-- Buka file **jarkom2021.com** pada server *EniesLobby* dan tambahkan konfigurasi seperti pada gambar berikut:
+- Buka file **jarkom2022.com** pada server *EniesLobby* dan tambahkan konfigurasi seperti pada gambar berikut:
 
 
-![DNS](images/9.png)
+![DNS](images/9-1.png)
 
 
 
@@ -221,10 +221,10 @@ Langkah-langkah membuat record CNAME:
   service bind9 restart
   ```
 
-- Lalu cek dengan melakukan **host -t CNAME www.jarkom2021.com** atau **ping www.jarkom2021.com**. Hasilnya harus mengarah ke host dengan IP *EniesLobby*.
+- Lalu cek dengan melakukan `host -t CNAME www.jarkom2022.com` atau `ping www.jarkom2022.com -c 5`. Hasilnya harus mengarah ke host dengan IP *EniesLobby*.
 
 
-![DNS](images/10.png)
+![DNS](images/10-1.png)
 
 
 
@@ -237,16 +237,16 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 - Edit file **/etc/bind/named.conf.local** dan sesuaikan dengan syntax berikut
 
   ```
-  zone "jarkom2021.com" {
+  zone "jarkom2022.com" {
       type master;
       notify yes;
       also-notify { "IP Water7"; }; // Masukan IP Water7 tanpa tanda petik
       allow-transfer { "IP Water7"; }; // Masukan IP Water7 tanpa tanda petik
-      file "/etc/bind/jarkom/jarkom2021.com";
+      file "/etc/bind/jarkom/jarkom2022.com";
   };
   ```
 
-  ![DNS](images/11.png)
+  ![DNS](images/11-2.png)
 
 
 
@@ -275,14 +275,14 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 - Kemudian buka file **/etc/bind/named.conf.local** pada Water7 dan tambahkan syntax berikut:
 
   ```
-  zone "jarkom2021.com" {
+  zone "jarkom2022.com" {
       type slave;
       masters { "IP EniesLobby"; }; // Masukan IP EniesLobby tanpa tanda petik
-      file "/var/lib/bind/jarkom2021.com";
+      file "/var/lib/bind/jarkom2022.com";
   };
   ```
 
-![DNS](images/12.png)
+![DNS](images/12-2.png)
 
 - Lakukan restart bind9
 
@@ -302,28 +302,28 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
 - Pada client *Loguetown* pastikan pengaturan nameserver mengarah ke IP *EniesLobby* dan IP *Water7*
 
-  ![DNS](images/13.png)
+  ![DNS](images/13-1.png)
 
-- Lakukan ping ke jarkom2021.com pada client *Loguetown*. Jika ping berhasil maka konfigurasi DNS slave telah berhasil
+- Lakukan ping ke jarkom2022.com pada client *Loguetown*. Jika ping berhasil maka konfigurasi DNS slave telah berhasil
 
 
-![DNS](images/14.png)
+![DNS](images/14-1.png)
 
 
 
 ### 1.2.G Membuat Subdomain
 
-Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu ke suatu alamat fisik di sebuah situs contohnya: **jarkom2021.com** merupakan sebuah domain induk. Sedangkan **luffy.jarkom2021.com** merupakan sebuah subdomain.
+Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu ke suatu alamat fisik di sebuah situs contohnya: **jarkom2022.com** merupakan sebuah domain induk. Sedangkan **luffy.jarkom2022.com** merupakan sebuah subdomain.
 
-- Edit file **/etc/bind/jarkom/jarkom2021.com** lalu tambahkan subdomain untuk **jarkom2021.com** yang mengarah ke IP *Water7*.
+- Pada *EniesLobby*, edit file **/etc/bind/jarkom/jarkom2022.com** lalu tambahkan subdomain untuk **jarkom2022.com** yang mengarah ke IP *Water7*.
 
   ```
-  nano /etc/bind/jarkom/jarkom2021.com
+  nano /etc/bind/jarkom/jarkom2022.com
   ```
 
-- Tambahkan konfigurasi seperti pada gambar ke dalam file **jarkom2021.com**.
+- Tambahkan konfigurasi seperti pada gambar ke dalam file **jarkom2022.com**.
 
-![DNS](images/15.png)
+![DNS](images/15-1.png)
 
 - Restart service bind  
 
@@ -334,14 +334,14 @@ Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu
 - Coba ping ke subdomain dengan perintah berikut dari client *Loguetown*
 
   ```
-  ping luffy.jarkom2021.com
+  ping luffy.jarkom2022.com
   
   ATAU
   
-  host -t A luffy.jarkom2021.com
+  host -t A luffy.jarkom2022.com
   ```
 
-  ![DNS](images/16.png)
+  ![DNS](images/16-1.png)
 
 
 
@@ -351,13 +351,13 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 #### I. Konfigurasi Pada Server *EniesLobby*
 
-- Pada *EniesLobby*, edit file **/etc/bind/jarkom/jarkom2021.com** dan ubah menjadi seperti di bawah ini sesuai dengan pembagian IP *EniesLobby* kelompok masing-masing.
+- Pada *EniesLobby*, edit file **/etc/bind/jarkom/jarkom2022.com** dan ubah menjadi seperti di bawah ini sesuai dengan pembagian IP *EniesLobby* kelompok masing-masing.
 
   ```
-  nano /etc/bind/jarkom/jarkom2021.com
+  nano /etc/bind/jarkom/jarkom2022.com
   ```
 
-![DNS](images/17.png)
+![DNS](images/17-1.png)
 
 - Kemudian edit file **/etc/bind/named.conf.options** pada *EniesLobby*.
 
@@ -377,15 +377,15 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 - Kemudian edit file **/etc/bind/named.conf.local** menjadi seperti gambar di bawah:
 
   ```
-  zone "jarkom2021.com" {
+  zone "jarkom2022.com" {
       type master;
-      file "/etc/bind/jarkom/jarkom2021.com";
+      file "/etc/bind/jarkom/jarkom2022.com";
       allow-transfer { "IP Water7"; }; // Masukan IP Water7 tanpa tanda petik
   };
   ```
 
 
-![DNS](images/19.png)
+![DNS](images/19-1.png)
 
 - Setelah itu restart bind9
 
@@ -411,20 +411,20 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 - Lalu edit file **/etc/bind/named.conf.local** menjadi seperti gambar di bawah:
 
-![DNS](images/21.png)
+![DNS](images/21-2.png)
 
 - Kemudian buat direktori dengan nama **delegasi** 
 
-- Copy **db.local** ke direktori pucang dan edit namanya menjadi **its.jarkom2021.com** 
+- Copy **db.local** ke direktori tersebut dan edit namanya menjadi **its.jarkom2022.com** 
 
   ```
   mkdir /etc/bind/delegasi
-  cp /etc/bind/db.local /etc/bind/delegasi/its.jarkom2021.com
+  cp /etc/bind/db.local /etc/bind/delegasi/its.jarkom2022.com
   ```
 
-- Kemudian edit file **its.jarkom2021.com** menjadi seperti dibawah ini
+- Kemudian edit file **its.jarkom2022.com** menjadi seperti dibawah ini
 
-![DNS](images/22.png)
+![DNS](images/22-1.png)
 
 - Restart bind9
 
@@ -434,9 +434,9 @@ Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS ba
 
 #### III. Testing
 
-- Lakukan ping ke domain **its.jarkom2021.com** dan **integra.its.jarkom2021.com** dari client *Loguetown*
+- Lakukan ping ke domain **its.jarkom2022.com** dan **integra.its.jarkom2022.com** dari client *Loguetown*
 
-![DNS](images/23.png)
+![DNS](images/23-1.png)
 
 
 
@@ -463,7 +463,7 @@ forwarders {
 allow-query{any;};
 ```
 
-![DNS](images/24.png)
+![DNS](images/24-1.png)
 - Restart bind9
 
   ```
@@ -492,15 +492,15 @@ allow-query{any;};
 
    Contoh:
 
-   ![DNS](images/7.png)
+   ![DNS](images/7-1.png)
 
 2. #### Penggunaan Titik
 
-   ![DNS](images/17.png)
+   ![DNS](images/17-1.png)
 
    Pada salah satu contoh di atas, dapat kita amati pada kolom keempat terdapat record yang menggunakan titik pada akhir kata dan ada yang tidak. Penggunaan titik berfungsi sebagai penentu FQDN (Fully-Qualified Domain Name) suatu domain.
 
-   Contohnya jika "**jarkom2021.com.**" di akhiri dengan titik maka akan dianggap sebagai FQDN dan akan dibaca sebagai "**jarkom2021.com**" , sedangkan ns1 di atas tidak menggunakan titik sehingga dia tidak terbaca sebagai FQDN. Maka ns1 akan di tambahkan di depan terhadap nilai $ORIGIN sehinga ns1 akan terbaca sebagai "**ns1.jarkom2021.com**" . Nilai $ORIGIN diambil dari penamaan zone yang terdapat pada  */etc/bind/named.conf.local*.
+   Contohnya jika "**jarkom2022.com.**" di akhiri dengan titik maka akan dianggap sebagai FQDN dan akan dibaca sebagai "**jarkom2022.com**" , sedangkan ns1 di atas tidak menggunakan titik sehingga dia tidak terbaca sebagai FQDN. Maka ns1 akan di tambahkan di depan terhadap nilai $ORIGIN sehinga ns1 akan terbaca sebagai "**ns1.jarkom2022.com**" . Nilai $ORIGIN diambil dari penamaan zone yang terdapat pada  */etc/bind/named.conf.local*.
 
 3. #### Penulisan Name Server (NS) record
 
