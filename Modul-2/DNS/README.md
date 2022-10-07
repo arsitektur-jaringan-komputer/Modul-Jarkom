@@ -334,7 +334,7 @@ Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu
 - Coba ping ke subdomain dengan perintah berikut dari client *Loguetown*
 
   ```
-  ping luffy.jarkom2022.com
+  ping luffy.jarkom2022.com -c 5
   
   ATAU
   
