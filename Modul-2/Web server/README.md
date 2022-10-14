@@ -21,7 +21,7 @@
   + D. [Module Rewrite](#d-module-rewrite)
 
 ## A. Persyaratan Tambahan untuk Mengikuti Sesi Lab
-Record A dan PTR pada jarkom2021.com sudah harus mengarah ke IP Water7
+Record A dan PTR pada jarkom2022.com sudah harus mengarah ke IP Water7
 
 <img src="images/1.png" width="700">
 <br/>
@@ -263,30 +263,30 @@ Akses alamat __http://[IP Water7]:8080__
 
 ## I. Mari Berimajinasi
 ### A. Setting Domain pada Apache
-Fulan dan Poyoyo adalah satu kelompok dalam mata kuliah Jaringan Komputer. Mereka diperintahkan oleh asisten untuk membuat website dengan domain __jarkom2021.com__, dan diberikan akses ke server yang bisa digunakan sebagai tempat host untuk websitenya. Tapi karena sesuatu dan lain hal, Poyoyo tidak bisa membantumu mengerjakan perintah dari asisten. Beruntungnya, Poyoyo meninggalkan catatan untuk Fulan ikuti agar Fulan dapat menyelesaikan perintah dari asisten.
+Fulan dan Poyoyo adalah satu kelompok dalam mata kuliah Jaringan Komputer. Mereka diperintahkan oleh asisten untuk membuat website dengan domain __jarkom2022.com__, dan diberikan akses ke server yang bisa digunakan sebagai tempat host untuk websitenya. Tapi karena sesuatu dan lain hal, Poyoyo tidak bisa membantumu mengerjakan perintah dari asisten. Beruntungnya, Poyoyo meninggalkan catatan untuk Fulan ikuti agar Fulan dapat menyelesaikan perintah dari asisten.
 
 Ayo bantu Fulan dengan mengonfigurasi server sesuai petunjuk yang diberikan Poyoyo:
 
 #### A.1 Pindah ke _directory_ `/etc/apache2/sites-available`
-Copy file __000-default.conf__ menjadi file __jarkom2021.com__. Jangan lupa untuk tidak menambahkan `.conf` jika apache2 versi 2.2.x
+Copy file __000-default.conf__ menjadi file __jarkom2022.com__. Jangan lupa untuk tidak menambahkan `.conf` jika apache2 versi 2.2.x
 
 <img src="images/19.png" width="700">
 
-#### A.2 Buka file _jarkom2021.com_
+#### A.2 Buka file _jarkom2022.com_
 + Tambahkan
 	```
-	ServerName jarkom2021.com
-	ServerAlias www.jarkom2021.com
+	ServerName jarkom2022.com
+	ServerAlias www.jarkom2022.com
 	```
 	Menurut [dokumentasi apache2.4](https://httpd.apache.org/docs/2.2/mod/core.html):
 	+ `ServerName` adalah "_Hostname and port that the server uses to identify itself_"
 	+ `ServerAlias` adalah "_Alternate names for a host used when matching requests to name-virtual host_"
-+ Ubah _DocumentRoot_ menjadi `/var/www/jarkom2021.com`
++ Ubah _DocumentRoot_ menjadi `/var/www/jarkom2022.com`
 
 <img src="images/20.png" width="700">
 
-#### A.3 Aktifkan konfigurasi _jarkom2021.com_
-Gunakan perintah `a2ensite jarkom2021.com`
+#### A.3 Aktifkan konfigurasi _jarkom2022.com_
+Gunakan perintah `a2ensite jarkom2022.com`
 
 #### A.4 Restart apache
 Gunakan perintah `service apache2 restart`
@@ -294,11 +294,11 @@ Gunakan perintah `service apache2 restart`
 <img src="images/21.png" width="700">
 
 #### A.5 Pindah ke _directory_ `/var/www`
-Kemudian buatlah sebuah _directory_ baru di dalam `var/www` dengan nama __jarkom2021.com__
+Kemudian buatlah sebuah _directory_ baru di dalam `/var/www` dengan nama __jarkom2022.com__
 
 <img src="images/22.png" width="700">
 
-#### A.6 Masuk ke _directory_ `/var/www/jarkom2021.com` dan buat file _index.php_
+#### A.6 Masuk ke _directory_ `/var/www/jarkom2022.com` dan buat file _index.php_
 Isi file __index.php__ tersebut dengan
 ```
 <?php
@@ -308,14 +308,14 @@ Isi file __index.php__ tersebut dengan
 
 <img src="images/23.png" width="700">
 
-#### A.7 Buka _jarkom2021.com_ menggunakan _lynx_
+#### A.7 Buka _jarkom2022.com_ menggunakan _lynx_
 
 <img src="images/24.png">
 
 ### B. Directory Listing
-Di dalam _directory_ `/var/www/jarkom2021.com` diberikan struktur _directory_ sebagai berikut.
+Di dalam _directory_ `/var/www/jarkom2022.com` diberikan struktur _directory_ sebagai berikut.
 ```
-/var/www/jarkom2021.com/
+/var/www/jarkom2022.com/
 ├── assets/
 │   └── javascript/
 ├── data/
@@ -326,22 +326,22 @@ Perintah berikutnya dari asisten adalah untuk membuat beberapa direktori, __/ass
 
 Ayo bantu Fulan yang kebingunan membaca penjelasan dari Poyoyo agar dapat mengerjakan perintah asisten. 
 
-#### B.1 Buat _directory-directory_ yang diperlukan oleh website jarkom2021.com milik Waffle
+#### B.1 Buat _directory-directory_ yang diperlukan oleh website jarkom2022.com milik Waffle
 Gunakan perintah-perintah berikut ini:
 ```
-mkdir /var/www/jarkom2021.com/data
-mkdir /var/www/jarkom2021.com/download
-mkdir /var/www/jarkom2021.com/download/img
-mkdir /var/www/jarkom2021.com/assets
-mkdir /var/www/jarkom2021.com/assets/javascript
+mkdir /var/www/jarkom2022.com/data
+mkdir /var/www/jarkom2022.com/download
+mkdir /var/www/jarkom2022.com/download/img
+mkdir /var/www/jarkom2022.com/assets
+mkdir /var/www/jarkom2022.com/assets/javascript
 ```
 
 <img src="images/25.png" width="700">
 
 #### B.2 Aktifkan Directory Listing untuk /download
-+ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2021.com___ dan tambahkan
++ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2022.com___ dan tambahkan
 	```
-	<Directory /var/www/jarkom2021.com/download>
+	<Directory /var/www/jarkom2022.com/download>
 	    Options +Indexes
 	</Directory>
 	```
@@ -351,7 +351,7 @@ mkdir /var/www/jarkom2021.com/assets/javascript
 	
 	
 + Restart apache dengan perintah `service apache2 restart`
-+ Buka browser dan akses http://jarkom2021.com/download
++ Buka browser dan akses http://jarkom2022.com/download
 
 <img src="images/27.png">
 
@@ -360,17 +360,17 @@ Untuk mengatur _directory_ pada sebuah web, menggunakan
 ```
 <Directory /x> ... </Directory>
 ```
-Contoh untuk mengatur `/var/www/jarkom2021.com/download`
+Contoh untuk mengatur `/var/www/jarkom2022.com/download`
 ```
-<Directory /var/www/jarkom2021.com/download>
+<Directory /var/www/jarkom2022.com/download>
 	
 </Directory>
 ```
 
 #### B.3 Matikan Directory Listing untuk /assets
-+ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2021.com___ dan tambahkan
++ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2022.com___ dan tambahkan
 	```
-	<Directory /var/www/jarkom2021.com/assets>
+	<Directory /var/www/jarkom2022.com/assets>
 	    Options -Indexes
 	</Directory>
 	```
@@ -379,7 +379,7 @@ Contoh untuk mengatur `/var/www/jarkom2021.com/download`
 	<img src="images/28.png" width="700">
 	
 + Restart apache dengan perintah `service apache2 restart`
-+ Buka browser dan akses http://jarkom2021.com/assets
++ Buka browser dan akses http://jarkom2022.com/assets
 
 <img src="images/29.png">
 
@@ -388,13 +388,13 @@ Karena URL __http://[IP Water7]/assets/javascript__ dirasa terlalu panjang, maka
 
 Berikut adalah langkah-langkah pengerjaan yang diberikan Poyoyo:
 
-+ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2021.com___ dan tambahkan
++ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2022.com___ dan tambahkan
 	```    
-	<Directory /var/www/jarkom2021.com/assets/javascript>
+	<Directory /var/www/jarkom2022.com/assets/javascript>
 	    Options +Indexes
 	</Directory>
 	
-	Alias "/assets/js" "/var/www/jarkom2021.com/assets/javascript"
+	Alias "/assets/js" "/var/www/jarkom2022.com/assets/javascript"
 	```
 
 	jangan lupa untuk menyimpan perubahan tersebut agar _directory_  ___assets/javascript___ dapat menampilkan isi _directory_-nya saat pengguna mengakses __http://[IP Water7]/assets/js__.
@@ -402,8 +402,8 @@ Berikut adalah langkah-langkah pengerjaan yang diberikan Poyoyo:
 	<img src="images/30.png" width="700">
 	
 + Restart apache dengan perintah `service apache2 restart`
-+ Pindah ke folder __/var/www/jarkom2021.com/assets/javascript__ dan buat file __app.js__ dengan perintah `touch app.js`
-+ Buka browser dan akses http://jarkom2021.com/assets/js
++ Pindah ke folder __/var/www/jarkom2022.com/assets/javascript__ dan buat file __app.js__ dengan perintah `touch app.js`
++ Buka browser dan akses http://jarkom2022.com/assets/js
 
 <img src="images/31.png">
 
@@ -421,8 +421,8 @@ Biasanya semua konfigurasi terhadap sebuah website diatur pada file di _director
 
 Untuk mengatasi masalah tersebut, buat file __.htaccess__ pada _directory_ yang akan diatur.
 
-Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_ dari __[http://jarkom2021.com](http://jarkom2021.com)__ agar saat mengakses file php kita tidak perlu menuliskan ekstensinya. Maka yang yang perlu kita lakukan adalah
-+ Pindah ke _directory_ `/var/www/jarkom2021.com` dan buat file __.htaccess__ dengan isi file
+Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_ dari __[http://jarkom2022.com](http://jarkom2022.com)__ agar saat mengakses file php kita tidak perlu menuliskan ekstensinya. Maka yang yang perlu kita lakukan adalah
++ Pindah ke _directory_ `/var/www/jarkom2022.com` dan buat file __.htaccess__ dengan isi file
 	```
 	RewriteEngine On
 	RewriteCond %{REQUEST_FILENAME} !-d
@@ -436,15 +436,15 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 	+ `RewriteCond %{REQUEST_FILENAME} !-d` = aturan tidak akan jalan ketika yang diakses adalah _directory_ (d)
 	+ `RewriteRule ^([^\.]+)$ $1.php [NC,L]` = $1 adalah parameter input yang akan dicari oleh webserver
 	* Lebih detailnya [klik disini](https://httpd.apache.org/docs/2.4/rewrite/flags.html)
-+ Buat file _about.php_ di dalam _directory_ `/var/www/jarkom2021.com/` dengan isi
++ Buat file _about.php_ di dalam _directory_ `/var/www/jarkom2022.com/` dengan isi
 	```
 	<?php
 		echo "Ini adalah halaman About";
 	?>
 	```
-+ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2021.com___ dan tambahkan
++ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2022.com___ dan tambahkan
 	```
-	<Directory /var/www/jarkom2021.com>
+	<Directory /var/www/jarkom2022.com>
 	    Options +FollowSymLinks -Multiviews
 	    AllowOverride All
 	</Directory>
@@ -459,17 +459,17 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 	+ `-Multiviews` ditambahkan agar konfigurasi __mod_negotiation__ tidak dapat berjalan. __mod_negotiation__ bisa '_rewrite_' _requests_ sehingga menimpa dan mengganggu __mod_rewrite__.
 
 + Restart apache dengan perintah `service apache2 restart`
-+ Buka browser dan akses __http://jarkom2021.com/about__
++ Buka browser dan akses __http://jarkom2022.com/about__
 
 	<img src="images/35.png">
 	
 <!-- ### E. Otorisasi
-Pada web http:jarkom2021.com terdapat path __/data__ yang tidak boleh dibuka sembarang orang. Rachma ingin __/data__ hanya boleh diakses oleh pengguna yang memiliki IP 10.151.252.0/255.255.252.0
+Pada web http:jarkom2022.com terdapat path __/data__ yang tidak boleh dibuka sembarang orang. Rachma ingin __/data__ hanya boleh diakses oleh pengguna yang memiliki IP 10.151.252.0/255.255.252.0
 
 Maka yang diinstruksikan Ifin agar _directory_ __/data__ milik Rachma tetap aman adalah
-+ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2021.com___ dan tambahkan
++ Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2022.com___ dan tambahkan
 	```
-	<Directory /var/www/jarkom2021.com/data>
+	<Directory /var/www/jarkom2022.com/data>
 	    Options +Indexes
 	    Order deny,allow
 	    Deny from all
@@ -485,7 +485,7 @@ Maka yang diinstruksikan Ifin agar _directory_ __/data__ milik Rachma tetap aman
 	+ `Deny from all`  berarti semua pengguna ditolak
 	+ `Allow from 10.151.252.0/255.255.252.0` berarti apabila pengguna memiliki IP NID 10.151.252.0./22, ia diperbolehkan untuk mengakses halaman.
 	+ Info lebih lanjut [klik disini](https://httpd.apache.org/docs/2.4/mod/mod_access_compat.html)	+ Restart apache dengan perintah `service apache2 restart`
-+ Buka browser dan akses __http://jarkom2021.com/data__
++ Buka browser dan akses __http://jarkom2022.com/data__
 Saat pengguna tidak memiliki __IP NID 10.151.252.0/22__ maka akan muncul halaman seperti di bawah ini
 
 	IMG HERE
