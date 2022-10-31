@@ -331,8 +331,7 @@ Jika node client berganti alamat IP sesuai dengan range yang telah dikonfigurasi
 
 ## Soal Latihan
 
-1. Buatlah konfigurasi DHCP agar Loguetown dan Alabasta mendapatkan IP dengan range [Prefix IP].0.100 - [Prefix IP].0.169 dan [Prefix IP].0.200 - [Prefix IP].0.202 dengan syarat:
-Setiap 1 menit, IP pada client berubah dan juga DNS diarahkan ke DNS server kalian sendiri tetapi client tetap bisa digunakan untuk mengakses internet.
+1. Buatlah konfigurasi DHCP agar Loguetown dan Alabasta mendapatkan IP dengan range [Prefix IP].1.69 - [Prefix IP].1.70 dan [Prefix IP].1.200 - [Prefix IP].1.225 dengan syarat: Setiap 2 menit, IP pada client berubah dan juga DNS diarahkan ke DNS server kalian sendiri tetapi client tetap bisa digunakan untuk mengakses internet.
 
 ## Referensi
 - [https://www.isc.org/dhcp/](https://www.isc.org/dhcp/)
