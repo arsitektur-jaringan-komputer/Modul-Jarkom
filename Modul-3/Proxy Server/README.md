@@ -328,16 +328,14 @@ Silakan jalankan perintah `unset http_proxy` pada client yang ingin dinonaktifka
 ## 2.4 Soal Latihan
 Usopp sangat kangen dengan bapaknya, Yasopp. Sehingga Usopp ingin mencari bapaknya di lautan. Maka, Usopp membuat kapal dengan proxynya sendiri.
 
-Proxy yang akan dibuat nantinya harus bisa diakses dengan nama yasoppdicariusopp.xxx.id dengan port yang digunakan adalah 69 (1)
+Proxy yang akan dibuat nantinya harus bisa diakses dengan nama yasoppdicariusopp.xxx.id dengan port yang digunakan adalah 420 (1)
 
-Untuk bisa mengakses proxynya perlu dilakukan login terlebih dahulu (2)
+Untuk bisa mengakses proxynya perlu dilakukan login terlebih dahulu (2) Usopp sebagai bajak laut yang baik, menggunakan username adalah kangenyasopp dan password BapakkuHilangNjirAkuSedih (3)
 
-Usopp sebagai bajak laut yang baik, menggunakan username adalah kangenyasopp dan password BapakkuIlangNjirAkuSedih (3)
+Karena Usopp merupakan bajak laut yang gigih tetapi juga taat beribadah, Usopp hanya bisa mengakses proxy pada waktu selain hari Jumat jam 11 siang sampai jam 1 siang (4)
 
-Karena Usopp merupakan bajak laut yang gigih tetapi juga taat beribadah, Usopp hanya bisa mengakses proxy kecuali hari Jumat mulai jam 12 siang sampai jam 1 siang (4)
+Karena Usopp ingin fokus mencari bapaknya saja tanpa menjadi Soge King, Usopp memutuskan untuk memblokir website sogeking.jp dan website monkp.if.its.ac.id (5)
 
-Karena Usopp ingin fokus mencari bapaknya saja tanpa menjadi _**Sniper King**_, Usopp memutuskan untuk memblokir website sniperking.id dan website monta.if.its.ac.id (5)
-
-Usopp juga mengatur di proxynya agar user mendapatkan bandwith 512 kbps (6)
+Usopp juga mengatur di proxynya agar user mendapatkan bandwith 1024 kbps (6)
 
 Bantu Usopp agar gasin blar bler 🔥🎉😭♥
