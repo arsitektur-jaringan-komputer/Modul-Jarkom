@@ -268,7 +268,7 @@ Buka dan edit file `/etc/dhcp/dhcpd.conf`
 ```
 host Jipangu {
     hardware ethernet 'hwaddress_milik_Jipangu';
-    fixed-address 192.168.0.13;
+    fixed-address 192.168.1.13;
 }
 ```
 
