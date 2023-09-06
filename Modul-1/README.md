@@ -1,15 +1,73 @@
 # Crimping dan Wireshark
 
 ## Daftar Isi
-+ 1.[Wire Crimping](#1-wire-crimping)
++ 0.[Basic Command Line Tools untuk Koneksi pada Jaringan](#0-basic-command-line-tools-untuk-koneksi-pada-jaringan)
+    + [telnet](#01-telnet)
+    + [nc](#02-netcat-nc)
+    + [ping](#03-ping)
+    + [ssh](#04-ssh-secure-shell)
++ 1.[Konsep IP dan Port]()
+    + Konsep IP
+    + Alokasi Port 
++ 2.[Wire Crimping](#1-wire-crimping)
      + 1.1 [Peralatan yang dibutuhkan](#11-peralatan-yang-dibutuhkan)
      + 1.2 [Jenis-jenis Konfigurasi Kabel UTP](#12-konfigurasi-kabel)
      + 1.3 [Langkah-langkah](#13-langkah---langkah)
-+ 2.[Wireshark](#2-wireshark)
++ 3.[Wireshark](#2-wireshark)
 	+ 2.1 [Instalasi](#21-instalasi)
 	+ 2.2 [Filters](#22-filters)
 	+ 2.3 [Export data hasil packet capture](#23-export-data-hasil-paket-capture)
 	+ 2.4 [Penggunaan Wireshark pada FTP Server](#24-penggunaan-wireshark-pada-ftp-server)
+ 
+## 0. Basic Command Line Tools untuk Koneksi pada Jaringan
+
+### 0.1 Telnet
+
+Telnet (Telecommunication Network) adalah sebuah protokol jaringan yang digunakan pada Internet atau LAN (Local Area Network) untuk menyediakan fasilitas komunikasi berbasis teks dan interaksi dua arah dengan menggunakan koneksi terminal virtual.
+
+Protokol ini bisa mengakses komputer dari jarak jauh. Dengan Telnet Anda bisa mengakses file hingga data dari komputer tersebut ke komputer Anda.
+
+Fungsi utama dari telnet adalah mengakses komputer (host/server) dari jarak jauh (remote login). Jadi secara ringkas Telnet berfungsi untuk menghubungkan dua komputer atau lebih dengan tujuan untuk mengelola komputer tujuan.Telnet adalah program yang memungkinkan komputer kita menjadi terminal dari komputer lain di Internet.
+
+### 0.2 Netcat (nc)
+
+Netcat (atau nc) adalah utilitas baris perintah yang membaca dan menulis data melalui koneksi jaringan, menggunakan protokol TCP atau UDP. Perintah ini adalah salah satu alat yang paling kuat dalam jaringan dan persenjataan administrator sistem dan dianggap sebagai alat multi fungsi.
+
+Sintaks dari netcat sendiri adalah sebagai berikut:
+```
+nc [options] host port
+```
+Secara default, Netcat akan mencoba untuk memulai koneksi TCP ke host dan port yang ditentukan. Jika Anda ingin membuat koneksi UDP, gunakan opsi -u.
+
+### 0.3 Ping
+
+Ping merupakan singkatan dari Packet Internet Network Groper. Secara sederhana, ping adalah perintah untuk mengecek status dan keberadaan host dalam sebuah jaringan internet.
+
+Prinsip utama ping adalah seperti penggunaan sonar untuk mengukur kedalaman laut. Jadi, sebuah sinyal dikirimkan ke dasar, lalu lamanya waktu kembali ke atas menjadi dasar perhitungannya.
+
+![ping](https://niagaspace.sgp1.digitaloceanspaces.com/blog/wp-content/uploads/2021/12/14203814/cara-kerja-ping-2-1024x546.jpg)
+
+source: [https://www.niagahoster.co.id/blog/apa-itu-ping/](https://www.niagahoster.co.id/blog/apa-itu-ping/)
+
+Berikut merupakan cara melakukan ping:
+![ping](images/ping.png)
+
+Dengan perintah di atas, Anda akan mendapatkan informasi sebagai berikut:
++ Reply adalah balasan dari host yang diikuti oleh informasi alamat IP. Perintah default di atas, idealnya akan memberikan empat balasan (reply). Namun, bisa saja muncul Request Timed Out (RTO) yang artinya tidak ada balasan sesuai waktu tunggu dari ping tersebut.
++ Bytes adalah jumlah data yang dikirimkan. Untuk Windows, umumnya adalah 32 bytes.
++ Time adalah lamanya waktu respon dari host, yang dihitung dengan satuan ms, atau millisecond. Waktu ping yang bagus adalah di bawah 100ms, terutama kalau penggunaannya untuk game online yang menuntut ping yang rendah.
++ TTL (Time To Live) merupakan durasi sebuah paket data dapat berada di jaringan, yang dicatat dalam hitungan detik. Umumnya, TTL diatur pada kisaran ideal 64 detik.
+
+### 0.4 SSH (Secure Shell)
+
+SSH merupakan sebuah protokol administrasi remote yang memperbolehkan pengguna untuk mengakses dan mengontrol server mereka dalam jaringan secara aman. Mulai dari menjalankan sebuah program, membuat folder, menghapus file, membuat file, transfer file, hingga menjalankan atau menghentikan sebuah services. Singkatnya, SSH memungkinkan pengguna untuk mengelola servernya dengan leluasa meskipun dari jarak jauh.
+
+Cara kerja protokol SSH adalah dengan menerapkan model client-server. Koneksi yang terjadi adalah SSH client (komputer yang digunakan pengguna) melakukan koneksi ke SSH server (server remote yang dituju).
+
+Cara melakukan koneksi dengan SSH adalah sebagai berikut:
+```
+ssh username@host
+```
 
 ## 1. Wire Crimping
 Dalam jaringan komputer, terjadi komunikasi antara satu perangkat dengan perangkat lainnya. Komunikasi itu tentu membutuhkan suatu media. Walaupun sudah ada teknologi komunikasi nirkabel, peran kabel dalam jaringan masih penting dan belum tergantikan. Oleh karena itu dalam modul kali ini, kita akan belajar cara melakukan _crimping_ pada salah satu jenis kabel jaringan yang bernama kabel UTP (_Unshielded Twisted Pair_).
