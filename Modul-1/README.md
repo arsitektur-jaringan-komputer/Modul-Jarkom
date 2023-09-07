@@ -10,14 +10,14 @@
     + Konsep IP
     + Alokasi Port 
 + 2.[Wire Crimping](#1-wire-crimping)
-     + 1.1 [Peralatan yang dibutuhkan](#11-peralatan-yang-dibutuhkan)
-     + 1.2 [Jenis-jenis Konfigurasi Kabel UTP](#12-konfigurasi-kabel)
-     + 1.3 [Langkah-langkah](#13-langkah---langkah)
+     + 2.1 [Peralatan yang dibutuhkan](#11-peralatan-yang-dibutuhkan)
+     + 2.2 [Jenis-jenis Konfigurasi Kabel UTP](#12-konfigurasi-kabel)
+     + 2.3 [Langkah-langkah](#13-langkah---langkah)
 + 3.[Wireshark](#2-wireshark)
-	+ 2.1 [Instalasi](#21-instalasi)
-	+ 2.2 [Filters](#22-filters)
-	+ 2.3 [Export data hasil packet capture](#23-export-data-hasil-paket-capture)
-	+ 2.4 [Penggunaan Wireshark pada FTP Server](#24-penggunaan-wireshark-pada-ftp-server)
+	+ 3.1 [Instalasi](#21-instalasi)
+	+ 3.2 [Filters](#22-filters)
+	+ 3.3 [Export data hasil packet capture](#23-export-data-hasil-paket-capture)
+	+ 3.4 [Penggunaan Wireshark pada FTP Server](#24-penggunaan-wireshark-pada-ftp-server)
  
 ## 0. Basic Command Line Tools untuk Koneksi pada Jaringan
 
@@ -69,10 +69,74 @@ Cara melakukan koneksi dengan SSH adalah sebagai berikut:
 ssh username@host
 ```
 
-## 1. Wire Crimping
+## 1. Konsep IP dan Port
+
+### 1.1 Konsep IP
+
+IP adalah singkatan dari Internet Protocol, atau dalam bahasa Indonesia berarti Protokol Internet. Jadi, IP address atau internet protocol address adalah alamat protokol internet (alamat IP) yang mengidentifikasi segala perangkat yang terhubung ke jaringan, baik jaringan internet pada umumnya maupun lokal.
+
+Jenis-jenis alamat IP:
+#### a. IPv4
+
+Pv4 adalah alamat IP yang paling umum digunakan, dengan panjang 32-bit dan empat bagian (oktet) yang dipisahkan oleh titik. Nilai setiap oktet berkisar dari 0 – 255. Kepanjangan IPv4 yaitu Internet Protocol version 4.
+
+Dengan kemungkinan ini, bisa disimpulkan bahwa saat ini ada sekitar 4,3 miliar alamat IPv4 yang berbeda di seluruh dunia.
+
+Contoh IPv4 adalah seperti berikut:
+
++ 169.89.131.246
++ 192.0. 2.146
++ 01.102.103.104
+
+Karena merupakan yang paling banyak digunakan, saat ini hampir semua sistem pasti bisa menangani routing IPv4 tanpa masalah. Selain itu, alamat IPv4 mendukung mayoritas topologi jaringan karena prefiksnya yang sederhana. Data dalam address packet IPv4 juga dienkripsi dengan baik untuk memastikan komunikasi yang aman antar jaringan.
+
+#### b. IPv6
+
+IPv6 adalah versi IP address yang lebih baru dari IPv4, dimaksudkan untuk menggantikan IPv4 karena variasi IPv4 yang kini mulai terbatas.
+
+Kalau IPv4 memiliki panjang 32 bit, panjang IPv6 mencapai 128 bit. Artinya, ada sekitar 340 undecillion (angka di belakang digit pertamanya ada 66!) alamat IPv6 yang berbeda.
+
+IPv6 ditulis dalam rangkaian digit heksadesimal 16 bit dan huruf, dipisahkan oleh titik dua. Jadi, pada jenis IP address ini, Anda akan menjumpai huruf dari A sampai F.
+
+Berikut adalah contoh IPv6:
+
++ 2001:3FFE:9D38:FE75:A95A:1C48:50DF:6AB8
++ 2001:0db8:85a3:0000:0000:8a2e:0370:7334
++ 2001:db8:3333:4444:CCCC:DDDD:EEEE:FFFF
+Dengan IPv6, routing akan menjadi lebih efisien karena memungkinkan penyedia layanan internet meminimalkan ukuran tabel routing. IPv6 juga menggunakan Internet Protocol Security (IPsec), jadi Anda tidak perlu cemas dengan autentikasi, kerahasiaan, dan integritas data.
+
+Terlebih lagi, IPv6 tidak memiliki IP checksum sehingga pemrosesan packet menjadi lebih efisien, dan mendukung multicast. Hasilnya, transmisi data pun bisa dikirim ke beberapa tujuan sekaligus sehingga akan menghemat bandwidth jaringan.
+
+### 1.2 Alokasi Port 
+
+Port adalah mekanisme yang memungkinkan komputer terhubung dengan beberapa sesi koneksi dengan komputer dan program lainnya dalam jaringan. Setiap port dikaitkan dengan proses atau layanan tertentu. Port akan mengidentifikasi aplikasi dan service yang menggunakan koneksi di dalam protokol TCP/IP. Jadi, port memungkinkan komputer dapat membedakan antara berbagai jenis trafik, misalnya email yang masuk ke port yang berbeda dari halaman web.
+
+Untuk meningkatkan kompatibilitas, port sudah memiliki sistem standardisasi di semua perangkat yang terhubung ke jaringan. Setiap port memiliki identitas dalam bentuk angka 16-bit (dua byte) yang disebut sebagai Port Number.
+
+**Logical Port**
+Logical port adalah jalur yang digunakan oleh aplikasi untuk menghubungkan dengan komputer lain melalui jaringan TCP/IP. Salah satu contohnya adalah mengkoneksikan komputer dengan internet. Port ini berperan penting dalam jaringan komputer.
+
+Dilihat dari penomorannya, logical port terbagi menjadi tiga jenis. Ada jenis port yang terdaftar di Internet Assigned Numbers Authority (IANA), dan ada yang tidak, berikut pembagiannya:
+
++ Well-known port: berkisar dari 0 – 1023. Ini merupakan port yang dikenali atau port sistem. Port ini selalu merepresentasikan layanan jaringan yang sama dan ditetapkan oleh IANA.
++ Registered port: berkisar dari 1024 – 49151. Port ini diketahui dan terdaftar di IANA tetapi tidak dialokasikan secara permanen, sehingga dapat menggunakan port number yang sama.
++ Dynamically assigned port: berkisar dari 49152 – 65535. Port ini ditetapkan oleh sistem operasi atau aplikasi yang digunakan untuk melayani request dari pengguna sesuai dengan kebutuhan.
+
+Berikut ini beberapa contoh logical port yang sering digunakan beserta fungsinya:
++ Port 20 & 21 (FTP), adalah protokol yang berguna dalam mentransfer data di dalam suatu jaringan.
++ Port 22 (SSH), berfungsi mengirimkan data melalui jaringan dalam bentuk terenkripsi. Dapat digunakan untuk menjalankan fungsi atau tugas yang bisa diakses dari jarak jauh, misalnya menghubungkan ke host atau server.
++ Port 23 (TELNET), port untuk menghubungkan komputer dan server jarak jauh. Fungsinya mirip dengan SSH, hanya saja port 23 TELNET tidak menggunakan enkripsi pada koneksinya.
++ Port 25 (SMTP), berfungsi memastikan pengiriman email melalui jaringan dikomunikasikan dengan aman antara sesama SMTP server.
++ Port 53 (DNS), berfungsi sebagai penerjemah alamat IP pada setiap host. 
++ Port 67 & 68 (DHCP), atau Dynamic Host Configuration Protocol berfungsi untuk menetapkan informasi terkait alamat IP.
++ Port 80 (HTTP/ Web Server), memungkinkan browser terhubung ke halaman web.
++ Port 443 (HTTPS),  berguna untuk menghubungkan klien ke internet, namun dengan fitur keamanan tambahan yang tidak dimiliki port HTTP 80. Port 443 mengenkripsi paket jaringan sebelum mentransfernya.
++ Port 143 (IMAP), Internet Message Access Protocol atau IMAP adalah protokol untuk mengakses email dari server. 
+
+## 2. Wire Crimping
 Dalam jaringan komputer, terjadi komunikasi antara satu perangkat dengan perangkat lainnya. Komunikasi itu tentu membutuhkan suatu media. Walaupun sudah ada teknologi komunikasi nirkabel, peran kabel dalam jaringan masih penting dan belum tergantikan. Oleh karena itu dalam modul kali ini, kita akan belajar cara melakukan _crimping_ pada salah satu jenis kabel jaringan yang bernama kabel UTP (_Unshielded Twisted Pair_).
 
-### 1.1 Peralatan yang dibutuhkan
+### 2.1 Peralatan yang dibutuhkan
 Untuk melakukan _wire crimping_ kita membutuhkan peralatan di bawah ini:
 #### a. Kabel UTP
 ![Kabel UTP](images/kabelutp.jpg)
@@ -110,7 +174,7 @@ Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk meny
   
   Aturan pemasangannya pun berbeda dengan kabel jenis straight-trough, kabel jenis Crossover memiliki urutan warna yang berbeda dikedua ujungnya. Tapi, perbedaan warna ini tidak boleh sembarangan, karena kedua ujung ini juga memiliki aturan urutan warna. Pada kabel jenis Crossover standar, jika salah satu ujung Pin memiliki susunan warna berdasarkan aturan T568A, maka ujung Pin yang lain harus memiliki urutan warna berdasarkan standar T568B.
 
-### 1.3 Langkah - Langkah
+### 2.3 Langkah - Langkah
 1. Siapkan keperluan crimping (kabel UTP, RJ45, tang crimping, LAN tester)
 2. Kupas pelindung kabel UTP
 3. Urutkan kabel sesuai konfigurasi yang diinginkan (Straight/Cross/yang lainnya).
@@ -123,7 +187,7 @@ Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk meny
 
 [![video-straight](https://i.ytimg.com/vi/JDiybTG9dGY/maxresdefault.jpg)](https://youtu.be/NL0F8bP8k7I)
 
-## 2. Wireshark
+## 3. Wireshark
 Wireshark adalah sebuah aplikasi penganalisa paket jaringan. Penganalisa paket jaringan akan mencoba menangkap paket jaringan dan mencoba untuk menampilkan data paket sedetail mungkin. 
 Sebuah jaringan komputer dibangun dengan tujuan mengirimkan atau menerima data antara satu end-point dengan end-point lainnya. Data dikirim dalam bentuk paket-paket. Struktur sebuah paket terdiri dari :
 
@@ -145,16 +209,16 @@ Payload juga disebut sebagai ***body*** dari paket. Pada bagian inilah data yang
 ***3. Trailer***
 trailer, kadang-kadang disebut ***footer***, biasanya memuat sepasang bit yang memberi sinyal pada perangkat penerima bahwa paket sudah mencapai ujungnya. trailer juga bisa memuat semacam *error checking*.
 
-### 2.1 Instalasi
+### 3.1 Instalasi
 Instalasi untuk OS WIndows atau macOS bisa mengunduh installer pada [ laman ini](https://www.wireshark.org/download.html). Untuk OS linux dapat melihat tutorialnya [di sini](https://linuxtechlab.com/install-wireshark-linux-centosubuntu/).
 Setelah melakukan instalasi , jalankan Wireshark sebagai **administrator** (WIndows) atau **root** (linux)
 Berikut tampilan awalnya :
 ![wireshark](images/wireshark.png)
 
-### 2.2 Filters
+### 3.2 Filters
 Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Display Filter***
 
-#### 2.2.1 Capture Filter
+#### 3.2.1 Capture Filter
 ![Capture](images/capture.png)
 
  - Definisi : Memilah paket yang akan ditangkap (captured). Paket yang tidak memenuhi kriteria dibiarkan lewat tanpa ditangkap
@@ -182,7 +246,7 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
  - Contoh capture filter `host 10.151.36.1`
 ![Contoh-capture](images/capture-filter.png)
 
-#### 2.2.2 Display Filter
+#### 3.2.2 Display Filter
 ![Display](images/display.png)
  - Definisi : Memilah paket yang akan ditampilkan dari kumpulan paket yang sudah ditangkap
  - Secara umum sintaks display filter terdiri dari `[protokol] [field] [comparison operator] [value]`. Berikut ini daftar ***comparison operator*** yang tersedia : 
@@ -221,7 +285,7 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
  - Contoh display filter `tcp.port == 80`, berikut hasilnya :
 ![Contoh-display](images/display-filter.png)
 
-### 2.3 Export data hasil paket capture
+### 3.3 Export data hasil paket capture
 
  1. Setelah memiliki packet, pilih pada menu bar File -> Export Objects -> (protokol yang diinginkan). Pada contoh ini dipilih protokol HTTP
 ![export](images/export.PNG)
@@ -230,9 +294,9 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
  3. File berhasil di-export
 ![logo](images/logo.png)
 
-### 2.4 Penggunaan Wireshark pada FTP Server
+### 3.4 Penggunaan Wireshark pada FTP Server
 Jalankan aplikasi wireshark sebelum *connect* ke server FTP yang dituju.
-#### 2.4.1 Connect ke Server
+#### 3.4.1 Connect ke Server
 ##### a. Windows
 Untuk pengguna windows kita akan menggunakan bantuan **FileZilla**. Untuk percobaan di server, di sini menggunakan Filezilla Server dan untuk client menggunakan Filezilla Client. Nantinya server dan clientnya bisa komputer yang sama atau berbeda (asal terhubung ke jaringan komputer). 
 
@@ -251,7 +315,7 @@ Untuk pengguna windows kita akan menggunakan bantuan **FileZilla**. Untuk percob
 
 Server untuk FTP berhasil dibuat.
 
-#### 2.4.2 Koneksi dari Client
+#### 3.4.2 Koneksi dari Client
 
 ##### a. Menggunakan Filezilla client
 Buka FileZilla dan masukkan *Host*, *Username*, *Password*, dan *Port* dari server yang akan disambungkan. Bila sudah yakin, klik *Quickconnect* untuk menyambungkan.
@@ -271,7 +335,7 @@ Saat hasil capture dari Wireshark dilihat, akan muncul data di bawah ini:
 | USER | Username yang digunakan untuk login ke FTP server |
 | PWD | Password yang digunakan untuk login ke FTP server |)
 
-#### 2.4.3 Upload File
+#### 3.4.3 Upload File
 ##### a. Menggunakan Filezilla client
 Untuk FileZilla drag file dari Local site lalu drop di Remote site
 
@@ -289,7 +353,7 @@ Saat hasil capture dilihat akan muncul data dibawah ini :
 
 ![STOR](images/stor.JPG)
 
-#### 2.4.4 Download File
+#### 3.4.4 Download File
 ##### a. Menggunakan Filezilla client
 Untuk Filezilla drag file dari Remote site ke Local site
 
