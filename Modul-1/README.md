@@ -8,7 +8,7 @@
     + [ssh](#04-ssh-secure-shell)
 + 1.[Konsep IP dan Port]()
     + Konsep IP
-    + Alokasi Port 
+    + Alokasi Port
 + 2.[Wire Crimping](#1-wire-crimping)
      + 2.1 [Peralatan yang dibutuhkan](#11-peralatan-yang-dibutuhkan)
      + 2.2 [Jenis-jenis Konfigurasi Kabel UTP](#12-konfigurasi-kabel)
@@ -18,7 +18,7 @@
 	+ 3.2 [Filters](#22-filters)
 	+ 3.3 [Export data hasil packet capture](#23-export-data-hasil-paket-capture)
 	+ 3.4 [Penggunaan Wireshark pada FTP Server](#24-penggunaan-wireshark-pada-ftp-server)
- 
+
 ## 0. Basic Command Line Tools untuk Koneksi pada Jaringan
 
 ### 0.1 Telnet
@@ -29,7 +29,24 @@ Protokol ini bisa mengakses komputer dari jarak jauh. Dengan Telnet Anda bisa me
 
 Fungsi utama dari telnet adalah mengakses komputer (host/server) dari jarak jauh (remote login). Jadi secara ringkas Telnet berfungsi untuk menghubungkan dua komputer atau lebih dengan tujuan untuk mengelola komputer tujuan.Telnet adalah program yang memungkinkan komputer kita menjadi terminal dari komputer lain di Internet.
 
-### 0.2 Netcat (nc)
+Telnet sendiri sangan rentan disisi sekuritas, tampak seperti gambar di password kita dapat melihat kredensial sebuah router.
+![Telnet](../Modul-1/images/telnet2.png)
+
+### 0.2 SSH (Secure Shell)
+
+SSH merupakan sebuah protokol administrasi remote yang memperbolehkan pengguna untuk mengakses dan mengontrol server mereka dalam jaringan secara aman. Mulai dari menjalankan sebuah program, membuat folder, menghapus file, membuat file, transfer file, hingga menjalankan atau menghentikan sebuah services. Singkatnya, SSH memungkinkan pengguna untuk mengelola servernya dengan leluasa meskipun dari jarak jauh.
+
+Cara kerja protokol SSH adalah dengan menerapkan model client-server. Koneksi yang terjadi adalah SSH client (komputer yang digunakan pengguna) melakukan koneksi ke SSH server (server remote yang dituju).
+
+SSH saat ini versi terbarunya yaitu [SSH v2](https://www.synopsys.com/software-integrity/security-testing/fuzz-testing/defensics/protocols/ssh2-server.html). SSH bisa dikatan lebih secure dibandingan Telnet.
+
+Cara melakukan koneksi dengan SSH adalah sebagai berikut:
+```
+ssh username@host or
+ssh username@host -p 2224
+```
+
+### 0.3 Netcat (nc)
 
 Netcat (atau nc) adalah utilitas baris perintah yang membaca dan menulis data melalui koneksi jaringan, menggunakan protokol TCP atau UDP. Perintah ini adalah salah satu alat yang paling kuat dalam jaringan dan persenjataan administrator sistem dan dianggap sebagai alat multi fungsi.
 
@@ -39,7 +56,7 @@ nc [options] host port
 ```
 Secara default, Netcat akan mencoba untuk memulai koneksi TCP ke host dan port yang ditentukan. Jika Anda ingin membuat koneksi UDP, gunakan opsi -u.
 
-### 0.3 Ping
+### 0.4 Ping
 
 Ping merupakan singkatan dari Packet Internet Network Groper. Secara sederhana, ping adalah perintah untuk mengecek status dan keberadaan host dalam sebuah jaringan internet.
 
@@ -50,6 +67,7 @@ Prinsip utama ping adalah seperti penggunaan sonar untuk mengukur kedalaman laut
 source: [https://www.niagahoster.co.id/blog/apa-itu-ping/](https://www.niagahoster.co.id/blog/apa-itu-ping/)
 
 Berikut merupakan cara melakukan ping:
+
 ![ping](images/ping.png)
 
 Dengan perintah di atas, Anda akan mendapatkan informasi sebagai berikut:
@@ -58,16 +76,6 @@ Dengan perintah di atas, Anda akan mendapatkan informasi sebagai berikut:
 + Time adalah lamanya waktu respon dari host, yang dihitung dengan satuan ms, atau millisecond. Waktu ping yang bagus adalah di bawah 100ms, terutama kalau penggunaannya untuk game online yang menuntut ping yang rendah.
 + TTL (Time To Live) merupakan durasi sebuah paket data dapat berada di jaringan, yang dicatat dalam hitungan detik. Umumnya, TTL diatur pada kisaran ideal 64 detik.
 
-### 0.4 SSH (Secure Shell)
-
-SSH merupakan sebuah protokol administrasi remote yang memperbolehkan pengguna untuk mengakses dan mengontrol server mereka dalam jaringan secara aman. Mulai dari menjalankan sebuah program, membuat folder, menghapus file, membuat file, transfer file, hingga menjalankan atau menghentikan sebuah services. Singkatnya, SSH memungkinkan pengguna untuk mengelola servernya dengan leluasa meskipun dari jarak jauh.
-
-Cara kerja protokol SSH adalah dengan menerapkan model client-server. Koneksi yang terjadi adalah SSH client (komputer yang digunakan pengguna) melakukan koneksi ke SSH server (server remote yang dituju).
-
-Cara melakukan koneksi dengan SSH adalah sebagai berikut:
-```
-ssh username@host
-```
 
 ## 1. Konsep IP dan Port
 
@@ -107,7 +115,7 @@ Dengan IPv6, routing akan menjadi lebih efisien karena memungkinkan penyedia lay
 
 Terlebih lagi, IPv6 tidak memiliki IP checksum sehingga pemrosesan packet menjadi lebih efisien, dan mendukung multicast. Hasilnya, transmisi data pun bisa dikirim ke beberapa tujuan sekaligus sehingga akan menghemat bandwidth jaringan.
 
-### 1.2 Alokasi Port 
+### 1.2 Alokasi Port
 
 Port adalah mekanisme yang memungkinkan komputer terhubung dengan beberapa sesi koneksi dengan komputer dan program lainnya dalam jaringan. Setiap port dikaitkan dengan proses atau layanan tertentu. Port akan mengidentifikasi aplikasi dan service yang menggunakan koneksi di dalam protokol TCP/IP. Jadi, port memungkinkan komputer dapat membedakan antara berbagai jenis trafik, misalnya email yang masuk ke port yang berbeda dari halaman web.
 
@@ -127,11 +135,11 @@ Berikut ini beberapa contoh logical port yang sering digunakan beserta fungsinya
 + Port 22 (SSH), berfungsi mengirimkan data melalui jaringan dalam bentuk terenkripsi. Dapat digunakan untuk menjalankan fungsi atau tugas yang bisa diakses dari jarak jauh, misalnya menghubungkan ke host atau server.
 + Port 23 (TELNET), port untuk menghubungkan komputer dan server jarak jauh. Fungsinya mirip dengan SSH, hanya saja port 23 TELNET tidak menggunakan enkripsi pada koneksinya.
 + Port 25 (SMTP), berfungsi memastikan pengiriman email melalui jaringan dikomunikasikan dengan aman antara sesama SMTP server.
-+ Port 53 (DNS), berfungsi sebagai penerjemah alamat IP pada setiap host. 
++ Port 53 (DNS), berfungsi sebagai penerjemah alamat IP pada setiap host.
 + Port 67 & 68 (DHCP), atau Dynamic Host Configuration Protocol berfungsi untuk menetapkan informasi terkait alamat IP.
 + Port 80 (HTTP/ Web Server), memungkinkan browser terhubung ke halaman web.
 + Port 443 (HTTPS),  berguna untuk menghubungkan klien ke internet, namun dengan fitur keamanan tambahan yang tidak dimiliki port HTTP 80. Port 443 mengenkripsi paket jaringan sebelum mentransfernya.
-+ Port 143 (IMAP), Internet Message Access Protocol atau IMAP adalah protokol untuk mengakses email dari server. 
++ Port 143 (IMAP), Internet Message Access Protocol atau IMAP adalah protokol untuk mengakses email dari server.
 
 ## 2. Wire Crimping
 Dalam jaringan komputer, terjadi komunikasi antara satu perangkat dengan perangkat lainnya. Komunikasi itu tentu membutuhkan suatu media. Walaupun sudah ada teknologi komunikasi nirkabel, peran kabel dalam jaringan masih penting dan belum tergantikan. Oleh karena itu dalam modul kali ini, kita akan belajar cara melakukan _crimping_ pada salah satu jenis kabel jaringan yang bernama kabel UTP (_Unshielded Twisted Pair_).
@@ -162,16 +170,16 @@ Ada beberapa macam konfigurasi kabel. Dari urutan warnanya yang sesuai standar i
 Sedangkan dari pemasangannya dibagi menjadi
 #### b. __Kabel Straight-Through__
   Jenis pengkabelan ini digunakan untuk menyambungkan dua tipe perangkat berbeda yang tersambung ke jaringan, yakni perangkat DTE (data terminal equipment) ke DCE (data circuit-terminating equipment) atau sebaliknya. Perangkat DTE adalah perangkat yang melakukan generate data digital dan bertindak sebagai source dan destination untuk data digital, contohnya adalah komputer, mikrokomputer, terminal, printer. DCE adalah perangkat yang menerima dan mengkonversi data ke link telekomunikasi yang sesuai, umumnya DCE adalah perangkat jaringan seperti router, switch, modem.
-  
+
 ![Kabel Straight-Through](images/straight_through.png)
-  
+
   Aturan pemasangannya adalah bahwa tiap ujung kabel harus memiliki urutan warna yang sama. Misal ujung yang satu menggunakan susunan warna berdasarkan aturan T568A maka begitu juga ujung lainnya.
 
 #### b. __Kabel Crossover__
 Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk menyambungkan dua tipe perangkat yang sama yang tersambung ke jaringan, yakni perangkat DTE ke DTE atau DCE ke DCE. Misalnya antara komputer dengan komputer, router dengan router, router dengan switch, komputer dengan printer.
-  
+
   ![Kabel Crossover](images/crossover.png)
-  
+
   Aturan pemasangannya pun berbeda dengan kabel jenis straight-trough, kabel jenis Crossover memiliki urutan warna yang berbeda dikedua ujungnya. Tapi, perbedaan warna ini tidak boleh sembarangan, karena kedua ujung ini juga memiliki aturan urutan warna. Pada kabel jenis Crossover standar, jika salah satu ujung Pin memiliki susunan warna berdasarkan aturan T568A, maka ujung Pin yang lain harus memiliki urutan warna berdasarkan standar T568B.
 
 ### 2.3 Langkah - Langkah
@@ -188,20 +196,20 @@ Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk meny
 [![video-straight](https://i.ytimg.com/vi/JDiybTG9dGY/maxresdefault.jpg)](https://youtu.be/NL0F8bP8k7I)
 
 ## 3. Wireshark
-Wireshark adalah sebuah aplikasi penganalisa paket jaringan. Penganalisa paket jaringan akan mencoba menangkap paket jaringan dan mencoba untuk menampilkan data paket sedetail mungkin. 
+Wireshark adalah sebuah aplikasi penganalisa paket jaringan. Penganalisa paket jaringan akan mencoba menangkap paket jaringan dan mencoba untuk menampilkan data paket sedetail mungkin.
 Sebuah jaringan komputer dibangun dengan tujuan mengirimkan atau menerima data antara satu end-point dengan end-point lainnya. Data dikirim dalam bentuk paket-paket. Struktur sebuah paket terdiri dari :
 
 ***1. Header***
 Bagian header berisi alamat dan data lainnya yang dibawa oleh paket. Struktur dari header meliputi :
 
-| Intruksi | Keterangan |  
+| Intruksi | Keterangan |
 |--  |---|
-| Panjang paket | Beberapa jaringan sudah memiliki panjang paket yang baku (*fixed-length*), sementara yang lain bergantung pada header untuk memuat informasi ini |  
-| Sinkronisasi | Beberapa bit yang membantu paket mencocokkan jaringan yang dimaksud |  
+| Panjang paket | Beberapa jaringan sudah memiliki panjang paket yang baku (*fixed-length*), sementara yang lain bergantung pada header untuk memuat informasi ini |
+| Sinkronisasi | Beberapa bit yang membantu paket mencocokkan jaringan yang dimaksud |
 | Nomor paket | Menunjukkan urutan dari total paket yang ada |
-| Protokol | Pada jaringan yang membawa lebih dari satu macam informasi, protokol ini menunjukkan jenis paket yang ditransmiskan: e-mail, halaman web, atau yang lain |  
-| Alamat tujuan | Ke mana paket dikirimkan |  
-| Alamat asal | Dari mana paket dikirimkan |  
+| Protokol | Pada jaringan yang membawa lebih dari satu macam informasi, protokol ini menunjukkan jenis paket yang ditransmiskan: e-mail, halaman web, atau yang lain |
+| Alamat tujuan | Ke mana paket dikirimkan |
+| Alamat asal | Dari mana paket dikirimkan |
 
 ***2. Payload***
 Payload juga disebut sebagai ***body*** dari paket. Pada bagian inilah data yang akan dikirimkan lewat paket berada
@@ -249,7 +257,7 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
 #### 3.2.2 Display Filter
 ![Display](images/display.png)
  - Definisi : Memilah paket yang akan ditampilkan dari kumpulan paket yang sudah ditangkap
- - Secara umum sintaks display filter terdiri dari `[protokol] [field] [comparison operator] [value]`. Berikut ini daftar ***comparison operator*** yang tersedia : 
+ - Secara umum sintaks display filter terdiri dari `[protokol] [field] [comparison operator] [value]`. Berikut ini daftar ***comparison operator*** yang tersedia :
 
 | English | Comparison Operator (C-like) | Indonesia |
 |---|---|---|
@@ -298,7 +306,7 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
 Jalankan aplikasi wireshark sebelum *connect* ke server FTP yang dituju.
 #### 3.4.1 Connect ke Server
 ##### a. Windows
-Untuk pengguna windows kita akan menggunakan bantuan **FileZilla**. Untuk percobaan di server, di sini menggunakan Filezilla Server dan untuk client menggunakan Filezilla Client. Nantinya server dan clientnya bisa komputer yang sama atau berbeda (asal terhubung ke jaringan komputer). 
+Untuk pengguna windows kita akan menggunakan bantuan **FileZilla**. Untuk percobaan di server, di sini menggunakan Filezilla Server dan untuk client menggunakan Filezilla Client. Nantinya server dan clientnya bisa komputer yang sama atau berbeda (asal terhubung ke jaringan komputer).
 
 ###### Pembuatan Server FTP di Filezilla Server
 1. Buka Filezilla Server (bisa melalui aplikasi Filezilla Server desktop atau XAMPP dengan start module Filezilla dan klik tombol Admin). Jika muncul pop up "Connect to Server" langsung saja klik Ok. Muncul tampilan berikut.
