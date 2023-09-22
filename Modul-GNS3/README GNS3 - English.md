@@ -44,7 +44,7 @@ Please download from [following link](https://github.com/GNS3/gns3-gui/releases/
 ![new-host-network-adapter-4](images/new-host-network-adapter-4.jpg)
 ![new-host-network-adapter-5](images/new-host-network-adapter-5.jpg)
 
-5. Change Network Adapter in VM 
+5. Change Network Adapter in VM
   - Go to Settings -> Network
   - Change Adapter 1 to Host-only Adapter and match it with the previously created network host
 ![setting-network-vm-1](images/setting-network-vm-3.jpg)
@@ -54,7 +54,7 @@ Please download from [following link](https://github.com/GNS3/gns3-gui/releases/
 
 6.  Run the VM
   - Then the VM should be able to display this
-![vm](images/vm-1.jpg)
+![vm](images/new-vm-1.png)
   - Then open the address with the caption "To launch the Web-UI" in the browser
 ![vm-2](images/vm-2.jpg)
 
@@ -63,12 +63,12 @@ After that please proceed to import the Ubuntu image into GNS3 [here](#insert-ub
 
 ### Import Image on VMWare
 1. Install VMWare
-Please download from [link below](https://customerconnect.vmware.com/downloads/info/slug/desktop_end_user_computing/vmware_workstation_player/16_0).
+Please download from [VMware Workstation 17](https://www.vmware.com/products/workstation-pro/workstation-pro-evaluation.html).
 
 2. Download Image VM GNS3
-Please download from [link below](https://github.com/GNS3/gns3-gui/releases/download/v2.2.26/GNS3.VM.VMware.Workstation.2.2.26.zip). After that, just extract.
+Please download from [GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VMware.Workstation.2.2.42.zip). After that, just extract.
 
-3. Import the .ova file into VMWare and name the VM. 
+3. Import the .ova file into VMWare and name the VM.
 
 ![import-ova](images/insert-image-vmware-1.png)
 
@@ -87,9 +87,9 @@ Please download from [link below](https://github.com/GNS3/gns3-gui/releases/down
 
 5.  Run the VM
   - Then the VM should be able to display this
-![vm](images/vm-vmware-1.png)
+![vm](images/new-vm-2.png)
   - Then open the address with the caption "To launch the Web-UI" in the browser
-![vm-2](images/vm-vmware-2.png)
+![vm-2](images/new-vm-vmware-2.png)
 
 After that please continue to import the Ubuntu image into GNS3 [here](#insert-ubuntu-image-into-gns3)
 
@@ -103,7 +103,7 @@ After that please continue to import the Ubuntu image into GNS3 [here](#insert-u
   - Click `Docker Virtual Machine`, choose `New image` fill `kuuhaku86/gns3-ubuntu:1.0.1` in Image name<br>
 ![insert-image-1](images/insert-imaget-2.jpg)
   - Click `Container name` fill `ubuntu-1` as container name
-  - Click `Network adapters` and enter the number 4 
+  - Click `Network adapters` and enter the number 4
   - Leave the `Start command` blank.
   - Then click `Add template` button on the bottom.
 
@@ -137,7 +137,7 @@ In computer network practicum, you will often do the setting for the IP of the n
 
 #### Prefix IP Distribution
 
-**Class A** 
+**Class A**
 Group | Prefix IP |
 ---------|------------ |
 A01 | 192.169 |
@@ -149,7 +149,7 @@ A06 | 10.2 |
 A07 | 192.172 |
 A08 | 10.3 |
 
-**Class B** 
+**Class B**
 Group | Prefix IP |
 ---------|------------ |
 B01 | 192.173 |
@@ -166,7 +166,7 @@ B11 | 192.178 |
 B12 | 10.9 |
 B13 | 192.179 |
 
-**Class C** 
+**Class C**
 Group | Prefix IP |
 ---------|------------ |
 C01 | 10.10 |
@@ -181,7 +181,7 @@ C09 | 10.14 |
 C10 | 192.184 |
 C11 | 10.15 |
 
-**Class D** 
+**Class D**
 Group | Prefix IP |
 ---------|------------ |
 D01 | 192.185 |
@@ -199,7 +199,7 @@ D12 | 10.21 |
 D13 | 192.191 |
 D14 | 192.192 |
 
-**Class E** 
+**Class E**
 Group | Prefix IP |
 ---------|------------ |
 E01 | 10.22 |
@@ -235,7 +235,7 @@ F12 | 192.205 |
 F13 | 10.35 |
 F14 | 192.206 |
 
-**Class IUP** 
+**Class IUP**
 Group | Prefix IP |
 ---------|------------ |
 I01 | 10.36 |
@@ -247,7 +247,7 @@ I05 | 192.209 |
 I06 | 10.39 |
 I07 | 192.210 |
 
-**Class IT A** 
+**Class IT A**
 Group | Prefix IP |
 ---------|------------ |
 ITA01 | 10.40 |
@@ -275,7 +275,7 @@ ITB08 | 192.218 |
 ITB09 | 10.49 |
 ITB10 | 192.219 |
 
-If there is a command using IP `[Prefix IP].1.2` then example if I am group A2 the IP is `10.0.1.2` 
+If there is a command using IP `[Prefix IP].1.2` then example if I am group A2 the IP is `10.0.1.2`
 
 #### Setup IP in Node
 
@@ -292,7 +292,7 @@ If there is a command using IP `[Prefix IP].1.2` then example if I am group A2 t
 4. Then click the node, select the interface `eth0`, and click the NAT node that was drawn earlier <br/>
 ![using-internet-3](images/using-internet-3.jpg)
 5. Then configure the IP of the ubuntu node
-  - Look for 2 lines like this 
+  - Look for 2 lines like this
   ```
   # auto eth0
   # iface eth0 inet dhcp
