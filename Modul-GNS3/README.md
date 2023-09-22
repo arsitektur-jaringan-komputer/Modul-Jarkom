@@ -24,10 +24,10 @@ Modul Pengenalan GNS3
 ## Instalasi GNS3
 ### Import Image di VirtualBox
 1. Install VirtualBox
-Silahkan mendownload dari [link berikut](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
+Silahkan mendownload dari link berikut [VirtualBox 7.0](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
 
 2. Download Image VM GNS3
-Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/releases/download/v2.2.19/GNS3.VM.VirtualBox.2.2.19.zip). Sehabis itu langsung saja extract.
+Silahkan mendowload dari link berikut [GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VirtualBox.2.2.42.zip). Sehabis itu langsung saja extract.
 
 3. Import file .ova ke VirtualBox
 
@@ -44,7 +44,7 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 ![new-host-network-adapter-4](images/new-host-network-adapter-4.jpg)
 ![new-host-network-adapter-5](images/new-host-network-adapter-5.jpg)
 
-5. Ubah Network Adapter di VM 
+5. Ubah Network Adapter di VM
   - Pergi ke Settings -> Network
   - Ubah Adapter 1 ke Host-only Adapter dan sesuaikan dengan host network yang telah dibuat sebelumnya
 ![setting-network-vm-1](images/setting-network-vm-3.jpg)
@@ -54,7 +54,7 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 
 6.  Jalankan VM
   - Maka VM seharusnya bisa menampilkan ini
-![vm](images/vm-1.jpg)
+![vm](images/new-vm-1.png)
   - Lalu buka alamat dengan keterangan "To launch the Web-UI" di browser
 ![vm-2](images/vm-2.jpg)
 
@@ -63,12 +63,12 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
 
 ### Import Image di VMWare
 1. Install VMWare
-Silahkan mendownload dari [link berikut](https://customerconnect.vmware.com/downloads/info/slug/desktop_end_user_computing/vmware_workstation_player/16_0).
+Silahkan mendownload dari [VMware Workstation 17](https://www.vmware.com/products/workstation-pro/workstation-pro-evaluation.html).
 
 2. Download Image VM GNS3
-Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/releases/download/v2.2.26/GNS3.VM.VMware.Workstation.2.2.26.zip). Sehabis itu langsung saja extract.
+Silahkan mendowload dari [GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VMware.Workstation.2.2.42.zip). Sehabis itu langsung saja extract.
 
-3. Import file .ova ke VMWare dan namai VM. 
+3. Import file .ova ke VMWare dan namai VM.
 
 ![import-ova](images/insert-image-vmware-1.png)
 
@@ -87,9 +87,9 @@ Silahkan mendowload dari [link berikut](https://github.com/GNS3/gns3-gui/release
 
 5.  Jalankan VM
   - Maka VM seharusnya bisa menampilkan ini
-![vm](images/vm-vmware-1.png)
+![vm](images/new-vm-2.png)
   - Lalu buka alamat dengan keterangan "To launch the Web-UI" di browser
-![vm-2](images/vm-vmware-2.png)
+![vm-2](images/new-vm-vmware-2.png)
 
 Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#memasukkan-image-ubuntu-ke-gns3)
 
@@ -103,7 +103,7 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
   - Klik `Docker Virtual Machine`, pilih `New image` isikan `kuuhaku86/gns3-ubuntu:1.0.1` di Image name<br>
   ![insert-image-1](images/insert-imaget-2.jpg)
   - Klik `Container name` masukkan `ubuntu-1` sebagai nama container
-  - Klik `Network adapters` dan masukkan angka 4 
+  - Klik `Network adapters` dan masukkan angka 4
   - Kosongi bagian `Start command`.
   - Lalu klik tombol `Add template` di bawah sendiri
 
@@ -137,7 +137,7 @@ Dalam praktikum jaringan komputer, Anda akan sering melakukan setting untuk IP d
 
 #### Pembagian Prefix IP
 
-**Kelas A** 
+**Kelas A**
 KELOMPOK | Prefix IP |
 ---------|------------ |
 A01 | 192.169 |
@@ -149,7 +149,7 @@ A06 | 10.2 |
 A07 | 192.172 |
 A08 | 10.3 |
 
-**Kelas B** 
+**Kelas B**
 KELOMPOK | Prefix IP |
 ---------|------------ |
 B01 | 192.173 |
@@ -166,7 +166,7 @@ B11 | 192.178 |
 B12 | 10.9 |
 B13 | 192.179 |
 
-**Kelas C** 
+**Kelas C**
 KELOMPOK | Prefix IP |
 ---------|------------ |
 C01 | 10.10 |
@@ -181,7 +181,7 @@ C09 | 10.14 |
 C10 | 192.184 |
 C11 | 10.15 |
 
-**Kelas D** 
+**Kelas D**
 KELOMPOK | Prefix IP |
 ---------|------------ |
 D01 | 192.185 |
@@ -199,7 +199,7 @@ D12 | 10.21 |
 D13 | 192.191 |
 D14 | 192.192 |
 
-**Kelas E** 
+**Kelas E**
 KELOMPOK | Prefix IP |
 ---------|------------ |
 E01 | 10.22 |
@@ -235,7 +235,7 @@ F12 | 192.205 |
 F13 | 10.35 |
 F14 | 192.206 |
 
-**Kelas IUP** 
+**Kelas IUP**
 KELOMPOK | Prefix IP |
 ---------|------------ |
 I01 | 10.36 |
@@ -247,7 +247,7 @@ I05 | 192.209 |
 I06 | 10.39 |
 I07 | 192.210 |
 
-**Kelas IT A** 
+**Kelas IT A**
 KELOMPOK | Prefix IP |
 ---------|------------ |
 ITA01 | 10.40 |
@@ -275,7 +275,7 @@ ITB08 | 192.218 |
 ITB09 | 10.49 |
 ITB10 | 192.219 |
 
-Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah kelompok A2 IP adalah `10.0.1.2` 
+Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah kelompok A2 IP adalah `10.0.1.2`
 
 #### Setup IP di Node
 
@@ -292,7 +292,7 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
 4. Lalu klik node, pilih interface `eth0`, dan klik node NAT yang ditarik tadi <br/>
 ![using-internet-3](images/using-internet-3.jpg)
 5. Lalu konfigurasi IP dari node ubuntu
-  - Cari 2 line yang seperti ini 
+  - Cari 2 line yang seperti ini
   ```
   # auto eth0
   # iface eth0 inet dhcp
@@ -374,7 +374,7 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
   - **-s (Source Address):** Spesifikasi pada source. Address bisa berupa nama jaringan, nama host, atau alamat IP.
 - Ketikkan command `cat /etc/resolv.conf` di `Foosha` <br/>
 ![create-topology-3](images/create-topology-3.jpg)
-- Ingat-ingat IP tersebut karena IP tersebut merupakan IP DNS, lalu ketikkan command ini di node ubuntu yang lain `echo nameserver [IP DNS] > /etc/resolv.conf`. Jika pada kasus contoh maka command-nya adalah `echo nameserver 192.168.122.1 > /etc/resolv.conf`. 
+- Ingat-ingat IP tersebut karena IP tersebut merupakan IP DNS, lalu ketikkan command ini di node ubuntu yang lain `echo nameserver [IP DNS] > /etc/resolv.conf`. Jika pada kasus contoh maka command-nya adalah `echo nameserver 192.168.122.1 > /etc/resolv.conf`.
 - Semua node sekarang seharusnya sudah bisa melakukan ping ke google, yang artinya adalah sudah tersambung ke internet
 
 ## Ketentuan
