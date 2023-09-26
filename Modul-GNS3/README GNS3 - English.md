@@ -100,7 +100,7 @@ After that please continue to import the Ubuntu image into GNS3 [here](#insert-u
   - Click `Docker`
   - Click `Add Docker container template`
   - `Server type` choose `Run this Docker container locally`
-  - Click `Docker Virtual Machine`, choose `New image` fill `kuuhaku86/gns3-ubuntu:1.0.1` in Image name<br>
+  - Click `Docker Virtual Machine`, choose `New image` fill `danielcristh0/ubuntu-bionic:1.1` in Image name<br>
 ![insert-image-1](images/insert-imaget-2.jpg)
   - Click `Container name` fill `ubuntu-1` as container name
   - Click `Network adapters` and enter the number 4
