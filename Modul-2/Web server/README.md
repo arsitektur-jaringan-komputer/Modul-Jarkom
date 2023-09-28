@@ -50,7 +50,7 @@ Nginx menawarkan beberapa algoritma load balancing yang dapat disesuaikan dengan
 
 	Jika kita memilih algoritma ini maka distribusi beban akan didistribusikan sesuai dengan urutan nomer dari server atau master. Jika kita memiliki 3 buah node slave, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu.
 
-![Round Robin](images/nginx-round-robin.png)
+![Round Robin](images/nginx-round-robin.jpg)
 
 - Least-connection
 
