@@ -44,6 +44,18 @@ ___Load balancing___ adalah suatu mekanisme penyeimbangan beban yang bekerja den
 #### Kenapa dibutuhkan load balancing?
 Untuk menangani banyaknya pengguna yang mengakses layanan pada satu waktu dan menjaga layanan tetap tersedia setiap saat, dibutuhkan lebih dari satu komputer untuk memasang layanannya. Dengan layanan yang tersedia di banyak server, dibutuhkan mekanisme pembagian beban untuk memberikan beban yang seimbang pada setiap server. Dengan meletakkan layanan pada beberapa server dan pembagian beban yang optimal, setiap permintaan pengguna bisa ditangani dengan efisien.
 
+Nginx menawarkan beberapa algoritma load balancing yang dapat disesuaikan dengan kebutuhan pengguna, algoritma tersebut antara lain:
+
+- Round robin
+
+	Jika kita memilih algoritma ini maka distribusi beban akan didistribusikan sesuai dengan urutan nomer dari server atau master. Jika kita memiliki 3 buah node slave, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu.
+
+![Round Robin](images/nginx-round-robin.png)
+
+- Least-connection
+
+	 Jika Round robin akan mendistribusikan berdasarkan nomer dan urutan server, maka least-connection akan melakukan prioritas pembagian dari beban kinerja yang paling rendah. Node master akan mencatat semua beban dan kinerja dari semua node slave, dan akan melakukan prioritas dari beban yang paling rendah. Sehingga diharapkan tidak ada server dengan beban yang rendah.
+
 ### 3. Apache Web Server
 __Apache HTTP Server__ atau biasa disebut Apache adalah sebuah _software_ web server _cross-platform_ dan _open source_ yang banyak digunakan. Dalam sesi lab ini, kita akan menggunakan Apache sebagai _software_ web server kita.
 
@@ -74,7 +86,7 @@ Lalu jalankan perintah
 ```
 apt-get install apache2
 ```
-jika muncul tulisan _"Do you want to continue? [Y/n]"_  input `Y` lalu tekan ___enter___. 
+jika muncul tulisan _"Do you want to continue? [Y/n]"_  input `Y` lalu tekan ___enter___.
 
 <img src="images/3.png" width="700">
 
@@ -94,7 +106,7 @@ Lalu jalankan perintah
 ```
 apt-get install php
 ```
-jika muncul tulisan _"Do you want to continue? [Y/n]"_  input `Y` lalu tekan ___enter___. 
+jika muncul tulisan _"Do you want to continue? [Y/n]"_  input `Y` lalu tekan ___enter___.
 
 #### 2. Test apakah php sudah ter-install
 Jalankan perintah di bawah ini untuk memeriksa versi dari __php__ kalian.
@@ -141,7 +153,7 @@ Gunakan perintah `cd /etc/apache2/sites-available`
 Dapat dilihat di sana terdapat dua buah file:
 + file __000-default.conf__, file konfigurasi website default apache untuk http.
 + file __default-ssl.conf__, file konfigurasi website default apache untuk https.
-  
+
 __Catatan tambahan__ :
 
 Cek versi apache2 yang telah kalian install dengan menggunakan command : `apache2 -v`. Jika versi apache2 yang telah kalian install versi 2.4.x maka mengikuti sesuai modul. Jika versi apache yang telah kalian install versi 2.2.x maka mengikuti sesuai modul dengan catatan tambahan tertentu.
@@ -200,7 +212,7 @@ Akses alamat menggunakan lynx __http://[IP Water7]/index.php__
 
 ### B. Membuat Konfigurasi Website Menggunakan Port 8080
 #### B.1 Pindah ke _directory_ `/etc/apache2/sites-available`
-Pindah ke _directory_ `/etc/apache2/sites-available` menggunakan perintah 
+Pindah ke _directory_ `/etc/apache2/sites-available` menggunakan perintah
 ```
 cd /etc/apache2/sites-available
 ```
@@ -211,7 +223,7 @@ cp 000-default.conf default-8080.conf
 Jangan lupa untuk tidak menggunakan `.conf` jika apache2 versi 2.2.x. Jika sudah kalian bisa rename file tersebut menggunakan perintah
 
 #### B.2 Buka file _default-8080.conf_
-Buka file yang telah kalian buat pada sebelumnya. Gunakan perintah `nano /etc/apache2/sites-available/default-8080.conf`. Jangan lupa untuk tidak menambahkan `.conf` jika apache2 versi 2.2.x. 
+Buka file yang telah kalian buat pada sebelumnya. Gunakan perintah `nano /etc/apache2/sites-available/default-8080.conf`. Jangan lupa untuk tidak menambahkan `.conf` jika apache2 versi 2.2.x.
 + Kemudian ubah port yang digunakan. Dimana awalnya port `80` menjadi port `8080`.
 + Ubah juga _DocumentRoot_ yang awalnya `/var/www/html` menjadi `/var/www/web-8080`.
 
@@ -324,7 +336,7 @@ Di dalam _directory_ `/var/www/jarkom2022.com` diberikan struktur _directory_ se
 ```
 Perintah berikutnya dari asisten adalah untuk membuat beberapa direktori, __/assets__, __/data__, dan __/download__. Direktori __/download__ harus dapat menampilkan daftar file yang ada dalam direktori tersebut, sedangkan direktori __/assets__ tidak boleh menampilkan isi direktori tersebut.
 
-Ayo bantu Fulan yang kebingunan membaca penjelasan dari Poyoyo agar dapat mengerjakan perintah asisten. 
+Ayo bantu Fulan yang kebingunan membaca penjelasan dari Poyoyo agar dapat mengerjakan perintah asisten.
 
 #### B.1 Buat _directory-directory_ yang diperlukan oleh website jarkom2022.com milik Waffle
 Gunakan perintah-perintah berikut ini:
@@ -346,10 +358,10 @@ mkdir /var/www/jarkom2022.com/assets/javascript
 	</Directory>
 	```
 	jangan lupa untuk menyimpan perubahan tersebut agar _directory_  ___download___ menampilkan isi _directory_-nya.
-	
+
 	<img src="images/26.png" width="700">
-	
-	
+
+
 + Restart apache dengan perintah `service apache2 restart`
 + Buka browser dan akses http://jarkom2022.com/download
 
@@ -363,7 +375,7 @@ Untuk mengatur _directory_ pada sebuah web, menggunakan
 Contoh untuk mengatur `/var/www/jarkom2022.com/download`
 ```
 <Directory /var/www/jarkom2022.com/download>
-	
+
 </Directory>
 ```
 
@@ -375,9 +387,9 @@ Contoh untuk mengatur `/var/www/jarkom2022.com/download`
 	</Directory>
 	```
 	jangan lupa untuk menyimpan perubahan tersebut agar _directory_  ___assets___ tidak menampilkan isi _directory_-nya.
-	
+
 	<img src="images/28.png" width="700">
-	
+
 + Restart apache dengan perintah `service apache2 restart`
 + Buka browser dan akses http://jarkom2022.com/assets
 
@@ -389,18 +401,18 @@ Karena URL __http://[IP Water7]/assets/javascript__ dirasa terlalu panjang, maka
 Berikut adalah langkah-langkah pengerjaan yang diberikan Poyoyo:
 
 + Pindah ke _directory_ `/etc/apache2/sites-available` kemudian buka file ___jarkom2022.com___ dan tambahkan
-	```    
+	```
 	<Directory /var/www/jarkom2022.com/assets/javascript>
 	    Options +Indexes
 	</Directory>
-	
+
 	Alias "/assets/js" "/var/www/jarkom2022.com/assets/javascript"
 	```
 
 	jangan lupa untuk menyimpan perubahan tersebut agar _directory_  ___assets/javascript___ dapat menampilkan isi _directory_-nya saat pengguna mengakses __http://[IP Water7]/assets/js__.
-	
+
 	<img src="images/30.png" width="700">
-	
+
 + Restart apache dengan perintah `service apache2 restart`
 + Pindah ke folder __/var/www/jarkom2022.com/assets/javascript__ dan buat file __app.js__ dengan perintah `touch app.js`
 + Buka browser dan akses http://jarkom2022.com/assets/js
@@ -412,7 +424,7 @@ Berikut adalah langkah-langkah pengerjaan yang diberikan Poyoyo:
 Perintah asisten berikutnya adalah menyalakan _module rewrite_ agar penulisan URL menjadi lebih rapi dan tanpa perlu menuliskan ekstensi _.php_ ketika mengakses laman.
 
 + Jalankan perintah `a2enmod rewrite` untuk mengaktifkan _module rewrite_.
-	
+
 + Restart apache dengan perintah `service apache2 restart`
 
 	<img src="images/32.png" width="700">
@@ -450,9 +462,9 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 	</Directory>
 	```
 	dan jangan lupa untuk menyimpan perubahan tersebut.
-	
+
 	<img src="images/34.png" width="700">
-	
+
 	__Keterangan__:
 	+ `AllowOverride All` ditambahkan agar  konfigurasi __.htaccess__ dapat berjalan.
 	+ `+FollowSymLinks` ditambahkan agar konfigurasi __mod_rewrite__ dapat berjalan.
@@ -462,7 +474,7 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 + Buka browser dan akses __http://jarkom2022.com/about__
 
 	<img src="images/35.png">
-	
+
 <!-- ### E. Otorisasi
 Pada web http:jarkom2022.com terdapat path __/data__ yang tidak boleh dibuka sembarang orang. Rachma ingin __/data__ hanya boleh diakses oleh pengguna yang memiliki IP 10.151.252.0/255.255.252.0
 
@@ -477,7 +489,7 @@ Maka yang diinstruksikan Ifin agar _directory_ __/data__ milik Rachma tetap aman
 	</Directory>
 	```
 	jangan lupa untuk menyimpan perubahan tersebut.
-	
+
 	__Keterangan__:
 	+ `Order deny, allow` merupakan urutan hak akses. Terdapat dua jenis tipe order yaitu:
 		+ `deny,allow`: Bagian _Deny_ harus di-_declare_ terlebih dahulu sebelum _Allow_
@@ -501,7 +513,7 @@ Sedangkan saat pengguna  memiliki __IP NID 10.151.252.0/22__ maka halaman yang m
 1. Download halaman soal latihan di https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/raw/master/Modul-2/Web%20server/page.zip (Gunakan wget)
 2. Buat domain baru dengan nama __jarkom.yyy.id__ untuk membuka halaman tersebut.
 3. Edit kata `yyy` yang ada di index.php dengan nama kelompok kalian.
-4. Atur agar jika kalian mengetikkan __jarkom.yyy.id__, Web latihan dapat terbuka dengan lynx. 
+4. Atur agar jika kalian mengetikkan __jarkom.yyy.id__, Web latihan dapat terbuka dengan lynx.
 ### Catatan
 + Kemudian unzip file tersebut. Jika muncul error seperti `unzip: command not found` maka install unzip terlebih dahulu menggunakan command `apt-get install unzip`.
 + Buat directory hasil unzip file tersebut menjadi _DocumentRoot_ web
@@ -513,7 +525,7 @@ Sedangkan saat pengguna  memiliki __IP NID 10.151.252.0/22__ maka halaman yang m
 	<img src="images/bingung.jpg" width="50%">
 </p>
 
-<!-- 
+<!--
 	<img src="images/36.png" width="700">
 	<img src="images/37.png">
 	<img src="images/38.png" width="700">
