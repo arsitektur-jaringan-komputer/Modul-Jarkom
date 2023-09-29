@@ -598,8 +598,28 @@ server {
 }
 
 ```
-
 #### D. Reverse Proxy
+
+Reverse Proxy adalah sistem proxy yang digunakan untuk meneruskan/bypass permintaan client. Reverse proxy sebagai jembatan diantara server frontend dan backend, dan bertugas untuk menjamin pertukaran data dan request berjalan secara lancar.
+
+Selain pertukaran data, Reverse Proxy juga memberikan keamanan dan kompresi, sehingga server menjadi lebih ringan dalam memenuhi banyak permintaan sekaligus. Berikut script sederhana menggunakan reverse proxy
+
+```bash
+server {
+    listen 80;
+    server_name www.jarkom.site jarkom.site;
+
+    location /blog {
+       proxy_pass http://blog.jarkom.site:8000/posts/;
+    }
+}
+```
+
+Jika pengunjung mengakses http://jarkom.site/blog/my-post, Nginx akan mem-proxy permintaan ini ke server lain dengan alamat http://blog.jarkom.site:8000/posts. Meski begitu, tetap server utama yang menerima dan melayani koneksi. Singkatnya hanya sebagai perantara.
+
+Ketika alamat server proxy berisi URI, /blog/, permintaan URI yang diteruskan ke server proxy digantikan oleh URI yang ditentukan dalam directive. Jika alamat server proxy ditentukan tanpa URI, maka permintaan koneksi ke URI diteruskan ke server proxy.
+
+####
 
 <!-- ### E. Otorisasi
 Pada web http:jarkom2022.com terdapat path __/data__ yang tidak boleh dibuka sembarang orang. Rachma ingin __/data__ hanya boleh diakses oleh pengguna yang memiliki IP 10.151.252.0/255.255.252.0
