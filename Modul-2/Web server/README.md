@@ -22,6 +22,7 @@
 + J. [Nginx Web Server](#4-nginx-web-server)
   + A. [Instalasi Nginx](#a-instalasi-nginx)
   + B. [Nginx Load Balancing](#b-load-balancing-pada-nginx)
+  + C. [Nginx Upstream](#c-upstream)
 
 ## A. Persyaratan Tambahan untuk Mengikuti Sesi Lab
 Record A dan PTR pada jarkom2022.com sudah harus mengarah ke IP Water7
