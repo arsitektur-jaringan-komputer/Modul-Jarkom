@@ -511,18 +511,19 @@ service nginx status
 
 Buka web __IP Water7 Masing-Masing Kelompok__ dengan `lynx` sampai muncul halaman Nginx seperti di bawah ini.
 
-![Lynx Nginx](images/lynx-nginx-1.png)
+<img src="images/lynx-nginx-1.png">
 
 
 #### B. Load Balancing pada Nginx
 
 Arsitektur load balancing pada umumnya yang digunakan di Nginx (default):
 
-![Default Load Balancing](images/nginx-lb-default.png)
+<img src="images/nginx-lb-default.png">
 
 Namun kita juga bisa menggunakan jenis arsitektur lain, yaitu __Weighted load balancing__, dengan menambahkan parameter `weight` pada konfigurasi Nginx sehingga ada satu node yang memiliki weight atau beban lebih.
 
-![Weighted Load Balancing](images/nginx-lb-weight.png)
+<img src="images/nginx-lb-weight.png">
+
 
 Nginx  juga menawarkan beberapa metode atau algoritma load balancing yang dapat disesuaikan dengan kebutuhan pengguna, berikut ini beberapa metode yang sering digunakan:
 
