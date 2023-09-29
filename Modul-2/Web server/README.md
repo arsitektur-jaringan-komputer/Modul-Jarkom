@@ -6,7 +6,7 @@
 + C. [Dasar Teori](#c-dasar-teori)
   + 1.[ Web Server](#1-web-server)
   + 2.[ Load Balancing](#2-load-balancing)
-  + 3.[ Apache Web Server](#3-apache-web-server)
+  + 3.[ Apache2 Web Server](#3-apache-web-server)
 + D. [Instalasi Lynx](#d-instalasi-lynx)
 + E. [Instalasi Apache](#e-instalasi-apache)
 + F. [Instalasi PHP](#f-instalasi-php)
@@ -19,6 +19,9 @@
   + B. [Directory Listing](#b-directory-listing)
   + C. [Directory Alias](#c-directory-alias)
   + D. [Module Rewrite](#d-module-rewrite)
++ J. [Nginx Web Server](#4-nginx-web-server)
+  + A. [Instalasi Nginx](#a-instalasi-nginx)
+  + B. [Nginx Load Balancing](#b-load-balancing-pada-nginx)
 
 ## A. Persyaratan Tambahan untuk Mengikuti Sesi Lab
 Record A dan PTR pada jarkom2022.com sudah harus mengarah ke IP Water7
@@ -28,40 +31,35 @@ Record A dan PTR pada jarkom2022.com sudah harus mengarah ke IP Water7
 <img src="images/2.png" width="700">
 
 ## B. Penting Untuk Dibaca
+
 1. Pastikan semua Node dapat terhubung ke internet, baik dapat melakukan koneksi ke luar maupun dapat ping dari luar
 2. Jangan mencoba untuk mendahului arahan asisten. Kelalaian ditanggung praktikan.
 3. Ketika mengalami kendala/error __cek syntax dan samakan seperti modul__ terlebih dahulu. Besar kemungkinan masalah yang terjadi dikarenakan adanya kesalahan dalam pengetikan.
 
 ## C. Dasar Teori
+
 ### 1. Web Server
+
 Terdapat dua pengertian dari web server. Secara _hardware_, web server berarti sebuah storage yang digunakan untuk menyimpan semua data dari aplikasi web (file HTML, CSS, JavaScript, dll.). Sedangkan secara _software_,  web server adalah sebuah perangkat yang bertugas untuk menyediakan layanan akses menggunakan protokol HTTP atau HTTPS melalui aplikasi web.
 
 ### 2. Load Balancing
-___Load balancing___ adalah suatu mekanisme penyeimbangan beban yang bekerja dengan cara membagi beban pekerjaan. ___Load balancer___ adalah aplikasi atau alat yang bertugas untuk melakukan _load balancing_. _Load balancer_ dapat meggunakan berbagai macam algoritma _load balancing_ yang bertujuan untuk membagi beban pekerjaan seadil-adilnya. Arsitektur minimal untuk _load balancing_ adalah sebagai berikut:
+
+___Load balancing___ adalah suatu mekanisme penyeimbangan beban yang bekerja dengan cara membagi beban pekerjaan. ___Load balancer___ adalah aplikasi atau alat yang bertugas untuk melakukan _load balancing_. _Load balancer_ dapat meggunakan berbagai macam algoritma _load balancing_ yang bertujuan untuk membagi beban pekerjaan seadil-adilnya. Arsitektur minimal untuk _load balancing_ adalah sebagai berikut
 
 <img src="images/Load Balancer.jpg">
 
 #### Kenapa dibutuhkan load balancing?
 Untuk menangani banyaknya pengguna yang mengakses layanan pada satu waktu dan menjaga layanan tetap tersedia setiap saat, dibutuhkan lebih dari satu komputer untuk memasang layanannya. Dengan layanan yang tersedia di banyak server, dibutuhkan mekanisme pembagian beban untuk memberikan beban yang seimbang pada setiap server. Dengan meletakkan layanan pada beberapa server dan pembagian beban yang optimal, setiap permintaan pengguna bisa ditangani dengan efisien.
 
-Nginx menawarkan beberapa algoritma load balancing yang dapat disesuaikan dengan kebutuhan pengguna, algoritma tersebut antara lain:
+### 3. Apache2 Web Server
 
-- Round robin
-
-	Jika kita memilih algoritma ini maka distribusi beban akan didistribusikan sesuai dengan urutan nomer dari server atau master. Jika kita memiliki 3 buah node slave, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu.
-
-![Round Robin](images/nginx-round-robin.jpg)
-
-- Least-connection
-
-	 Jika Round robin akan mendistribusikan berdasarkan nomer dan urutan server, maka least-connection akan melakukan prioritas pembagian dari beban kinerja yang paling rendah. Node master akan mencatat semua beban dan kinerja dari semua node slave, dan akan melakukan prioritas dari beban yang paling rendah. Sehingga diharapkan tidak ada server dengan beban yang rendah.
-
-### 3. Apache Web Server
-__Apache HTTP Server__ atau biasa disebut Apache adalah sebuah _software_ web server _cross-platform_ dan _open source_ yang banyak digunakan. Dalam sesi lab ini, kita akan menggunakan Apache sebagai _software_ web server kita.
+Apache HTTP Server atau biasa disebut Apache adalah sebuah software web server cross-platform dan open source yang banyak digunakan. Dalam sesi lab ini, kita akan menggunakan Apache sebagai software web server kita.
 
 ## D. Instalasi Lynx
+
 __Lynx__ adalah salah satu web browser yang dapat digunakan pada command-line. Lynx dapat menampilkan _hypertext document_ dan menavigasi _link_ yang ada pada suatu halaman web dengan hanya menggunakan keyboard.
 #### 1. Buka Node _Loguetown_
+
 Lalu jalankan perintah
 ```
 apt-get update
@@ -79,6 +77,7 @@ Kalau ada pilihan seperti gambar di bawah ini, pilihlah sesuai keinginan.
 Kalau sudah terinstall dengan benar, akan muncul tampilan seperti di bawah ini.
 <br/>
 <img src="images/google.png" width="700">
+
 
 ## E. Instalasi Apache
 #### 1. Buka Node _Water7_
@@ -474,6 +473,131 @@ Contohnya adalah seperti kasus di atas, dimana kita ingin mengatur _mod rewrite_
 + Buka browser dan akses __http://jarkom2022.com/about__
 
 	<img src="images/35.png">
+
+### 4. Nginx Web Server
+__Nginx__ (baca: engine-x) adalah perangkat lunak (software) yang bersifat open source yang memiliki banyak fungsi. Web server yang satu ini dikenal dengan performanya yang powerful dan memiliki banyak fitur canggih. Beberapa fungsi dari Nginx di antaranya adalah:
+
+- Web server
+- Load Balancing
+- Reverse Proxy
+
+#### A. Instalasi Nginx
+
+##### 1. Buka Node Foosha
+
+Lalu jalankan perintah
+
+```bash
+apt-get update
+apt-get install nginx
+```
+
+jika muncul tulisan _"Do you want to continue? [Y/n]"_  input `Y` lalu tekan ___enter___.
+
+Apabila instalasi Nginx telah selesai, jangan lupa jalankan perintah berikut
+
+```bash
+service nginx start
+```
+
+Untuk mengecek status dari Nginx, bisa menggunakan perintah
+
+```bash
+service nginx status
+```
+
+##### 2. Gunakan `lynx` untuk mengakses web.
+
+Buka web __IP Water7 Masing-Masing Kelompok__ dengan `lynx` sampai muncul halaman Nginx seperti di bawah ini.
+
+![Lynx Nginx](images/lynx-nginx-1.png)
+
+
+#### B. Load Balancing pada Nginx
+
+Arsitektur load balancing pada umumnya yang digunakan di Nginx (default):
+
+![Default Load Balancing](images/nginx-lb-default.png)
+
+Namun kita juga bisa menggunakan jenis arsitektur lain, yaitu __Weighted load balancing__, dengan menambahkan parameter `weight` pada konfigurasi Nginx sehingga ada satu node yang memiliki weight atau beban lebih.
+
+![Weighted Load Balancing](images/nginx-lb-weight.png)
+
+Nginx  juga menawarkan beberapa metode atau algoritma load balancing yang dapat disesuaikan dengan kebutuhan pengguna, berikut ini beberapa metode yang sering digunakan:
+
+- Round robin
+
+	Jika kita memilih metode ini maka distribusi beban akan didistribusikan sesuai dengan urutan nomer dari server atau master. Jika kita memiliki 3 buah node, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu. Round robin sendiri merupakan metode default yang ada di Nginx.
+
+	```bash
+		upstream mynode {
+			server srv1.example.com;
+			server srv2.example.com;
+			server srv3.example.com;
+		}
+	```
+- Least-connection
+
+	 Jika Round robin akan mendistribusikan berdasarkan nomer dan urutan server, maka least-connection akan melakukan prioritas pembagian dari beban kinerja yang paling rendah. Node master akan mencatat semua beban dan kinerja dari semua node, dan akan melakukan prioritas dari beban yang paling rendah. Sehingga diharapkan tidak ada server dengan beban yang rendah.
+
+	 ```bash
+	upstream mynode {
+        least_conn;
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+    }
+	 ```
+
+- IP Hash
+
+	Agak berbeda dengan kedua algoritma di atas, algoritma ini akan melakukan hash berdasarkan request dari pengguna (menggunakan alamat IP dari pengguna). Sehingga server akan selalu menerima request dari alamat IP yang berbeda. Ketika server ini tidak tersedia, permintaan dari klien ini akan dilayani oleh server lain.
+
+	```bash
+	upstream mynode {
+		ip_hash;
+		server srv1.example.com;
+		server srv2.example.com;
+		server srv3.example.com;
+	}
+	```
+
+- Generic Hash
+
+	Metode Load Balancer Hash ini memetakan beban ke masing-masing node dengan cara membuat hashing berdasarkan text dan atau `Nginx Variables` yang ditentukan dalam hash config.
+
+	```bash
+	upstream mynode {
+    	hash $request_uri consistent;
+    	server srv1.example.com;
+		server srv2.example.com;
+		server srv3.example.com;
+	}
+	```
+
+#### C. Upstream
+Upstream pada Nginx merujuk pada kelompok atau cluster nodes yang ingin kita gunakan sebagai web server.
+
+```bash
+http {
+    upstream nama_upstream {
+        nama_method;
+        server 192.168.1.2;
+        server 192.168.1.3;
+		server 192.168.1.4 weight=5;
+        server ....;
+    }
+}
+
+server {
+    location / {
+        proxy_pass http://nama_upstream;
+    }
+}
+
+```
+
+#### D. Reverse Proxy
 
 <!-- ### E. Otorisasi
 Pada web http:jarkom2022.com terdapat path __/data__ yang tidak boleh dibuka sembarang orang. Rachma ingin __/data__ hanya boleh diakses oleh pengguna yang memiliki IP 10.151.252.0/255.255.252.0
