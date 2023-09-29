@@ -531,11 +531,11 @@ Nginx  juga menawarkan beberapa metode atau algoritma load balancing yang dapat 
 	Jika kita memilih metode ini maka distribusi beban akan didistribusikan sesuai dengan urutan nomer dari server atau master. Jika kita memiliki 3 buah node, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu. Round robin sendiri merupakan metode default yang ada di Nginx.
 
 	```bash
-		upstream mynode {
-			server srv1.example.com;
-			server srv2.example.com;
-			server srv3.example.com;
-		}
+	upstream mynode {
+		server srv1.example.com;
+		server srv2.example.com;
+		server srv3.example.com;
+	}
 	```
 - Least-connection
 
