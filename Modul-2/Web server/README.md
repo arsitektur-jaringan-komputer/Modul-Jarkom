@@ -23,6 +23,8 @@
   + A. [Instalasi Nginx](#a-instalasi-nginx)
   + B. [Nginx Load Balancing](#b-load-balancing-pada-nginx)
   + C. [Nginx Upstream](#c-upstream)
+  + D. [Reverse Proxy](#d-reverse-proxy)
+  + E. [Setup Load Balancing di Nginx](#e-setup-load-balancing-di-nginx)
 
 ## A. Persyaratan Tambahan untuk Mengikuti Sesi Lab
 Record A dan PTR pada jarkom2022.com sudah harus mengarah ke IP Water7
@@ -598,6 +600,7 @@ server {
 }
 
 ```
+
 #### D. Reverse Proxy
 
 Reverse Proxy adalah sistem proxy yang digunakan untuk meneruskan/bypass permintaan client. Reverse proxy sebagai jembatan diantara server frontend dan backend, dan bertugas untuk menjamin pertukaran data dan request berjalan secara lancar.
@@ -619,7 +622,7 @@ Jika pengunjung mengakses http://jarkom.site/blog/my-post, Nginx akan mem-proxy 
 
 Ketika alamat server proxy berisi URI, /blog/, permintaan URI yang diteruskan ke server proxy digantikan oleh URI yang ditentukan dalam directive. Jika alamat server proxy ditentukan tanpa URI, maka permintaan koneksi ke URI diteruskan ke server proxy.
 
-### Setup Load Balancing di Nginx
+#### E. Setup Load Balancing di Nginx
 
 Buatlah topologi sederhana seperti gambar dibawah
 
@@ -737,11 +740,11 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 	;
 	$TTL    604800
 	@       IN      SOA     jarkom.site. root.jarkom.site. (
-								2         ; Serial
-							604800         ; Refresh
-							86400         ; Retry
-							2419200         ; Expire
-							604800 )       ; Negative Cache TTL
+						2         ; Serial
+						604800    ; Refresh
+						86400     ; Retry
+						2419200   ; Expire
+						604800 )  ; Negative Cache TTL
 	;
 	@       IN      NS      jarkom.site.
 	@       IN      A       192.168.2.2
@@ -756,11 +759,11 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 	;
 	$TTL    604800
 	@       IN      SOA     jarkom.site. root.jarkom.site. (
-		2         ; Serial
-		604800         ; Refresh
-		86400         ; Retry
-		2419200         ; Expire
-		604800 )       ; Negative Cache TTL
+					2         ; Serial
+					604800    ; Refresh
+					86400     ; Retry
+					2419200   ; Expire
+					604800 )  ; Negative Cache TTL
 	;
 	2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
 	2                               IN      PTR     jarkom.site.
@@ -875,6 +878,29 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 	echo "Halo, Kamu berada di Water7";
 	?>
 	```
+#### Penjelasan
+- Server Block:
+
+	`listen` mendefinisikan di port berapa nantinya Nginx berjalan.
+
+	`root` menjunjukan letak direktori dari file web yang digunakan.
+
+	`index` menentukan urutan file indeks yang akan dicoba oleh server ketika ada permintaan masuk.
+
+	`server_name` menentukan nama server. Tanda garis bawah _ adalah penanda bahwa server akan menanggapi permintaan untuk semua nama server yang tidak cocok dengan nama server lain. Nama server bisa diganti dengan IP Address, nama domain, localhost, dll.
+
+	`location { ... }` Konfigurasi untuk menangani permintaan ke akar situs. __try_files__ mencoba mencari file yang sesuai dengan __$uri__, kemudian __$uri/__, dan jika itu juga tidak ditemukan, akan mengarahkan ke index.php dengan menggunakan __data query string__.
+
+	`location ~ \.php$` konfigurasi untuk menangani file PHP. Lokasi ini akan mencocokkan ekstensi .php pada URL dan akan memprosesnya dengan menggunakan FastCGI dan mengarahkannya ke socket FastCGI PHP. Untuk  penggunaan PHP Socket perlu disesuaikan dengan versi PHP yang diinstall, dalam case ini kita menggunakan PHP7.2.
+
+	`location ~ /\.ht` mengatur bahwa akses ke file .ht (seperti .htaccess) akan ditolak. Ini adalah langkah keamanan yang umum digunakan untuk mencegah akses ke file sensitif.
+
+	`error_log` mengarahkan log error ke file tertentu.
+
+	`access_log` mengarahkan log akses ke file tertenu.
+
+	`ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled` adalah perintah untuk membuat symlink (link simbolik) dari file konfigurasi Nginx yang berada di direktori /etc/nginx/sites-available ke direktori /etc/nginx/sites-enabled.
+
 
 #### Dressrosa (Load Balancer)
 
@@ -902,6 +928,14 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 	ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites-enabled
 	```
 
+#### Penjelasan
+
+`upstream` - mendefinisikan grup atau kelompok server yang akan menerima lalu lintas atau beban dengan __myweb__ sebagai nama upstream. Dalam kasus ini, ada dua server dengan  alamat IP masing-masing 192.168.2.3 dan 192.168.2.4. Dengan metode Round Robin, lalu lintas akan dibagi secara setara antara kedua server ini.
+
+`listen` - mendefinisikan bahwa web server ini akan berjalan dan mendengarkan permintaan (request) pada port 80.
+
+`location / { ... }` mengatur cara server Nginx menangani permintaan. Dalam hal ini, semua permintaan akan diteruskan ke grup server yang telah didefinisikan di bagian __upstream__.
+
 #### Pengujian
 Masuk ke Loguetwon atau Alabasta lalu jalankan perintah __lynx http://jarkom.site__.
 
@@ -915,7 +949,19 @@ Coba untuk stop service Nginx di salah satu worker, lalu lakukan pengujian lagi.
 
 <img src="images/lb-testing-2.gif">
 
+#### Troubleshoting
 
+- `502 Bad Gateway` - Pastikan socket PHP yang digunakan pada server block sudah sesuai dengan versi PHP yang diinstal.
+
+- `404 Not Found` - Pastikan kembali lokasi dari file PHP di __root__ sudah benar atau belum.
+
+- `403 Forbidden` - Pastikan nama file yang ingin dipanggil dibagian __index__ sudah benar.
+
+- `service php7.2-fpm restart` - Tapi statusnya masih fail, coba dijalankan dulu dengan perintah `service php7.2-fpm start`.
+
+- `Default page Nginx` - Jika ingin menghilangkan default page dari Nginx, jalan perintah `sudo rm -rf /etc/nginx/sites-enabled/default` lalu restart Nginx. Sering terjadi ketika ingin menampilkan halaman dari PHP, tapi yang muncul masih default page Nginx.
+
+- Jangan lupa melakukan restart, ketika ada perubahan pada konfigurasi.
 
 
 <!-- ### E. Otorisasi
@@ -957,6 +1003,9 @@ Sedangkan saat pengguna  memiliki __IP NID 10.151.252.0/22__ maka halaman yang m
 2. Buat domain baru dengan nama __jarkom.yyy.id__ untuk membuka halaman tersebut.
 3. Edit kata `yyy` yang ada di index.php dengan nama kelompok kalian.
 4. Atur agar jika kalian mengetikkan __jarkom.yyy.id__, Web latihan dapat terbuka dengan lynx.
+5. Cobalah menggunakan algoritma load balancing selain Roundrobin (Least-Conn, IP Hash & Generic Hash)
+6. Cobalah untuk menggunakan web server Apache2 di node selain LB.
+
 ### Catatan
 + Kemudian unzip file tersebut. Jika muncul error seperti `unzip: command not found` maka install unzip terlebih dahulu menggunakan command `apt-get install unzip`.
 + Buat directory hasil unzip file tersebut menjadi _DocumentRoot_ web
