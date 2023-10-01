@@ -619,7 +619,302 @@ Jika pengunjung mengakses http://jarkom.site/blog/my-post, Nginx akan mem-proxy 
 
 Ketika alamat server proxy berisi URI, /blog/, permintaan URI yang diteruskan ke server proxy digantikan oleh URI yang ditentukan dalam directive. Jika alamat server proxy ditentukan tanpa URI, maka permintaan koneksi ke URI diteruskan ke server proxy.
 
-####
+### Setup Load Balancing di Nginx
+
+Buatlah topologi sederhana seperti gambar dibawah
+
+<img src="images/lb.png">
+
+Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  internet
+
+- Foosha
+
+	```bash
+	auto eth0
+	iface eth0 inet dhcp
+
+	auto eth1
+	iface eth1 inet static
+		address [Prefix IP].1.1
+		netmask 255.255.255.0
+
+	auto eth2
+	iface eth2 inet static
+		address [Prefix IP].2.1
+		netmask 255.255.255.0
+	```
+
+- Loguetown
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].1.2
+		netmask 255.255.255.0
+		gateway [Prefix IP].1.1
+	```
+
+- Alabasta
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].1.3
+		netmask 255.255.255.0
+		gateway [Prefix IP].1.1
+	```
+
+- Dressrosa
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].2.2
+		netmask 255.255.255.0
+		gateway [Prefix IP].2.1
+	```
+
+- Enieslobby
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].2.3
+		netmask 255.255.255.0
+		gateway [Prefix IP].2.1
+	```
+
+- Water7
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].2.4
+		netmask 255.255.255.0
+		gateway [Prefix IP].2.1
+	```
+
+#### Dressrosa (DNS Server)
+
+- instal Bind9 dan Nginx di Dressrosa:
+
+	```bash
+	apt-get update
+	apt-get install bind9 nginx
+	```
+
+- kemudian buat domain sederhana seperti contoh di modul sebelumnya, pada topologi kali ini kita akan menggunakan `jarkom.site` sebagai domain utama.
+
+- isi dari file __named.conf.local__
+
+	```bash
+	//
+	// Do any local configuration here
+	//
+
+	// Consider adding the 1918 zones here, if they are not used in your
+	// organization
+	//include "/etc/bind/zones.rfc1918";
+
+
+	zone "jarkom.site" {
+			type master;
+			file "/etc/bind/jarkom/jarkom.site";
+	};
+
+	zone "2.168.192.in-addr.arpa" {
+		type master;
+		file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
+	};
+	```
+
+- isi dari file __jarkom.site__
+
+	```bash
+
+	;
+	; BIND data file for local loopback interface
+	;
+	$TTL    604800
+	@       IN      SOA     jarkom.site. root.jarkom.site. (
+								2         ; Serial
+							604800         ; Refresh
+							86400         ; Retry
+							2419200         ; Expire
+							604800 )       ; Negative Cache TTL
+	;
+	@       IN      NS      jarkom.site.
+	@       IN      A       192.168.2.2
+
+	```
+
+- isi dari file __2.168.192.in-addr.arpa__
+
+	```bash
+	;
+	; BIND data file for local loopback interface
+	;
+	$TTL    604800
+	@       IN      SOA     jarkom.site. root.jarkom.site. (
+								2         ; Serial
+							604800         ; Refresh
+							86400         ; Retry
+							2419200         ; Expire
+							604800 )       ; Negative Cache TTL
+	;
+	2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
+	2                               IN      PTR     jarkom.site.
+	```
+
+- lakukan pengujian untuk domain yang telah dibuat, dari `Alabasta`
+
+	<img src="images/lb-setup-1.png">
+
+#### EniesLobby (Nginx worker)
+
+- install lalu setup Nginx dan PHP
+
+	```bash
+	apt-get update && apt install nginx php php-fpm -y
+	```
+
+- cek versi dari PHP
+
+	```bash
+	php -v
+	```
+
+	<img src="images/lb-setup-2.png">
+
+- buat direktori baru di `/var/www`, dengan nama `jarkom`
+
+	```bash
+	mkdir /var/www/jarkom
+	```
+
+- masuk direktori `jarkom` lalu buat file `index.php`
+
+	```php
+	<?php
+		echo "Halo, Kamu berada di EniesLobby";
+	?>
+	```
+
+- selanjutnya kita akan melakukan konfigurasi pada Nginx, pertama masuk ke direktori `/etc/nginx/sites-available` lalu buat file baru dengan nama `jarkom`
+
+	```
+	nano jarkom
+
+	atau
+
+	touch jarkom
+	```
+
+- kemudian isi dengan konfigurasi server block ini:
+
+	```bash
+	server {
+
+			listen 80;
+
+			root /var/www/jarkom;
+
+			index index.php index.html index.htm;
+			server_name _;
+
+			location / {
+					try_files $uri $uri/ /index.php?$query_string;
+			}
+
+			# pass PHP scripts to FastCGI server
+			location ~ \.php$ {
+			include snippets/fastcgi-php.conf;
+			fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+			}
+
+		location ~ /\.ht {
+					deny all;
+			}
+
+			error_log /var/log/nginx/jarkom_error.log;
+			access_log /var/log/nginx/jarkom_access.log;
+	}
+	```
+
+- lalu simpan, kemudian buat `symlink`
+
+	```bash
+	ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled
+	```
+
+- terakhir restart Nginx
+
+	```bash
+	service nginx restart
+
+	atau
+
+	nginx -s reload
+	```
+
+- jika mengecek apakah konfigurasi yang dibuat sudah benar atau belum, bisa mengunakan perintah berikut
+
+	```bash
+	nginx -t
+	```
+
+	<img src="images/lb-setup-3.png">
+
+
+#### Water7 (Nginx worker)
+
+- lakukan hal yang sama seperti di node EniesLobby, namun bedakan pada konfigurasi `index.php` nya agar memudahkan pada saat pengujian
+
+	```php
+	<?php
+		echo "Halo, Kamu berada di Water7";
+	?>
+	```
+
+#### Dressrosa (Load Balancer)
+
+- kembali lagi ke node Dressrosa, kemudian buat file baru di direktori `/etc/nginx/sites-available` dengan nama `lb-jarkom`
+
+	```bash
+	# Default menggunakan Round Robin
+	upstream myweb  {
+			server 192.168.2.3; #IP EniesLobby
+			server 192.168.2.4; #IP Water7
+	}
+
+	server {
+			listen 80;
+			server_name jarkom.site;
+
+			location / {
+			proxy_pass http://myweb;
+		}
+	}
+	```
+- lalu simpan lalu buat `symlink`
+
+	```bash
+	ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites-enabled
+	```
+
+#### Pengujian
+Masuk ke Loguetwon atau Alabasta lalu jalankan perintah __lynx http://jarkom.site__.
+
+```bash
+lynx http://jarkom.site
+```
+<video width="630" height="300" src="./images/lb-testing-1.mp4"></video>
+
+Coba untuk stop service Nginx di salah satu worker, lalu lakukan pengujian lagi.
+
+<video width="630" height="300" src="./images/lb-testing-2.mp4"></video>
+
+
 
 <!-- ### E. Otorisasi
 Pada web http:jarkom2022.com terdapat path __/data__ yang tidak boleh dibuka sembarang orang. Rachma ingin __/data__ hanya boleh diakses oleh pengguna yang memiliki IP 10.151.252.0/255.255.252.0
