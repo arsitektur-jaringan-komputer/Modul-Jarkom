@@ -756,11 +756,11 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 	;
 	$TTL    604800
 	@       IN      SOA     jarkom.site. root.jarkom.site. (
-								2         ; Serial
-							604800         ; Refresh
-							86400         ; Retry
-							2419200         ; Expire
-							604800 )       ; Negative Cache TTL
+		2         ; Serial
+		604800         ; Refresh
+		86400         ; Retry
+		2419200         ; Expire
+		604800 )       ; Negative Cache TTL
 	;
 	2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
 	2                               IN      PTR     jarkom.site.
@@ -796,7 +796,7 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 
 	```php
 	<?php
-		echo "Halo, Kamu berada di EniesLobby";
+	echo "Halo, Kamu berada di EniesLobby";
 	?>
 	```
 
@@ -815,29 +815,29 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 	```bash
 	server {
 
-			listen 80;
+		listen 80;
 
-			root /var/www/jarkom;
+		root /var/www/jarkom;
 
-			index index.php index.html index.htm;
-			server_name _;
+		index index.php index.html index.htm;
+		server_name _;
 
-			location / {
-					try_files $uri $uri/ /index.php?$query_string;
-			}
+		location / {
+				try_files $uri $uri/ /index.php?$query_string;
+		}
 
-			# pass PHP scripts to FastCGI server
-			location ~ \.php$ {
-			include snippets/fastcgi-php.conf;
-			fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
-			}
+		# pass PHP scripts to FastCGI server
+		location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+		}
 
-		location ~ /\.ht {
-					deny all;
-			}
+	location ~ /\.ht {
+				deny all;
+		}
 
-			error_log /var/log/nginx/jarkom_error.log;
-			access_log /var/log/nginx/jarkom_access.log;
+		error_log /var/log/nginx/jarkom_error.log;
+		access_log /var/log/nginx/jarkom_access.log;
 	}
 	```
 
@@ -872,7 +872,7 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 
 	```php
 	<?php
-		echo "Halo, Kamu berada di Water7";
+	echo "Halo, Kamu berada di Water7";
 	?>
 	```
 
@@ -883,16 +883,16 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 	```bash
 	# Default menggunakan Round Robin
 	upstream myweb  {
-			server 192.168.2.3; #IP EniesLobby
-			server 192.168.2.4; #IP Water7
+		server 192.168.2.3; #IP EniesLobby
+		server 192.168.2.4; #IP Water7
 	}
 
 	server {
-			listen 80;
-			server_name jarkom.site;
+		listen 80;
+		server_name jarkom.site;
 
-			location / {
-			proxy_pass http://myweb;
+		location / {
+		proxy_pass http://myweb;
 		}
 	}
 	```
@@ -908,11 +908,13 @@ Masuk ke Loguetwon atau Alabasta lalu jalankan perintah __lynx http://jarkom.sit
 ```bash
 lynx http://jarkom.site
 ```
-<video width="630" height="300" src="./images/lb-testing-1.mp4"></video>
+<img src="images/lb-testing-1.gif">
+
 
 Coba untuk stop service Nginx di salah satu worker, lalu lakukan pengujian lagi.
 
-<video width="630" height="300" src="./images/lb-testing-2.mp4"></video>
+<img src="images/lb-testing-2.gif">
+
 
 
 
