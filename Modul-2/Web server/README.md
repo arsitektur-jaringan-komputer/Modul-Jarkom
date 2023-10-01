@@ -588,7 +588,7 @@ http {
         nama_method;
         server 192.168.1.2;
         server 192.168.1.3;
-		server 192.168.1.4 weight=5;
+	server 192.168.1.4 weight=5;
         server ....;
     }
 }
@@ -734,21 +734,19 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 - isi dari file __jarkom.site__
 
 	```bash
-
 	;
 	; BIND data file for local loopback interface
 	;
 	$TTL    604800
 	@       IN      SOA     jarkom.site. root.jarkom.site. (
-						2         ; Serial
-						604800    ; Refresh
-						86400     ; Retry
-						2419200   ; Expire
-						604800 )  ; Negative Cache TTL
+					2         ; Serial
+					604800    ; Refresh
+					86400     ; Retry
+					2419200   ; Expire
+					604800 )  ; Negative Cache TTL
 	;
 	@       IN      NS      jarkom.site.
 	@       IN      A       192.168.2.2
-
 	```
 
 - isi dari file __2.168.192.in-addr.arpa__
@@ -879,27 +877,28 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 	?>
 	```
 #### Penjelasan
-- Server Block:
 
-	`listen` mendefinisikan di port berapa nantinya Nginx berjalan.
+##### Server Block:
 
-	`root` menjunjukan letak direktori dari file web yang digunakan.
+ - `listen` mendefinisikan di port berapa nantinya Nginx berjalan.
 
-	`index` menentukan urutan file indeks yang akan dicoba oleh server ketika ada permintaan masuk.
+ - `root` menjunjukan letak direktori dari file web yang digunakan.
 
-	`server_name` menentukan nama server. Tanda garis bawah _ adalah penanda bahwa server akan menanggapi permintaan untuk semua nama server yang tidak cocok dengan nama server lain. Nama server bisa diganti dengan IP Address, nama domain, localhost, dll.
+- `index` menentukan urutan file indeks yang akan dicoba oleh server ketika ada permintaan masuk.
 
-	`location { ... }` Konfigurasi untuk menangani permintaan ke akar situs. __try_files__ mencoba mencari file yang sesuai dengan __$uri__, kemudian __$uri/__, dan jika itu juga tidak ditemukan, akan mengarahkan ke index.php dengan menggunakan __data query string__.
+- `server_name` menentukan nama server. Tanda garis bawah _ adalah penanda bahwa server akan menanggapi permintaan untuk semua nama server yang tidak cocok dengan nama server lain. Nama server bisa diganti dengan IP Address, nama domain, localhost, dll.
 
-	`location ~ \.php$` konfigurasi untuk menangani file PHP. Lokasi ini akan mencocokkan ekstensi .php pada URL dan akan memprosesnya dengan menggunakan FastCGI dan mengarahkannya ke socket FastCGI PHP. Untuk  penggunaan PHP Socket perlu disesuaikan dengan versi PHP yang diinstall, dalam case ini kita menggunakan PHP7.2.
+- `location { ... }` Konfigurasi untuk menangani permintaan ke akar situs. __try_files__ mencoba mencari file yang sesuai dengan __$uri__, kemudian __$uri/__, dan jika itu juga tidak ditemukan, akan mengarahkan ke index.php dengan menggunakan __data query string__.
 
-	`location ~ /\.ht` mengatur bahwa akses ke file .ht (seperti .htaccess) akan ditolak. Ini adalah langkah keamanan yang umum digunakan untuk mencegah akses ke file sensitif.
+- `location ~ \.php$` konfigurasi untuk menangani file PHP. Lokasi ini akan mencocokkan ekstensi .php pada URL dan akan memprosesnya dengan menggunakan FastCGI dan mengarahkannya ke socket FastCGI PHP. Untuk  penggunaan PHP Socket perlu disesuaikan dengan versi PHP yang diinstall, dalam case ini kita menggunakan PHP7.2.
 
-	`error_log` mengarahkan log error ke file tertentu.
+- `location ~ /\.ht` mengatur bahwa akses ke file .ht (seperti .htaccess) akan ditolak. Ini adalah langkah keamanan yang umum digunakan untuk mencegah akses ke file sensitif.
 
-	`access_log` mengarahkan log akses ke file tertenu.
+- `error_log` mengarahkan log error ke file tertentu.
 
-	`ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled` adalah perintah untuk membuat symlink (link simbolik) dari file konfigurasi Nginx yang berada di direktori /etc/nginx/sites-available ke direktori /etc/nginx/sites-enabled.
+- `access_log` mengarahkan log akses ke file tertenu.
+
+- `ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled` adalah perintah untuk membuat symlink (link simbolik) dari file konfigurasi Nginx yang berada di direktori /etc/nginx/sites-available ke direktori /etc/nginx/sites-enabled.
 
 
 #### Dressrosa (Load Balancer)
@@ -930,11 +929,11 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 
 #### Penjelasan
 
-`upstream` - mendefinisikan grup atau kelompok server yang akan menerima lalu lintas atau beban dengan __myweb__ sebagai nama upstream. Dalam kasus ini, ada dua server dengan  alamat IP masing-masing 192.168.2.3 dan 192.168.2.4. Dengan metode Round Robin, lalu lintas akan dibagi secara setara antara kedua server ini.
+- `upstream` - mendefinisikan grup atau kelompok server yang akan menerima lalu lintas atau beban dengan __myweb__ sebagai nama upstream. Dalam kasus ini, ada dua server dengan  alamat IP masing-masing 192.168.2.3 dan 192.168.2.4. Dengan metode Round Robin, lalu lintas akan dibagi secara setara antara kedua server ini.
 
-`listen` - mendefinisikan bahwa web server ini akan berjalan dan mendengarkan permintaan (request) pada port 80.
+- `listen` - mendefinisikan bahwa web server ini akan berjalan dan mendengarkan permintaan (request) pada port 80.
 
-`location / { ... }` mengatur cara server Nginx menangani permintaan. Dalam hal ini, semua permintaan akan diteruskan ke grup server yang telah didefinisikan di bagian __upstream__.
+- `location / { ... }` mengatur cara server Nginx menangani permintaan. Dalam hal ini, semua permintaan akan diteruskan ke grup server yang telah didefinisikan di bagian __upstream__.
 
 #### Pengujian
 Masuk ke Loguetwon atau Alabasta lalu jalankan perintah __lynx http://jarkom.site__.
