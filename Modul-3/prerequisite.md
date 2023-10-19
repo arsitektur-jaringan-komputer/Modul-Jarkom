@@ -1,4 +1,4 @@
-# Persiapan 
+# Persiapan
 
 ![image](https://c.tenor.com/A-zBK3Pr8YQAAAAM/suuuper-franky.gif)
 
@@ -6,32 +6,41 @@
 
 Buat topologi baru sesuai dengan peta topologi jaringan dibawah.
 
-![image](https://user-images.githubusercontent.com/61197343/139386268-a5c212ff-f8c8-46dd-b107-156c4295ce88.png)
+![image](../Modul-3/Reverse%20Proxy/img/prequesites.png)
 
-## 2. Konfigurasi Interface 
+## 2. Konfigurasi Interface
 
-Konfigurasi interface sama seperti [Modul GNS3](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml), dengan tambahan: 
+Konfigurasi interface sama seperti [Modul GNS3](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml), dengan tambahan:
 
-* **Jipangu** (SEBAGAI CLIENT)
+* **Dressrosa** (SEBAGAI REVERSE PROXY)
 ```
 auto eth0
 iface eth0 inet static
-	address [Prefix IP].1.4
+	address 192.168.2.2
 	netmask 255.255.255.0
-	gateway [Prefix IP].1.1
+	gateway 192.168.2.1
+```
+* **Jipangu** (SEBAGAI WORKER)
+
+```
+auto eth0
+iface eth0 inet static
+	address 192.168.2.5
+	netmask 255.255.255.0
+	gateway 192.168.2.1
 ```
 
-## 3. Instalasi 
+## 3. Instalasi
 
 Dalam modul 3, kita akan menggunakan 3 aplikasi, yaitu:
 
 * **isc-dhcp-server** digunakan untuk DHCP Server
 * **bind9** digunakan untuk DNS Server
-* **squid3** digunakan untuk Proxy Server
+* **nginx** digunakan untuk Reverse Proxy
 
 Lakukan langkah-langkah berikut:
 
-1. Mengupdate package list pada **Foosha**, **EniesLobby** dan **Water7**. 
+1. Mengupdate package list pada **Foosha**, **EniesLobby** dan **Dressrosa**.
 
     ```
     apt-get update
@@ -49,10 +58,10 @@ Lakukan langkah-langkah berikut:
     apt-get install bind9
     ```
 
-4. Menginstal **squid3** pada server **Water7**
+4. Menginstal **nginx** pada server **Dressrosa**
 
     ```
-    apt-get install squid
+    apt-get install nginx
     ```
 
 # Inget ini yaa 👋
