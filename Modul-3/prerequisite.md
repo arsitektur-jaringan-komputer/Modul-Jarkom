@@ -16,18 +16,18 @@ Konfigurasi interface sama seperti [Modul GNS3](https://github.com/arsitektur-ja
 ```
 auto eth0
 iface eth0 inet static
-	address 192.168.2.2
+	address [Prefix IP].2.2
 	netmask 255.255.255.0
-	gateway 192.168.2.1
+	gateway [Prefix IP].2.1
 ```
 * **Jipangu** (SEBAGAI WORKER)
 
 ```
 auto eth0
 iface eth0 inet static
-	address 192.168.2.5
+	address [Prefix IP].2.5
 	netmask 255.255.255.0
-	gateway 192.168.2.1
+	gateway [Prefix IP].2.1
 ```
 
 ## 3. Instalasi

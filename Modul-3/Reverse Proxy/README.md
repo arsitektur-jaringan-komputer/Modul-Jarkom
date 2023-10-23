@@ -1,6 +1,16 @@
 # 2. Reverse Proxy
 
 ## Outline
+- [2. Reverse Proxy](#2-reverse-proxy)
+    - [Outline](#outline)
+    - [2.1 Pengertian, Cara Kerja, dan Manfaat](#21-pengertian-cara-kerja-dan-manfaat)
+        - [2.1.1 Pengertian](#211-pengertian)
+        - [2.1.2 Cara Kerja](#212-cara-kerja)
+        - [2.1.3 Manfaat](#213-manfaat)
+    - [2.2 Implementasi](#22-implementasi)
+        - [2.2.1 Instalasi](#221-instalasi)
+        - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
+        - [2.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
 
@@ -47,7 +57,7 @@ Beberapa manfaat Nginx sebagi Reverse Proxy:
 Step 1 - Instalasi nginx di Dressrosa
 
 ```bash
-apt-get install nginx
+apt-get update && apt-get install nginx
 ```
 
 Step 2 - Cek status dari nginx
@@ -69,11 +79,76 @@ apt-get install lynx
 
 Step 2 - Cek menggunakan lynx
 
-```bash
-lynx 192.168.2.2
-```
 ![Lynx](img/lynx-nginx-1.png)
 
+Step 3 - Lakukan pengujian dengan membuat file index.html di direktori `/var/www/html`.
 
+```bash
+<h1>Selamat Datang di Dressrosa</h1>
+```
 
+Step 4 - Lakukan pengujian lagi, maka akan muncul halaman yang berbeda dari halaman sebelumnya
+
+```bash
+lynx <IP_DRESSROSA>/index.html
+```
+
+![Lynx PHP](img/lynx-nginx-3.png)
+
+### 2.2.3 Integrasi dengan PHP
+
+Step 1 - Masih di Dressrosa, coba lakukan instalasi PHP
+
+```bash
+apt-get install php php-fpm
+```
+
+Step 2 - Buat script sederhana menggunakan
+
+Masuk ke direktori `/var/www/html`, lalu buat file index.php:
+
+```php
+<?php
+$hostname = gethostname();
+
+echo "Hello World!<br>";
+echo "Selamat datang di: $hostname<br>";
+?>
+```
+
+Step 3 - Edit default file nginx di `/etc/nginx/sites-available/default`
+
+```bash
+nano /etc/nginx/sites-available/default
+```
+
+Tambahkan index.php pada server block bagian `index`:
+
+```bash
+# Add index.php to the list if you are using PHP
+index index.html index.htm index.php;
+```
+
+Uncomment beberapa bagian, seperti contoh di bawah:
+
+```bash
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+        #
+        #       # With php-fpm (or other unix sockets):
+                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        #       # With php-cgi (or other tcp sockets):
+        #       fastcgi_pass 127.0.0.1:9000;
+        }
+```
+
+Step 4 - Lakukan pengujian dari Alabasta
+
+```bash
+lynx <IP_DRESSROSA>/index.php
+```
+
+![Lynx PHP](img/lynx-nginx-2.png)
+
+### 2.2.4 Konfigurasi Reverse Proxy
 
