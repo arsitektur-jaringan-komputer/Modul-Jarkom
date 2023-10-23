@@ -12,4 +12,4 @@
 
 
 
-Pada awalnya
+Pada awalnya, ada Daniel
