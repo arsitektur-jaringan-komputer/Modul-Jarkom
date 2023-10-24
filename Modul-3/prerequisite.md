@@ -64,7 +64,91 @@ Lakukan langkah-langkah berikut:
     apt-get install nginx
     ```
 
-# Inget ini yaa 👋
+## Konfigurasi DNS
+
+Masuk ke Dressrosa untuk melakukan konfigurasi DNS
+
+### Membuat Domain Utama  & Subdoomain
+
+- Pada topologi kali ini kita akan menggunakan `jarkom.site` sebagai domain utama. Isi dari `named.conf.local`
+
+    ```bash
+    //
+    // Do any local configuration here
+    //
+
+    // Consider adding the 1918 zones here, if they are not used in your
+    // organization
+    //include "/etc/bind/zones.rfc1918";
+
+
+    zone "jarkom.site" {
+            type master;
+            file "/etc/bind/jarkom/jarkom.site";
+    };
+
+    zone "2.168.192.in-addr.arpa" {
+        type master;
+        file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
+    };
+    ```
+
+- Konfigurasi CNAME dan subdomain pada file `jarkom.site`
+
+    ```bash
+    ;
+    ; BIND data file for local loopback interface
+    ;
+    $TTL    604800
+    @       IN      SOA     jarkom.site. root.jarkom.site. (
+                                2         ; Serial
+                            604800         ; Refresh
+                            86400         ; Retry
+                            2419200         ; Expire
+                            604800 )       ; Negative Cache TTL
+    ;
+    @               IN      NS      jarkom.site.
+    @               IN      A       192.168.2.2 ; IP Dressrosa
+    www             IN      CNAME   jarkom.site.
+    enieslobby      IN      A       192.168.2.3 ; IP EniesLobby
+    water7          IN      A       192.168.2.4 ; IP Water7
+    jipangu         IN      A       192.168.2.5 ; IP Jipangu
+
+    ```
+
+- Konfigurasi reverse di file `2.168.192.in-addr.arpa`
+
+    ```bash
+
+    ; BIND data file for local loopback interface
+    ;
+    $TTL    604800
+    @       IN      SOA     jarkom.site. root.jarkom.site. (
+                                2         ; Serial
+                            604800         ; Refresh
+                            86400         ; Retry
+                            2419200         ; Expire
+                            604800 )       ; Negative Cache TTL
+    ;
+    2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
+    2                               IN      PTR     jarkom.site.
+    ```
+
+- Pastikan konfigurasinya sudah sesuai, lalu restart bind9
+
+    ```bash
+    service bind9 restart
+    ```
+
+- Lakukan pengujian dari Alabasta atau Loguetown. Jangan lupa untuk mengganti `resolv.conf`
+
+    ```bash
+    nameserver 192.168.2.2
+    ```
+
+    ![Testing Subdomain](./Reverse%20Proxy/img/subdomain-tes.png)
+
+## Inget ini yaa 👋
 
 Lakukan beberapa hal dasar di bawah ini setiap kali kamu **menjalankan GNS3**:
 

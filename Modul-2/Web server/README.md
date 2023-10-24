@@ -958,9 +958,9 @@ Coba untuk stop service Nginx di salah satu worker, lalu lakukan pengujian lagi.
 
 - `service php7.2-fpm restart` - Tapi statusnya masih fail, coba dijalankan dulu dengan perintah `service php7.2-fpm start`.
 
-- `Default page Nginx` - Jika ingin menghilangkan default page dari Nginx, jalan perintah `sudo rm -rf /etc/nginx/sites-enabled/default` lalu restart Nginx. Sering terjadi ketika ingin menampilkan halaman dari PHP, tapi yang muncul masih default page Nginx.
+- `Default page Nginx` - Jika ingin menghilangkan default page dari Nginx, jalan perintah `sudo rm /etc/nginx/sites-enabled/default` atau menjalankan command unlink: `unlink /etc/nginx/sites-enabled/default` lalu restart Nginx. Sering terjadi ketika ingin menampilkan halaman dari PHP, tapi yang muncul masih default page Nginx.
 
-- Jangan lupa melakukan restart, ketika ada perubahan pada konfigurasi.
+- Jangan lupa melakukan restart service, ketika ada perubahan pada konfigurasi.
 
 
 <!-- ### E. Otorisasi
