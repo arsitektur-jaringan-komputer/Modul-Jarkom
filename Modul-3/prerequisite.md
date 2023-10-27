@@ -66,22 +66,13 @@ Lakukan langkah-langkah berikut:
 
 ## Konfigurasi DNS
 
-Masuk ke Dressrosa untuk melakukan konfigurasi DNS
+Masuk ke Enieslobby untuk melakukan konfigurasi DNS
 
-### Membuat Domain Utama  & Subdoomain
+### Membuat Domain Utama  & Subdomain
 
 - Pada topologi kali ini kita akan menggunakan `jarkom.site` sebagai domain utama. Isi dari `named.conf.local`
 
     ```bash
-    //
-    // Do any local configuration here
-    //
-
-    // Consider adding the 1918 zones here, if they are not used in your
-    // organization
-    //include "/etc/bind/zones.rfc1918";
-
-
     zone "jarkom.site" {
             type master;
             file "/etc/bind/jarkom/jarkom.site";
