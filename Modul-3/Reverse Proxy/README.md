@@ -1,16 +1,25 @@
 # 2. Reverse Proxy
 
 ## Outline
+
 - [2. Reverse Proxy](#2-reverse-proxy)
-    - [Outline](#outline)
-    - [2.1 Pengertian, Cara Kerja, dan Manfaat](#21-pengertian-cara-kerja-dan-manfaat)
-        - [2.1.1 Pengertian](#211-pengertian)
-        - [2.1.2 Cara Kerja](#212-cara-kerja)
-        - [2.1.3 Manfaat](#213-manfaat)
-    - [2.2 Implementasi](#22-implementasi)
-        - [2.2.1 Instalasi](#221-instalasi)
-        - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
-        - [2.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
+  - [Outline](#outline)
+  - [2.1 Pengertian, Cara Kerja, dan Manfaat](#21-pengertian-cara-kerja-dan-manfaat)
+    - [2.1.1 Pengertian](#211-pengertian)
+    - [2.1.2 Cara Kerja](#212-cara-kerja)
+    - [2.1.3 Manfaat](#213-manfaat)
+  - [2.2 Implementasi](#22-implementasi)
+    - [2.2.1 Instalasi](#221-instalasi)
+    - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
+    - [2.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
+- [3. PHP-FPM](#3-php-fpm)
+  - [3.1 Pengertian dan Cara Kerja](#31-pengertian-dan-cara-kerja)
+    - [3.1.1 Pengertian](#311-pengertian)
+    - [3.1.2 Cara Kerja](#312-cara-kerja)
+  - [3.2 Implementasi](#22-implementasi)
+    - [3.2.1 Instalasi](#221-instalasi)
+    - [3.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
+    - [3.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
 
@@ -161,7 +170,7 @@ lynx jarkom.site/index.php
 
 ### A. Melewatkan request yang masuk ke proxy server
 
-Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx  atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uwsgi`, `SCGI`, dan `memcached`.
+Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uwsgi`, `SCGI`, dan `memcached`.
 
 Untuk meneruskan permintaan ke server proxy, maka bisa menggunakan `proxy_pass` yang spesifikan di `location` tertentu. Untuk meneruskan request ke proxy server kita bisa menggunakan `nama domain atau alamat IP` dari server proxy yang tersebut, kita juga bisa menspesifikan `port` nya.
 
@@ -295,6 +304,92 @@ lynx jarkom.site/about-jipangu
 
 ### B. Melewatkan Request Headers
 
+## 3. PHP-FPM
+
+## 3.1 Pengertian dan Cara Kerja
+
+### 3.1.1 Pengertian
+
+PHP-FPM adalah singkatan dari `PHP FastCGI Process Manager`. PHP-FPM adalah implementasi PHP dari FastCGI. PHP-FPM adalah sebuah daemon yang berjalan di background dan mengelola proses PHP untuk server web (seperti Apache atau Nginx). PHP-FPM berjalan sebagai service dan mendengarkan permintaan dari server web. Ketika permintaan datang, PHP-FPM akan memprosesnya dan mengembalikan hasilnya ke server web.
+
+PHP-FPM adalah cara yang lebih baik untuk mengelola proses PHP daripada menggunakan modul PHP Apache atau FastCGI. PHP-FPM memiliki beberapa keuntungan dibandingkan dengan modul PHP Apache atau FastCGI. PHP-FPM memiliki kemampuan untuk mengelola proses PHP secara efisien dan dapat dikonfigurasi untuk mengelola proses PHP sesuai dengan kebutuhan. PHP-FPM juga memiliki kemampuan untuk mengelola proses PHP secara dinamis.
+
+### 3.1.2 Cara Kerja
+
+PHP-FPM berperan sebagai pengelola proses yang berhubungan dengan menjalankan script PHP, mengatur antrian permintaan, mengelola proses yang berjalan, dan menangani komunikasi antara server web dan skrip PHP.
+
+Setiap kali server web menerima permintaan untuk skrip PHP, server web akan mengirim permintaan ke PHP-FPM. PHP-FPM akan memproses permintaan dan mengembalikan hasilnya ke server web. Server web kemudian akan mengirimkan hasilnya ke browser.
+
+![PHP-FPM-flow](img/cara-kerja-FPM.png)
+
+## 3.2 Implementasi
+
+### 3.2.1 Instalasi
+
+Step 1 - Instalasi PHP-FPM di Web Server
+
+```bash
+apt-get install php php8.1-fpm
+```
+
+Step 2 - Cek status dari PHP-FPM
+
+```bash
+systemctl status php8.1-fpm
+```
+
+![PHO-FPM_status](img/FPM-status.png)
+
+### 3.2.2 Konfigurasi Dasar
+
+Konfigurasi untuk PHP FPM dibedakan menjadi 2 yaitu konfigurasi untuk `pool` dan konfigurasi untuk `global`. Konfigurasi untuk `pool` berada di `/etc/php/8.1/fpm/pool.d/www.conf` sedangkan konfigurasi untuk `global` berada di `/etc/php/8.1/fpm/php-fpm.conf`. Untuk variabel apa saja yang dapat di konfigurasi dan dikustomisasi dapat dilihat di [sini](https://www.php.net/manual/en/install.fpm.configuration.php).
+
+Step 1 - buat config untuk dressrosa.conf.
+
+```bash
+nano /etc/php/8.1/fpm/pool.d/dressrosa.conf
+```
+
+Step 2 - Ubah beberapa konfigurasi menjadi seperti berikut:
+
+```conf
+[dressrosa_site]
+user = dressrosa_user
+group = dressrosa_user
+listen = /var/run/php8.1-fpm-dressrosa-site.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 75
+pm.start_servers = 10
+pm.min_spare_servers = 5
+pm.max_spare_servers = 20
+pm.process_idle_timeout = 10s
+```
+
+step 3 - Buat user dan group baru untuk dressrosa
+
+```bash
+groupadd dressrosa_user
+useradd -g dressrosa_user dressrosa_user
+```
+
+step 4 - restart service php-fpm
+
+```bash
+systemctl restart php8.1-fpm
+```
+
+step 5 - restart nginxnya juga
+
+```bash
+systemctl restart nginx
+```
 
 #### Referensi
 
