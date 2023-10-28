@@ -296,7 +296,6 @@ lynx jarkom.site/about-jipangu
 ### B. Melewatkan Request Headers
 
 
-
 #### Referensi
 
 - https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy
