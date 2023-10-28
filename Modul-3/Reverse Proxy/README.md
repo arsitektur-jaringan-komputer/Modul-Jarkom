@@ -19,7 +19,6 @@
   - [3.2 Implementasi](#22-implementasi)
     - [3.2.1 Instalasi](#221-instalasi)
     - [3.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
-    - [3.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
 
@@ -385,7 +384,20 @@ step 4 - restart service php-fpm
 systemctl restart php8.1-fpm
 ```
 
-step 5 - restart nginxnya juga
+step 5 - ubah socket php-fpm pada nginx dengan socket yang baru di config pada dressrosa.conf.
+
+```bash
+location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+        #
+        #       # With php-fpm (or other unix sockets):
+                fastcgi_pass unix:/var/run/php8.1-fpm-dressrosa-site.sock;
+        #       # With php-cgi (or other tcp sockets):
+        #       fastcgi_pass 127.0.0.1:9000;
+        }
+```
+
+step 6 - restart nginxnya juga
 
 ```bash
 systemctl restart nginx
