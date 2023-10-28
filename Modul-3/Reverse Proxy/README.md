@@ -87,10 +87,17 @@ Step 3 - Lakukan pengujian dengan membuat file index.html di direktori `/var/www
 <h1>Selamat Datang di Dressrosa</h1>
 ```
 
-Step 4 - Lakukan pengujian lagi, maka akan muncul halaman yang berbeda dari halaman sebelumnya
+Step 4 - Ganti `server name` di `/etc/nginx/sites-available/default` dengan domain utama yang telah dibuat sebelumnya di
+[modul persiapan](../prerequisite.md).
+
+```
+server_name jarkom.site;
+```
+
+Step 4 - Lakukan pengujian lagi, maka akan muncul halaman yang berbeda dari halaman sebelumnya.
 
 ```bash
-lynx <IP_DRESSROSA>/index.html
+lynx jarkom.site/index.html
 ```
 
 ![Lynx PHP](img/lynx-nginx-3.png)
@@ -103,7 +110,7 @@ Step 1 - Masih di Dressrosa, coba lakukan instalasi PHP
 apt-get install php php-fpm
 ```
 
-Step 2 - Buat script sederhana menggunakan
+Step 2 - Buat script sederhana menggunakan PHP
 
 Masuk ke direktori `/var/www/html`, lalu buat file index.php:
 
@@ -145,10 +152,153 @@ Uncomment beberapa bagian, seperti contoh di bawah:
 Step 4 - Lakukan pengujian dari Alabasta
 
 ```bash
-lynx <IP_DRESSROSA>/index.php
+lynx jarkom.site/index.php
 ```
 
 ![Lynx PHP](img/lynx-nginx-2.png)
 
 ### 2.2.4 Konfigurasi Reverse Proxy
 
+### A. Melewatkan request yang masuk ke proxy server
+
+Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx  atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uwsgi`, `SCGI`, dan `memcached`.
+
+Untuk meneruskan permintaan ke server proxy, maka bisa menggunakan `proxy_pass` yang spesifikan di `location` tertentu. Untuk meneruskan request ke proxy server kita bisa menggunakan `nama domain atau alamat IP` dari server proxy yang tersebut, kita juga bisa menspesifikan `port` nya.
+
+Contoh sederhana penggunaan `proxy_pass` di server utama:
+
+```bash
+location /some/path/ {
+    proxy_pass http://www.example.com/link/;
+}
+```
+
+```bash
+location /some/path/ {
+    proxy_pass http://192.168.1.1/link/;
+}
+```
+
+Konfigurasi di sisi worker, karena berbasis PHP maka kita menggunakan `PHP-FPM (FastCGI Process Manager)`:
+
+```bash
+server {
+        listen 80;
+
+        server_name _;
+
+        index index.html index.htm index.php;
+
+        location / {
+                        # First attempt to serve request as file, then
+                        # as directory, then fall back to displaying a 404.
+                        try_files $uri $uri/ =404;
+                }
+        # pass PHP scripts to FastCGI server
+        #
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+        #
+        #       # With php-fpm (or other unix sockets):
+                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        #       # With php-cgi (or other tcp sockets):
+        #       fastcgi_pass 127.0.0.1:9000;
+        }
+}
+```
+
+#### Catatan
+
+- `proxy_pass` - merupakan salah satu [modul](http://nginx.org/en/docs/http/ngx_http_proxy_module.html) yang ada di nginx, digunakan untuk meneruskan request ke alamat tertentu.
+
+- `FastCGI` - `Fast Common Gateway Interface (FastCGI)` adalah protokol standar untuk menghubungkan aplikasi eksternal ke web server. Ini adalah versi peningkatan fitur dari [Common Gateway Interface (CGI)](https://www.geeksforgeeks.org/common-gateway-interface-cgi/).
+
+- `PHP-FPM` - `FastCGI Process Manager (PHP-FPM)` adalah implementasi FastCGI untuk bahasa PHP. PHP-FPM merupakan interpreter PHP yang terpisah dari aplikasi web server. Setiap request atas script PHP yang masuk ke web server akan diteruskan (forward) ke FastCGI melalui socket atau koneksi TCP/IP.
+
+- `uWSGI` - adalah implementasi dari `Web Server Gateway Interface (WSGI)` yang biasanya digunakan untuk menjalankan aplikasi web berbasis Python.
+
+- `SCGI` - `SCGI (Simple Common Gateway Interface)` adalah protokol komunikasi antara server web dan aplikasi web. Ini mirip dengan CGI (Common Gateway Interface), tetapi dirancang untuk lebih efisien dan cepat. Beberapa server web yang mendukung SCGI termasuk Apache dengan mod_scgi, lighttpd, dan beberapa server web lainnya.
+
+- `Memcached` - Memcached adalah sistem penyimpanan cache dalam memori yang digunakan untuk meningkatkan kinerja situs web atau aplikasi dengan menyimpan data dalam memori RAM, sehingga mengurangi kebutuhan untuk mengakses sumber daya yang lebih lambat seperti basis data atau penyimpanan disk. Dalam case Nginx, Memcached digunakan untuk mengarahkan request atau permintaan ke server Memcached yang telah dibuat. Lengkapnya bisa dibaca di dokumentasi [Memcached](https://memcached.org/about).
+
+#### Konfigurasi
+
+Step 1 - Di Jipangu, pastikan sebelumnya telah menginstal `Nginx dan PHP`. Uncoment beberapa konfigurasi `default` di `/etc/nginx/sites-available`.
+
+Tambahkan `index.php` di block index
+
+```bash
+index index.html index.htm index.nginx-debian.html index.php;
+```
+
+Konfigurasi PHP menggunakan `FastCGI server`
+
+```bash
+        # pass PHP scripts to FastCGI server
+        #
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+        #
+        #       # With php-fpm (or other unix sockets):
+                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        #       # With php-cgi (or other tcp sockets):
+        #       fastcgi_pass 127.0.0.1:9000;
+        }
+
+```
+
+Step 2 - Buat file `index.php` di `/var/www/html`.
+
+```php
+<?php
+$hostname = gethostname();
+$php_version = phpversion();
+
+echo "About $hostname<br>";
+echo "Versi PHP yang saya gunakan: $php_version<br>";
+?>
+```
+
+Step 3 - Jangan lupa start service `PHP FPM`.
+
+```bash
+/etc/init.d/php7.2-fpm start
+```
+
+Atau
+
+```bash
+service php7.2-fpm start
+```
+
+Step 4 - Kembali ke Dressrosa, tambahkan `location` baru di `/etc/nginx/sites-available/default`.
+
+```bash
+location /about-jipangu/ {
+        proxy_pass http://<ip_jipangu>/index.php;
+}
+```
+
+Step 5 - Simpan konfigurasi, lalu restart service nginx.
+
+```bash
+service nginx restart
+```
+
+Step 6 - Lakukan pengujian melalui client menggunakan lynx.
+
+```bash
+lynx jarkom.site/about-jipangu
+```
+
+![Reverse proxy test](img/reverse-proxy-test-1.png)
+
+### B. Melewatkan Request Headers
+
+
+#### Referensi
+
+- https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy
+- https://www.techopedia.com/definition/24198/fast-common-gateway-interface-fastcgi
+- https://helpful.knobs-dials.com/index.php/CGI,_FastCGI,_SCGI,_WSGI,_servlets_and_such
+- http://nginx.org/en/docs/http/ngx_http_proxy_module.html
