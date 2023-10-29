@@ -48,7 +48,7 @@ Beberapa manfaat Nginx sebagi Reverse Proxy:
 
 - `Superior Compression` - Jika server proxy tidak mengirim respons terkompresi, kita dapat mengonfigurasi Nginx untuk mengkompres `(contohnya: gzip)` respons sebelum mengirimnya ke client. Tentunya akan menghemat bandwidth dan mempercepat loading website.
 
-- `Increased security` - Informasi mengenai server utama tidak dapat terlihat dari luar, sehingga sulit diserang oleh hackerm. Reverse Proxy juga mencegah serangan `distibuted denial-of-service (DDOS)`.
+- `Increased security` - Informasi mengenai server utama tidak dapat terlihat dari luar, sehingga sulit diserang oleh hacker. Reverse Proxy juga mencegah serangan `distibuted denial-of-service (DDOS)`.
 
 ## 2.2 Implementasi
 
@@ -161,7 +161,7 @@ lynx jarkom.site/index.php
 
 ### A. Melewatkan request yang masuk ke proxy server
 
-Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx  atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uwsgi`, `SCGI`, dan `memcached`.
+Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx  atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uWSGI`, `SCGI`, dan `Memcached`.
 
 Untuk meneruskan permintaan ke server proxy, maka bisa menggunakan `proxy_pass` yang spesifikan di `location` tertentu. Untuk meneruskan request ke proxy server kita bisa menggunakan `nama domain atau alamat IP` dari server proxy yang tersebut, kita juga bisa menspesifikan `port` nya.
 
@@ -221,15 +221,21 @@ server {
 
 - `Memcached` - Memcached adalah sistem penyimpanan cache dalam memori yang digunakan untuk meningkatkan kinerja situs web atau aplikasi dengan menyimpan data dalam memori RAM, sehingga mengurangi kebutuhan untuk mengakses sumber daya yang lebih lambat seperti basis data atau penyimpanan disk. Dalam case Nginx, Memcached digunakan untuk mengarahkan request atau permintaan ke server Memcached yang telah dibuat. Lengkapnya bisa dibaca di dokumentasi [Memcached](https://memcached.org/about).
 
-#### Konfigurasi
+#### Konfigurasi `proxy_pass`
 
 Step 1 - Di Jipangu, pastikan sebelumnya telah menginstal `Nginx dan PHP`. Uncoment beberapa konfigurasi `default` di `/etc/nginx/sites-available`.
 
-Tambahkan `index.php` di block index
+- Arahkan ke DocumenRoot yang diinginkan di block `root`:
 
-```bash
-index index.html index.htm index.nginx-debian.html index.php;
-```
+  ```bash
+  root /var/www/html
+  ```
+
+- Tambahkan `index.php` di block index:
+
+  ```bash
+  index index.html index.htm index.nginx-debian.html index.php;
+  ```
 
 Konfigurasi PHP menggunakan `FastCGI server`
 
@@ -291,14 +297,67 @@ Step 6 - Lakukan pengujian melalui client menggunakan lynx.
 lynx jarkom.site/about-jipangu
 ```
 
-![Reverse proxy test](img/reverse-proxy-test-1.png)
+![Reverse proxy test](img/reverse-proxy-tes-2.gif)
 
 ### B. Melewatkan Request Headers
 
+Secara default Nginx mendefinisikan ulang dua header, yaitu **“Host”** and **“Connection”**
+
+Contoh sederhana penggunan `proxy_set_header`:
+
+```bash
+location /some/path/ {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://example.com:8000;
+}
+```
+
+#### Konfigurasi `proxy_set_header`
+
+
+### C. Memilih Outgoing IP Address
+
+Jika kita memiliki beberapa server proxy untuk menerima request dari client, kita bisa menggunakan modul `proxy_bind` untuk melakukan binding.
+
+Contoh sederhana penggunaan `proxy_bind`:
+
+```bash
+location /app1/ {
+    proxy_bind 127.0.0.1;
+    proxy_pass http://example.com/app1/;
+}
+
+location /app2/ {
+    proxy_bind 127.0.0.2;
+    proxy_pass http://example.com/app2/;
+}
+```
+
+#### Konfigurasi `proxy_bind`
+
+Konfigurasi sederhana menggunakan `proxy_bind`
+
+### Load Balancing Lanjutan
+
+Jika di modul 2, kita telah mencoba salah satu metode atau algoritma load balancing yaitu `Round Robin`, pada modul kali ini kita akan mencoba algoritma lainnya yaitu: `Least-connection`, `IP Hash`,  dan `Generic Hash`. Diharapkan kalian telah membaca pengertian dan cara kerjanya di [modul 2](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-2/Web%20server/README.md#b-load-balancing-pada-nginx).
+
+Pada modul ini kita akan mengkonfigurasi semua metode load balancing yang dibahas sebelumnya.
+
+### Load Testing
+
+Apa itu **load testing**? Singkatnya **load testing** adalah  jenis pengujian perangkat lunak yang bertujuan untuk menguji performa dan kinerja sistem saat menghadapi beban yang tinggi atau penggunaan yang ekstensif. Dalam Load testing, sistem dikenakan beban simulasi yang tinggi untuk mengukur kemampuan sistem dalam menangani jumlah pengguna, transaksi, atau permintaan yang besar secara bersamaan.
+
+Tujuan dari Load Testing:
+
+- Mengekspos kecacatan pada aplikasi seperti *buffer overflow*, *memory leaks*, dan *mismanagement memory*.
+- Menentukan batas atas dari komponen-komponen sistem, seperti database, hardware, network, load balancing yang digunakan, dll.
+
+Tools yang bisa digunakan untuk load testing seperti [Apache JMeter](https://jmeter.apache.org/), [Apache Benchmark atau ab](https://httpd.apache.org/docs/2.4/programs/ab.html), [wrk](https://github.com/wg/wrk), [Locust](https://locust.io/), dll.
 
 #### Referensi
 
 - https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy
-- https://www.techopedia.com/definition/24198/fast-common-gateway-interface-fastcgi
 - https://helpful.knobs-dials.com/index.php/CGI,_FastCGI,_SCGI,_WSGI,_servlets_and_such
+- https://www.techopedia.com/definition/24198/fast-common-gateway-interface-fastcgi
 - http://nginx.org/en/docs/http/ngx_http_proxy_module.html
