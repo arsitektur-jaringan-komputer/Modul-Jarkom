@@ -369,6 +369,8 @@ pm.start_servers = 10
 pm.min_spare_servers = 5
 pm.max_spare_servers = 20
 pm.process_idle_timeout = 10s
+
+;contoh diatas konfigurasi untuk mengatur jumalh proses PHP-FPM yang berjalan
 ```
 
 step 3 - Buat user dan group baru untuk dressrosa
