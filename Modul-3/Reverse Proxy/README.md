@@ -11,6 +11,10 @@
         - [2.2.1 Instalasi](#221-instalasi)
         - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
         - [2.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
+        - [2.2.4 Konfigurasi Reverse Proxy](#224-konfigurasi-reverse-proxy)
+           - [A.  Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
+           - [B. Menambahkan Request Headers](#b-menambahkan-request-headers)
+           - [C. Memilih Outgoing IP Address](#c-memilih-outgoing-ip-address)
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
 
@@ -187,6 +191,8 @@ server {
 
         server_name _;
 
+        root /var/www/html
+
         index index.html index.htm index.php;
 
         location / {
@@ -299,9 +305,23 @@ lynx jarkom.site/about-jipangu
 
 ![Reverse proxy test](img/reverse-proxy-tes-2.gif)
 
-### B. Melewatkan Request Headers
+### B. Menambahkan Request Headers
 
-Secara default Nginx mendefinisikan ulang dua header, yaitu **“Host”** and **“Connection”**
+Directive di Nginx yang digunakan untuk mengatur header HTTP yang dikirim ke server backend atau worker saat proxying request. Format nya adalah:
+
+```bash
+proxy_set_header <header> <value>;
+```
+
+`<header>` - adalah nama header yang ingin diatur
+
+`<value>` - adalah nilai yang ingin ditetapkan dari suatu header
+
+Aturan penggunaan header:
+
+- nama header harus diawali dengan huruf kapital dan tidak boleh menggunakan spasi.
+- nilai dari header berupa string, angka.
+- konteks penggunaannya bisa di dalam `server`, `location` tertentu dan `upstream`.
 
 Contoh sederhana penggunan `proxy_set_header`:
 
@@ -313,8 +333,23 @@ location /some/path/ {
 }
 ```
 
+#### Catatan
+
+`location /some/path/` - Header ini menjelaskan bahwa Nginx akan mem-proxy semua request yang masuk di `/some/path` secara otomatis akan dialihkan ke alamat `http://example.com` dengan port 8000.
+
+`proxy_set_header Host $host` - Header ini menyatakan bahwa Nginx akan mengatur header Host di request yang dikirim ke worker agar sesuai dengan header `Host` di request asli dari client. Hal ini diperlukan agar server backend atau worker dapat mengetahui URL mana yang diakses oleh client.
+
+`proxy_set_header X-Real-IP $remote_addr` - Header X-Real-IP berisi alamat IP client yang mengirimkan request, tanpa melewati proxy. Hal ini berguna jika server worker perlu mengetahui alamat IP client yang sebenarnya, misalnya untuk tujuan logging atau keamanan.
+
 #### Konfigurasi `proxy_set_header`
 
+```bash
+location /about-jipangu/ {
+        proxy_pass http://192.168.2.5/index.php;
+        proxy_set_header Host $Host;
+        proxy_set_header X-Real-IP $remote_addr;
+}
+```
 
 ### C. Memilih Outgoing IP Address
 
@@ -334,15 +369,96 @@ location /app2/ {
 }
 ```
 
-#### Konfigurasi `proxy_bind`
-
 Konfigurasi sederhana menggunakan `proxy_bind`
+
+```bash
+location /app1/ {
+        # Dressrosa
+        proxy_bind 127.0.0.1;
+        proxy_pass http://127.0.0.1/index.php;
+}
+
+location /app2/ {
+        # Enieslobby
+        proxy_bind 192.168.2.2;
+        proxy_pass http://192.168.2.3/index.php;
+}
+
+location /app3/ {
+        # Jipangu
+        proxy_bind 192.168.2.2;
+        proxy_pass http://192.168.2.5/index.php;
+}
+```
+
+![Proxy Bind Testing](img/reverse-proxy-tes-3.gif)
+
+#### Catatan
+
+`proxy_bind` - Menentukan alamat IP yang akan digunakan oleh server utama untuk melakukan binding ke server backend atau worker.
 
 ### Load Balancing Lanjutan
 
 Jika di modul 2, kita telah mencoba salah satu metode atau algoritma load balancing yaitu `Round Robin`, pada modul kali ini kita akan mencoba algoritma lainnya yaitu: `Least-connection`, `IP Hash`,  dan `Generic Hash`. Diharapkan kalian telah membaca pengertian dan cara kerjanya di [modul 2](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-2/Web%20server/README.md#b-load-balancing-pada-nginx).
 
 Pada modul ini kita akan mengkonfigurasi semua metode load balancing yang dibahas sebelumnya.
+
+1. Round Robin
+
+   Merupakan algoritma load balancing default yang ada di Nginx, cara kerjanya yaitu jika kita memiliki 3 buah node, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu.
+
+   Konfigurasi:
+
+   Step 1 - Pastikan di Water 7, Jipangu, dan Enieslobby telah terinstall Nginx dan PHP
+
+   ```bash
+   apt-get update && apt-get install nginx php
+   ```
+
+   step 2 - Modifikasi konfigurasi Nginx, buat file baru di `/etc/nginx/sites-available/jarkom`. Lakukan hal ini di semua worker Nginx selain Dressrosa. Untuk menonaktifkan konfigurasi `default` pada `/etc/nginx/sites-available` bisa menggunakan perintah `unlink /etc/nginx/sites-available/default`.
+
+   ```bash
+    server {
+
+        listen 80;
+
+        root /var/www/jarkom;
+
+        index index.php index.html index.htm;
+        server_name _;
+
+        location / {
+                try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        # pass PHP scripts to FastCGI server
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        }
+
+        location ~ /\.ht {
+                deny all;
+        }
+
+        error_log /var/log/nginx/jarkom_error.log;
+        access_log /var/log/nginx/jarkom_access.log;
+   }
+   ```
+
+   Step 3 - Lalu modifikasi juga file  `index.php` di masing-masing worker.
+
+   ```php
+        <?php
+        $hostname = gethostname();
+        $php_version = phpversion();
+        ?>
+
+        <center>
+        <h1>About <?php echo $hostname; ?></h1>
+        <p>Versi PHP yang saya gunakan: <?php echo php_version; ?></p>
+        </center>
+   ```
 
 ### Load Testing
 
