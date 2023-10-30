@@ -1,20 +1,21 @@
 # 2. Reverse Proxy
 
 ## Outline
+
 - [2. Reverse Proxy](#2-reverse-proxy)
-    - [Outline](#outline)
-    - [2.1 Pengertian, Cara Kerja, dan Manfaat](#21-pengertian-cara-kerja-dan-manfaat)
-        - [2.1.1 Pengertian](#211-pengertian)
-        - [2.1.2 Cara Kerja](#212-cara-kerja)
-        - [2.1.3 Manfaat](#213-manfaat)
-    - [2.2 Implementasi](#22-implementasi)
-        - [2.2.1 Instalasi](#221-instalasi)
-        - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
-        - [2.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
-        - [2.2.4 Konfigurasi Reverse Proxy](#224-konfigurasi-reverse-proxy)
-           - [A.  Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
-           - [B. Menambahkan Request Headers](#b-menambahkan-request-headers)
-           - [C. Memilih Outgoing IP Address](#c-memilih-outgoing-ip-address)
+  - [Outline](#outline)
+  - [2.1 Pengertian, Cara Kerja, dan Manfaat](#21-pengertian-cara-kerja-dan-manfaat)
+    - [2.1.1 Pengertian](#211-pengertian)
+    - [2.1.2 Cara Kerja](#212-cara-kerja)
+    - [2.1.3 Manfaat](#213-manfaat)
+  - [2.2 Implementasi](#22-implementasi)
+    - [2.2.1 Instalasi](#221-instalasi)
+    - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
+    - [2.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
+    - [2.2.4 Konfigurasi Reverse Proxy](#224-konfigurasi-reverse-proxy)
+      - [A.  Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
+      - [B. Menambahkan Request Headers](#b-menambahkan-request-headers)
+      - [C. Memilih Outgoing IP Address](#c-memilih-outgoing-ip-address)
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
 
@@ -94,7 +95,7 @@ Step 3 - Lakukan pengujian dengan membuat file index.html di direktori `/var/www
 Step 4 - Ganti `server name` di `/etc/nginx/sites-available/default` dengan domain utama yang telah dibuat sebelumnya di
 [modul persiapan](../prerequisite.md).
 
-```
+```bash
 server_name jarkom.site;
 ```
 
@@ -143,14 +144,14 @@ index index.html index.htm index.php;
 Uncomment beberapa bagian, seperti contoh di bawah:
 
 ```bash
-        location ~ \.php$ {
-                include snippets/fastcgi-php.conf;
-        #
-        #       # With php-fpm (or other unix sockets):
-                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
-        #       # With php-cgi (or other tcp sockets):
-        #       fastcgi_pass 127.0.0.1:9000;
-        }
+location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+#
+#   # With php-fpm (or other unix sockets):
+    fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+#   # With php-cgi (or other tcp sockets):
+#   fastcgi_pass 127.0.0.1:9000;
+}
 ```
 
 Step 4 - Lakukan pengujian dari Alabasta
@@ -307,7 +308,7 @@ lynx jarkom.site/about-jipangu
 
 ### B. Menambahkan Request Headers
 
-Directive di Nginx yang digunakan untuk mengatur header HTTP yang dikirim ke server backend atau worker saat proxying request. Format nya adalah:
+Directive di Nginx yang digunakan untuk mengatur header HTTP yang dikirim ke server backend atau worker saat proxying request. Modul yang bisa digunakan yaitu [proxy_set_header](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header). Format nya adalah:
 
 ```bash
 proxy_set_header <header> <value>;
@@ -351,9 +352,9 @@ location /about-jipangu/ {
 }
 ```
 
-### C. Memilih Outgoing IP Address
+### C. Proxy Bind
 
-Jika kita memiliki beberapa server proxy untuk menerima request dari client, kita bisa menggunakan modul `proxy_bind` untuk melakukan binding.
+Jika kita memiliki beberapa server proxy untuk menerima request dari client, kita bisa menggunakan modul [proxy_bind](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_bind) untuk melakukan binding.
 
 Contoh sederhana penggunaan `proxy_bind`:
 
@@ -395,7 +396,9 @@ location /app3/ {
 
 #### Catatan
 
-`proxy_bind` - Menentukan alamat IP yang akan digunakan oleh server utama untuk melakukan binding ke server backend atau worker.
+`proxy_bind <ip_address>` - Menentukan alamat IP yang akan digunakan oleh server utama untuk melakukan binding ke server backend atau worker.
+
+`proxy_pass http://<ip_address>` - Meneruskan permintaan clien ke server backend atau worker.
 
 ### Load Balancing Lanjutan
 
@@ -403,7 +406,7 @@ Jika di modul 2, kita telah mencoba salah satu metode atau algoritma load balanc
 
 Pada modul ini kita akan mengkonfigurasi semua metode load balancing yang dibahas sebelumnya.
 
-1. Round Robin
+#### A. Round Robin
 
    Merupakan algoritma load balancing default yang ada di Nginx, cara kerjanya yaitu jika kita memiliki 3 buah node, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu.
 
@@ -449,16 +452,52 @@ Pada modul ini kita akan mengkonfigurasi semua metode load balancing yang dibaha
    Step 3 - Lalu modifikasi juga file  `index.php` di masing-masing worker.
 
    ```php
-        <?php
-        $hostname = gethostname();
-        $php_version = phpversion();
-        ?>
+   <?php
+   $hostname = gethostname();
+   $php_version = phpversion();
+   ?>
 
-        <center>
-        <h1>About <?php echo $hostname; ?></h1>
-        <p>Versi PHP yang saya gunakan: <?php echo php_version; ?></p>
-        </center>
+   <center>
+   <h1>About <?php echo $hostname; ?></h1>
+   <p>Versi PHP yang saya gunakan: <?php echo $php_version; ?></p>
+   </center>
    ```
+
+   Step 4 - Menambahkan file konfigurasi baru untuk Nginx di `/etc/nginx/sites-available`, contoh filenya `lb-jarkom`.
+
+   ```bash
+   #Default menggunakan Round Robin
+   upstream backend  {
+   server 192.168.2.3; #IP EniesLobby
+   server 192.168.2.4; #IP Water7
+   server 192.168.2.5; #IP Jipangu
+   }
+
+   server {
+   listen 80;
+   server_name jarkom.site;
+
+    location / {
+        proxy_pass http://backend;
+    }
+   }
+   ```
+
+   Step 5 - Unlink default config di `/etc/nginx/sites-enabled` dan symlink file `lb-jarkom` ke `/etc/nginx/sites-enabled`
+
+   ```bash
+   unlink /etc/nginx/sites-enabled/default
+   ```
+
+   ```bash
+   ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites/enabled/
+   ```
+
+   ```bash
+   service nginx restart
+   ```
+
+   ![Round robin testing](img/reverse-proxy-tes-4.gif)
 
 ### Load Testing
 
@@ -473,7 +512,7 @@ Tools yang bisa digunakan untuk load testing seperti [Apache JMeter](https://jme
 
 #### Referensi
 
-- https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy
-- https://helpful.knobs-dials.com/index.php/CGI,_FastCGI,_SCGI,_WSGI,_servlets_and_such
-- https://www.techopedia.com/definition/24198/fast-common-gateway-interface-fastcgi
-- http://nginx.org/en/docs/http/ngx_http_proxy_module.html
+- <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy>
+- <https://helpful.knobs-dials.com/index.php/CGI,_FastCGI,_SCGI,_WSGI,_servlets_and_such>
+- <https://www.techopedia.com/definition/24198/fast-common-gateway-interface-fastcgi>
+- <http://nginx.org/en/docs/http/ngx_http_proxy_module.html>
