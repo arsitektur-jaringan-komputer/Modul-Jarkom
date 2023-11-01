@@ -487,12 +487,12 @@ server {
 listen 80;
 server_name jarkom.site;
 
-location / {
-        proxy_pass http://backend;
-        proxy_set_header    X-Real-IP $remote_addr;
-        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header    Host $http_host;
-}
+        location / {
+                proxy_pass http://backend;
+                proxy_set_header    X-Real-IP $remote_addr;
+                proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header    Host $http_host;
+        }
 }
 ```
 
@@ -548,12 +548,12 @@ server {
 listen 80;
 server_name jarkom.site;
 
-location / {
-        proxy_pass http://backend;
-        proxy_set_header    X-Real-IP $remote_addr;
-        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header    Host $http_host;
-}
+        location / {
+                proxy_pass http://backend;
+                proxy_set_header    X-Real-IP $remote_addr;
+                proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header    Host $http_host;
+        }
 ```
 
 #### C. IP Hash
@@ -673,9 +673,13 @@ ab -n 100 -c 10 https://www.apache.org/
 
 Penjelasan:
 
+`ab` - Apache bench command.
+
 `-n` - argument untuk  menentukan jumlah permintaan atau request. Secara default jika kita tidak menentukan jumlah request, maka jumlah request = 1.
 
 `-c` - adalah konkurensi, menunjukan jumlah beberapa permintaan yang dilakukan secara bersamaan. Jika kita tidak menentukan jumlah konkurensi, maka defaultnya adalah satu permintaan dalam satu waktu.
+
+`URL` - path url yang ingin ditest. Perlu diingat juga untuk menambahkan tanda **/** di akhir url yang kita uji.
 
 Ouput:
 
@@ -684,45 +688,215 @@ This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
 
-Benchmarking jarkom.site (be patient).....done
+Benchmarking www.apache.org (be patient).....done
+
+
+Server Software:        Apache
+Server Hostname:        www.apache.org
+Server Port:            443
+SSL/TLS Protocol:       TLSv1.2,ECDHE-RSA-CHACHA20-POLY1305,2048,256
+TLS Server Name:        www.apache.org
+
+Document Path:          /
+Document Length:        64667 bytes
+
+Concurrency Level:      10
+Time taken for tests:   3.741 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      6601140 bytes
+HTML transferred:       6466700 bytes
+Requests per second:    26.73 [#/sec] (mean)
+Time per request:       374.053 [ms] (mean)
+Time per request:       37.405 [ms] (mean, across all concurrent requests)
+Transfer rate:          1723.40 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:       83  132  31.9    124     214
+Processing:    84  235  89.5    246     376
+Waiting:       25   75  45.1     58     227
+Total:        237  367  86.5    371     518
+
+Percentage of the requests served within a certain time (ms)
+  50%    371
+  66%    417
+  75%    450
+  80%    460
+  90%    480
+  95%    504
+  98%    518
+  99%    518
+ 100%    518 (longest request)
+```
+
+Penjelasan:
+
+`Server Software` - nama dari web server yang digunakan
+
+`Server Hostname` - nama domain atau DNS, selain DNS bisa IP Adress juga.
+
+`Server Port` - port yang digunakan ab untuk  konek ke website, karena menggunakan HTTPS maka portnya adalah 443, jika menggunakan HTTP, maka portnya adalah 80.
+
+`SSL/TLS Protocol` - protokol negosiasi antara server dan client.
+
+`Document Path` - path yang diakses atau dihit oleh ab.
+
+`Document Length` - ukuran dalam bytes dari suatu `Document` yang berhasil di return, Jika panjang `Document` berubah selama pengujian, responsnya dianggap error.
+
+`Concurrency Level` - jumlah beberapa request yang dilakukan secara bersamaan.
+
+`Time Taken for Tests` - rentang waktu yang dibutuhkan, mulai dari proses testing menggunakan ab sampai proses terakhir menerima respon.
+
+`Complete Requests` - jumlah dari respon yang berhasil selama proses testing.
+
+`Failed Requests` - jumlah dari respon yang gagal selama proses testing.
+
+`Total Transferred` - jumlah total (dalam byte) yang diterima dari server.
+
+`HTML Transferred` - jumlah total (dalam byte) dokumen yang diterima dari server. Jumlah ini tidak termasuk byte yang diterima di header HTTP
+
+`Requests per second` - jumlah permintaan per detik. Nilai ini merupakan hasil pembagian jumlah permintaan dengan total waktu yang dibutuhkan.
+
+`Time per request` - Rata-rata waktu yang dihabiskan per permintaan. Nilai pertama dihitung dengan rumus: concurrency * timetaken * 1000/done sedangkan nilai kedua dihitung dengan rumus timetaken * 1000/done.
+
+`Transfer rate` - Kecepatan transfer. Dihitung dengan rumus totalread / 1024 / timetaken.
+
+#### Plotting  output
+
+Kita akan mencoba untuk memplot hasil yang relevan untuk melihat berapa banyak waktu yang dibutuhkan server seiring dengan meningkatnya jumlah permintaan. Caranya yaitu dengan menambahkan opsi `-g` pada command sebelumnya diikuti dengan nama file, contoh: `out.data` di mana data keluaran ab akan disimpan ke dalam file tersebut.
+
+Step 1 - Buat direktori baru di `root`, dimana direktori tersebut akan digunakan untuk menyimpan output selama proses benchmark.
+
+```bash
+cd /root/
+```
+
+```bash
+mkdir benchmark && cd benchmark
+```
+
+Step 2 - Jalankan command `ab` ditambahkan argumen `-g`.
+
+```bash
+ab -n 100 -c 10 -g out.data https://www.apache.org/
+```
+
+Step 3 - Cek isi dari file `out.data`.
+
+```bash
+cat out.data
+```
+
+Atau menggunakan command `less`, jika  muncul pesan `command not found` install telebih dahulu.
+
+```bash
+apt install less -y
+```
+
+```bash
+less out.data
+```
+
+Output:
+
+```bash
+starttime       seconds ctime   dtime   ttime   wait
+Wed Nov 01 03:59:05 2023        1698811145      99      116     216     27
+Wed Nov 01 03:59:04 2023        1698811144      96      136     232     42
+Wed Nov 01 03:59:05 2023        1698811145      86      146     233     57
+```
+
+Penjelasan:
+
+`starttime` - adalah tanggal dan waktu pada saat proses testing atau benchmarking dimulai.
+
+`seconds` - sama seperti `starttime` hanya saja dalam format timestamp UNIX. Sebagai contoh jika `seconds` nya = `1698811145` maka untuk mengetahui tanggal aslinya kita bisa menggunakan command: `date -d @<timestamp>`. Maka hasilnya = `Wed Nov  1 03:59:05 UTC 2023`.
+
+`ctime` - keterangan waktu koneksi (connection time).
+
+`dtime` - menunjukan waktu pemrosesan.
+
+`ttime` - menunjukan total waktu (total time), dimana perhitungannya yaitu: ttime = ctime + dtime.
+
+`wait` - adalah waktu tunggu (waiting time).
+
+Visualisasi dari Plot:
+
+![Plot](img/plot.jpg)
+
+#### 1. Menguji Website HTTP (jarkom.site)
+
+Step 1 - Ganti `resolv.conf` ke nameserver Enieslobby.
+
+```bash
+#nameserver 192.168.122.1
+nameserver 192.168.2.3
+```
+
+Step 2 - Lakukan benchmark ke website jarkom.site, untuk pengujian pertama jumlah request yang berikan 100  dengan jumlah konkurensi 10.
+
+```bash
+ab -n 100 -c 10 -g out.data http://www.jarkom.site/
+```
+
+Output:
+
+```bash
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking www.jarkom.site (be patient).....done
 
 
 Server Software:        nginx/1.14.0
-Server Hostname:        jarkom.site
+Server Hostname:        www.jarkom.site
 Server Port:            80
 
 Document Path:          /
 Document Length:        112 bytes
 
 Concurrency Level:      10
-Time taken for tests:   0.083 seconds
+Time taken for tests:   0.213 seconds
 Complete requests:      100
 Failed requests:        0
 Total transferred:      25800 bytes
 HTML transferred:       11200 bytes
-Requests per second:    1210.38 [#/sec] (mean)
-Time per request:       8.262 [ms] (mean)
-Time per request:       0.826 [ms] (mean, across all concurrent requests)
-Transfer rate:          304.96 [Kbytes/sec] received
+Requests per second:    470.44 [#/sec] (mean)
+Time per request:       21.257 [ms] (mean)
+Time per request:       2.126 [ms] (mean, across all concurrent requests)
+Transfer rate:          118.53 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        1    2   0.5      2       3
-Processing:     1    6   6.4      5      27
-Waiting:        1    6   6.4      4      27
-Total:          3    8   6.5      6      28
+Connect:        2    5   2.4      4      15
+Processing:     4   16   8.5     14      37
+Waiting:        3   16   8.5     14      37
+Total:          6   21   8.8     20      40
 
 Percentage of the requests served within a certain time (ms)
-  50%      6
-  66%      7
-  75%      7
-  80%      8
-  90%     27
-  95%     27
-  98%     28
-  99%     28
- 100%     28 (longest request)
+  50%     20
+  66%     24
+  75%     26
+  80%     28
+  90%     37
+  95%     39
+  98%     39
+  99%     40
+ 100%     40 (longest request)
 ```
+
+Penjelasan:
+
+`Server Software:       nginx/1.14.0` - menunjukan webserver yang digunakan adalah Nginx (webserver Dressrosa).
+
+`Server Hostname:        www.jarkom.site` - Domain yang digunakan yaitu: ` www.jarkom.site`.
+
+`Server Port:            80` - Karena webistenya menggunakan HTTP, maka default portnya adalah 80.
+
+`Complete requests:      100 ` dan `Failed requests:        0` - Tampaknya belum ada request yang gagal.
+
 
 #### Referensi
 
