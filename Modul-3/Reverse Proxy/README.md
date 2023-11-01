@@ -892,13 +892,13 @@ Percentage of the requests served within a certain time (ms)
 
 Penjelasan:
 
-`Server Software:       nginx/1.14.0` - menunjukan webserver yang digunakan adalah Nginx (webserver Dressrosa).
+`Server Software: nginx/1.14.0` - menunjukan webserver yang digunakan adalah Nginx (webserver Dressrosa).
 
-`Server Hostname:        www.jarkom.site` - Domain yang digunakan yaitu: ` www.jarkom.site`.
+`Server Hostname: www.jarkom.site` - Domain yang digunakan yaitu: ` www.jarkom.site`.
 
-`Server Port:            80` - Karena webistenya menggunakan HTTP, maka default portnya adalah 80.
+`Server Port: 80` - Karena webistenya menggunakan HTTP, maka default portnya adalah 80.
 
-`Complete requests:      100 ` dan `Failed requests:        0` - Tampaknya belum ada request yang gagal.
+`Complete requests: 100 ` dan `Failed requests: 0` - Tampaknya belum ada request yang gagal.
 
 
 #### Referensi
