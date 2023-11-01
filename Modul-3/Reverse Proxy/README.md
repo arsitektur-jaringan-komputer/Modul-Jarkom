@@ -15,7 +15,7 @@
     - [2.2.4 Konfigurasi Reverse Proxy](#224-konfigurasi-reverse-proxy)
       - [A.  Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
       - [B. Menambahkan Request Headers](#b-menambahkan-request-headers)
-      - [C. Memilih Outgoing IP Address](#c-memilih-outgoing-ip-address)
+      - [C. Proxy Binding](#c-proxy-bind)
     - [2.2.5 Load Balancing Lanjutan](#225-load-balancing-lanjutan)
       - [A. Round Robin](#a-round-robin)
       - [B. Least Connection](#b-least-connection)
@@ -23,8 +23,11 @@
       - [D. Generic Hash](#d-generic-hash)
   - [2.3 Load Testing](#23-load-testing)
       - [2.3.1 Apache Benchmark](#231-apache-benchmark)
-        - [A. Instalasi]()
-        -
+        - [A. Instalasi](#a-instalasi)
+        - [B. Pengujian](#b-pengujian)
+           - [1. Menguji Website HTTPS](#1-menguji-website-https)
+           - [2. Plotting  output](#2-plotting-output)
+           - [3. Menguji Website HTTP (jarkom.site) ](#3-menguji-website-http-jarkomsite)
 
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
@@ -176,7 +179,7 @@ lynx jarkom.site/index.php
 
 ### A. Melewatkan request yang masuk ke proxy server
 
-Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx  atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uWSGI`, `SCGI`, dan `Memcached`.
+Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan (melewatkan) request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx  atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uWSGI`, `SCGI`, dan `Memcached`.
 
 Untuk meneruskan permintaan ke server proxy, maka bisa menggunakan `proxy_pass` yang spesifikan di `location` tertentu. Untuk meneruskan request ke proxy server kita bisa menggunakan `nama domain atau alamat IP` dari server proxy yang tersebut, kita juga bisa menspesifikan `port` nya.
 
@@ -762,7 +765,7 @@ Penjelasan:
 
 `Transfer rate` - Kecepatan transfer. Dihitung dengan rumus totalread / 1024 / timetaken.
 
-#### Plotting  output
+#### 2. Plotting  output
 
 Kita akan mencoba untuk memplot hasil yang relevan untuk melihat berapa banyak waktu yang dibutuhkan server seiring dengan meningkatnya jumlah permintaan. Caranya yaitu dengan menambahkan opsi `-g` pada command sebelumnya diikuti dengan nama file, contoh: `out.data` di mana data keluaran ab akan disimpan ke dalam file tersebut.
 
@@ -825,7 +828,7 @@ Visualisasi dari Plot:
 
 ![Plot](img/plot.jpg)
 
-#### 1. Menguji Website HTTP (jarkom.site)
+#### 3. Menguji Website HTTP (jarkom.site)
 
 Step 1 - Ganti `resolv.conf` ke nameserver Enieslobby.
 
