@@ -16,6 +16,16 @@
       - [A.  Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
       - [B. Menambahkan Request Headers](#b-menambahkan-request-headers)
       - [C. Memilih Outgoing IP Address](#c-memilih-outgoing-ip-address)
+    - [2.2.5 Load Balancing Lanjutan](#225-load-balancing-lanjutan)
+      - [A. Round Robin](#a-round-robin)
+      - [B. Least Connection](#b-least-connection)
+      - [C. IP Hash](#c-ip-hash)
+      - [D. Generic Hash](#d-generic-hash)
+  - [2.3 Load Testing](#23-load-testing)
+      - [2.3.1 Apache Benchmark](#231-apache-benchmark)
+        - [A. Instalasi]()
+        -
+
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
 
@@ -400,7 +410,7 @@ location /app3/ {
 
 `proxy_pass http://<ip_address>` - Meneruskan permintaan clien ke server backend atau worker.
 
-### Load Balancing Lanjutan
+### 2.2.5 Load Balancing Lanjutan
 
 Jika di modul 2, kita telah mencoba salah satu metode atau algoritma load balancing yaitu `Round Robin`, pada modul kali ini kita akan mencoba algoritma lainnya yaitu: `Least-connection`, `IP Hash`,  dan `Generic Hash`. Diharapkan kalian telah membaca pengertian dan cara kerjanya di [modul 2](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-2/Web%20server/README.md#b-load-balancing-pada-nginx).
 
@@ -408,98 +418,206 @@ Pada modul ini kita akan mengkonfigurasi semua metode load balancing yang dibaha
 
 #### A. Round Robin
 
-   Merupakan algoritma load balancing default yang ada di Nginx, cara kerjanya yaitu jika kita memiliki 3 buah node, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu.
+Merupakan algoritma load balancing default yang ada di Nginx, cara kerjanya yaitu jika kita memiliki 3 buah node, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu.
 
-   Konfigurasi:
+Konfigurasi:
 
-   Step 1 - Pastikan di Water 7, Jipangu, dan Enieslobby telah terinstall Nginx dan PHP
+Step 1 - Pastikan di Water 7, Jipangu, dan Enieslobby telah terinstall Nginx dan PHP
 
-   ```bash
-   apt-get update && apt-get install nginx php
-   ```
+```bash
+apt-get update && apt-get install nginx php
+```
 
-   step 2 - Modifikasi konfigurasi Nginx, buat file baru di `/etc/nginx/sites-available/jarkom`. Lakukan hal ini di semua worker Nginx selain Dressrosa. Untuk menonaktifkan konfigurasi `default` pada `/etc/nginx/sites-available` bisa menggunakan perintah `unlink /etc/nginx/sites-available/default`.
+step 2 - Modifikasi konfigurasi Nginx, buat file baru di `/etc/nginx/sites-available/jarkom`. Lakukan hal ini di semua worker Nginx selain Dressrosa. Untuk menonaktifkan konfigurasi `default` pada `/etc/nginx/sites-available` bisa menggunakan perintah `unlink /etc/nginx/sites-available/default`.
 
-   ```bash
-    server {
+```bash
+server {
 
-        listen 80;
+listen 80;
 
-        root /var/www/jarkom;
+root /var/www/jarkom;
 
-        index index.php index.html index.htm;
-        server_name _;
+index index.php index.html index.htm;
+server_name _;
 
-        location / {
-                try_files $uri $uri/ /index.php?$query_string;
-        }
+location / {
+        try_files $uri $uri/ /index.php?$query_string;
+}
 
-        # pass PHP scripts to FastCGI server
-        location ~ \.php$ {
-                include snippets/fastcgi-php.conf;
-                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
-        }
+# pass PHP scripts to FastCGI server
+location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+}
 
-        location ~ /\.ht {
-                deny all;
-        }
+location ~ /\.ht {
+        deny all;
+}
 
-        error_log /var/log/nginx/jarkom_error.log;
-        access_log /var/log/nginx/jarkom_access.log;
-   }
-   ```
+error_log /var/log/nginx/jarkom_error.log;
+access_log /var/log/nginx/jarkom_access.log;
+}
+```
 
-   Step 3 - Lalu modifikasi juga file  `index.php` di masing-masing worker.
+Step 3 - Lalu modifikasi juga file  `index.php` di masing-masing worker.
 
-   ```php
-   <?php
-   $hostname = gethostname();
-   $php_version = phpversion();
-   ?>
+```php
+<?php
+$hostname = gethostname();
+$php_version = phpversion();
+?>
 
-   <center>
-   <h1>About <?php echo $hostname; ?></h1>
-   <p>Versi PHP yang saya gunakan: <?php echo $php_version; ?></p>
-   </center>
-   ```
+<center>
+<h1>About <?php echo $hostname; ?></h1>
+<p>Versi PHP yang saya gunakan: <?php echo $php_version; ?></p>
+</center>
+```
 
-   Step 4 - Menambahkan file konfigurasi baru untuk Nginx di `/etc/nginx/sites-available`, contoh filenya `lb-jarkom`.
+Step 4 - Menambahkan file konfigurasi baru untuk Nginx di `/etc/nginx/sites-available`, contoh filenya `lb-jarkom`.
 
-   ```bash
-   #Default menggunakan Round Robin
-   upstream backend  {
+```bash
+#Default menggunakan Round Robin
+upstream backend  {
+server 192.168.2.3; #IP EniesLobby
+server 192.168.2.4; #IP Water7
+server 192.168.2.5; #IP Jipangu
+}
+
+server {
+listen 80;
+server_name jarkom.site;
+
+location / {
+        proxy_pass http://backend;
+        proxy_set_header    X-Real-IP $remote_addr;
+        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header    Host $http_host;
+}
+}
+```
+
+Step 5 - Unlink default config di `/etc/nginx/sites-enabled` dan symlink file `lb-jarkom` ke `/etc/nginx/sites-enabled`
+
+```bash
+unlink /etc/nginx/sites-enabled/default
+```
+
+```bash
+ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites/enabled/
+```
+
+```bash
+service nginx restart
+```
+
+![Round robin testing](img/reverse-proxy-tes-4.gif)
+
+#### Weighted Round Robin
+
+Cukup dengan menetapkan weight atau beban ke masing-masing server di kumpulan server yang telah ditentukan sebelumnya. Server yang memiliki weight paling besar akan dijadikan prioritas ketika menerima request dari client
+
+Weight dapat digunakan untuk mengoptimalkan load balancing dan memastikan bahwa server yang lebih kuat memiliki beban yang lebih besar.
+
+
+Konfigurasi:
+
+```bash
+upstream backend  {
+   server 192.168.2.3 weight=4; #IP EniesLobby
+   server 192.168.2.4 weight=2; #IP Water7
+   server 192.168.2.5 weight=1; #IP Jipangu
+}
+```
+
+#### B. Least Connection
+
+Jika Round robin akan mendistribusikan berdasarkan nomor dan urutan server, maka least-connection akan melakukan prioritas pembagian dari beban kinerja yang paling rendah. Node master akan mencatat semua beban dan kinerja dari semua node, dan akan melakukan prioritas dari beban yang paling rendah. Sehingga diharapkan tidak ada server dengan beban yang rendah.
+
+Konfigurasi:
+
+```bash
+#Least Connection
+upstream backend  {
+least_conn;
+server 192.168.2.3; #IP EniesLobby
+server 192.168.2.4; #IP Water7
+server 192.168.2.5; #IP Jipangu
+}
+
+server {
+listen 80;
+server_name jarkom.site;
+
+location / {
+        proxy_pass http://backend;
+        proxy_set_header    X-Real-IP $remote_addr;
+        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header    Host $http_host;
+}
+```
+
+#### C. IP Hash
+
+Agak berbeda dengan kedua algoritma di atas, algoritma ini akan melakukan hash berdasarkan request dari pengguna (menggunakan alamat IP dari pengguna). Sehingga server akan selalu menerima request dari alamat IP yang berbeda. Ketika server ini tidak tersedia, permintaan dari klien ini akan dilayani oleh server lain.
+
+Konfigurasi:
+
+```bash
+# IP Hash
+upstream backend  {
+   ip_hash;
    server 192.168.2.3; #IP EniesLobby
    server 192.168.2.4; #IP Water7
    server 192.168.2.5; #IP Jipangu
-   }
+}
 
-   server {
+server {
    listen 80;
    server_name jarkom.site;
 
-    location / {
-        proxy_pass http://backend;
-    }
+   location / {
+       proxy_pass http://backend;
+       proxy_set_header    X-Real-IP $remote_addr;
+       proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header    Host $http_host;
    }
-   ```
 
-   Step 5 - Unlink default config di `/etc/nginx/sites-enabled` dan symlink file `lb-jarkom` ke `/etc/nginx/sites-enabled`
+  error_log /var/log/nginx/lb_error.log;
+  access_log /var/log/nginx/lb_access.log;
+}
+```
 
-   ```bash
-   unlink /etc/nginx/sites-enabled/default
-   ```
+#### D. Generic Hash
 
-   ```bash
-   ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites/enabled/
-   ```
+Generic hash adalah jenis load balancing yang menggunakan algoritma hash untuk mendistribusikan lalu lintas ke server backend. Algoritma hash ini menggunakan hash dari nilai tertentu untuk menentukan server backend atau worker mana yang akan menangani permintaan.
 
-   ```bash
-   service nginx restart
-   ```
+Nilai yang digunakan untuk hash dapat berupa apa saja, seperti alamat IP client, nilai HTTP headers dan lain-lain. Nilai hash ini kemudian digunakan untuk menentukan server backend mana yang akan menangani permintaan.
 
-   ![Round robin testing](img/reverse-proxy-tes-4.gif)
+```bash
+upstream backend  {
+   hash $request_uri consistent;
+   server 192.168.2.3; #IP EniesLobby
+   server 192.168.2.4; #IP Water7
+   server 192.168.2.5; #IP Jipangu
+}
 
-### Load Testing
+server {
+   listen 80;
+   server_name jarkom.site;
+
+   location / {
+       proxy_pass http://backend;
+       proxy_set_header    X-Real-IP $remote_addr;
+       proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header    Host $http_host;
+   }
+
+  error_log /var/log/nginx/lb_error.log;
+  access_log /var/log/nginx/lb_access.log;
+}
+```
+
+### 2.3 Load Testing
 
 Apa itu **load testing**? Singkatnya **load testing** adalah  jenis pengujian perangkat lunak yang bertujuan untuk menguji performa dan kinerja sistem saat menghadapi beban yang tinggi atau penggunaan yang ekstensif. Dalam Load testing, sistem dikenakan beban simulasi yang tinggi untuk mengukur kemampuan sistem dalam menangani jumlah pengguna, transaksi, atau permintaan yang besar secara bersamaan.
 
@@ -510,9 +628,107 @@ Tujuan dari Load Testing:
 
 Tools yang bisa digunakan untuk load testing seperti [Apache JMeter](https://jmeter.apache.org/), [Apache Benchmark atau ab](https://httpd.apache.org/docs/2.4/programs/ab.html), [wrk](https://github.com/wg/wrk), [Locust](https://locust.io/), dll.
 
+### 2.3.1 Apache Benchmark
+
+Apache Benchmark (ab) adalah tool pengujian beban atau load testing dan benchmarking untuk server Hypertext Transfer Protocol (HTTP). Apache bench sangat mudah dijalankan di terminal. Output pengujian beban cepat dapat diperoleh hanya dalam satu menit.Untuk menggunakan alat ini, tidak diperlukan pengaturan yang rumit. Selain itu, ia terinstal secara otomatis dengan server web Apache, atau dapat diinstal secara terpisah sebagai utilitas Apache.
+
+#### A. Instalasi
+
+Apache benchmark sendiri sangan mudah proses instalasinya, sudah ada sejak kita menginstall Apache2 atau dapat diinstall sebagai utilitas.
+
+```bash
+apt-get update && apt-get install apache2-utils
+```
+
+Atau jika sudah melakukan proses update sebelumnya, cukup dengan menginstall packagenya:
+
+```bash
+apt-get install apache2-utils
+```
+
+Verifikasi instalasi:
+
+```
+ab -V
+```
+
+![Check ab version](img/ab-1.png)
+
+#### B. Pengujian
+
+#### 1. Menguji Website HTTPS
+
+Step 1 - Ganti `resolv.conf` terlebih dahulu agar bisa mengakses ke internet:
+
+```bash
+nameserver 192.168.122.1
+#nameserver 192.168.2.3
+```
+
+Step 2 - Kita akan menguji website `apache.org` menggunakan Apache bencmark:
+
+```bash
+ab -n 100 -c 10 https://www.apache.org/
+```
+
+Penjelasan:
+
+`-n` - argument untuk  menentukan jumlah permintaan atau request. Secara default jika kita tidak menentukan jumlah request, maka jumlah request = 1.
+
+`-c` - adalah konkurensi, menunjukan jumlah beberapa permintaan yang dilakukan secara bersamaan. Jika kita tidak menentukan jumlah konkurensi, maka defaultnya adalah satu permintaan dalam satu waktu.
+
+Ouput:
+
+```bash
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking jarkom.site (be patient).....done
+
+
+Server Software:        nginx/1.14.0
+Server Hostname:        jarkom.site
+Server Port:            80
+
+Document Path:          /
+Document Length:        112 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.083 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      25800 bytes
+HTML transferred:       11200 bytes
+Requests per second:    1210.38 [#/sec] (mean)
+Time per request:       8.262 [ms] (mean)
+Time per request:       0.826 [ms] (mean, across all concurrent requests)
+Transfer rate:          304.96 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        1    2   0.5      2       3
+Processing:     1    6   6.4      5      27
+Waiting:        1    6   6.4      4      27
+Total:          3    8   6.5      6      28
+
+Percentage of the requests served within a certain time (ms)
+  50%      6
+  66%      7
+  75%      7
+  80%      8
+  90%     27
+  95%     27
+  98%     28
+  99%     28
+ 100%     28 (longest request)
+```
+
 #### Referensi
 
 - <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy>
 - <https://helpful.knobs-dials.com/index.php/CGI,_FastCGI,_SCGI,_WSGI,_servlets_and_such>
 - <https://www.techopedia.com/definition/24198/fast-common-gateway-interface-fastcgi>
 - <http://nginx.org/en/docs/http/ngx_http_proxy_module.html>
+- <https://www.tutorialspoint.com/apache_bench/index.htm>
+-
