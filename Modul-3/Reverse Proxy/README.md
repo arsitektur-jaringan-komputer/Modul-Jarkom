@@ -804,7 +804,7 @@ less out.data
 Output:
 
 ```bash
-starttime       seconds ctime   dtime   ttime   wait
+starttime                       seconds         ctime   dtime   ttime   wait
 Wed Nov 01 03:59:05 2023        1698811145      99      116     216     27
 Wed Nov 01 03:59:04 2023        1698811144      96      136     232     42
 Wed Nov 01 03:59:05 2023        1698811145      86      146     233     57
