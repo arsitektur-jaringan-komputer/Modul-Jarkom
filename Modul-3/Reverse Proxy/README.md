@@ -223,13 +223,13 @@ lynx jarkom.site/index.php
 
 #### Kesimpulan
 
-Dari dua percobaan diatas, yaitu dengan menggunakan halaman statis dan dinamis dapat disimpulkan bahwa:
+Dari dua percobaan diatas, dengan menggunakan halaman statis dan dinamis dapat disimpulkan bahwa:
 
 - `Proses di sisi server` -  Halaman dinamis memerlukan pemrosesan di sisi server sebelum konten dikirim ke browser. Ini termasuk eksekusi kode PHP atau bahkan pemanggilan data dari database. Proses ini membutuhkan waktu tambahan dibandingkan dengan sekadar mengirim atau menampilkan halaman statis.
 
 - `Ukuran respon` - Jika halaman dinamis memuat banyak data (CSS, HTML, JavaScript, dll) atau memerlukan query ke database, hal ini dapat mempengaruhi waktu pemuatan. Ukuran respon yang besar memerlukan lebih banyak waktu untuk mentransfer melalui jaringan.
 
-Mari kita lihat perbandingan respon dari masing-masing halaman di `access log` Nginx
+Mari kita lihat perbandingan respon dari masing-masing halaman di `access log` Nginx. Dapat disimpulkan respone size pada halaman dinamis cukup besar, karena membutuhkan beberapa proses (eksekusi kode PHP, pemanggilan file CSS, dll)
 
 - Halaman Statis
 
@@ -239,19 +239,19 @@ cat /var/log/nginx/access.log | grep 'index.html'
 
 ```bash
 Client IP               Date                 HTTP Method                HTTP Status     Respone Size(byte)  Referer     Detailed user agent info.
-192.168.1.3 - - [02/Nov/2023:18:20:25 +0700] "GET /index.html HTTP/1.0"    200             246               "-" "Lynx/2.8.9dev.16 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.5.17"
+192.168.1.3 - - [02/Nov/2023:18:20:25 +0700] "GET /index.html HTTP/1.0"    200             246               "-"        "Lynx/2.8.9dev.16 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.5.17"
 ```
 
 - Halaman Dinamis
 
 ```bash
-Client IP               Date                 HTTP Method                HTTP Status     Respone Size(byte)      Referer                  Detailed user agent info.
-192.168.1.3 - - [02/Nov/2023:18:24:49 +0700] "GET /index.php HTTP/1.0"     200              428            "http://jarkom.site/index.php" "Lynx/2.8.9dev.16 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.5.17"
+Client IP               Date                 HTTP Method                HTTP Status     Respone Size(byte)      Referer                         Detailed user agent info.
+192.168.1.3 - - [02/Nov/2023:18:24:49 +0700] "GET /index.php HTTP/1.0"     200              428            "http://jarkom.site/index.php"       "Lynx/2.8.9dev.16 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.5.17"
 ```
 
 ![Meme application-without-logs](img/application-without-logs.jpg)
 
-Dapat disimpulkan respone size pada halaman dinamis cukup besar, karena membutuhkan beberapa proses (eksekusi kode PHP, pemanggilan file CSS, dll)
+
 
 ### 2.2.4 Konfigurasi Reverse Proxy
 
