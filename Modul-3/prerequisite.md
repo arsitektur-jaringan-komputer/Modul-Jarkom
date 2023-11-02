@@ -134,7 +134,7 @@ Masuk ke Enieslobby untuk melakukan konfigurasi DNS
 - Lakukan pengujian dari Alabasta atau Loguetown. Jangan lupa untuk mengganti `resolv.conf`
 
     ```bash
-    nameserver 192.168.2.2
+    nameserver 192.168.2.3
     ```
 
     ![Testing Subdomain](./Reverse%20Proxy/img/subdomain-tes.png)

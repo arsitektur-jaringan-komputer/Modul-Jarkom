@@ -11,9 +11,10 @@
   - [2.2 Implementasi](#22-implementasi)
     - [2.2.1 Instalasi](#221-instalasi)
     - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
-    - [2.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
+        - [A. Halaman Statis](#a-membuat-halaman-statis)
+        - [B. Halaman Dinamis](#b-membuat-halaman-dinamis-menggunakan-php)
     - [2.2.4 Konfigurasi Reverse Proxy](#224-konfigurasi-reverse-proxy)
-      - [A.  Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
+      - [A. Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
       - [B. Menambahkan Request Headers](#b-menambahkan-request-headers)
       - [C. Proxy Binding](#c-proxy-bind)
     - [2.2.5 Load Balancing Lanjutan](#225-load-balancing-lanjutan)
@@ -88,31 +89,43 @@ service nginx status
 
 ### 2.2.2 Konfigurasi Dasar
 
-Step 1 - Instal lynx di Alabasta
+Step 1 - Instal lynx di Loguetown
 
 ```bash
 apt update
-apt-get install lynx
+apt-get install lynx -y
 ```
 
 Step 2 - Cek menggunakan lynx
 
 ![Lynx](img/lynx-nginx-1.png)
 
-Step 3 - Lakukan pengujian dengan membuat file index.html di direktori `/var/www/html`.
+#### A. Membuat Halaman Statis
 
-```bash
-<h1>Selamat Datang di Dressrosa</h1>
+Step 1 - Masuk ke `/var/www/html`, lalu buat buat suatu file HTML baru dengan nama `index.html`. Silahkan gunakan text editor yang ada seperi nano atau vim.
+
+```html
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static Page</title>
+</head>
+<body>
+    <h1>Selamat Datang di Dressrosa</h1>
+</body>
+</html>
 ```
 
-Step 4 - Ganti `server name` di `/etc/nginx/sites-available/default` dengan domain utama yang telah dibuat sebelumnya di
+Step 2 - Ganti `server name` di `/etc/nginx/sites-available/default` dengan domain utama yang telah dibuat sebelumnya di
 [modul persiapan](../prerequisite.md).
 
 ```bash
 server_name jarkom.site;
 ```
 
-Step 4 - Lakukan pengujian lagi, maka akan muncul halaman yang berbeda dari halaman sebelumnya.
+Step 3 - Lakukan pengujian lagi, maka akan muncul halaman yang berbeda dari halaman sebelumnya.
 
 ```bash
 lynx jarkom.site/index.html
@@ -120,7 +133,7 @@ lynx jarkom.site/index.html
 
 ![Lynx PHP](img/lynx-nginx-3.png)
 
-### 2.2.3 Integrasi dengan PHP
+#### B. Membuat Halaman Dinamis Menggunakan PHP
 
 Step 1 - Masih di Dressrosa, coba lakukan instalasi PHP
 
@@ -130,15 +143,49 @@ apt-get install php php-fpm
 
 Step 2 - Buat script sederhana menggunakan PHP
 
-Masuk ke direktori `/var/www/html`, lalu buat file index.php:
+Masuk ke direktori `/var/www/html`, lalu buat file `index.php`:
 
 ```php
-<?php
-$hostname = gethostname();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamics Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <center>
+            <?php
+                $hostname = gethostname();
+                echo "Hello World!<br>";
+                echo "Selamat datang di: $hostname<br>";
+            ?>
+        </center>
+    </div>
+</body>
+</html>
+```
 
-echo "Hello World!<br>";
-echo "Selamat datang di: $hostname<br>";
-?>
+Step 3 - Masih di direktori yang sama coba buat file CSS dengan nama `style.css`
+
+```css
+body {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
 ```
 
 Step 3 - Edit default file nginx di `/etc/nginx/sites-available/default`
@@ -167,13 +214,47 @@ location ~ \.php$ {
 }
 ```
 
-Step 4 - Lakukan pengujian dari Alabasta
+Step 4 - Lakukan pengujian dari Loguetown
 
 ```bash
 lynx jarkom.site/index.php
 ```
 
 ![Lynx PHP](img/lynx-nginx-2.png)
+
+#### Kesimpulan
+
+Dari dua percobaan diatas, dengan menggunakan halaman statis dan dinamis dapat disimpulkan bahwa:
+
+- `Proses di sisi server` -  Halaman dinamis memerlukan pemrosesan di sisi server sebelum konten dikirim ke browser. Ini termasuk eksekusi kode PHP atau bahkan pemanggilan data dari database. Proses ini membutuhkan waktu tambahan dibandingkan dengan sekadar mengirim atau menampilkan halaman statis.
+
+- `Ukuran respon` - Jika halaman dinamis memuat banyak data (CSS, HTML, JavaScript, dll) atau memerlukan query ke database, hal ini dapat mempengaruhi waktu pemuatan. Ukuran respon yang besar memerlukan lebih banyak waktu untuk mentransfer melalui jaringan.
+
+Mari kita lihat perbandingan respon dari masing-masing halaman di `access log` Nginx. Dapat disimpulkan respone size pada halaman dinamis cukup besar, karena membutuhkan beberapa proses (eksekusi kode PHP, pemanggilan file CSS, dll)
+
+- Halaman Statis
+
+```bash
+cat /var/log/nginx/access.log | grep 'index.html'
+```
+
+```bash
+Client IP               Date                 HTTP Method                HTTP Status     Respone Size(byte)  Referer     Detailed user agent info.
+192.168.1.3 - - [02/Nov/2023:18:20:25 +0700] "GET /index.html HTTP/1.0"    200             246               "-"        "Lynx/2.8.9dev.16 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.5.17"
+```
+
+- Halaman Dinamis
+
+```bash
+cat /var/log/nginx/access.log | grep 'index.php'
+```
+
+```bash
+Client IP               Date                 HTTP Method                HTTP Status     Respone Size(byte)      Referer                         Detailed user agent info.
+192.168.1.3 - - [02/Nov/2023:18:24:49 +0700] "GET /index.php HTTP/1.0"     200              428            "http://jarkom.site/index.php"       "Lynx/2.8.9dev.16 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.5.17"
+```
+
+![Meme application-without-logs](img/application-without-logs.jpg)
 
 ### 2.2.4 Konfigurasi Reverse Proxy
 
@@ -197,7 +278,7 @@ location /some/path/ {
 }
 ```
 
-Konfigurasi di sisi worker, karena berbasis PHP maka kita menggunakan `PHP-FPM (FastCGI Process Manager)`:
+Konfigurasi di sisi worker. Karena berbasis PHP maka kita menggunakan `PHP-FPM (FastCGI Process Manager)`:
 
 ```bash
 server {
@@ -205,7 +286,7 @@ server {
 
         server_name _;
 
-        root /var/www/html
+        root /var/www/html;
 
         index index.html index.htm index.php;
 
@@ -279,10 +360,12 @@ Step 2 - Buat file `index.php` di `/var/www/html`.
 <?php
 $hostname = gethostname();
 $php_version = phpversion();
-
-echo "About $hostname<br>";
-echo "Versi PHP yang saya gunakan: $php_version<br>";
 ?>
+
+<center>
+<h1>About <?php echo $hostname; ?></h1>
+<p>Versi PHP yang saya gunakan: <?php echo $php_version; ?></p>
+</center>
 ```
 
 Step 3 - Jangan lupa start service `PHP FPM`.
@@ -651,7 +734,7 @@ apt-get install apache2-utils
 
 Verifikasi instalasi:
 
-```
+```bash
 ab -V
 ```
 
@@ -894,11 +977,12 @@ Penjelasan:
 
 `Server Software: nginx/1.14.0` - menunjukan webserver yang digunakan adalah Nginx (webserver Dressrosa).
 
-`Server Hostname: www.jarkom.site` - Domain yang digunakan yaitu: ` www.jarkom.site`.
+`Server Hostname: www.jarkom.site` - Domain yang digunakan
+yaitu: `www.jarkom.site`.
 
 `Server Port: 80` - Karena webistenya menggunakan HTTP, maka default portnya adalah 80.
 
-`Complete requests: 100 ` dan `Failed requests: 0` - Tampaknya belum ada request yang gagal.
+`Complete requests: 100` dan `Failed requests: 0` - Tampaknya request yang dikirim tidak ada yang gagal.
 
 
 #### Referensi
@@ -908,4 +992,6 @@ Penjelasan:
 - <https://www.techopedia.com/definition/24198/fast-common-gateway-interface-fastcgi>
 - <http://nginx.org/en/docs/http/ngx_http_proxy_module.html>
 - <https://www.tutorialspoint.com/apache_bench/index.htm>
--
+- <https://www.linuxid.net/31888/mengenal-konfigurasi-nginx-error-log-dan-access-log>
+- <https://betterstack.com/community/guides/logging/how-to-view-and-configure-nginx-access-and-error-logs>
+
