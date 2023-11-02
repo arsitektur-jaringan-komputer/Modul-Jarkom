@@ -11,9 +11,10 @@
   - [2.2 Implementasi](#22-implementasi)
     - [2.2.1 Instalasi](#221-instalasi)
     - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
-    - [2.2.3 Integrasi dengan PHP](#223-integrasi-dengan-php)
+        - [A. Halaman Statis](#a-membuat-halaman-statis)
+        - [B. Halaman Dinamis](#b-membuat-halaman-dinamis-menggunakan-php)
     - [2.2.4 Konfigurasi Reverse Proxy](#224-konfigurasi-reverse-proxy)
-      - [A.  Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
+      - [A. Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
       - [B. Menambahkan Request Headers](#b-menambahkan-request-headers)
       - [C. Proxy Binding](#c-proxy-bind)
     - [2.2.5 Load Balancing Lanjutan](#225-load-balancing-lanjutan)
@@ -88,11 +89,11 @@ service nginx status
 
 ### 2.2.2 Konfigurasi Dasar
 
-Step 1 - Instal lynx di Alabasta
+Step 1 - Instal lynx di Loguetown
 
 ```bash
 apt update
-apt-get install lynx
+apt-get install lynx -y
 ```
 
 Step 2 - Cek menggunakan lynx
@@ -213,7 +214,7 @@ location ~ \.php$ {
 }
 ```
 
-Step 4 - Lakukan pengujian dari Alabasta
+Step 4 - Lakukan pengujian dari Loguetown
 
 ```bash
 lynx jarkom.site/index.php
@@ -245,13 +246,15 @@ Client IP               Date                 HTTP Method                HTTP Sta
 - Halaman Dinamis
 
 ```bash
+cat /var/log/nginx/access.log | grep 'index.php'
+```
+
+```bash
 Client IP               Date                 HTTP Method                HTTP Status     Respone Size(byte)      Referer                         Detailed user agent info.
 192.168.1.3 - - [02/Nov/2023:18:24:49 +0700] "GET /index.php HTTP/1.0"     200              428            "http://jarkom.site/index.php"       "Lynx/2.8.9dev.16 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.5.17"
 ```
 
 ![Meme application-without-logs](img/application-without-logs.jpg)
-
-
 
 ### 2.2.4 Konfigurasi Reverse Proxy
 
@@ -275,7 +278,7 @@ location /some/path/ {
 }
 ```
 
-Konfigurasi di sisi worker, karena berbasis PHP maka kita menggunakan `PHP-FPM (FastCGI Process Manager)`:
+Konfigurasi di sisi worker. Karena berbasis PHP maka kita menggunakan `PHP-FPM (FastCGI Process Manager)`:
 
 ```bash
 server {
@@ -729,7 +732,7 @@ apt-get install apache2-utils
 
 Verifikasi instalasi:
 
-```
+```bash
 ab -V
 ```
 
@@ -972,11 +975,12 @@ Penjelasan:
 
 `Server Software: nginx/1.14.0` - menunjukan webserver yang digunakan adalah Nginx (webserver Dressrosa).
 
-`Server Hostname: www.jarkom.site` - Domain yang digunakan yaitu: ` www.jarkom.site`.
+`Server Hostname: www.jarkom.site` - Domain yang digunakan
+yaitu: `www.jarkom.site`.
 
 `Server Port: 80` - Karena webistenya menggunakan HTTP, maka default portnya adalah 80.
 
-`Complete requests: 100 ` dan `Failed requests: 0` - Tampaknya belum ada request yang gagal.
+`Complete requests: 100` dan `Failed requests: 0` - Tampaknya request yang dikirim tidak ada yang gagal.
 
 
 #### Referensi
@@ -986,4 +990,6 @@ Penjelasan:
 - <https://www.techopedia.com/definition/24198/fast-common-gateway-interface-fastcgi>
 - <http://nginx.org/en/docs/http/ngx_http_proxy_module.html>
 - <https://www.tutorialspoint.com/apache_bench/index.htm>
--
+- <https://www.linuxid.net/31888/mengenal-konfigurasi-nginx-error-log-dan-access-log>
+- <https://betterstack.com/community/guides/logging/how-to-view-and-configure-nginx-access-and-error-logs>
+
