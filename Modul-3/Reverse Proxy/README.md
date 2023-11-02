@@ -286,7 +286,7 @@ server {
 
         server_name _;
 
-        root /var/www/html
+        root /var/www/html;
 
         index index.html index.htm index.php;
 
@@ -360,10 +360,12 @@ Step 2 - Buat file `index.php` di `/var/www/html`.
 <?php
 $hostname = gethostname();
 $php_version = phpversion();
-
-echo "About $hostname<br>";
-echo "Versi PHP yang saya gunakan: $php_version<br>";
 ?>
+
+<center>
+<h1>About <?php echo $hostname; ?></h1>
+<p>Versi PHP yang saya gunakan: <?php echo $php_version; ?></p>
+</center>
 ```
 
 Step 3 - Jangan lupa start service `PHP FPM`.
