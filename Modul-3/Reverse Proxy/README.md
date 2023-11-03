@@ -1124,7 +1124,204 @@ Percentage of the requests served within a certain time (ms)
  100%     40 (longest request)
 ```
 
+#### 4. Menguji Load Balancing
 
+Benchmarking untuk menguji algoritma load balancing yang telah kita buat.
+
+Step 1 - Install Htop di Dressrosa, Water7, EniesLobby, dan Jipangu
+
+```bash
+apt-get install htop -y
+```
+
+Step 2 - Untuk melakukan monitoring menggunakan Htop, cukup jalankan perintah `htop`.
+
+Tampak dari gambar di bawah proses yang berjalan masih cukup normal
+
+![htop](img/htop-1.jpeg)
+
+Step 3 - Update `worker_connections` di Dressrosa, EniesLobby, Water7 & Jipangu. `worker_connections` sendiri adalah parameter yang menentukan jumlah koneksi yang bisa ditangani oleh suatu worker
+
+```bash
+nano /etc/nginx/nginx.conf
+```
+
+Cari block events, lalu update jumlah dari `worker_connections` nya:
+
+```bash
+...
+events {
+        worker_connections 1024;
+        # multi_accept on;
+}
+...
+```
+
+
+Step 4 - Lakukan Benchamarking, dengan menambah jumlah request dan konkurensi
+
+```bash
+ab -A luffy:water7 -n 5000 -c 1000 http://jarkom.site/
+```
+
+Ouput
+
+```bash
+his is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking jarkom.site (be patient)
+Completed 500 requests
+Completed 1000 requests
+Completed 1500 requests
+Completed 2000 requests
+Completed 2500 requests
+Completed 3000 requests
+Completed 3500 requests
+Completed 4000 requests
+Completed 4500 requests
+Completed 5000 requests
+Finished 5000 requests
+
+
+Server Software:        nginx/1.14.0
+Server Hostname:        jarkom.site
+Server Port:            80
+
+Document Path:          /
+Document Length:        105 bytes
+
+Concurrency Level:      1000
+Time taken for tests:   6.871 seconds
+Complete requests:      5000
+Failed requests:        2500
+   (Connect: 0, Receive: 0, Length: 2500, Exceptions: 0)
+Total transferred:      1250000 bytes
+HTML transferred:       520000 bytes
+Requests per second:    727.68 [#/sec] (mean)
+Time per request:       1374.235 [ms] (mean)
+Time per request:       1.374 [ms] (mean, across all concurrent requests)
+Transfer rate:          177.66 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        6  136 330.9     16    2087
+Processing:     9  374 722.2     40    6819
+Waiting:        9  372 719.7     39    6819
+Total:         21  510 857.9     59    6838
+
+Percentage of the requests served within a certain time (ms)
+  50%     59
+  66%    275
+  75%    775
+  80%   1062
+  90%   1597
+  95%   2344
+  98%   3321
+  99%   3575
+ 100%   6838 (longest request)
+```
+
+Tampak dari gambar dibawah, resource dan proses yang digunakan cukup banyak. Hal ini terjadi karena request atau permintaan yang dikirimkan sangat banyak.
+
+![Htop 2](img/htop-2.jpeg)
+
+#### Skenario 1
+
+Stop service Nginx di beberapa worker
+
+Step 1 - Coba stop service Nginx di worker Water7 & Jipangu
+
+```bash
+service nginx stop
+```
+
+Step 2 - Kemudian lakukan benchmarking
+
+```bash
+ab -A luffy:water7 -n 5000 -c 1000 http://jarkom.site/
+```
+
+<!-- Output
+
+```bash
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking jarkom.site (be patient)
+Completed 600 requests
+Completed 1200 requests
+Completed 1800 requests
+Completed 2400 requests
+Completed 3000 requests
+Completed 3600 requests
+Completed 4200 requests
+Completed 4800 requests
+Completed 5400 requests
+Completed 6000 requests
+Finished 6000 requests
+
+
+Server Software:        nginx/1.14.0
+Server Hostname:        jarkom.site
+Server Port:            80
+
+Document Path:          /
+Document Length:        103 bytes
+
+Concurrency Level:      1000
+Time taken for tests:   12.135 seconds
+Complete requests:      6000
+Failed requests:        3000
+   (Connect: 0, Receive: 0, Length: 3000, Exceptions: 0)
+Total transferred:      1500000 bytes
+HTML transferred:       624000 bytes
+Requests per second:    494.43 [#/sec] (mean)
+Time per request:       2022.518 [ms] (mean)
+Time per request:       2.023 [ms] (mean, across all concurrent requests)
+Transfer rate:          120.71 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        5  149 379.4     22    3060
+Processing:     7  469 933.7     52   12093
+Waiting:        7  467 933.4     51   12093
+Total:         24  618 1051.4     79   12124
+
+Percentage of the requests served within a certain time (ms)
+  50%     79
+  66%    341
+  75%   1054
+  80%   1092
+  90%   2012
+  95%   2863
+  98%   3500
+  99%   4974
+ 100%  12124 (longest request)
+
+``` -->
+
+Tampak request yang masuk secara otomatis di alihkan ke worker yang masih berjalan yaitu EniesLobby
+
+![Htop2](img/htop-3.jpeg)
+
+#### Skenario 2
+
+Limit
+
+#### Catatan
+
+`Request` & `concurrency` - Untuk jumlah request dan konkurensi harap disesuaikan dengan CPU dan Memory.
+
+Htop memiliki tiga bagian utama, yaitu:
+
+`Header` - Dimana Kita dapat melihat informasi CPU, Memory, Swap dan juga menampilkan proses, load average, and Up-time.
+
+`List Proses` - Daftar proses yang berjalan dan diurutkan berdasarkan penggunaan CPU.
+
+`Footer` - Menunjukkan berbagai opsi seperti bantuan, setup, filter tree kill, nice, quit, dan lain lain.
 
 
 #### Referensi
