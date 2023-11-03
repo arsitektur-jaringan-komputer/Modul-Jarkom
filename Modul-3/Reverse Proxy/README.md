@@ -6,6 +6,8 @@
   - [Outline](#outline)
   - [2.1 Pengertian, Cara Kerja, dan Manfaat](#21-pengertian-cara-kerja-dan-manfaat)
     - [2.1.1 Pengertian](#211-pengertian)
+        - [A. Forward Proxy](#a-forward-proxy)
+        - [B. Reverse Proxy](#b-reverse-proxy)
     - [2.1.2 Cara Kerja](#212-cara-kerja)
     - [2.1.3 Manfaat](#213-manfaat)
   - [2.2 Implementasi](#22-implementasi)
@@ -35,11 +37,17 @@
 
 ### 2.1.1 Pengertian
 
-Sebelum mengenal Reverse Proxy lebih jauh, perlu diketahui bahwa Reverse Proxy dan Proxy Service adalah 2 hal yang berbeda dari cara kerjanya. Secara singkat `Proxy Service` adalah service yang disediakan oleh suatu server, dimana server ini akan menjadi perantara bagi kita dan server atau website tujuan. Jadi ketika kita mengakses suatu website yang ada di internet kita akan terlebih dahulu terhubung ke Proxy Server.
+Sebelum mengenal Reverse Proxy lebih jauh, perlu diketahui bahwa Reverse Proxy dan Proxy Service, seperti `Forward Proxy` adalah 2 hal yang berbeda dari cara kerjanya.
+
+#### A. Forward Proxy
+
+Secara singkat `Forward Proxy` adalah service yang disediakan oleh suatu server, dimana server ini akan menjadi perantara bagi kita dan server atau website tujuan. Jadi ketika kita mengakses suatu website yang ada di internet kita akan terlebih dahulu terhubung ke Proxy Server.
 
 Tak hanya itu, Proxy server juga cukup efektif digunakan sebagai sebuah gateway. Nantinya, semua koneksi yang dilakukan akan sesuai dengan setting gateway yang ditetapkan. Dengan begitu, tidak mudah disusupi serangan dari luar yang tidak diinginkan. Contoh aristektur sederhana yang menggunakan Proxy server.
 
 ![Proxy Server](img/Proxy.png)
+
+#### B. Reverse Proxy
 
 Selanjutnya, `Reverse Proxy` adalah salah satu jenis server Proxy yang bertanggung jawab dalam meneruskan request client ke server. Reverse Proxy terletak diantara client dan server. Jadi, request yang dilakukan client akan diteruskan oleh Reverse Proxy untuk mencapai ke server. Mudahnya, Reverse Proxy ini berada diantara client dan server yang bertugas untuk menjamin pertukaran data antara client dan server berjalan dengan lancar.
 
@@ -47,11 +55,11 @@ Reverse Proxy biasanya diterapkan pada web server seperti `Apache` dan `Nginx`. 
 
 Tidak hanya itu, Reverse Proxy juga bisa melakukan kompresi data. Data yang besar akan dilakukan kompresi sehingga menjadi data dengan ukuran yang lebih kecil. Hal itu dapat membuat pertukaran data berjalan lebih cepat. Reverse Proxy juga memiliki kemampuan untuk menyeimbangkan load atau beban server agar server tidak down.
 
+![Reverse Proxy](img/Reverse_Proxy.png)
+
 ### 2.1.2 Cara Kerja
 
 Seperti yang sudah dijelaskan diatas, Reverse Proxy berada diantara client dan server. Fungsi utama Reverse Proxy adalah menerima dan meneruskan request dari client ke server atau sebaliknya. Cara kerja Reverse Proxy bisa digambarkan seperti contoh berikut, misalnya kamu bertindak sebagai client yang ingin mengakses suatu website. Request yang diberikan client sebelum sampai ke server akan diterima oleh reverse proxy terlebih dahulu. Setelah itu Reverse Proxy akan meneruskan ke server dan kemudian menerima balasan dari server yang nantinya akan disampaikan ke client.
-
-![Reverse Proxy](img/Reverse_Proxy.png)
 
 ### 2.1.3 Manfaat
 
@@ -67,7 +75,7 @@ Beberapa manfaat Nginx sebagi Reverse Proxy:
 
 - `Superior Compression` - Jika server proxy tidak mengirim respons terkompresi, kita dapat mengonfigurasi Nginx untuk mengkompres `(contohnya: gzip)` respons sebelum mengirimnya ke client. Tentunya akan menghemat bandwidth dan mempercepat loading website.
 
-- `Increased security` - Informasi mengenai server utama tidak dapat terlihat dari luar, sehingga sulit diserang oleh hacker. Reverse Proxy juga mencegah serangan `distibuted denial-of-service (DDOS)`.
+- `Increased security` - Informasi mengenai server utama tidak dapat terlihat dari luar, sehingga sulit diserang oleh hacker. Reverse Proxy juga mencegah serangan seperti `distibuted denial-of-service (DDOS)`.
 
 ## 2.2 Implementasi
 
@@ -262,7 +270,7 @@ Client IP               Date                 HTTP Method                HTTP Sta
 
 Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan (melewatkan) request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx  atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uWSGI`, `SCGI`, dan `Memcached`.
 
-Untuk meneruskan permintaan ke server proxy, maka bisa menggunakan `proxy_pass` yang spesifikan di `location` tertentu. Untuk meneruskan request ke proxy server kita bisa menggunakan `nama domain atau alamat IP` dari server proxy yang tersebut, kita juga bisa menspesifikan `port` nya.
+Untuk meneruskan permintaan ke server proxy, maka bisa menggunakan `proxy_pass` yang spesifikan di `location` tertentu. Untuk meneruskan request ke proxy server kita bisa menggunakan `nama domain, alamat IP, UNIX socket, TCP sockets, dan lain-lain` dari server proxy yang tersebut, kita juga bisa menspesifikan `port` nya.
 
 Contoh sederhana penggunaan `proxy_pass` di server utama:
 
@@ -275,6 +283,12 @@ location /some/path/ {
 ```bash
 location /some/path/ {
     proxy_pass http://192.168.1.1/link/;
+}
+```
+
+```bash
+location ~ \.php {
+    proxy_pass http://127.0.0.1:8000;
 }
 ```
 
@@ -511,10 +525,10 @@ Konfigurasi:
 Step 1 - Pastikan di Water 7, Jipangu, dan Enieslobby telah terinstall Nginx dan PHP
 
 ```bash
-apt-get update && apt-get install nginx php
+apt-get update && apt-get install nginx php php-fpm
 ```
 
-step 2 - Modifikasi konfigurasi Nginx, buat file baru di `/etc/nginx/sites-available/jarkom`. Lakukan hal ini di semua worker Nginx selain Dressrosa. Untuk menonaktifkan konfigurasi `default` pada `/etc/nginx/sites-available` bisa menggunakan perintah `unlink /etc/nginx/sites-available/default`.
+step 2 - Modifikasi konfigurasi Nginx, buat file baru di `/etc/nginx/sites-available/jarkom`. Lakukan hal ini di semua worker Nginx selain Dressrosa. Untuk menonaktifkan konfigurasi `default` pada `/etc/nginx/sites-enabled` bisa menggunakan perintah `unlink /etc/nginx/sites-enabled/default`.
 
 ```bash
 server {
@@ -545,7 +559,7 @@ access_log /var/log/nginx/jarkom_access.log;
 }
 ```
 
-Step 3 - Lalu modifikasi juga file  `index.php` di masing-masing worker.
+Step 3 - Kemudian buat direktori baru di `/var/www`dengan nama `jarkom`. Lalu buat file  `index.php`. Hal yang sama dilakukan disetiap worker.
 
 ```php
 <?php
@@ -559,7 +573,7 @@ $php_version = phpversion();
 </center>
 ```
 
-Step 4 - Menambahkan file konfigurasi baru untuk Nginx di `/etc/nginx/sites-available`, contoh filenya `lb-jarkom`.
+Step 4 - Di Dressrosa buat file baru untuk Nginx di `/etc/nginx/sites-available`, contoh filenya `lb-jarkom`.
 
 ```bash
 #Default menggunakan Round Robin
@@ -579,6 +593,10 @@ server_name jarkom.site;
                 proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header    Host $http_host;
         }
+
+error_log /var/log/nginx/lb_error.log;
+access_log /var/log/nginx/lb_access.log;
+
 }
 ```
 
@@ -640,6 +658,13 @@ server_name jarkom.site;
                 proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header    Host $http_host;
         }
+
+error_log /var/log/nginx/lb_error.log;
+access_log /var/log/nginx/lb_access.log;
+
+}
+
+
 ```
 
 #### C. IP Hash
@@ -848,7 +873,7 @@ Penjelasan:
 
 `Transfer rate` - Kecepatan transfer. Dihitung dengan rumus totalread / 1024 / timetaken.
 
-#### 2. Plotting  output
+#### Plotting  output
 
 Kita akan mencoba untuk memplot hasil yang relevan untuk melihat berapa banyak waktu yang dibutuhkan server seiring dengan meningkatnya jumlah permintaan. Caranya yaitu dengan menambahkan opsi `-g` pada command sebelumnya diikuti dengan nama file, contoh: `out.data` di mana data keluaran ab akan disimpan ke dalam file tersebut.
 
@@ -984,6 +1009,123 @@ yaitu: `www.jarkom.site`.
 
 `Complete requests: 100` dan `Failed requests: 0` - Tampaknya request yang dikirim tidak ada yang gagal.
 
+#### 3. Menguji Website HTTP yang Memerlukan Autentikasi
+
+Selanjutnya kita akan melakukan benchmarking ke website yang menggunakan HTTP Basic authetication
+
+Step 1 - Di Dressrosa silahkan generate user dan password menggunakan htpasswd
+
+```bash
+htpasswd -c /etc/nginx/.htpasswd luffy
+```
+
+Step 2 - Tambahkan konfigurasi Auth Basic di `/etc/nginx/sites/available/lb-jarkom`
+
+```bash
+auth_basic "Administrator's Area";
+auth_basic_user_file /etc/nginx/.htpasswd;
+```
+
+Step 3 - Tambahkan konfigurasi untuk memblokir semua file ``.htaccess` dan `.htpasswd` di file `lb-jarkom`
+
+```bash
+ location ~ /\.ht {
+     deny all;
+}
+```
+
+Update file `lb-jarkom`:
+
+```bash
+#Default menggunakan Round Robin
+upstream backend  {
+server 192.168.2.3; #IP EniesLobby
+server 192.168.2.4; #IP Water7
+server 192.168.2.5; #IP Jipangu
+}
+
+server {
+
+listen 80;
+
+server_name jarkom.site;
+
+        location / {
+            proxy_pass http://backend;
+            proxy_set_header    X-Real-IP $remote_addr;
+            proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header    Host $http_host;
+
+            auth_basic "Administrator's Area";
+            auth_basic_user_file /etc/nginx/.htpasswd;
+        }
+
+        location ~ /\.ht {
+            deny all;
+        }
+
+error_log /var/log/nginx/lb_error.log;
+access_log /var/log/nginx/lb_access.log;
+
+}
+```
+
+Step 4 - Lakukan pengujian menggunakan `ab`, karena website yang dituju menggunakan Auth Basic sebagai autentikasi maka perlu menambahkan argumen `-A` dan `username:password`
+
+```bash
+ab -A luffy:water7 -n 100 -c 100 http://jarkom.site/
+```
+
+Output:
+
+```bash
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking jarkom.site (be patient).....done
+
+
+Server Software:        nginx/1.14.0
+Server Hostname:        jarkom.site
+Server Port:            80
+
+Document Path:          /
+Document Length:        107 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.176 seconds
+Complete requests:      100
+Failed requests:        50
+   (Connect: 0, Receive: 0, Length: 50, Exceptions: 0)
+Total transferred:      25100 bytes
+HTML transferred:       10500 bytes
+Requests per second:    566.99 [#/sec] (mean)
+Time per request:       17.637 [ms] (mean)
+Time per request:       1.764 [ms] (mean, across all concurrent requests)
+Transfer rate:          138.98 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        1    4   2.3      3      10
+Processing:     2   13   9.9      8      33
+Waiting:        2   13   9.8      8      33
+Total:          4   17  10.7     11      40
+
+Percentage of the requests served within a certain time (ms)
+  50%     11
+  66%     15
+  75%     29
+  80%     30
+  90%     35
+  95%     39
+  98%     40
+  99%     40
+ 100%     40 (longest request)
+```
+
+
+
 
 #### Referensi
 
@@ -994,4 +1136,5 @@ yaitu: `www.jarkom.site`.
 - <https://www.tutorialspoint.com/apache_bench/index.htm>
 - <https://www.linuxid.net/31888/mengenal-konfigurasi-nginx-error-log-dan-access-log>
 - <https://betterstack.com/community/guides/logging/how-to-view-and-configure-nginx-access-and-error-logs>
+- <https://httpd.apache.org/docs/2.4/programs/ab.html>
 
