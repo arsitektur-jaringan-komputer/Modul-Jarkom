@@ -6,15 +6,15 @@
   - [Outline](#outline)
   - [2.1 Pengertian, Cara Kerja, dan Manfaat](#21-pengertian-cara-kerja-dan-manfaat)
     - [2.1.1 Pengertian](#211-pengertian)
-        - [A. Forward Proxy](#a-forward-proxy)
-        - [B. Reverse Proxy](#b-reverse-proxy)
+      - [A. Forward Proxy](#a-forward-proxy)
+      - [B. Reverse Proxy](#b-reverse-proxy)
     - [2.1.2 Cara Kerja](#212-cara-kerja)
     - [2.1.3 Manfaat](#213-manfaat)
   - [2.2 Implementasi](#22-implementasi)
     - [2.2.1 Instalasi](#221-instalasi)
     - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
-        - [A. Halaman Statis](#a-membuat-halaman-statis)
-        - [B. Halaman Dinamis](#b-membuat-halaman-dinamis-menggunakan-php)
+      - [A. Halaman Statis](#a-membuat-halaman-statis)
+      - [B. Halaman Dinamis](#b-membuat-halaman-dinamis-menggunakan-php)
     - [2.2.4 Konfigurasi Reverse Proxy](#224-konfigurasi-reverse-proxy)
       - [A. Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
       - [B. Menambahkan Request Headers](#b-menambahkan-request-headers)
@@ -25,17 +25,23 @@
       - [C. IP Hash](#c-ip-hash)
       - [D. Generic Hash](#d-generic-hash)
   - [2.3 Load Testing](#23-load-testing)
-      - [2.3.1 Apache Benchmark](#231-apache-benchmark)
-        - [A. Instalasi](#a-instalasi)
-        - [B. Pengujian](#b-pengujian)
-           - [1. Menguji Website HTTPS](#1-menguji-website-https)
-           - [2. Menguji Website HTTP](#2-menguji-website-http-jarkomsite)
-           - [3. Menguji Website HTTP yang Memerlukan Autentikasi](#3-menguji-website-http-yang-memerlukan-autentikasi)
-           - [4. Menguji Load Balancing](#4-menguji-load-balancing)
-              - [a. Skenario 1](#skenario-1)
-              - [b. Skenario 2](#skenario-2)
-              - [c. Skenario 3](#skenario-3)
-
+    - [2.3.1 Apache Benchmark](#231-apache-benchmark)
+      - [A. Instalasi](#a-instalasi)
+      - [B. Pengujian](#b-pengujian)
+        - [1. Menguji Website HTTPS](#1-menguji-website-https)
+        - [2. Menguji Website HTTP](#2-menguji-website-http-jarkomsite)
+        - [3. Menguji Website HTTP yang Memerlukan Autentikasi](#3-menguji-website-http-yang-memerlukan-autentikasi)
+        - [4. Menguji Load Balancing](#4-menguji-load-balancing)
+          - [a. Skenario 1](#skenario-1)
+          - [b. Skenario 2](#skenario-2)
+          - [c. Skenario 3](#skenario-3)
+- [3. PHP-FPM](#3-php-fpm)
+  - [3.1 Pengertian dan Cara Kerja](#31-pengertian-dan-cara-kerja)
+    - [3.1.1 Pengertian](#311-pengertian)
+    - [3.1.2 Cara Kerja](#312-cara-kerja)
+  - [3.2 Implementasi](#22-implementasi)
+    - [3.2.1 Instalasi](#221-instalasi)
+    - [3.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
 
@@ -119,14 +125,14 @@ Step 1 - Masuk ke `/var/www/html`, lalu buat buat suatu file HTML baru dengan na
 ```html
 !DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Static Page</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Selamat Datang di Dressrosa</h1>
-</body>
+  </body>
 </html>
 ```
 
@@ -184,19 +190,19 @@ Step 3 - Masih di direktori yang sama coba buat file CSS dengan nama `style.css`
 
 ```css
 body {
-    display: flex;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 .container {
-    text-align: center;
-    max-width: 600px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
+  text-align: center;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
 }
 ```
 
@@ -238,7 +244,7 @@ lynx jarkom.site/index.php
 
 Dari dua percobaan diatas, dengan menggunakan halaman statis dan dinamis dapat disimpulkan bahwa:
 
-- `Proses di sisi server` -  Halaman dinamis memerlukan pemrosesan di sisi server sebelum konten dikirim ke browser. Ini termasuk eksekusi kode PHP atau bahkan pemanggilan data dari database. Proses ini membutuhkan waktu tambahan dibandingkan dengan sekadar mengirim atau menampilkan halaman statis.
+- `Proses di sisi server` - Halaman dinamis memerlukan pemrosesan di sisi server sebelum konten dikirim ke browser. Ini termasuk eksekusi kode PHP atau bahkan pemanggilan data dari database. Proses ini membutuhkan waktu tambahan dibandingkan dengan sekadar mengirim atau menampilkan halaman statis.
 
 - `Ukuran respon` - Jika halaman dinamis memuat banyak data (CSS, HTML, JavaScript, dll) atau memerlukan query ke database, hal ini dapat mempengaruhi waktu pemuatan. Ukuran respon yang besar memerlukan lebih banyak waktu untuk mentransfer melalui jaringan.
 
@@ -272,7 +278,7 @@ Client IP               Date                 HTTP Method                HTTP Sta
 
 ### A. Melewatkan request yang masuk ke proxy server
 
-Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan (melewatkan) request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx  atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uWSGI`, `SCGI`, dan `Memcached`.
+Nginx di server utama akan mem-prokxy request, dimana server utama akan mengirimkan (melewatkan) request tersebut ke server proxy (worker tertentu), mengambil respons, dan mengirimkannya kembali ke client. Dimungkinkan untuk mem-proxy permintaan ke server HTTP (ke worker yang menggunakan Nginx atau server yang tidak menggunakan Nginx) atau server non-HTTP (yang dapat menjalankan aplikasi yang dikembangkan dengan framework tertentu, seperti PHP atau Python) menggunakan protokol tertentu. Protokol yang didukung termasuk `FastCGI`, `uWSGI`, `SCGI`, dan `Memcached`.
 
 Untuk meneruskan permintaan ke server proxy, maka bisa menggunakan `proxy_pass` yang spesifikan di `location` tertentu. Untuk meneruskan request ke proxy server kita bisa menggunakan `nama domain, alamat IP, UNIX socket, TCP sockets, dan lain-lain` dari server proxy yang tersebut, kita juga bisa menspesifikan `port` nya.
 
@@ -516,7 +522,7 @@ location /app3/ {
 
 ### 2.2.5 Load Balancing Lanjutan
 
-Jika di modul 2, kita telah mencoba salah satu metode atau algoritma load balancing yaitu `Round Robin`, pada modul kali ini kita akan mencoba algoritma lainnya yaitu: `Least-connection`, `IP Hash`,  dan `Generic Hash`. Diharapkan kalian telah membaca pengertian dan cara kerjanya di [modul 2](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-2/Web%20server/README.md#b-load-balancing-pada-nginx).
+Jika di modul 2, kita telah mencoba salah satu metode atau algoritma load balancing yaitu `Round Robin`, pada modul kali ini kita akan mencoba algoritma lainnya yaitu: `Least-connection`, `IP Hash`, dan `Generic Hash`. Diharapkan kalian telah membaca pengertian dan cara kerjanya di [modul 2](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-2/Web%20server/README.md#b-load-balancing-pada-nginx).
 
 Pada modul ini kita akan mengkonfigurasi semua metode load balancing yang dibahas sebelumnya.
 
@@ -563,7 +569,7 @@ access_log /var/log/nginx/jarkom_access.log;
 }
 ```
 
-Step 3 - Kemudian buat direktori baru di `/var/www`dengan nama `jarkom`. Lalu buat file  `index.php`. Hal yang sama dilakukan disetiap worker.
+Step 3 - Kemudian buat direktori baru di `/var/www`dengan nama `jarkom`. Lalu buat file `index.php`. Hal yang sama dilakukan disetiap worker.
 
 ```php
 <?php
@@ -625,7 +631,6 @@ service nginx restart
 Cukup dengan menetapkan weight atau beban ke masing-masing server di kumpulan server yang telah ditentukan sebelumnya. Server yang memiliki weight paling besar akan dijadikan prioritas ketika menerima request dari client
 
 Weight dapat digunakan untuk mengoptimalkan load balancing dan memastikan bahwa server yang lebih kuat memiliki beban yang lebih besar.
-
 
 Konfigurasi:
 
@@ -734,11 +739,11 @@ server {
 
 ### 2.3 Load Testing
 
-Apa itu **load testing**? Singkatnya **load testing** adalah  jenis pengujian perangkat lunak yang bertujuan untuk menguji performa dan kinerja sistem saat menghadapi beban yang tinggi atau penggunaan yang ekstensif. Dalam Load testing, sistem dikenakan beban simulasi yang tinggi untuk mengukur kemampuan sistem dalam menangani jumlah pengguna, transaksi, atau permintaan yang besar secara bersamaan.
+Apa itu **load testing**? Singkatnya **load testing** adalah jenis pengujian perangkat lunak yang bertujuan untuk menguji performa dan kinerja sistem saat menghadapi beban yang tinggi atau penggunaan yang ekstensif. Dalam Load testing, sistem dikenakan beban simulasi yang tinggi untuk mengukur kemampuan sistem dalam menangani jumlah pengguna, transaksi, atau permintaan yang besar secara bersamaan.
 
 Tujuan dari Load Testing:
 
-- Mengekspos kecacatan pada aplikasi seperti *buffer overflow*, *memory leaks*, dan *mismanagement memory*.
+- Mengekspos kecacatan pada aplikasi seperti _buffer overflow_, _memory leaks_, dan _mismanagement memory_.
 - Menentukan batas atas dari komponen-komponen sistem, seperti database, hardware, network, load balancing yang digunakan, dll.
 
 Tools yang bisa digunakan untuk load testing seperti [Apache JMeter](https://jmeter.apache.org/), [Apache Benchmark atau ab](https://httpd.apache.org/docs/2.4/programs/ab.html), [wrk](https://github.com/wg/wrk), [Locust](https://locust.io/), dll.
@@ -790,7 +795,7 @@ Penjelasan:
 
 `ab` - Apache bench command.
 
-`-n` - argument untuk  menentukan jumlah permintaan atau request. Secara default jika kita tidak menentukan jumlah request, maka jumlah request = 1.
+`-n` - argument untuk menentukan jumlah permintaan atau request. Secara default jika kita tidak menentukan jumlah request, maka jumlah request = 1.
 
 `-c` - adalah konkurensi, menunjukan jumlah beberapa permintaan yang dilakukan secara bersamaan. Jika kita tidak menentukan jumlah konkurensi, maka defaultnya adalah satu permintaan dalam satu waktu.
 
@@ -851,7 +856,7 @@ Penjelasan:
 
 `Server Hostname` - nama domain atau DNS, selain DNS bisa IP Adress juga.
 
-`Server Port` - port yang digunakan ab untuk  konek ke website, karena menggunakan HTTPS maka portnya adalah 443, jika menggunakan HTTP, maka portnya adalah 80.
+`Server Port` - port yang digunakan ab untuk konek ke website, karena menggunakan HTTPS maka portnya adalah 443, jika menggunakan HTTP, maka portnya adalah 80.
 
 `SSL/TLS Protocol` - protokol negosiasi antara server dan client.
 
@@ -873,11 +878,11 @@ Penjelasan:
 
 `Requests per second` - jumlah permintaan per detik. Nilai ini merupakan hasil pembagian jumlah permintaan dengan total waktu yang dibutuhkan.
 
-`Time per request` - Rata-rata waktu yang dihabiskan per permintaan. Nilai pertama dihitung dengan rumus: concurrency * timetaken * 1000/done sedangkan nilai kedua dihitung dengan rumus timetaken * 1000/done.
+`Time per request` - Rata-rata waktu yang dihabiskan per permintaan. Nilai pertama dihitung dengan rumus: concurrency _ timetaken _ 1000/done sedangkan nilai kedua dihitung dengan rumus timetaken \* 1000/done.
 
 `Transfer rate` - Kecepatan transfer. Dihitung dengan rumus totalread / 1024 / timetaken.
 
-#### Plotting  output
+#### Plotting output
 
 Kita akan mencoba untuk memplot hasil yang relevan untuk melihat berapa banyak waktu yang dibutuhkan server seiring dengan meningkatnya jumlah permintaan. Caranya yaitu dengan menambahkan opsi `-g` pada command sebelumnya diikuti dengan nama file, contoh: `out.data` di mana data keluaran ab akan disimpan ke dalam file tersebut.
 
@@ -903,7 +908,7 @@ Step 3 - Cek isi dari file `out.data`.
 cat out.data
 ```
 
-Atau menggunakan command `less`, jika  muncul pesan `command not found` install telebih dahulu.
+Atau menggunakan command `less`, jika muncul pesan `command not found` install telebih dahulu.
 
 ```bash
 apt install less -y
@@ -949,7 +954,7 @@ Step 1 - Ganti `resolv.conf` ke nameserver Enieslobby.
 nameserver 192.168.2.3
 ```
 
-Step 2 - Lakukan benchmark ke website jarkom.site, untuk pengujian pertama jumlah request yang berikan 100  dengan jumlah konkurensi 10.
+Step 2 - Lakukan benchmark ke website jarkom.site, untuk pengujian pertama jumlah request yang berikan 100 dengan jumlah konkurensi 10.
 
 ```bash
 ab -n 100 -c 10 -g out.data http://www.jarkom.site/
@@ -1270,7 +1275,7 @@ apr_socket_recv: Connection reset by peer (104)
 Total of 3672 requests completed
 ```
 
-Tampak proses benchmark nya tidak selesai, jika Kita cek di  error log, maka akan muncul pesan `worker_connections are not enough`. Berarti server Nginx telah mencapai batas maksimum koneksi yang dapat ditangani oleh suatu worker dalam satu waktu
+Tampak proses benchmark nya tidak selesai, jika Kita cek di error log, maka akan muncul pesan `worker_connections are not enough`. Berarti server Nginx telah mencapai batas maksimum koneksi yang dapat ditangani oleh suatu worker dalam satu waktu
 
 ![Worker Connection](img/log-1.png)
 
@@ -1366,6 +1371,108 @@ cat /var/log/nginx/lb_error.log
 
 `Request` & `concurrency` - Untuk jumlah request dan konkurensi harap disesuaikan dengan CPU dan Memory.
 
+## 3. PHP-FPM
+
+## 3.1 Pengertian dan Cara Kerja
+
+### 3.1.1 Pengertian
+
+PHP-FPM adalah singkatan dari `PHP FastCGI Process Manager`. PHP-FPM adalah implementasi PHP dari FastCGI. PHP-FPM adalah sebuah daemon yang berjalan di background dan mengelola proses PHP untuk server web (seperti Apache atau Nginx). PHP-FPM berjalan sebagai service dan mendengarkan permintaan dari server web. Ketika permintaan datang, PHP-FPM akan memprosesnya dan mengembalikan hasilnya ke server web.
+
+PHP-FPM adalah cara yang lebih baik untuk mengelola proses PHP daripada menggunakan modul PHP Apache atau FastCGI. PHP-FPM memiliki beberapa keuntungan dibandingkan dengan modul PHP Apache atau FastCGI. PHP-FPM memiliki kemampuan untuk mengelola proses PHP secara efisien dan dapat dikonfigurasi untuk mengelola proses PHP sesuai dengan kebutuhan. PHP-FPM juga memiliki kemampuan untuk mengelola proses PHP secara dinamis.
+
+### 3.1.2 Cara Kerja
+
+PHP-FPM berperan sebagai pengelola proses yang berhubungan dengan menjalankan script PHP, mengatur antrian permintaan, mengelola proses yang berjalan, dan menangani komunikasi antara server web dan skrip PHP.
+
+Setiap kali server web menerima permintaan untuk skrip PHP, server web akan mengirim permintaan ke PHP-FPM. PHP-FPM akan memproses permintaan dan mengembalikan hasilnya ke server web. Server web kemudian akan mengirimkan hasilnya ke browser.
+
+![PHP-FPM-flow](img/cara-kerja-FPM.jpeg)
+
+## 3.2 Implementasi
+
+### 3.2.1 Instalasi
+
+Step 1 - Instalasi PHP-FPM di Web Server
+
+```bash
+apt-get install php php8.1-fpm
+```
+
+Step 2 - Cek status dari PHP-FPM
+
+```bash
+systemctl status php8.1-fpm
+```
+
+![PHO-FPM_status](img/php-fpm-status.png)
+
+### 3.2.2 Konfigurasi Dasar
+
+Konfigurasi untuk PHP FPM dibedakan menjadi 2 yaitu konfigurasi untuk `pool` dan konfigurasi untuk `global`. Konfigurasi untuk `pool` berada di `/etc/php/8.1/fpm/pool.d/www.conf` sedangkan konfigurasi untuk `global` berada di `/etc/php/8.1/fpm/php-fpm.conf`. Untuk variabel apa saja yang dapat di konfigurasi dan dikustomisasi dapat dilihat di [sini](https://www.php.net/manual/en/install.fpm.configuration.php).
+
+Step 1 - buat config untuk dressrosa.conf.
+
+```bash
+nano /etc/php/8.1/fpm/pool.d/dressrosa.conf
+```
+
+Step 2 - Ubah beberapa konfigurasi menjadi seperti berikut:
+
+```conf
+[dressrosa_site]
+user = dressrosa_user
+group = dressrosa_user
+listen = /var/run/php8.1-fpm-dressrosa-site.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 75
+pm.start_servers = 10
+pm.min_spare_servers = 5
+pm.max_spare_servers = 20
+pm.process_idle_timeout = 10s
+
+;contoh diatas konfigurasi untuk mengatur jumalh proses PHP-FPM yang berjalan
+```
+
+step 3 - Buat user dan group baru untuk dressrosa
+
+```bash
+groupadd dressrosa_user
+useradd -g dressrosa_user dressrosa_user
+```
+
+step 4 - restart service php-fpm
+
+```bash
+systemctl restart php8.1-fpm
+```
+
+step 5 - ubah socket php-fpm pada nginx dengan socket yang baru di config pada dressrosa.conf.
+
+```bash
+location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+        #
+        #       # With php-fpm (or other unix sockets):
+                fastcgi_pass unix:/var/run/php8.1-fpm-dressrosa-site.sock;
+        #       # With php-cgi (or other tcp sockets):
+        #       fastcgi_pass 127.0.0.1:9000;
+        }
+```
+
+step 6 - restart nginxnya juga
+
+```bash
+systemctl restart nginx
+```
+
 #### Referensi
 
 - <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy>
@@ -1376,4 +1483,3 @@ cat /var/log/nginx/lb_error.log
 - <https://www.linuxid.net/31888/mengenal-konfigurasi-nginx-error-log-dan-access-log>
 - <https://betterstack.com/community/guides/logging/how-to-view-and-configure-nginx-access-and-error-logs>
 - <https://httpd.apache.org/docs/2.4/programs/ab.html>
-
