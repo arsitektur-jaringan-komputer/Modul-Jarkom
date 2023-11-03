@@ -29,8 +29,12 @@
         - [A. Instalasi](#a-instalasi)
         - [B. Pengujian](#b-pengujian)
            - [1. Menguji Website HTTPS](#1-menguji-website-https)
-           - [2. Plotting  output](#2-plotting-output)
-           - [3. Menguji Website HTTP (jarkom.site) ](#3-menguji-website-http-jarkomsite)
+           - [2. Menguji Website HTTP](#2-menguji-website-http-jarkomsite)
+           - [3. Menguji Website HTTP yang Memerlukan Autentikasi](#3-menguji-website-http-yang-memerlukan-autentikasi)
+           - [4. Menguji Load Balancing](#4-menguji-load-balancing)
+              - [a. Skenario 1](#skenario-1)
+              - [b. Skenario 2](#skenario-2)
+              - [c. Skenario 3](#skenario-3)
 
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
@@ -936,7 +940,7 @@ Visualisasi dari Plot:
 
 ![Plot](img/plot.jpg)
 
-#### 3. Menguji Website HTTP (jarkom.site)
+#### 2. Menguji Website HTTP (jarkom.site)
 
 Step 1 - Ganti `resolv.conf` ke nameserver Enieslobby.
 
