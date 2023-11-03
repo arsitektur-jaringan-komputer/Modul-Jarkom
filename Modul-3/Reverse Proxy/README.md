@@ -15,6 +15,11 @@
     - [2.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
       - [A. Halaman Statis](#a-membuat-halaman-statis)
       - [B. Halaman Dinamis](#b-membuat-halaman-dinamis-menggunakan-php)
+    - [2.2.3 Mengenal PHP FPM](#23-mengenal-php-fpm)
+      - [A. Pengertian](#a-pengertian)
+      - [B. Cara Kerja](#b-cara-kerja)
+      - [C. Perbadingan PHP-FPM Versi 7 dan versi 8](#c-perbadingan-php-fpm-versi-7-dan-versi-8)
+      - [D. Konfigurasi Dasar](#d-konfigurasi-dasar)
     - [2.2.4 Konfigurasi Reverse Proxy](#224-konfigurasi-reverse-proxy)
       - [A. Melewatkan request yang masuk ke proxy server](#a-melewatkan-request-yang-masuk-ke-proxy-server)
       - [B. Menambahkan Request Headers](#b-menambahkan-request-headers)
@@ -35,13 +40,6 @@
           - [a. Skenario 1](#skenario-1)
           - [b. Skenario 2](#skenario-2)
           - [c. Skenario 3](#skenario-3)
-- [3. PHP-FPM](#3-php-fpm)
-  - [3.1 Pengertian dan Cara Kerja](#31-pengertian-dan-cara-kerja)
-    - [3.1.1 Pengertian](#311-pengertian)
-    - [3.1.2 Cara Kerja](#312-cara-kerja)
-  - [3.2 Implementasi](#22-implementasi)
-    - [3.2.1 Instalasi](#221-instalasi)
-    - [3.2.2 Konfigurasi Dasar](#222-konfigurasi-dasar)
 
 ## 2.1 Pengertian, Cara Kerja, dan Manfaat
 
@@ -273,6 +271,124 @@ Client IP               Date                 HTTP Method                HTTP Sta
 ```
 
 ![Meme application-without-logs](img/application-without-logs.jpg)
+
+### 2.3. Mengenal PHP-FPM
+
+#### A. Pengertian
+
+PHP-FPM adalah singkatan dari `PHP FastCGI Process Manager`. PHP-FPM adalah implementasi PHP dari FastCGI. PHP-FPM adalah sebuah daemon yang berjalan di background dan mengelola proses PHP untuk server web (seperti Apache atau Nginx). PHP-FPM berjalan sebagai service dan mendengarkan permintaan dari server web. Ketika permintaan datang, PHP-FPM akan memprosesnya dan mengembalikan hasilnya ke server web.
+
+PHP-FPM adalah cara yang lebih baik untuk mengelola proses PHP daripada menggunakan modul PHP Apache atau FastCGI. PHP-FPM memiliki beberapa keuntungan dibandingkan dengan modul PHP Apache atau FastCGI. PHP-FPM memiliki kemampuan untuk mengelola proses PHP secara efisien dan dapat dikonfigurasi untuk mengelola proses PHP sesuai dengan kebutuhan. PHP-FPM juga memiliki kemampuan untuk mengelola proses PHP secara dinamis.
+
+#### B. Cara Kerja
+
+PHP-FPM berperan sebagai pengelola proses yang berhubungan dengan menjalankan script PHP, mengatur antrian permintaan, mengelola proses yang berjalan, dan menangani komunikasi antara server web dan skrip PHP.
+
+Setiap kali server web menerima permintaan untuk skrip PHP, server web akan mengirim permintaan ke PHP-FPM. PHP-FPM akan memproses permintaan dan mengembalikan hasilnya ke server web. Server web kemudian akan mengirimkan hasilnya ke browser.
+
+![PHP-FPM-flow](img/cara-kerja-FPM.jpeg)
+
+#### C. Perbadingan PHP-FPM Versi 7 dan versi 8
+
+|Konfigurasi(default value)  | PHP-FPM 7| PHP-FPM 8|
+|----------------------------|----------|----------|
+|pm                          | static   | ondemand |
+|pm.max_children             | 5        | 100      |
+|pm.min_spare_servers        | 1        | 2        |
+|pm.max_spare_servers        | 5        | 50       |
+
+|Fitur                       |PHP-FPM 7            | PHP-FPM 8               |
+|----------------------------|---------------------|-------------------------|
+|stream_socket_server        |tidak support        |support                  |
+|php_stream_set_option       |support options      |support options dan flags|
+
+#### D. Konfigurasi Dasar
+
+Step 1 - Instalasi PHP-FPM di Web Server
+
+```bash
+apt-get install php php-fpm
+```
+
+Step 2 - Cek status dari PHP-FPM
+
+```bash
+service php7.2-fpm status
+```
+
+Atau
+
+```bash
+/etc/init.d/php7.2-fpm status
+```
+
+![PHP-FPM Status](img/php-fpm-status-1.png)
+
+#### Catatan
+
+Konfigurasi untuk PHP FPM dibedakan menjadi 2 yaitu konfigurasi untuk `pool` dan konfigurasi untuk `global`. Konfigurasi untuk `pool` berada di `/etc/php/7.2/fpm/pool.d/www.conf` sedangkan konfigurasi untuk `global` berada di `/etc/php/7.2/fpm/php-fpm.conf`. Untuk variabel apa saja yang dapat di konfigurasi dan dikustomisasi dapat dilihat di [sini](https://www.php.net/manual/en/install.fpm.configuration.php).
+
+Step 3 - buat config untuk dressrosa.conf.
+
+```bash
+nano /etc/php/7.2/fpm/pool.d/dressrosa.conf
+```
+
+Step 4 - Ubah beberapa konfigurasi menjadi seperti berikut:
+
+```conf
+[dressrosa_site]
+user = dressrosa_user
+group = dressrosa_user
+listen = /var/run/php8.1-fpm-dressrosa-site.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 75
+pm.start_servers = 10
+pm.min_spare_servers = 5
+pm.max_spare_servers = 20
+pm.process_idle_timeout = 10s
+
+;contoh diatas konfigurasi untuk mengatur jumalh proses PHP-FPM yang berjalan
+```
+
+Step 5 - Buat user dan group baru untuk dressrosa
+
+```bash
+groupadd dressrosa_user
+useradd -g dressrosa_user dressrosa_user
+```
+
+Step 6 - restart service php-fpm
+
+```bash
+/etc/init.d/php7.2-fpm restart
+```
+
+Step 7 - ubah socket php-fpm pada nginx dengan socket yang baru di config pada dressrosa.conf.
+
+```bash
+location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+        #
+        #       # With php-fpm (or other unix sockets):
+                fastcgi_pass unix:/var/run/php7.2-fpm-dressrosa-site.sock;
+        #       # With php-cgi (or other tcp sockets):
+        #       fastcgi_pass 127.0.0.1:9000;
+        }
+```
+
+Step 8 - restart nginxnya juga
+
+```bash
+systemctl restart nginx
+```
 
 ### 2.2.4 Konfigurasi Reverse Proxy
 
@@ -1371,107 +1487,6 @@ cat /var/log/nginx/lb_error.log
 
 `Request` & `concurrency` - Untuk jumlah request dan konkurensi harap disesuaikan dengan CPU dan Memory.
 
-## 3. PHP-FPM
-
-## 3.1 Pengertian dan Cara Kerja
-
-### 3.1.1 Pengertian
-
-PHP-FPM adalah singkatan dari `PHP FastCGI Process Manager`. PHP-FPM adalah implementasi PHP dari FastCGI. PHP-FPM adalah sebuah daemon yang berjalan di background dan mengelola proses PHP untuk server web (seperti Apache atau Nginx). PHP-FPM berjalan sebagai service dan mendengarkan permintaan dari server web. Ketika permintaan datang, PHP-FPM akan memprosesnya dan mengembalikan hasilnya ke server web.
-
-PHP-FPM adalah cara yang lebih baik untuk mengelola proses PHP daripada menggunakan modul PHP Apache atau FastCGI. PHP-FPM memiliki beberapa keuntungan dibandingkan dengan modul PHP Apache atau FastCGI. PHP-FPM memiliki kemampuan untuk mengelola proses PHP secara efisien dan dapat dikonfigurasi untuk mengelola proses PHP sesuai dengan kebutuhan. PHP-FPM juga memiliki kemampuan untuk mengelola proses PHP secara dinamis.
-
-### 3.1.2 Cara Kerja
-
-PHP-FPM berperan sebagai pengelola proses yang berhubungan dengan menjalankan script PHP, mengatur antrian permintaan, mengelola proses yang berjalan, dan menangani komunikasi antara server web dan skrip PHP.
-
-Setiap kali server web menerima permintaan untuk skrip PHP, server web akan mengirim permintaan ke PHP-FPM. PHP-FPM akan memproses permintaan dan mengembalikan hasilnya ke server web. Server web kemudian akan mengirimkan hasilnya ke browser.
-
-![PHP-FPM-flow](img/cara-kerja-FPM.jpeg)
-
-## 3.2 Implementasi
-
-### 3.2.1 Instalasi
-
-Step 1 - Instalasi PHP-FPM di Web Server
-
-```bash
-apt-get install php php8.1-fpm
-```
-
-Step 2 - Cek status dari PHP-FPM
-
-```bash
-systemctl status php8.1-fpm
-```
-
-![PHO-FPM_status](img/php-fpm-status.png)
-
-### 3.2.2 Konfigurasi Dasar
-
-Konfigurasi untuk PHP FPM dibedakan menjadi 2 yaitu konfigurasi untuk `pool` dan konfigurasi untuk `global`. Konfigurasi untuk `pool` berada di `/etc/php/8.1/fpm/pool.d/www.conf` sedangkan konfigurasi untuk `global` berada di `/etc/php/8.1/fpm/php-fpm.conf`. Untuk variabel apa saja yang dapat di konfigurasi dan dikustomisasi dapat dilihat di [sini](https://www.php.net/manual/en/install.fpm.configuration.php).
-
-Step 1 - buat config untuk dressrosa.conf.
-
-```bash
-nano /etc/php/8.1/fpm/pool.d/dressrosa.conf
-```
-
-Step 2 - Ubah beberapa konfigurasi menjadi seperti berikut:
-
-```conf
-[dressrosa_site]
-user = dressrosa_user
-group = dressrosa_user
-listen = /var/run/php8.1-fpm-dressrosa-site.sock
-listen.owner = www-data
-listen.group = www-data
-php_admin_value[disable_functions] = exec,passthru,shell_exec,system
-php_admin_flag[allow_url_fopen] = off
-
-; Choose how the process manager will control the number of child processes.
-
-pm = dynamic
-pm.max_children = 75
-pm.start_servers = 10
-pm.min_spare_servers = 5
-pm.max_spare_servers = 20
-pm.process_idle_timeout = 10s
-
-;contoh diatas konfigurasi untuk mengatur jumalh proses PHP-FPM yang berjalan
-```
-
-step 3 - Buat user dan group baru untuk dressrosa
-
-```bash
-groupadd dressrosa_user
-useradd -g dressrosa_user dressrosa_user
-```
-
-step 4 - restart service php-fpm
-
-```bash
-systemctl restart php8.1-fpm
-```
-
-step 5 - ubah socket php-fpm pada nginx dengan socket yang baru di config pada dressrosa.conf.
-
-```bash
-location ~ \.php$ {
-                include snippets/fastcgi-php.conf;
-        #
-        #       # With php-fpm (or other unix sockets):
-                fastcgi_pass unix:/var/run/php8.1-fpm-dressrosa-site.sock;
-        #       # With php-cgi (or other tcp sockets):
-        #       fastcgi_pass 127.0.0.1:9000;
-        }
-```
-
-step 6 - restart nginxnya juga
-
-```bash
-systemctl restart nginx
-```
 
 #### Referensi
 
