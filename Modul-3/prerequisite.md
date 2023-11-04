@@ -92,11 +92,11 @@ Masuk ke Enieslobby untuk melakukan konfigurasi DNS
     ;
     $TTL    604800
     @       IN      SOA     jarkom.site. root.jarkom.site. (
-                                2         ; Serial
-                            604800         ; Refresh
+    			    2023110101    ; Serial
+                            604800        ; Refresh
                             86400         ; Retry
-                            2419200         ; Expire
-                            604800 )       ; Negative Cache TTL
+                            2419200       ; Expire
+                            604800 )      ; Negative Cache TTL
     ;
     @               IN      NS      jarkom.site.
     @               IN      A       192.168.2.2 ; IP Dressrosa
@@ -115,11 +115,11 @@ Masuk ke Enieslobby untuk melakukan konfigurasi DNS
     ;
     $TTL    604800
     @       IN      SOA     jarkom.site. root.jarkom.site. (
-                                2         ; Serial
-                            604800         ; Refresh
+                            2023110101    ; Serial
+                            604800        ; Refresh
                             86400         ; Retry
-                            2419200         ; Expire
-                            604800 )       ; Negative Cache TTL
+                            2419200       ; Expire
+                            604800 )      ; Negative Cache TTL
     ;
     2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
     2                               IN      PTR     jarkom.site.
