@@ -76,7 +76,7 @@ Lakukan akses database dengan menggunakan user yang sudah dibuat kemudian gunaka
 
 ![show-db](assets/show-db.png)
 
-Karena database akan diakses oleh tiga worker, tambahkan konfigurasi berikut pada `/etc/mysql/my.cnf`
+Karena database akan diakses oleh tiga worker, tambahkan konfigurasi berikut pada `/etc/mysql/my.cnf`, jangan lupa untuk merestart service setelahnya.
 
 ```
 [mysqld]
@@ -97,6 +97,7 @@ mariadb --host=10.0.2.5 --port=3306 --user=kelompokyyy --password
 ```
 
 Hasilnya adalah sebagai berikut:
+
 ![open-connect](assets/open-connection.png)
 
 ### Melakukan Konfigurasi pada Worker
@@ -139,14 +140,14 @@ Deployment akan dilakukan pada masing-masing worker. Untuk melakukan deployment,
     Setelah itu lakukan instalasi PHP dengan perintah berikut:
     
     ```sh
-    apt-get install php8.0-mbstring php8.0-xml php8.0-cli php8.0-common php8.0-intl php8.0-opcache php8.0-readline php8.0-mysql php8.0-fpm php8.0-curl unzip -y
+    apt-get install php8.0-mbstring php8.0-xml php8.0-cli php8.0-common php8.0-intl php8.0-opcache php8.0-readline php8.0-mysql php8.0-fpm php8.0-curl unzip wget -y
     ```
 
     Lakukan pengecekan versi php dengan mengetikkan `php --version`.
 
     Kemudian, setelah php berhasil diinstall, install nginx yang akan digunakan sebagai webserver
     ```
-    apt install nginx -y
+    apt-get install nginx -y
     ```
 
 2. Lakukan instalasi composer 2
@@ -170,7 +171,7 @@ Deployment akan dilakukan pada masing-masing worker. Untuk melakukan deployment,
     apt-get install git -y
     ```
     
-    Kemudian clone repository yang akan dideploy:
+    Kemudian clone repository yang akan dideploy pada direktori `/var/www`
     
     ```sh
     git clone https://github.com/elshiraphine/laravel-simple-rest-api.git
@@ -209,10 +210,6 @@ Deployment akan dilakukan pada masing-masing worker. Untuk melakukan deployment,
     ```
 
 4. Deployment pada Worker
-
-    Sebelum melakukan deployment, ubah timezone ke Asia/Jakarta agar ketika terdapat request masuk, log dapat mencatat request sesuai dengan local timezone.
-
-    ![timezone](assets/timezone.png)
 
     Untuk melakukan deployment pada masing-masing worker, tambahkan virtual host seperti langkah-langkah pada [modul 2](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-2/Web%20server#e-setup-load-balancing-di-nginx) sebagai berikut pada file `/etc/nginx/sites-available/implementasi`.
 
@@ -281,3 +278,169 @@ Load balancer pada modul implementasi ini tidak jaduh berbeda dengan modul-modul
 ```sh
 apt-get install nginx -y
 ```
+
+Kemudian, untuk konfigurasi load balancer akan menggunakan algoritma Round-Robin secara default, sehingga konfigurasinya adalah sebagai berikut:
+
+```sh
+upstream laravel {
+        server 10.0.2.2:8001;
+        server 10.0.2.3:8002;
+        server 10.0.2.4:8003;
+}
+
+server {
+        listen 80;
+        server_name implementasi.yyy.com;
+
+        location / {
+                proxy_pass http://laravel;
+        }
+}
+```
+
+Jangan lupa untuk membuat symlink dan melakukan restart pada service nginx.
+
+Untuk melakukan testing, buka halaman `implementasi.yyy.com` pada client dengan menggunakan lynx dan curl sehingga hasilnya adalah sebagai berikut:
+
+![client-laravel](assets/client-laravel.png)
+
+![curl-client](assets/curl-client.png)
+
+## Proxy Bind pada Laravel Nginx
+
+Pada 
+
+
+## Load Testing
+
+Untuk melakukan testing, lakukan instalasi Apache Benchmark sesuai pada [modul instalasi Apache Benchmark](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Reverse%20Proxy#231-apache-benchmark).
+
+Kemudian lakukan testing pada endpoint `/api/airing/` sebagai berikut:
+
+```sh
+ab -n 100 -c 10 implementasi.yyy.com/api/airing/
+```
+
+Hasilnya adalah sebagai berikut:
+
+![test-lb](assets/test-1.png)
+
+```
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking implementasi.yyy.com (be patient).....done
+
+
+Server Software:        nginx/1.14.2
+Server Hostname:        implementasi.yyy.com
+Server Port:            80
+
+Document Path:          /api/airing/
+Document Length:        814 bytes
+
+Concurrency Level:      10
+Time taken for tests:   110.934 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      109700 bytes
+HTML transferred:       81400 bytes
+Requests per second:    0.90 [#/sec] (mean)
+Time per request:       11093.406 [ms] (mean)
+Time per request:       1109.341 [ms] (mean, across all concurrent requests)
+Transfer rate:          0.97 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    2   1.8      1       9
+Processing:  5055 9689 1362.0  10066   10383
+Waiting:     5055 9689 1362.0  10065   10383
+Total:       5055 9690 1362.2  10067   10386
+
+Percentage of the requests served within a certain time (ms)
+  50%  10067
+  66%  10090
+  75%  10095
+  80%  10110
+  90%  10247
+  95%  10266
+  98%  10294
+  99%  10386
+ 100%  10386 (longest request)
+```
+
+Kemudian naikkan banyaknya request dan concurrency menjadi:
+
+```
+ab -n 2000 -c 100 implementasi.yyy.com/api/airing/
+```
+
+Hasilnya adalah sebagai berikut:
+
+```
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking implementasi.yyy.com (be patient)
+Completed 200 requests
+Completed 400 requests
+Completed 600 requests
+Completed 800 requests
+Completed 1000 requests
+Completed 1200 requests
+Completed 1400 requests
+Completed 1600 requests
+Completed 1800 requests
+Completed 2000 requests
+Finished 2000 requests
+
+
+Server Software:        nginx/1.14.2
+Server Hostname:        implementasi.yyy.com
+Server Port:            80
+
+Document Path:          /api/airing/
+Document Length:        814 bytes
+
+Concurrency Level:      100
+Time taken for tests:   141.755 seconds
+Complete requests:      2000
+Failed requests:        1921
+   (Connect: 0, Receive: 0, Length: 1921, Exceptions: 0)
+Non-2xx responses:      1919
+Total transferred:      710578 bytes
+HTML transferred:       396453 bytes
+Requests per second:    14.11 [#/sec] (mean)
+Time per request:       7087.772 [ms] (mean)
+Time per request:       70.878 [ms] (mean, across all concurrent requests)
+Transfer rate:          4.90 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    5   8.1      3      51
+Processing:     1 5023 17245.5      3  120085
+Waiting:        0 4963 17158.2      3  120085
+Total:          1 5028 17249.5      6  120123
+
+Percentage of the requests served within a certain time (ms)
+  50%      6
+  66%      7
+  75%      8
+  80%      9
+  90%     58
+  95%  60002
+  98%  60016
+  99%  60101
+ 100%  120123 (longest request)
+```
+
+Dari hasil testing di atas, terdapat informasi bahwa terjadi 1921 request yang gagal. Untuk mengetahui errornya, kita dapat melakukan cat pada `/var/log/nginx/error.log`, hasilnya adalah sebagai berikut:
+
+```
+2023/11/07 05:57:52 [error] 3061#3061: *825 no live upstreams while connecting to upstream, client: 10.0.1.2, server: implementasi.yyy.com, request: "GET /api/airing/ HTTP/1.0", upstream: "http://laravel/api/airing/", host: "implementasi.yyy.com"
+```
+
+Error tersebut disebabkan oleh upstream membutuhkan waktu terlalu lama untuk menjawab request dan NGINX menganggap upstream telah gagal dalam memproses permintaan tersebut.
+
