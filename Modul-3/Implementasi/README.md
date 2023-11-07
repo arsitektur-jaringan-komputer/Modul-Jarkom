@@ -304,12 +304,7 @@ Untuk melakukan testing, buka halaman `implementasi.yyy.com` pada client dengan 
 
 ![client-laravel](assets/client-laravel.png)
 
-![curl-client](assets/curl-client.png)
-
-## Proxy Bind pada Laravel Nginx
-
-Pada 
-
+![curl-client](assets/curl-client.png) 
 
 ## Load Testing
 
