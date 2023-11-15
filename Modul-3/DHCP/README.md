@@ -182,7 +182,7 @@ Setelah memahami konsep, lalu bagaimana implementasinya? Sebelum masuk ke dalam 
 
 Tidak hanya itu, kalian masih ingat kan dengan topologi yang kita pakai di modul-modul sebelumnya? 
 
-!![topologi-lawas](/Modul-3/DHCP/images/ethrelay.png/ethrelay.png)
+!![topologi-lawas](https://raw.githubusercontent.com/arsitektur-jaringan-komputer/Modul-Jarkom/master/Modul-GNS3/images/create-topology-1.jpg)
 
 Nah, untuk implementasi DHCP ini, pada subnet yang berisi client, kita tambahkan satu node baru bernama **`Jipangu`**. Kemudian, untuk subnet yang berisi DNS Server dan lainnya, kita tambahkan satu node baru bernama **`Westalis`** yang nantinya akan berperan sebagai **`DHCP Server`**.
 
@@ -316,7 +316,7 @@ OPTIONS=
 
 Isi dari `INTERFACES=` harus menyesuaikan jumlah *interface* *output* yang terhubung dengan *client*. Pada kasus ini, terdapat 2 *interface* *output* yang terhubung dengan *client*, yaitu `eth1` dan `eth2`. 
 
-!![eth](/Modul-3/DHCP/images/ethrelay.png/ethrelay.png)
+!![eth](https://raw.githubusercontent.com/arsitektur-jaringan-komputer/Modul-Jarkom/nur-change/Modul-3/DHCP/images/ethrelay.png)
 
 Tidak lupa, `SERVERS=` berisi `IP Address` dari `DHCP Server` yang terhubung.
 
