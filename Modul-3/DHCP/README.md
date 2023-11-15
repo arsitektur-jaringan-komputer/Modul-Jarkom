@@ -451,7 +451,7 @@ Konfigurasi dapat dilakukan sebagai berikut.
 
 Masalah yang dihadapi oleh Franky adalah IP address dari Jipangu yang berganti-ganti. Sehingga, requirementnya adalah `IP address` yang tetap. Oleh karena itu, solusi yang dapat ditawarkan adalah dengan fitur dari DHCP Server, yaitu layanan untuk "menyewakan" `IP Address` secara tetap pada suatu *host*, yakni **Fixed Address**. Dalam kasus ini, **Jipangu** akan mendapatkan `IP Address` tetap, yaitu `[Prefix IP].1.13`.
 
-#### A. Konfigurasi `DHCP Server` di *Router* Foosha
+#### A. Konfigurasi `DHCP Server` di **Westalis**
 
 ##### A.1. Buka File Konfigurasi `isc-dhcp-server`
 
