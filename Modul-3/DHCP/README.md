@@ -45,7 +45,7 @@ Materi pada modul ini akan cukup banyak dengan *outline* sebagai berikut.
       - [A. Konfigurasi `DHCP Server` di *Router* Foosha](#a-konfigurasi-dhcp-server-di-router-foosha)
         - [A.1. Buka File Konfigurasi `isc-dhcp-server`](#a1-buka-file-konfigurasi-isc-dhcp-server)
         - [A.2. Tambahkan *Script* Berikut](#a2-tambahkan-script-berikut)
-        - [A.3. *Restart* *Service* `isc-dhcp-server` pada **Foosha**](#a3-restart-service-isc-dhcp-server-pada-foosha)
+        - [A.3. *Restart* *Service* `isc-dhcp-server` pada **Westalis**](#a3-restart-service-isc-dhcp-server-pada-westalis)
       - [B. Konfigurasi `DHCP Client`](#b-konfigurasi-dhcp-client)
         - [B.1. Konfigurasi *Network Interface* **Jipangu**](#b1-konfigurasi-network-interface-jipangu)
         - [B.2. Tambah konfigurasi berikut](#b2-tambah-konfigurasi-berikut)
@@ -178,19 +178,26 @@ Beberapa alasan mengapa pengaturan lease time DHCP itu penting adalah sebagai be
 
 ## **1.2 Implementasi**
 
-Setelah memahami konsep, lalu bagaimana implementasinya? Sebelum masuk ke dalam implementasi, kalian harus sudah menguasai semua materi di [**Modul 2**](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-2) dan telah memahami topologi yang diberikan untuk Modul 3 ini! Jika belum, silakan kembali ke [**Modul 2**](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-2) dan pelajari dengan seksama. Pelajari juga (**editorial**)[https://github.com/arsitektur-jaringan-komputer/Editorial-Praktikum-Jaringan-Komputer] yang telah diberikan!
+Setelah memahami konsep, lalu bagaimana implementasinya? Sebelum masuk ke dalam implementasi, kalian harus sudah menguasai semua materi di [**Modul 2**](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-2) dan telah memahami topologi yang diberikan untuk Modul 3 ini! Jika belum, silakan kembali ke [**Modul 2**](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-2) dan pelajari dengan seksama. Pelajari juga (**editorial**)[https://github.com/arsitektur-jaringan-komputer/Editorial-Praktikum-Jaringan-Komputer] yang telah diberikan! 
+
+Tidak hanya itu, kalian masih ingat kan dengan topologi yang kita pakai di modul-modul sebelumnya? 
+
+!![topologi-lawas](/Modul-3/DHCP/images/ethrelay.png/ethrelay.png)
+
+Nah, untuk implementasi DHCP ini, pada subnet yang berisi client, kita tambahkan satu node baru bernama **`Jipangu`**. Kemudian, untuk subnet yang berisi DNS Server dan lainnya, kita tambahkan satu node baru bernama **`Westalis`** yang nantinya akan berperan sebagai **`DHCP Server`**.
+
 
 ### **1.2.1 Instalasi ISC-DHCP-Server**
 
-Pada topologi ini, kita akan menjadikan `router` **Foosha** sebagai DHCP Server. Oleh sebab itu, kita harus meng-_install_ **isc-dhcp-server** di **Foosha** dengan melakukan langkah-langkah sebagai berikut.
+Pada topologi ini, kita akan menjadikan **Westalis** sebagai DHCP Server. Oleh sebab itu, kita harus meng-_install_ **isc-dhcp-server** di **Westalis** dengan melakukan langkah-langkah sebagai berikut.
 
-1. Update _package lists_ di `router` **Foosha** dengan perintah sebagai berikut.
+1. Update _package lists_ di **Westalis** dengan perintah sebagai berikut.
 
 ```
 apt-get update
 ```
 
-2. *Install* **isc-dhcp-server** di `router` **Foosha**.
+1. *Install* **isc-dhcp-server** di **Westalis**.
 
 ```
 apt-get install isc-dhcp-server
@@ -217,7 +224,7 @@ Silakan edit *file* konfigurasi `isc-dhcp-server` pada `/etc/default/isc-dhcp-se
 
 ##### A.2. Tentukan *Interface*
 
-Coba perhatikan topologi yang telah kalian buat. Contoh dari topologi yang dibuat adalah `interface` dari `router` **Foosha** yang menuju ke `switch` kiri adalah `eth1`, maka kita akan memilih `interface` `eth1` untuk diberikan layanan DHCP.
+Coba perhatikan topologi yang telah kalian buat. Contoh dari topologi yang dibuat adalah `interface` dari **Westalis** yang menuju ke `switch` adalah `eth0`, maka kita akan memilih `interface` `eth0` untuk diberikan layanan DHCP.
 
 ![image](https://user-images.githubusercontent.com/61197343/139393762-9f2f6df2-489d-42bc-84bf-e2270b74f71f.png)
 
@@ -252,7 +259,7 @@ subnet 'NID' netmask 'Netmask' {
 
 | **No** | **Parameter Jaringan**                             | **Keterangan**                                                                                                                                                                                                                                                                                         |
 | ------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1      | `subnet 'NID'`                                     | Network ID pada subnet interface. Sederhananya pada kasus pembelajaran praktikum kita, nilai NID merupakan 3 bytes dari IP interface tujuan (sesuai dengan langkah [A2](#a2-tentukan-interface)) **pada router** (dalam kasus ini adalah Foosha) dengan byte terakhirnya adalah 0. Contoh, jika interface yang kamu pilih adalah `eth1` dengan IP 10.9.0.1, maka NID subnetnya adalah 10.9.0.0. **NB: Cara menentukan NID yang proper akan dijelaskan pada modul berikutnya**                                                                                                                                                                                                                                                                                   |
+| 1      | `subnet 'NID'`                                     | Network ID pada subnet interface. Sederhananya pada kasus pembelajaran praktikum kita, nilai NID merupakan 3 bytes dari IP interface tujuan (sesuai dengan langkah [A2](#a2-tentukan-interface)) **pada router** (dalam kasus ini adalah Foosha) dengan byte terakhirnya adalah 0. Sebagai contoh saja, jika interface yang kamu pilih adalah `eth0` dengan IP [IP Prefix].0.1, maka NID subnetnya adalah [IP Prefix].0.0. **NB: Cara menentukan NID yang proper akan dijelaskan pada modul berikutnya**                                                                                                                                                                                                                                                                                   |
 | 2      | `netmask 'Netmask`                                 | Netmask pada subnet. Dapat dilihat pada konfigurasi network router dengan cara: Ke topologi (GNS3) → klik kanan router → Configure → Edit Network Configuration → Lihat nilai netmask pada interface yang diinginkan                                                                                                                                                                                                                                                                                    |
 | 3      | `range 'IP_Awal' 'IP_Akhir'`                       | Rentang `IP Address` yang akan didistribusikan dan digunakan secara dinamis                                                                                                                                                                                                                               |
 | 4      | `option routers 'Gateway'`                         | IP gateway dari router menuju client sesuai konfigurasi subnet                                                                                                                                                                                                                                         |
@@ -285,11 +292,11 @@ Selamat 🎉, konfigurasi `DHCP Server` telah selesai!
 
 ### **1.2.3 Konfigurasi DHCP Relay**
 
-Jika memang membutuhkan `DHCP Relay`, maka langkah-langkah berikut harus dilakukan pada perangkat yang dijadikan sebagai `DHCP Relay` (umumnya salah satu *router* yang terhubung dengan `DNS Server`). Langkah-langkah yang harus dilakukan adalah sebagai berikut.
+Jika memang membutuhkan `DHCP Relay`, maka langkah-langkah berikut harus dilakukan pada perangkat yang dijadikan sebagai `DHCP Relay` (umumnya salah satu *router* yang terhubung dengan `DNS Server`).  Maka, *router* **Foosha** akan menjadi DHCP Relay. Langkah-langkah yang harus dilakukan adalah sebagai berikut.
 
 #### A. Melakukan Instalasi 
 
-Lakukan beberapa instalasi sebelum melakukan konfigurasi pada *router* yang dijadikan sebagai `DHCP Relay`. Instalasi yang dilakukan adalah sebagai berikut.
+Lakukan beberapa instalasi sebelum melakukan konfigurasi pada **Foosha** yang dijadikan sebagai `DHCP Relay`. Instalasi yang dilakukan adalah sebagai berikut.
 
 ```
 apt-get update
@@ -302,12 +309,16 @@ service isc-dhcp-relay start
 Pada `/etc/default/isc-dhcp-relay` lakukan konfigurasi berikut.
 
 ```
-SERVERS="[Prefix IP].2.4"
-INTERFACES="eth1 eth2 eth3"
+SERVERS="[IP Address dari DHCP Server]"  
+INTERFACES="eth1 eth2"
 OPTIONS=
 ```
 
-Isi dari `INTERFACES=` harus menyesuaikan jumlah *interface* *output* yang terhubung dengan *client*. Pada kasus ini, terdapat 3 *interface* *output* yang terhubung dengan *client*, yaitu `eth1`, `eth2`, dan `eth3`. Tidak lupa, `SERVERS=` berisi `IP Address` dari `DHCP Server` yang terhubung.
+Isi dari `INTERFACES=` harus menyesuaikan jumlah *interface* *output* yang terhubung dengan *client*. Pada kasus ini, terdapat 2 *interface* *output* yang terhubung dengan *client*, yaitu `eth1` dan `eth2`. 
+
+!![eth](/Modul-3/DHCP/images/ethrelay.png/ethrelay.png)
+
+Tidak lupa, `SERVERS=` berisi `IP Address` dari `DHCP Server` yang terhubung.
 
 #### C. Melakukan Konfigurasi IP Forwarding
 
@@ -331,7 +342,7 @@ Selamat 🎉, konfigurasi `DHCP Relay` telah selesai!
 
 ### **1.2.4 Konfigurasi DHCP Client**
 
-Setelah mengonfigurasi *server*, kita juga perlu mengonfigurasi *interface* *client* supaya bisa mendapatkan layanan dari `DHCP Server`. Di dalam topologi ini, *client*-nya adalah **Alabasta**, **Loguetown**, dan **Jipangu**.
+Setelah mengonfigurasi *server*, kita juga perlu mengonfigurasi *interface* *client* supaya bisa mendapatkan layanan dari `DHCP Server`. Di dalam topologi ini, contoh *client*-nya adalah **Alabasta**, **Loguetown**, dan **Jipangu**.
 
 #### A. Mengonfigurasi *Client*
 
@@ -339,7 +350,7 @@ Setelah mengonfigurasi *server*, kita juga perlu mengonfigurasi *interface* *cli
 
 ![image](https://user-images.githubusercontent.com/61197343/139403919-e197fc94-8146-4b2b-812e-b2d4cbc70dda.png)
 
-Dari konfigurasi sebelumnya, **Alabasta** telah diberikan `IP Address` statis 192.168.1.3.
+Dari konfigurasi sebelumnya, **Alabasta** telah diberikan `IP Address` statis [Prefix IP].1.3.
 
 ##### A.2. Buka `/etc/network/interfaces` untuk Mengonfigurasi *Interface* **Alabasta**
 
@@ -399,31 +410,29 @@ Setelah `IP Address` dipinjamkan ke sebuah client, maka `IP Address` tersebut ti
 Lakukan konfigurasi pada DHCP, yaitu pada `/etc/dhcp/dhcpd.conf` untuk mengatur *leasing time* pada masing-masing `subnet` yang terhubung. Pada topologi yang digunakan sekarang, `subnet` tersebut adalah `subnet` yang terhubung dengan **Alabasta**, **Loguetown**, dan **Jipangu**. 
 
 ```
-subnet 10.15.1.0 netmask 255.255.255.0 {
-    range 10.15.1.50 10.15.1.88;
-    range 10.15.1.120 10.15.1.155;
-    option routers 10.15.1.1;
-    option broadcast-address 10.15.1.255;
-    option domain-name-servers 10.15.2.2;
+subnet [Prefix IP].1.0 netmask 255.255.255.0 {
+    range [Prefix IP].1.50 [Prefix IP].1.88;
+    range [Prefix IP].1.120 [Prefix IP].1.155;
+    option routers [Prefix IP].1.1;
+    option broadcast-address [Prefix IP].1.255;
+    option domain-name-servers [Prefix IP].2.2;
     default-lease-time 300;
     max-lease-time 6900;
 
 }
-subnet 10.15.2.0 netmask 255.255.255.0 {
-}
-subnet 10.15.3.0 netmask 255.255.255.0 {
-    range 10.15.3.10 10.15.3.30;
-    range 10.15.3.60 10.15.3.85;
-    option routers 10.15.3.1;
-    option broadcast-address 10.15.3.255;
-    option domain-name-servers 10.15.2.2;
+subnet [Prefix IP].2.0 netmask 255.255.255.0 {
+    range [Prefix IP].2.10 [Prefix IP].2.30;
+    range [Prefix IP].2.60 [Prefix IP].2.85;
+    option routers [Prefix IP].2.1;
+    option broadcast-address [Prefix IP].2.255;
+    option domain-name-servers [Prefix IP].2.2;
     default-lease-time 600;
     max-lease-time 6900;
 
 }
 ```
 
-Pada konfigurasi tersebut, dilakukan *leasing* pada subnet `10.15.1.0` dan `10.15.3.0`. Pengaturan lama waktu *leasing* ditunjukkan pada tiga baris terakhir pada setiap pengaturan `subnet` dengan satuan ukuran *milisecond*. Selanjutnya, silahkan *restart* `isc-dhcp-server` dengan perintah sebagai berikut.s
+Pada konfigurasi tersebut, dilakukan *leasing* pada subnet `[Prefix IP].1.0` dan `[Prefix IP].3.0`. Pengaturan lama waktu *leasing* ditunjukkan pada tiga baris terakhir pada setiap pengaturan `subnet` dengan satuan ukuran *milisecond*. Selanjutnya, silahkan *restart* `isc-dhcp-server` dengan perintah sebagai berikut.s
 
 ```
 service isc-dhcp-server stop
@@ -440,7 +449,7 @@ Konfigurasi dapat dilakukan sebagai berikut.
 >
 > Ternyata kapal milik Franky yang diparkir di **Jipangu** selain menjadi *client*, juga akan digunakan sebagai *server* suatu aplikasi jual beli kapal, sehingga akan menyulitkan jika `IP Address`nya berganti-ganti setiap **Jipangu** terhubung ke jaringan internet. Oleh karena itu, **Jipangu** membutuhkan `IP Address` yang tetap dan tidak berganti-ganti.
 
-Masalah yang dihadapi oleh Franky adalah IP address dari Jipangu yang berganti-ganti. Sehingga, requirementnya adalah `IP address` yang tetap. Oleh karena itu, solusi yang dapat ditawarkan adalah dengan fitur dari DHCP Server, yaitu layanan untuk "menyewakan" `IP Address` secara tetap pada suatu *host*, yakni **Fixed Address**. Dalam kasus ini, **Jipangu** akan mendapatkan `IP Address` tetap, yaitu `192.168.1.13`.
+Masalah yang dihadapi oleh Franky adalah IP address dari Jipangu yang berganti-ganti. Sehingga, requirementnya adalah `IP address` yang tetap. Oleh karena itu, solusi yang dapat ditawarkan adalah dengan fitur dari DHCP Server, yaitu layanan untuk "menyewakan" `IP Address` secara tetap pada suatu *host*, yakni **Fixed Address**. Dalam kasus ini, **Jipangu** akan mendapatkan `IP Address` tetap, yaitu `[Prefix IP].1.13`.
 
 #### A. Konfigurasi `DHCP Server` di *Router* Foosha
 
@@ -453,7 +462,7 @@ Buka dan edit file `/etc/dhcp/dhcpd.conf`.
 ```
 host Jipangu {
     hardware ethernet 'hwaddress_milik_Jipangu';
-    fixed-address 192.168.1.13;
+    fixed-address [Prefix IP].1.13;
 }
 ```
 
@@ -461,13 +470,13 @@ host Jipangu {
 
 **Penjelasan**:
 
-- Untuk mencari `hwaddress_milik_Jipangu` (*hardware* *address* milik Jipangu), kamu bisa mengeksekusi perintah `ip a` di Jipangu, kemudian lihat *interface* yang berhubungan dengan *router*, dalam kasus ini adalah `eth0`, dan lihat pada bagian `link/ether`. Silakan *copy* *address* tersebut dan masukkan pada konfigurasi `isc-dhcp-server` di Foosha.
+- Untuk mencari `hwaddress_milik_Jipangu` (*hardware* *address* milik Jipangu), kamu bisa mengeksekusi perintah `ip a` di Jipangu, kemudian lihat *interface* yang berhubungan dengan `DHCP Relay`, dalam kasus ini adalah `eth0`, dan lihat pada bagian `link/ether`. Silakan *copy* *address* tersebut dan masukkan pada konfigurasi `isc-dhcp-server` di **Westalis**.
 
 ![image](https://user-images.githubusercontent.com/61197343/139408469-54699b15-3ce3-43e0-828a-5a1fdef434e5.png)
 
 - **fixed-address** adalah `IP Address` yang "disewa" tetap oleh **Jipangu**
 
-##### A.3. *Restart* *Service* `isc-dhcp-server` pada **Foosha**
+##### A.3. *Restart* *Service* `isc-dhcp-server` pada **Westalis**
 
 
 #### B. Konfigurasi `DHCP Client`
@@ -510,7 +519,7 @@ Setelah melakukan berbagai konfigurasi di atas, kalian bisa memastikan apakah` D
 2. Menyalakan kembali semua *node*.
 3. Lakukan perintah `ip a` pada setiap *node*.
 
-Jika *node client* berganti `IP Address` sesuai dengan *range* yang telah dikonfigurasi pada `DHCP Server` dan **Jipangu** tetap mendapatkan `IP Address` `192.168.0.13`, maka konfigurasi `DHCP Server` kalian berhasil.
+Jika *node client* berganti `IP Address` sesuai dengan *range* yang telah dikonfigurasi pada `DHCP Server` dan **Jipangu** tetap mendapatkan `IP Address` `[Prefix IP].0.13`, maka konfigurasi `DHCP Server` kalian berhasil.
 
 ## **Soal Latihan**
 
