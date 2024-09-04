@@ -23,18 +23,31 @@
 
 ### 0.1 Telnet
 
-Telnet (Telecommunication Network) adalah sebuah protokol jaringan yang digunakan pada Internet atau LAN (Local Area Network) untuk menyediakan fasilitas komunikasi berbasis teks dan interaksi dua arah dengan menggunakan koneksi terminal virtual.
+Bayangkan Anda ingin memastikan bahwa sebuah situs web dapat diakses melalui port 80 (yang biasanya digunakan untuk HTTP). Dengan Telnet, Anda bisa mengetik perintah:
 
-Protokol ini bisa mengakses komputer dari jarak jauh. Dengan Telnet Anda bisa mengakses file hingga data dari komputer tersebut ke komputer Anda.
+```
+telnet google.com 80
+```
+Jika Telnet terhubung, artinya situs tersebut aktif dan port 80 terbuka, memungkinkan komunikasi. Ini adalah cara sederhana untuk memeriksa apakah suatu layanan di server (seperti web) dapat dijangkau dari komputer Anda.
 
-Fungsi utama dari telnet adalah mengakses komputer (host/server) dari jarak jauh (remote login). Jadi secara ringkas Telnet berfungsi untuk menghubungkan dua komputer atau lebih dengan tujuan untuk mengelola komputer tujuan.Telnet adalah program yang memungkinkan komputer kita menjadi terminal dari komputer lain di Internet.
+#### Jadi, apa itu Telnet?
 
-Telnet sendiri sangan rentan disisi sekuritas, tampak seperti gambar di password kita dapat melihat kredensial sebuah router.
+Telnet (Telecommunication Network) adalah protokol jaringan yang memungkinkan kita terhubung dan berinteraksi dengan komputer lain dari jarak jauh melalui jaringan, seperti internet atau LAN (Local Area Network). Dengan Telnet, kita bisa mengakses file dan data di komputer lain, seolah-olah kita sedang duduk langsung di depan komputer tersebut.
+
+Fungsi utama Telnet adalah untuk login ke komputer lain (host/server) dari jarak jauh dan mengelolanya. Ini bisa sangat berguna, misalnya untuk administrasi sistem atau perbaikan jarak jauh.
+
+Namun, Telnet memiliki kelemahan serius dalam hal keamanan. Informasi seperti nama pengguna dan password dikirim dalam bentuk teks biasa (unencrypted) seperti pada gambar di bawah, yang membuatnya mudah disadap oleh pihak lain di jaringan. Karena itu, penggunaan Telnet sudah mulai digantikan oleh protokol yang lebih aman seperti SSH.
 ![Telnet](../Modul-1/images/telnet2.png)
 
 ### 0.2 SSH (Secure Shell)
 
-SSH merupakan sebuah protokol administrasi remote yang memperbolehkan pengguna untuk mengakses dan mengontrol server mereka dalam jaringan secara aman. Mulai dari menjalankan sebuah program, membuat folder, menghapus file, membuat file, transfer file, hingga menjalankan atau menghentikan sebuah services. Singkatnya, SSH memungkinkan pengguna untuk mengelola servernya dengan leluasa meskipun dari jarak jauh.
+Bayangkan Anda seorang pengembang yang bekerja dari rumah dan perlu memperbarui kode di server perusahaan. Dengan SSH, Anda bisa masuk ke server dari komputer Anda di rumah, mengedit atau mengupload file kode, dan menjalankan program untuk memastikan semuanya bekerja dengan baik, seolah-olah Anda berada di depan server tersebut secara langsung.
+
+![remote-worker](../Modul-1/images/remote-worker.jpg)
+
+#### Jadi, apa itu SSH?
+
+SSH adalah sebuah protokol yang memungkinkan Anda mengakses dan mengelola komputer atau server dari jarak jauh dengan aman. Anda bisa melakukan berbagai tugas, seperti menjalankan program, membuat atau menghapus file, dan mentransfer file ke server lain. SSH memastikan bahwa semua data yang dikirim dan diterima terlindungi dengan enkripsi, sehingga lebih aman daripada metode lama seperti Telnet.
 
 Cara kerja protokol SSH adalah dengan menerapkan model client-server. Koneksi yang terjadi adalah SSH client (komputer yang digunakan pengguna) melakukan koneksi ke SSH server (server remote yang dituju).
 
@@ -48,6 +61,15 @@ ssh username@host -p 2224
 
 ### 0.3 Netcat (nc)
 
+Bayangkan Anda ingin menguji apakah sebuah server dapat menerima data dari komputer Anda. Dengan Netcat, Anda bisa mengirim pesan ke server dan melihat apakah server merespons. Ini berguna untuk memeriksa koneksi jaringan atau debug aplikasi.
+
+```
+echo "Hello, Server!" | nc example.com 1234
+```
+Ini akan mengirimkan pesan "Hello, Server!" ke server di example.com pada port 1234.
+
+#### Jadi, apa itu Netcat?
+
 Netcat (atau nc) adalah utilitas baris perintah yang membaca dan menulis data melalui koneksi jaringan, menggunakan protokol TCP atau UDP. Perintah ini adalah salah satu alat yang paling kuat dalam jaringan dan persenjataan administrator sistem dan dianggap sebagai alat multi fungsi.
 
 Sintaks dari netcat sendiri adalah sebagai berikut:
@@ -57,6 +79,10 @@ nc [options] host port
 Secara default, Netcat akan mencoba untuk memulai koneksi TCP ke host dan port yang ditentukan. Jika Anda ingin membuat koneksi UDP, gunakan opsi -u.
 
 ### 0.4 Ping
+
+Bayangkan Anda mengirimkan pesan singkat ke komputer atau server dan menunggu balasan. Jika balasan datang dengan cepat, berarti koneksi jaringan baik dan perangkat tersebut dapat dijangkau. Jika tidak ada balasan atau lambat, mungkin ada masalah dengan koneksi atau perangkat tersebut. Ping membantu Anda mengetahui apakah jaringan berfungsi dengan baik.
+
+#### Jadi, apa itu Ping?
 
 Ping merupakan singkatan dari Packet Internet Network Groper. Secara sederhana, ping adalah perintah untuk mengecek status dan keberadaan host dalam sebuah jaringan internet.
 
@@ -81,12 +107,19 @@ Dengan perintah di atas, Anda akan mendapatkan informasi sebagai berikut:
 
 ### 1.1 Konsep IP
 
+Apakah Anda pernah bertanya-tanya bagaimana internet tahu bahwa saat Anda mengetik google.com, Anda akan dibawa ke situs web Google dan bukan ke situs lain? Sebenarnya, internet tidak memahami nama google.com secara langsung. Sebaliknya, internet menggunakan alamat IP untuk mengetahui ke mana harus mengirimkan data. Misalnya, google.com sebenarnya terhubung ke alamat IP 8.8.8.8.
+
+#### Apa itu IP?
+Bayangkan Anda mempunyai tetangga, cara Anda membedakan rumah Anda dengan rumah tetangga adalah dengan menggunakan alamat. Alamat IP seperti alamat rumah. Setiap perangkat, seperti komputer atau ponsel, memiliki alamat rumahnya sendiri di jaringan. Saat Anda mengirimkan sesuatu, seperti surat atau data, Anda perlu alamat rumah penerima agar kiriman Anda sampai ke tempat yang benar. Begitu juga dengan alamat IP: saat Anda mengirim data melalui internet, alamat IP memastikan data tersebut sampai ke perangkat yang tepat.
+
+![ip-alamat-rumah](../Modul-1/images/ip-alamat-rumah.jpg)
+
 IP adalah singkatan dari Internet Protocol, atau dalam bahasa Indonesia berarti Protokol Internet. Jadi, IP address atau internet protocol address adalah alamat protokol internet (alamat IP) yang mengidentifikasi segala perangkat yang terhubung ke jaringan, baik jaringan internet pada umumnya maupun lokal.
 
 Jenis-jenis alamat IP:
 #### a. IPv4
 
-Pv4 adalah alamat IP yang paling umum digunakan, dengan panjang 32-bit dan empat bagian (oktet) yang dipisahkan oleh titik. Nilai setiap oktet berkisar dari 0 – 255. Kepanjangan IPv4 yaitu Internet Protocol version 4.
+IPv4 adalah alamat IP yang paling umum digunakan, dengan panjang 32-bit dan empat bagian (oktet) yang dipisahkan oleh titik. Nilai setiap oktet berkisar dari 0 – 255. Kepanjangan IPv4 yaitu Internet Protocol version 4.
 
 Dengan kemungkinan ini, bisa disimpulkan bahwa saat ini ada sekitar 4,3 miliar alamat IPv4 yang berbeda di seluruh dunia.
 
@@ -117,11 +150,18 @@ Terlebih lagi, IPv6 tidak memiliki IP checksum sehingga pemrosesan packet menjad
 
 ### 1.2 Alokasi Port
 
-Port adalah mekanisme yang memungkinkan komputer terhubung dengan beberapa sesi koneksi dengan komputer dan program lainnya dalam jaringan. Setiap port dikaitkan dengan proses atau layanan tertentu. Port akan mengidentifikasi aplikasi dan service yang menggunakan koneksi di dalam protokol TCP/IP. Jadi, port memungkinkan komputer dapat membedakan antara berbagai jenis trafik, misalnya email yang masuk ke port yang berbeda dari halaman web.
+Saat Anda mengunjungi gedung, Anda memberi tahu nomor apartemen yang ingin Anda tuju agar resepsionis bisa mengarahkan Anda ke tempat yang tepat. Begitu juga dengan port dalam jaringan: saat Anda mengirimkan data, Anda perlu menyebutkan nomor port agar data sampai ke aplikasi atau layanan yang tepat di komputer atau server.
+
+![port-apartemen](../Modul-1/images/port-apartemen.jpg)
+
+#### Jadi, apa itu Port?
+
+Port adalah cara yang memungkinkan komputer untuk menangani beberapa koneksi dan program secara bersamaan di jaringan. Setiap port terhubung dengan aplikasi atau layanan tertentu. Misalnya, port membantu komputer membedakan antara email dan halaman web yang masuk, karena mereka menggunakan port yang berbeda.
 
 Untuk meningkatkan kompatibilitas, port sudah memiliki sistem standardisasi di semua perangkat yang terhubung ke jaringan. Setiap port memiliki identitas dalam bentuk angka 16-bit (dua byte) yang disebut sebagai Port Number.
 
 **Logical Port**
+
 Logical port adalah jalur yang digunakan oleh aplikasi untuk menghubungkan dengan komputer lain melalui jaringan TCP/IP. Salah satu contohnya adalah mengkoneksikan komputer dengan internet. Port ini berperan penting dalam jaringan komputer.
 
 Dilihat dari penomorannya, logical port terbagi menjadi tiga jenis. Ada jenis port yang terdaftar di Internet Assigned Numbers Authority (IANA), dan ada yang tidak, berikut pembagiannya:
@@ -168,7 +208,7 @@ Ada beberapa macam konfigurasi kabel. Dari urutan warnanya yang sesuai standar i
 ![Perbedaan urutan warna T568A dan T568B](images/urutan_warna.png)
 
 Sedangkan dari pemasangannya dibagi menjadi
-#### b. __Kabel Straight-Through__
+#### a. __Kabel Straight-Through__
   Jenis pengkabelan ini digunakan untuk menyambungkan dua tipe perangkat berbeda yang tersambung ke jaringan, yakni perangkat DTE (data terminal equipment) ke DCE (data circuit-terminating equipment) atau sebaliknya. Perangkat DTE adalah perangkat yang melakukan generate data digital dan bertindak sebagai source dan destination untuk data digital, contohnya adalah komputer, mikrokomputer, terminal, printer. DCE adalah perangkat yang menerima dan mengkonversi data ke link telekomunikasi yang sesuai, umumnya DCE adalah perangkat jaringan seperti router, switch, modem.
 
 ![Kabel Straight-Through](images/straight_through.png)
