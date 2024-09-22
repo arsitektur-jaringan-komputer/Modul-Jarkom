@@ -4,6 +4,12 @@
 
 ### 1.1.A Definition
 
+![Telp-Book](images/telp.png)
+
+Imagine you are looking for someone's phone number in your mobile contact book. Typically, you would search using the person's name, not their phone number. DNS works in a similar way. When you want to access a website, you type the name of the website (for example, "www.youtube.com"), and DNS will find out the IP address of the server that hosts that website. After that, your computer will connect to the server using that IP address.
+
+#### So, DNS is...
+
 DNS (_Domain Name System_) is a naming system for all device (smartphone, computer, atau
 network) connected to the internet. DNS Server functions is to translate domain name into IP. DNS were created to replace the inneficient use of file host system.
 
@@ -15,11 +21,19 @@ Client will request the IP address of a domain into the DNS Server. If the DNS s
 
 ### 1.1.C Application of DNS Server
 
+#### What is DNS?
+
+Imagine the DNS server as a translator. When you type a website name in your browser, your computer doesn't understand that name right away. So, it asks the DNS server to "translate" the website name into an IP address, like a house number on the internet. Once the DNS server provides the IP address, your computer can connect to that website.
+
 For Computer Network Practicum, we will use BIND9 application as DNS Server, because BIND(Berkley Internet Naming Daemon) is the most widely used DNS Server and also has quite complete feature
 
 
-
 ### 1.1.D List DNS Record
+
+#### What is DNS Record?
+
+A DNS record is an entry in the DNS server that helps link the website name you type with the server's IP address. So, when you type a website name (like www.youtube.com), the DNS record tells the browser where to go to find that website, much like directions on the internet.
+
 | Tipe          | Deskripsi                     |
 | ------------- |:-----------------------------|
 | A             | Mapping domain names to IP addresses (IPv4) of domain hosting computers|
@@ -31,6 +45,14 @@ For Computer Network Practicum, we will use BIND9 application as DNS Server, bec
 | TXT           | Allows administrators to enter random data into DNS records, these records are also used in the Sender Policy Framework specification|
 
 ### 1.1.E SOA (Start of Authority)
+
+#### What is SOA?
+
+SOA (Start of Authority) is an important record in DNS that provides information about the management of a DNS zone. You can think of a DNS zone like a housing complex, with the SOA record serving as the owner of the complex who is responsible for all the houses within it.
+
+#### What is DNS Zone?
+
+A DNS zone is a part of the DNS system that manages all records for a single domain or subdomain. Like a housing complex with many houses, each house represents a DNS record (such as A records, CNAME records, etc.) within that zone. All these records work together to ensure that information on the internet can be accessed correctly.
 
 is information that belongs to a DNS zone.
 
@@ -128,6 +150,10 @@ In this lab session we will create a domain **jarkom2022.com**.
 
 
 ### 1.2.C Setting nameserver in client
+
+#### What is nameserver?
+
+A nameserver is like a guide that provides directions on the internet. When you type a website name (for example, www.example.com) in your browser, the nameserver is responsible for finding out where that website is located and telling the browser its IP address.
 
 The domain that we create will not be immediately recognized by the client, so we have to change the nameserver settings on our client.
 
@@ -349,7 +375,7 @@ A subdomain is part of a parent domain name. A subdomain generally refers to a p
 
 ### 1.2.H Subdomain Delegation
 
-Subdomain delegation is the delegation of authority over a subdomain to a new DNS.
+Subdomain delegation is the process by which the owner of a domain grants authority to another DNS server to manage a specific subdomain. This allows the subdomain to be managed separately from the main domain.
 
 #### I. *EniesLobby* Server Configuration
 

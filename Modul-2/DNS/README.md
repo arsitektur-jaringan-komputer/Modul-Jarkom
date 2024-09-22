@@ -4,6 +4,12 @@
 
 ### 1.1.A Pengertian
 
+![Telp-Book](images/telp.png)
+
+Bayangkan kalian sedang mencari nomor telepon seseorang di buku kontak ponsel kalian. Umumnya kalian akan mencari dengan menggunakan nama orang yang dituju, bukan nomor teleponnya. Nah, DNS memiliki cara kerja yang sama. Saat kalian ingin mengakses sebuah website, kalian akan mengetik nama website tersebut (contohnya "www.youtube.com"), dan DNS akan mencari tahu nomor IP server yang menyimpan websute tersebut. Setelah itu, komputer kalian akan menghubungi server yang menggunakan alamat IP tersebut.
+
+#### Jadi, DNS adalah...
+
 DNS (_Domain Name System_) adalah sistem penamaan untuk semua device (smartphone, computer, atau
 network) yang terhubung dengan internet. DNS Server berfungsi menerjemahkan nama domain menjadi alamat IP. DNS dibuat guna untuk menggantikan sistem penggunaan file host yang dirasa tidak efisien.
 
@@ -11,13 +17,31 @@ network) yang terhubung dengan internet. DNS Server berfungsi menerjemahkan nama
 
 ![DNS](images/1.jpg)
 
-Client akan meminta alamt IP dari suatu domain ke DNS server. Jika pada DNS server data alamat IP dari DNS server tersebut ada maka akan di return alamat IP nya kembali menuju client. Jika DNS server tersebut tidak memiliki alamat IP dari domain tersebut maka dia akan bertanya kepada DNS server yang lain sampai alamat domain itu ditemukan.
+Berikut adalah cara kerja DNS:
+1. Ketika kamu mengetik alamat website (seperti www.contoh.com) di browser, komputer (client) akan meminta alamat IP dari website tersebut ke server DNS.
+
+2. Jika server DNS sudah tahu alamat IP dari website itu, maka server DNS akan mengirimkan alamat IP tersebut kembali ke komputer kamu.
+
+3. Jika server DNS tidak tahu alamat IP-nya, server tersebut akan bertanya ke server DNS lain sampai menemukan alamat IP yang tepat.
+
+4. Setelah alamat IP ditemukan, server DNS mengirimkannya ke komputer kamu, dan barulah browser dapat mengakses website tersebut.
+
+Hal ini mirip seperti saat mencari nomor telepon seseorang di buku kontak. Kalau buku kontak pertama tidak punya nomornya, kalian bisa mencari di buku kontak lainnya.
 
 ### 1.1.C Aplikasi DNS Server
+
+#### Apa itu DNS Server?
+
+Bayangkan DNS server seperti penerjemah. Ketika kamu mengetik nama website di browser, komputer tidak langsung mengerti nama tersebut. Jadi, komputer bertanya ke DNS server untuk "menerjemahkan" nama website menjadi alamat IP, seperti nomor rumah di internet. Setelah DNS server memberikan alamat IP, komputer kamu bisa menghubungi website itu.
 
 Untuk praktikum jarkom kita menggunakan aplikasi BIND9 sebagai DNS server, karena BIND(Berkley Internet Naming Daemon) adalah DNS server yang paling banyak digunakan dan juga memiliki fitur-fitur yang cukup lengkap.
 
 ### 1.1.D List DNS Record
+
+#### Apa itu DNS Record?
+
+DNS record adalah catatan di DNS server yang membantu menghubungkan nama website yang kalian ketik dengan alamat IP servernya. Jadi, saat kalian mengetik nama website (seperti www.youtube.com), DNS record memberitahu browser ke mana harus pergi untuk menemukan website tersebut, seperti petunjuk arah di internet.
+
 | Tipe          | Deskripsi                     |
 | ------------- |:-----------------------------|
 | A             | Memetakan nama domain ke alamat IP (IPv4) dari komputer hosting domain|
@@ -29,6 +53,14 @@ Untuk praktikum jarkom kita menggunakan aplikasi BIND9 sebagai DNS server, karen
 | TXT           | Mengijinkan administrator untuk memasukan data acak ke dalam catatan DNS, catatan ini juga digunakan di spesifikasi Sender Policy Framework|
 
 ### 1.1.E SOA (Start of Authority)
+
+#### Apa itu SOA?
+
+SOA (Start of Authority) adalah catatan penting dalam DNS yang memberikan informasi tentang pengelolaan suatu DNS zone. Kita bisa membayangkan DNS zone seperti kompleks perumahan, dan SOA record sebagai pemilik kompleks yang bertanggung jawab untuk semua rumah di dalamnya.
+
+#### Apa itu DNS Zone?
+
+DNS zone adalah bagian dari sistem DNS yang mengelola semua catatan untuk satu domain atau subdomain. Seperti sebuah kompleks perumahan yang memiliki banyak rumah, setiap rumah mewakili catatan DNS (seperti A record, CNAME record, dll.) dalam zone tersebut. Semua catatan ini bekerja sama untuk memastikan bahwa informasi di internet bisa diakses dengan benar.
 
 Adalah informasi yang dimiliki oleh suatu DNS zone.
 
@@ -124,8 +156,11 @@ Pada sesilab ini kita akan membuat domain **jarkom2022.com**.
   ```
 
 
-
 ### 1.2.C Setting nameserver pada client
+
+#### Apa itu nameserver?
+
+Nameserver adalah seperti petugas yang memberi arahan di jalan di dunia internet. Ketika kamu mengetik nama website (misalnya, www.contoh.com) di browser, nameserver adalah yang bertanggung jawab untuk mencari tahu di mana website itu berada dan memberi tahu browser alamat IP-nya.
 
 Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu kita harus merubah settingan nameserver yang ada pada client kita.
 
@@ -347,7 +382,7 @@ Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu
 
 ### 1.2.H Delegasi Subdomain
 
-Delegasi subdomain adalah pemberian wewenang atas sebuah subdomain kepada DNS baru.
+Delegasi subdomain adalah proses di mana pemilik domain memberikan wewenang kepada server DNS lain untuk mengelola subdomain tertentu. Ini memungkinkan subdomain tersebut dikelola secara terpisah dari domain utamanya.
 
 #### I. Konfigurasi Pada Server *EniesLobby*
 
