@@ -22,6 +22,11 @@ GNS3 Introductory Module
 **GNS3 (Graphical Network Simulator-3)** is a tool that helps you to be able to run a simulation from a small topology consisting of only a few tools on your computer to a topology that has many tools hosted on several servers.
 
 ## GNS3 Installation
+
+### GNS3 MacOS Installation
+Installation of GNS3 for macOS can be viewed in the following YouTube video:
+[![GNS3-MAC-INSTALLATION](https://img.youtube.com/vi/7N_hJ5bOofg/0.jpg)](https://youtu.be/7N_hJ5bOofg?si=thDG4ZY7FIdfaPlG)
+
 ### Import Image on VirtualBox
 1. Installing VirtualBox
 Please download from [following link](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html)
