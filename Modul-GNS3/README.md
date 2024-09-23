@@ -47,9 +47,11 @@ Silahkan mendowload dari link berikut [GNS3 VM 2.2.42](https://github.com/GNS3/g
 5. Ubah Network Adapter di VM
   - Pergi ke Settings -> Network
   - Ubah Adapter 1 ke Host-only Adapter dan sesuaikan dengan host network yang telah dibuat sebelumnya
-![setting-network-vm-1](images/setting-network-vm-3.jpg)
+![setting-network-vm-1](images/setting-network-vm-1.jpg)
   - Dan ubah Adapter 2 menjadi NAT <br/>
-![setting-network-vm-3](images/setting-network-vm-2.jpg)
+![setting-network-vm-2](images/setting-network-vm-2.jpg)
+  - Agar Web-UI dari gns3 dapat diakses pada browser host, tambahkan `port forwarding`(pada dropdown `Advance`) untuk port 80 pada guest, dengan begitu gns3 dapat diakses melalui `127.0.0.1:80` <br/>
+![setting-network-vm-3](images/setting-network-vm-3.jpg)
   - Lalu klik OK
 
 6.  Jalankan VM
@@ -436,20 +438,33 @@ Jika ada perintah menggunakan IP `[Prefix IP].1.2` maka contoh jika saya adalah 
 - Semua node sekarang seharusnya sudah bisa melakukan ping ke google, yang artinya adalah sudah tersambung ke internet
 
 ## Ketentuan
-- Praktikan **hanya** diperbolehkan menggunakan image docker `kuuhaku86/gns3-ubuntu`
+- Praktikan **hanya** diperbolehkan menggunakan image docker `danielcristh0/ubuntu-bionic:1.1`
 
 ## Peringatan, Saran, Tips, dan Trik
 - Apa yang diinstal di node **tidak persisten**, artinya saat Anda mengerjakan project tersebut lagi Anda perlu menginstal aplikasi itu kembali
 - Maka **selalu** simpan config di node ke directory `/root` sebelum keluar dari project
 - Anda bisa memasukkan command yang ingin selalu dijalankan di node tersebut ke file `/root/.bashrc` di bagian paling bawah. (Contoh : command iptables dan echo nameserver tadi)</br>
 ![tips-trik-1](images/tips-trik-1.jpg)
+- selain `/root/.bashrc`, anda dapat menambahkan startup script dengan meletakkan command pada `network config` dengan didahului kata `up` seperti contoh berikut:<br>
+![tips-trik-3](images/tips-trik-3.jpg)
 - Anda bisa melakukan ekspor project jika bekerja secara tim dengan pergi ke menu `Project settings` -> `Export portable project`.</br>
 ![tips-trik-2](images/tips-trik-2.jpg)
 - Jika mengerjakan menggunakan VM di local kalian sendiri. Kalian bisa mencegah hilangnya aplikasi atau file config dengan mematikan VM di mode save state.
 - Manfaatkan bash scripting untuk install-install aplikasi yang diperlukan sehingga tidak perlu memasukkan command satu-satu, lalu save ke `/root`.
+- Tidak disarankan untuk menggunakan gns3 pada WSL ataupun windows(GUI) *_jika-ada-masalah-selesaikan-sendiri_*
 ## Troubleshooting
+- *[UNTUK VIRTUALBOX]* jika gns3 tidak dapat terkoneksi dengan internet,<br>
+![troubleshoot-1](images/troubleshoot-1.png)
+coba ganti Network Adapter 2 Dari `NAT` menjadi `Bridged Adapter`, kemudian pada dropdown `Advanced` ubah `Promiscuous Mode` menjadi `Allow All` serta pastikan `Cable Connected` diaktifkan <br>
+![troubleshoot-2](images/troubleshoot-2.png)
 - Ada sesuatu yang biasanya bisa tetapi tiba-tiba tidak bisa? Coba matikan dulu VM nya baru nyalakan kembali. Masih tidak bisa? Coba cara instal GNS3 yang lain dahulu sebelum bertanya ke asisten.
 - Tidak bisa instal di satu metode? Coba cara instal yang lain dulu sebelum bertanya ke asisten.
+- Jika terjadi error 404 ketika akan meng-export project, <br>
+![troubleshoot-3](images/troubleshoot-3.png)
+  - pertama, masuk kedalam terminal dengan memilih opsi shell pada GUI:<br>
+![troubleshoot-4](images/troubleshoot-4.png)
+  - kemudian ubah permission directory penyimpanan project gns3 (sesuai path yang muncul pada error) dengan command `sudo chown -R gns3:gns3 /path/to/directory` <br>
+![troubleshoot-5](images/troubleshoot-5.png)
 
 
 ## Sumber
