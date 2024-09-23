@@ -8,9 +8,7 @@ Modul Pengenalan GNS3
     - [Import Image di VMWare](#import-image-di-vmware)
     - [Memasukkan Image Ubuntu ke GNS3](#memasukkan-image-ubuntu-ke-gns3)
   - [Penggunaan GNS3](#penggunaan-gns3)
-    - [Setup IP](#setup-ip)
-      - [Pembagian Prefix IP](#pembagian-prefix-ip)
-      - [Setup IP di Node](#setup-ip-di-node)
+    - [Setup IP di Node](#setup-ip-di-node)
     - [Akses Sebuah Node ke Internet](#akses-sebuah-node-ke-internet)
     - [Membuat Topologi](#membuat-topologi)
   - [Ketentuan](#ketentuan)
@@ -47,7 +45,7 @@ Silahkan mendowload dari link berikut [GNS3 VM 2.2.42](https://github.com/GNS3/g
 5. Ubah Network Adapter di VM
   - Pergi ke Settings -> Network
   - Ubah Adapter 1 ke Host-only Adapter dan sesuaikan dengan host network yang telah dibuat sebelumnya
-![setting-network-vm-1](images/setting-network-vm-1.jpg)
+![setting-network-vm-1](images/setting-network-vm-1-new.jpg)
   - Dan ubah Adapter 2 menjadi NAT <br/>
 ![setting-network-vm-2](images/setting-network-vm-2.jpg)
   - Agar Web-UI dari gns3 dapat diakses pada browser host, tambahkan `port forwarding`(pada dropdown `Advance`) untuk port 80 pada guest, dengan begitu gns3 dapat diakses melalui `127.0.0.1:80` <br/>
