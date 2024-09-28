@@ -185,13 +185,13 @@ Access the address using lynx __http://[IP Water7]/index.php__
 
 + __Note__:
 	If the web display does not appear as shown above and only plain text appears the contents of the index.php file, please install **libapache2-mod-php7.0** by running the command
-	```
-	apt-get install libapache2-mod-php7.0
-	```
+```
+apt-get install libapache2-mod-php7.0
+```
 	then restart apache with the command
-	```
-	service apache restart
-	```
+```
+service apache restart
+```
 
 ### B. Configuring a Website Using Port 8080
 #### B.1 Move to _directory_ `/etc/apache2/sites-available`
@@ -269,10 +269,10 @@ Copy the __000-default.conf__ file into the __jarkom2021.com__ file. Don't forge
 
 #### A.2 Open file _jarkom2021.com_
 + Add
-	```
-	ServerName jarkom2021.com
-	ServerAlias www.jarkom2021.com
-	```
+```
+ServerName jarkom2021.com
+ServerAlias www.jarkom2021.com
+```
 	According to [apache2.4 documentation](https://httpd.apache.org/docs/2.2/mod/core.html):
 	+ `ServerName` is "_Hostname and port that the server uses to identify itself_"
 	+ `ServerAlias` is "_Alternate names for a host used when matching requests to name-virtual host_"
@@ -335,11 +335,11 @@ mkdir /var/www/jarkom2021.com/assets/javascript
 
 #### B.2 Activate Directory Listing for /download
 + Move to _directory_ `/etc/apache2/sites-available` then open file ___jarkom2021.com___ and add
-	```
-	<Directory /var/www/jarkom2021.com/download>
-	    Options +Indexes
-	</Directory>
-	```
+```
+<Directory /var/www/jarkom2021.com/download>
+	Options +Indexes
+</Directory>
+```
 	don't forget to save the changes so that _directory_ ___download___ displays the contents of its _directory_.
 	
 	<img src="images/26.png" width="700">
@@ -364,11 +364,11 @@ Example to set `/var/www/jarkom2021.com/download`
 
 #### B.3 Turn off Directory Listing for /assets
 + Move to _directory_ `/etc/apache2/sites-available` then open file ___jarkom2021.com___ and add
-	```
-	<Directory /var/www/jarkom2021.com/assets>
-	    Options -Indexes
-	</Directory>
-	```
+```
+<Directory /var/www/jarkom2021.com/assets>
+	Options -Indexes
+</Directory>
+```
 	don't forget to save the changes so that _directory_ ___assets___ doesn't display the contents of its _directory_.
 	
 	<img src="images/28.png" width="700">
@@ -384,13 +384,13 @@ Because the URL __http://[IP Water7]/assets/javascript__ is too long, then Fulan
 Here are the working steps given by Poyoyo:
 
 + Move to _directory_ `/etc/apache2/sites-available` then open file ___jarkom2021.com___ and add
-	```    
-	<Directory /var/www/jarkom2021.com/assets/javascript>
-	    Options +Indexes
-	</Directory>
-	
-	Alias "/assets/js" "/var/www/jarkom2021.com/assets/javascript"
-	```
+```    
+<Directory /var/www/jarkom2021.com/assets/javascript>
+	Options +Indexes
+</Directory>
+
+Alias "/assets/js" "/var/www/jarkom2021.com/assets/javascript"
+```
 
 	don't forget to save the changes so that _directory_ ___assets/javascript___ can display the contents of its _directory_ when the user accesses __http://[IP Water7]/assets/js__.
 	
@@ -418,11 +418,11 @@ To solve the problem, create a __.htaccess__ file in the _directory_ to be manag
 
 An example is like the case above, where we want to set _mod rewrite_ from __[http://jarkom2021.com](http://jarkom2021.com)__ so that when we access the php file we don't need to write the extension. Then what we need to do is
 + Move to _directory_ `/var/www/jarkom2021.com` and create a __.htaccess__ file with the contents of the file
-	```
-	RewriteEngine On
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^([^\.]+)$ $1.php [NC,L]
-	```
+```
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+```
 
 	<img src="images/33.png" width="700">
 
@@ -432,18 +432,18 @@ An example is like the case above, where we want to set _mod rewrite_ from __[ht
 	+ `RewriteRule ^([^\.]+)$ $1.php [NC,L]` = $1 is the input parameter that will be searched by the webserver
 	* For more details [click here](https://httpd.apache.org/docs/2.4/rewrite/flags.html)
 + Create file _about.php_ inside _directory_ `/var/www/jarkom2021.com/` with contents
-	```
-	<?php
-		echo "This is About page";
-	?>
-	```
+```
+<?php
+	echo "This is About page";
+?>
+```
 + Move to _directory_ `/etc/apache2/sites-available` then open file ___jarkom2021.com___ and add
-	```
-	<Directory /var/www/jarkom2021.com>
-	    Options +FollowSymLinks -Multiviews
-	    AllowOverride All
-	</Directory>
-	```
+```
+<Directory /var/www/jarkom2021.com>
+	Options +FollowSymLinks -Multiviews
+	AllowOverride All
+</Directory>
+```
 	and don't forget to save the changes.
 	
 	<img src="images/34.png" width="700">
@@ -547,51 +547,51 @@ Nginx also offers several load balancing methods or algorithms that can be custo
 
 	If you choose this method, the load distribution will be assigned according to the server or master sequence number. If there are 3 nodes, the order is the first node, followed by the second node, and then the third node. After the third node receives the load, the sequence repeats from the first node. Round Robin is the default method in Nginx.
 
-	```bash
-	upstream mynode {
-		server srv1.example.com;
-		server srv2.example.com;
-		server srv3.example.com;
-	}
-	```
+```bash
+upstream mynode {
+	server srv1.example.com;
+	server srv2.example.com;
+	server srv3.example.com;
+}
+```
 - Least-Connection
 
 	Unlike Round Robin, which distributes based on server order, Least-Connection prioritizes distributing loads to nodes with the lowest workload. The master node records all loads and performance of each node and prioritizes those with the lowest load, ensuring no server is underloaded.
 
-	```bash
-	upstream mynode {
-        least_conn;
-        server srv1.example.com;
-        server srv2.example.com;
-        server srv3.example.com;
-    }
-	 ```
+```bash
+upstream mynode {
+	least_conn;
+	server srv1.example.com;
+	server srv2.example.com;
+	server srv3.example.com;
+}
+	```
 
 - IP Hash
 
 	This algorithm differs from the previous ones by hashing requests based on the user's IP address. Thus, each server consistently receives requests from different IP addresses. If a server is unavailable, requests from the client will be served by another server.
 
-	```bash
-	upstream mynode {
-		ip_hash;
-		server srv1.example.com;
-		server srv2.example.com;
-		server srv3.example.com;
-	}
-	```
+```bash
+upstream mynode {
+	ip_hash;
+	server srv1.example.com;
+	server srv2.example.com;
+	server srv3.example.com;
+}
+```
 
 - Generic Hash
 
 	The Hash Load Balancer method maps loads to each node by creating a hash based on specified text and/or Nginx Variables within the hash configuration.	
 
-	```bash
-	upstream mynode {
-    	hash $request_uri consistent;
-    	server srv1.example.com;
-		server srv2.example.com;
-		server srv3.example.com;
-	}
-	```
+```bash
+upstream mynode {
+	hash $request_uri consistent;
+	server srv1.example.com;
+	server srv2.example.com;
+	server srv3.example.com;
+}
+```
 
 #### C. Upstream
 In Nginx, "upstream" refers to a group or cluster of nodes that we want to use as a web server.
@@ -646,140 +646,140 @@ Set up the IP addresses on each node, ensuring that every node is connected to t
 
 - Foosha
 
-	```bash
-	auto eth0
-	iface eth0 inet dhcp
+```bash
+auto eth0
+iface eth0 inet dhcp
 
-	auto eth1
-	iface eth1 inet static
-		address [Prefix IP].1.1
-		netmask 255.255.255.0
+auto eth1
+iface eth1 inet static
+	address [Prefix IP].1.1
+	netmask 255.255.255.0
 
-	auto eth2
-	iface eth2 inet static
-		address [Prefix IP].2.1
-		netmask 255.255.255.0
-	```
+auto eth2
+iface eth2 inet static
+	address [Prefix IP].2.1
+	netmask 255.255.255.0
+```
 
 - Loguetown
 
-	```bash
-	auto eth0
-	iface eth0 inet static
-		address [Prefix IP].1.2
-		netmask 255.255.255.0
-		gateway [Prefix IP].1.1
-	```
+```bash
+auto eth0
+iface eth0 inet static
+	address [Prefix IP].1.2
+	netmask 255.255.255.0
+	gateway [Prefix IP].1.1
+```
 
 - Alabasta
 
-	```bash
-	auto eth0
-	iface eth0 inet static
-		address [Prefix IP].1.3
-		netmask 255.255.255.0
-		gateway [Prefix IP].1.1
-	```
+```bash
+auto eth0
+iface eth0 inet static
+	address [Prefix IP].1.3
+	netmask 255.255.255.0
+	gateway [Prefix IP].1.1
+```
 
 - Dressrosa
 
-	```bash
-	auto eth0
-	iface eth0 inet static
-		address [Prefix IP].2.2
-		netmask 255.255.255.0
-		gateway [Prefix IP].2.1
-	```
+```bash
+auto eth0
+iface eth0 inet static
+	address [Prefix IP].2.2
+	netmask 255.255.255.0
+	gateway [Prefix IP].2.1
+```
 
 - Enieslobby
 
-	```bash
-	auto eth0
-	iface eth0 inet static
-		address [Prefix IP].2.3
-		netmask 255.255.255.0
-		gateway [Prefix IP].2.1
-	```
+```bash
+auto eth0
+iface eth0 inet static
+	address [Prefix IP].2.3
+	netmask 255.255.255.0
+	gateway [Prefix IP].2.1
+```
 
 - Water7
 
-	```bash
-	auto eth0
-	iface eth0 inet static
-		address [Prefix IP].2.4
-		netmask 255.255.255.0
-		gateway [Prefix IP].2.1
-	```
+```bash
+auto eth0
+iface eth0 inet static
+	address [Prefix IP].2.4
+	netmask 255.255.255.0
+	gateway [Prefix IP].2.1
+```
 
 #### Dressrosa (DNS Server)
 
 - Install Bind9 and Nginx on Dressrosa:
 
-	```bash
-	apt-get update
-	apt-get install bind9 nginx
-	```
+```bash
+apt-get update
+apt-get install bind9 nginx
+```
 
 - Then, create a simple domain as shown in the previous module; for this topology, we will use `jarkom.site` as the main domain.
 
 - Contents of the __named.conf.local__ file:
 
-	```bash
-	//
-	// Do any local configuration here
-	//
+```bash
+//
+// Do any local configuration here
+//
 
-	// Consider adding the 1918 zones here, if they are not used in your
-	// organization
-	//include "/etc/bind/zones.rfc1918";
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
 
 
-	zone "jarkom.site" {
-			type master;
-			file "/etc/bind/jarkom/jarkom.site";
-	};
-
-	zone "2.168.192.in-addr.arpa" {
+zone "jarkom.site" {
 		type master;
-		file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
-	};
-	```
+		file "/etc/bind/jarkom/jarkom.site";
+};
+
+zone "2.168.192.in-addr.arpa" {
+	type master;
+	file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
+};
+```
 
 - Contents of the __jarkom.site__ file:
 
-	```bash
-	;
-	; BIND data file for local loopback interface
-	;
-	$TTL    604800
-	@       IN      SOA     jarkom.site. root.jarkom.site. (
-					2         ; Serial
-					604800    ; Refresh
-					86400     ; Retry
-					2419200   ; Expire
-					604800 )  ; Negative Cache TTL
-	;
-	@       IN      NS      jarkom.site.
-	@       IN      A       192.168.2.2
-	```
+```bash
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     jarkom.site. root.jarkom.site. (
+				2         ; Serial
+				604800    ; Refresh
+				86400     ; Retry
+				2419200   ; Expire
+				604800 )  ; Negative Cache TTL
+;
+@       IN      NS      jarkom.site.
+@       IN      A       192.168.2.2
+```
 
 - Contents of the __2.168.192.in-addr.arpa__ file:
 
-	```bash
-	;
-	; BIND data file for local loopback interface
-	;
-	$TTL    604800
-	@       IN      SOA     jarkom.site. root.jarkom.site. (
-					2         ; Serial
-					604800    ; Refresh
-					86400     ; Retry
-					2419200   ; Expire
-					604800 )  ; Negative Cache TTL
-	;
-	2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
-	2                               IN      PTR     jarkom.site.
-	```
+```bash
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     jarkom.site. root.jarkom.site. (
+				2         ; Serial
+				604800    ; Refresh
+				86400     ; Retry
+				2419200   ; Expire
+				604800 )  ; Negative Cache TTL
+;
+2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
+2                               IN      PTR     jarkom.site.
+```
 
 - Testing the domain created on `Alabasta`
 
@@ -789,94 +789,94 @@ Set up the IP addresses on each node, ensuring that every node is connected to t
 
 - Install and set up Nginx and PHP
 
-	```bash
-	apt-get update && apt install nginx php php-fpm -y
-	```
+```bash
+apt-get update && apt install nginx php php-fpm -y
+```
 
 - Check the PHP version
 
-	```bash
-	php -v
-	```
+```bash
+php -v
+```
 
 	<img src="images/lb-setup-2.png">
 
 - Create a new directory in `/var/www`, named `jarkom`
 
-	```bash
-	mkdir /var/www/jarkom
-	```
+```bash
+mkdir /var/www/jarkom
+```
 
 - Enter the `jarkom` directory and create a file named `index.php`
 
-	```php
-	<?php
-	echo "Halo, Kamu berada di EniesLobby";
-	?>
-	```
+```php
+<?php
+echo "Halo, Kamu berada di EniesLobby";
+?>
+```
 
 - Next, configure Nginx. First, navigate to `/etc/nginx/sites-available` and create a new file named `jarkom`
 
-	```
-	nano jarkom
+```
+nano jarkom
 
-	or
+or
 
-	touch jarkom
-	```
+touch jarkom
+```
 
 - Then add the following server block configuration:
 
-	```bash
-	server {
+```bash
+server {
 
-		listen 80;
+	listen 80;
 
-		root /var/www/jarkom;
+	root /var/www/jarkom;
 
-		index index.php index.html index.htm;
-		server_name _;
+	index index.php index.html index.htm;
+	server_name _;
 
-		location / {
-				try_files $uri $uri/ /index.php?$query_string;
-		}
-
-		# pass PHP scripts to FastCGI server
-		location ~ \.php$ {
-		include snippets/fastcgi-php.conf;
-		fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
-		}
-
-	location ~ /\.ht {
-				deny all;
-		}
-
-		error_log /var/log/nginx/jarkom_error.log;
-		access_log /var/log/nginx/jarkom_access.log;
+	location / {
+			try_files $uri $uri/ /index.php?$query_string;
 	}
-	```
+
+	# pass PHP scripts to FastCGI server
+	location ~ \.php$ {
+	include snippets/fastcgi-php.conf;
+	fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+	}
+
+location ~ /\.ht {
+			deny all;
+	}
+
+	error_log /var/log/nginx/jarkom_error.log;
+	access_log /var/log/nginx/jarkom_access.log;
+}
+```
 
 - Save the file, then create a `symlink`:
 
-	```bash
-	ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled
-	```
+```bash
+ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled
+```
 
 - Finally, restart Nginx:
 
-	```bash
-	service nginx restart
+```bash
+service nginx restart
 
-	or
+or
 
-	nginx -s reload
-	```
+nginx -s reload
+```
 
 - To check if the configuration is correct, use the following command:
 
-	```bash
-	nginx -t
-	```
+```bash
+nginx -t
+```
 
 	<img src="images/lb-setup-3.png">
 
@@ -885,11 +885,11 @@ Set up the IP addresses on each node, ensuring that every node is connected to t
 
 - Repeat the same steps as on the EniesLobby node, but change the configuration in `index.php` for easier testing:
 
-	```php
-	<?php
-	echo "Halo, Kamu berada di Water7";
-	?>
-	```
+```php
+<?php
+echo "Halo, Kamu berada di Water7";
+?>
+```
 #### Explanation
 
 ##### Server Block:
@@ -919,27 +919,27 @@ Set up the IP addresses on each node, ensuring that every node is connected to t
 
 - Return to the Dressrosa node and create a new file in `/etc/nginx/sites-available` named `lb-jarkom`
 
-	```bash
-	# Default using Round Robin
-	upstream myweb  {
-		server 192.168.2.3; #IP EniesLobby
-		server 192.168.2.4; #IP Water7
-	}
+```bash
+# Default using Round Robin
+upstream myweb  {
+	server 192.168.2.3; #IP EniesLobby
+	server 192.168.2.4; #IP Water7
+}
 
-	server {
-		listen 80;
-		server_name jarkom.site;
+server {
+	listen 80;
+	server_name jarkom.site;
 
-		location / {
-		proxy_pass http://myweb;
-		}
+	location / {
+	proxy_pass http://myweb;
 	}
-	```
+}
+```
 - lSave the file, then create a `symlink`
 
-	```bash
-	ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites-enabled
-	```
+```bash
+ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites-enabled
+```
 
 #### Explanation
 
