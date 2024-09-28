@@ -54,7 +54,7 @@ ___Load balancing___ adalah suatu mekanisme penyeimbangan beban yang bekerja den
 #### Kenapa dibutuhkan load balancing?
 Untuk menangani banyaknya pengguna yang mengakses layanan pada satu waktu dan menjaga layanan tetap tersedia setiap saat, dibutuhkan lebih dari satu komputer untuk memasang layanannya. Dengan layanan yang tersedia di banyak server, dibutuhkan mekanisme pembagian beban untuk memberikan beban yang seimbang pada setiap server. Dengan meletakkan layanan pada beberapa server dan pembagian beban yang optimal, setiap permintaan pengguna bisa ditangani dengan efisien.
 
-### 3. Apache2 Web Server
+### 3.	Apache2 Web Server
 
 Apache HTTP Server atau biasa disebut Apache adalah sebuah software web server cross-platform dan open source yang banyak digunakan. Dalam sesi lab ini, kita akan menggunakan Apache sebagai software web server kita.
 
@@ -544,11 +544,11 @@ Nginx  juga menawarkan beberapa metode atau algoritma load balancing yang dapat 
 
 	 ```bash
 	upstream mynode {
-        least_conn;
-        server srv1.example.com;
-        server srv2.example.com;
-        server srv3.example.com;
-    }
+        	least_conn;
+        	server srv1.example.com;
+        	server srv2.example.com;
+        	server srv3.example.com;
+    	}	
 	 ```
 
 - IP Hash
@@ -570,8 +570,8 @@ Nginx  juga menawarkan beberapa metode atau algoritma load balancing yang dapat 
 
 	```bash
 	upstream mynode {
-    	hash $request_uri consistent;
-    	server srv1.example.com;
+    		hash $request_uri consistent;
+    		server srv1.example.com;
 		server srv2.example.com;
 		server srv3.example.com;
 	}
@@ -807,13 +807,13 @@ server {
 	server_name _;
 
 	location / {
-			try_files $uri $uri/ /index.php?$query_string;
+		try_files $uri $uri/ /index.php?$query_string;
 	}
 
 	# pass PHP scripts to FastCGI server
 	location ~ \.php$ {
-	include snippets/fastcgi-php.conf;
-	fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
 	}
 
 	location ~ /\.ht {
@@ -822,7 +822,7 @@ server {
 	
 		error_log /var/log/nginx/jarkom_error.log;
 		access_log /var/log/nginx/jarkom_access.log;
-	}
+}
 ```
 
 - lalu simpan, kemudian buat `symlink`
@@ -847,8 +847,7 @@ atau
 nginx -t
 ```
 
-	<img src="images/lb-setup-3.png">
-
+<img src="images/lb-setup-3.png">
 
 #### Water7 (Nginx worker)
 
@@ -900,7 +899,7 @@ echo "Halo, Kamu berada di Water7";
 		server_name jarkom.site;
 
 		location / {
-		proxy_pass http://myweb;
+			proxy_pass http://myweb;
 		}
 	}
 	```
