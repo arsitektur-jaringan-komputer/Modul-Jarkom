@@ -706,53 +706,53 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 
 - isi dari file __named.conf.local__
 
-	```bash
-	zone "jarkom.site" {
-			type master;
-			file "/etc/bind/jarkom/jarkom.site";
-	};
-
-	zone "2.168.192.in-addr.arpa" {
+```bash
+zone "jarkom.site" {
 		type master;
-		file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
-	};
-	```
+		file "/etc/bind/jarkom/jarkom.site";
+};
+
+zone "2.168.192.in-addr.arpa" {
+	type master;
+	file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
+};
+```
 
 - isi dari file __jarkom.site__
 
-	```bash
-	;
-	; BIND data file for local loopback interface
-	;
-	$TTL    604800
-	@       IN      SOA     jarkom.site. root.jarkom.site. (
-					2         ; Serial
-					604800    ; Refresh
-					86400     ; Retry
-					2419200   ; Expire
-					604800 )  ; Negative Cache TTL
-	;
-	@       IN      NS      jarkom.site.
-	@       IN      A       192.168.2.2
-	```
+```bash
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     jarkom.site. root.jarkom.site. (
+			2         ; Serial
+			604800    ; Refresh
+			86400     ; Retry
+			2419200   ; Expire
+			604800 )  ; Negative Cache TTL
+;
+@       IN      NS      jarkom.site.
+@       IN      A       192.168.2.2
+```
 
 - isi dari file __2.168.192.in-addr.arpa__
 
-	```bash
-	;
-	; BIND data file for local loopback interface
-	;
-	$TTL    604800
-	@       IN      SOA     jarkom.site. root.jarkom.site. (
-					2         ; Serial
-					604800    ; Refresh
-					86400     ; Retry
-					2419200   ; Expire
-					604800 )  ; Negative Cache TTL
-	;
-	2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
-	2                               IN      PTR     jarkom.site.
-	```
+```bash
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     jarkom.site. root.jarkom.site. (
+				2         ; Serial
+				604800    ; Refresh
+				86400     ; Retry
+				2419200   ; Expire
+				604800 )  ; Negative Cache TTL
+;
+2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
+2                               IN      PTR     jarkom.site.
+```
 
 - lakukan pengujian untuk domain yang telah dibuat, dari `Alabasta`
 
