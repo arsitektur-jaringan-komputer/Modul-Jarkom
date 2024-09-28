@@ -25,6 +25,7 @@ GNS3 Introductory Module
 
 ### GNS3 MacOS Installation
 Installation of GNS3 for macOS can be viewed in the following YouTube video:
+<br>
 [![GNS3-MAC-INSTALLATION](https://img.youtube.com/vi/7N_hJ5bOofg/0.jpg)](https://youtu.be/7N_hJ5bOofg?si=thDG4ZY7FIdfaPlG)
 
 ### Import Image on VirtualBox

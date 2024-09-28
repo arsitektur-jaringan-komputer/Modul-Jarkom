@@ -23,6 +23,7 @@ Modul Pengenalan GNS3
 
 ### Instalasi GNS3 Mac0S
 Instalasi GNS3 untuk MacOS dapat melihat video youtube berikut:
+<br>
 [![GNS3-MAC-INSTALLATION](https://img.youtube.com/vi/7N_hJ5bOofg/0.jpg)](https://youtu.be/7N_hJ5bOofg?si=thDG4ZY7FIdfaPlG)
 
 

@@ -492,6 +492,489 @@ Meanwhile, when the user has a __IP NID 10.151.252.0/22__ then the page that app
 
 -->
 
+### 4. Nginx Web Server
+__Nginx__ (pronounced: engine-x) is an open-source software that serves multiple functions. This web server is known for its powerful performance and advanced features. Some of the functions of Nginx include:
+
+- Web server
+- Load Balancing
+- Reverse Proxy
+
+#### A. Nginx Installation
+
+##### 1. Open the Foosha Node
+
+Then run the command:
+
+```bash
+apt-get update
+apt-get install nginx
+```
+
+If you see the prompt _"Do you want to continue? [Y/n]"_  input `Y` and press ___enter___.
+
+Once the Nginx installation is complete, don't forget to run the following command:
+
+```bash
+service nginx start
+```
+
+To check the status of Nginx, you can use the command:
+
+```bash
+service nginx status
+```
+
+##### 2. Use `lynx` to access the web.
+
+Open the web page of __IP Water7 Masing-Masing Kelompok__ using `lynx` until the Nginx page appears as shown below.
+
+<img src="images/lynx-nginx-1.png">
+
+
+#### B. Load Balancing in Nginx
+
+The common load balancing architecture used in Nginx (default):
+
+<img src="images/nginx-lb-default.png">
+
+However, we can also use another type of architecture, namely __Weighted load balancing__, by adding the `weight` parameter in the Nginx configuration, allowing one node to have a higher weight or load.
+
+<img src="images/nginx-lb-weight.png">
+
+Nginx also offers several load balancing methods or algorithms that can be customized to meet the user's needs. Here are some commonly used methods:
+
+- Round Robin
+
+	If you choose this method, the load distribution will be assigned according to the server or master sequence number. If there are 3 nodes, the order is the first node, followed by the second node, and then the third node. After the third node receives the load, the sequence repeats from the first node. Round Robin is the default method in Nginx.
+
+	```bash
+	upstream mynode {
+		server srv1.example.com;
+		server srv2.example.com;
+		server srv3.example.com;
+	}
+	```
+- Least-Connection
+
+	Unlike Round Robin, which distributes based on server order, Least-Connection prioritizes distributing loads to nodes with the lowest workload. The master node records all loads and performance of each node and prioritizes those with the lowest load, ensuring no server is underloaded.
+
+	```bash
+	upstream mynode {
+        least_conn;
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+    }
+	 ```
+
+- IP Hash
+
+	This algorithm differs from the previous ones by hashing requests based on the user's IP address. Thus, each server consistently receives requests from different IP addresses. If a server is unavailable, requests from the client will be served by another server.
+
+	```bash
+	upstream mynode {
+		ip_hash;
+		server srv1.example.com;
+		server srv2.example.com;
+		server srv3.example.com;
+	}
+	```
+
+- Generic Hash
+
+	The Hash Load Balancer method maps loads to each node by creating a hash based on specified text and/or Nginx Variables within the hash configuration.	
+
+	```bash
+	upstream mynode {
+    	hash $request_uri consistent;
+    	server srv1.example.com;
+		server srv2.example.com;
+		server srv3.example.com;
+	}
+	```
+
+#### C. Upstream
+In Nginx, "upstream" refers to a group or cluster of nodes that we want to use as a web server.
+
+```bash
+http {
+    upstream nama_upstream {
+        nama_method;
+        server 192.168.1.2;
+        server 192.168.1.3;
+	server 192.168.1.4 weight=5;
+        server ....;
+    }
+}
+
+server {
+    location / {
+        proxy_pass http://nama_upstream;
+    }
+}
+
+```
+
+#### D. Reverse Proxy
+
+A Reverse Proxy is a proxy system used to forward or bypass client requests. It acts as a bridge between frontend and backend servers, ensuring smooth data exchange and request handling.
+
+Besides data exchange, Reverse Proxy also provides security and compression, reducing the load on servers when handling multiple requests simultaneously. Here's a simple script using a reverse proxy:
+
+```bash
+server {
+    listen 80;
+    server_name www.jarkom.site jarkom.site;
+
+    location /blog {
+       proxy_pass http://blog.jarkom.site:8000/posts/;
+    }
+}
+```
+
+If a visitor accesses http://jarkom.site/blog/my-post, Nginx will proxy this request to another server at http://blog.jarkom.site:8000/posts. However, the main server still receives and serves the connection, acting only as an intermediary.
+
+When the proxy server address includes a URI, such as /blog/, the forwarded request URI is replaced with the URI specified in the directive. If the proxy server address is specified without a URI, the request connection URI is forwarded to the proxy server.
+
+#### E. Setup Load Balancing di Nginx
+
+Create a simple topology as shown in the image below:
+
+<img src="images/lb.png">
+
+Set up the IP addresses on each node, ensuring that every node is connected to the internet.
+
+- Foosha
+
+	```bash
+	auto eth0
+	iface eth0 inet dhcp
+
+	auto eth1
+	iface eth1 inet static
+		address [Prefix IP].1.1
+		netmask 255.255.255.0
+
+	auto eth2
+	iface eth2 inet static
+		address [Prefix IP].2.1
+		netmask 255.255.255.0
+	```
+
+- Loguetown
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].1.2
+		netmask 255.255.255.0
+		gateway [Prefix IP].1.1
+	```
+
+- Alabasta
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].1.3
+		netmask 255.255.255.0
+		gateway [Prefix IP].1.1
+	```
+
+- Dressrosa
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].2.2
+		netmask 255.255.255.0
+		gateway [Prefix IP].2.1
+	```
+
+- Enieslobby
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].2.3
+		netmask 255.255.255.0
+		gateway [Prefix IP].2.1
+	```
+
+- Water7
+
+	```bash
+	auto eth0
+	iface eth0 inet static
+		address [Prefix IP].2.4
+		netmask 255.255.255.0
+		gateway [Prefix IP].2.1
+	```
+
+#### Dressrosa (DNS Server)
+
+- Install Bind9 and Nginx on Dressrosa:
+
+	```bash
+	apt-get update
+	apt-get install bind9 nginx
+	```
+
+- Then, create a simple domain as shown in the previous module; for this topology, we will use `jarkom.site` as the main domain.
+
+- Contents of the __named.conf.local__ file:
+
+	```bash
+	//
+	// Do any local configuration here
+	//
+
+	// Consider adding the 1918 zones here, if they are not used in your
+	// organization
+	//include "/etc/bind/zones.rfc1918";
+
+
+	zone "jarkom.site" {
+			type master;
+			file "/etc/bind/jarkom/jarkom.site";
+	};
+
+	zone "2.168.192.in-addr.arpa" {
+		type master;
+		file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
+	};
+	```
+
+- Contents of the __jarkom.site__ file:
+
+	```bash
+	;
+	; BIND data file for local loopback interface
+	;
+	$TTL    604800
+	@       IN      SOA     jarkom.site. root.jarkom.site. (
+					2         ; Serial
+					604800    ; Refresh
+					86400     ; Retry
+					2419200   ; Expire
+					604800 )  ; Negative Cache TTL
+	;
+	@       IN      NS      jarkom.site.
+	@       IN      A       192.168.2.2
+	```
+
+- Contents of the __2.168.192.in-addr.arpa__ file:
+
+	```bash
+	;
+	; BIND data file for local loopback interface
+	;
+	$TTL    604800
+	@       IN      SOA     jarkom.site. root.jarkom.site. (
+					2         ; Serial
+					604800    ; Refresh
+					86400     ; Retry
+					2419200   ; Expire
+					604800 )  ; Negative Cache TTL
+	;
+	2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
+	2                               IN      PTR     jarkom.site.
+	```
+
+- Testing the domain created on `Alabasta`
+
+	<img src="images/lb-setup-1.png">
+
+#### EniesLobby (Nginx worker)
+
+- Install and set up Nginx and PHP
+
+	```bash
+	apt-get update && apt install nginx php php-fpm -y
+	```
+
+- Check the PHP version
+
+	```bash
+	php -v
+	```
+
+	<img src="images/lb-setup-2.png">
+
+- Create a new directory in `/var/www`, named `jarkom`
+
+	```bash
+	mkdir /var/www/jarkom
+	```
+
+- Enter the `jarkom` directory and create a file named `index.php`
+
+	```php
+	<?php
+	echo "Halo, Kamu berada di EniesLobby";
+	?>
+	```
+
+- Next, configure Nginx. First, navigate to `/etc/nginx/sites-available` and create a new file named `jarkom`
+
+	```
+	nano jarkom
+
+	or
+
+	touch jarkom
+	```
+
+- Then add the following server block configuration:
+
+	```bash
+	server {
+
+		listen 80;
+
+		root /var/www/jarkom;
+
+		index index.php index.html index.htm;
+		server_name _;
+
+		location / {
+				try_files $uri $uri/ /index.php?$query_string;
+		}
+
+		# pass PHP scripts to FastCGI server
+		location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+		}
+
+	location ~ /\.ht {
+				deny all;
+		}
+
+		error_log /var/log/nginx/jarkom_error.log;
+		access_log /var/log/nginx/jarkom_access.log;
+	}
+	```
+
+- Save the file, then create a `symlink`:
+
+	```bash
+	ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled
+	```
+
+- Finally, restart Nginx:
+
+	```bash
+	service nginx restart
+
+	or
+
+	nginx -s reload
+	```
+
+- To check if the configuration is correct, use the following command:
+
+	```bash
+	nginx -t
+	```
+
+	<img src="images/lb-setup-3.png">
+
+
+#### Water7 (Nginx worker)
+
+- Repeat the same steps as on the EniesLobby node, but change the configuration in `index.php` for easier testing:
+
+	```php
+	<?php
+	echo "Halo, Kamu berada di Water7";
+	?>
+	```
+#### Explanation
+
+##### Server Block:
+
+ - `listen` defines the port on which Nginx will operate.
+
+ - `root` points to the directory containing the web files.
+
+- `index` determines the order of index files the server will try when a request is made.
+
+- `server_name` specifies the server's name. The underscore _ means the server will respond to any unmatched server names. This can be changed to an IP address, domain name, localhost, etc.
+
+- `location { ... }` configuration to handle requests to the root site. __try_files__ attempts to find the file matching __$uri__, then __$uri/__, and if that also fails, it directs to index.php using the __data query string__.
+
+- `location ~ \.php$` configuration to handle PHP files. This matches the .php extension in the URL and processes it using FastCGI, directing it to the PHP FastCGI socket. Adjust the PHP socket version as per the installed PHP version (e.g., PHP 7.2 in this case).
+
+- `location ~ /\.ht` restricts access to .ht files (like .htaccess), which is a common security measure to prevent access to sensitive files.
+
+- `error_log` directs error logs to a specific file.
+
+- `access_log` directs access logs to a specific file.
+
+- `ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled` creates a symbolic link of the Nginx configuration file from the /etc/nginx/sites-available directory to the /etc/nginx/sites-enabled directory.
+
+
+#### Dressrosa (Load Balancer)
+
+- Return to the Dressrosa node and create a new file in `/etc/nginx/sites-available` named `lb-jarkom`
+
+	```bash
+	# Default using Round Robin
+	upstream myweb  {
+		server 192.168.2.3; #IP EniesLobby
+		server 192.168.2.4; #IP Water7
+	}
+
+	server {
+		listen 80;
+		server_name jarkom.site;
+
+		location / {
+		proxy_pass http://myweb;
+		}
+	}
+	```
+- lSave the file, then create a `symlink`
+
+	```bash
+	ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites-enabled
+	```
+
+#### Explanation
+
+- `upstream` - defines a group of servers that will receive the load, named __myweb__.  In this case, there are two servers with IP addresses 192.168.2.3 and 192.168.2.4. The Round Robin method will distribute traffic equally between these two servers.
+
+- `listen` - specifies that this web server will listen for requests on port 80.
+
+- `location / { ... }` configures how Nginx will handle incoming requests. In this case, all requests will be forwarded to the server group defined in the __upstream__ block.
+
+#### Testinf
+Log into Loguetwon or Alabasta and run the command __lynx http://jarkom.site__.
+```bash
+lynx http://jarkom.site
+```
+<img src="images/lb-testing-1.gif">
+
+
+Try stopping the Nginx service on one of the workers, then test again.
+
+<img src="images/lb-testing-2.gif">
+
+#### Troubleshoting
+
+- `502 Bad Gateway` - Ensure the PHP socket used in the server block matches the installed PHP version.
+
+- `404 Not Found` - Ensure the PHP file location specified in the __root__ directive is correct.
+
+- `403 Forbidden` - PEnsure the filename specified in the __index__ directive is correct.
+
+- `service php7.2-fpm restart` - If  fails, try running service `service php7.2-fpm start`.
+
+- `Default page Nginx` - To remove the default Nginx page, run `sudo rm /etc/nginx/sites-enabled/default` or unlink it with `unlink /etc/nginx/sites-enabled/default`, then restart Nginx. This often happens when trying to display a PHP page but still seeing the default Nginx page.
+
+- Don't forget to restart the service when making changes to the configuration.
+
 ## I. Excercises
 <!-- #### TBA -->
 1. Download the practice questions page at https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/raw/master/Modul-2/Web%20server/page.zip (using wget)
