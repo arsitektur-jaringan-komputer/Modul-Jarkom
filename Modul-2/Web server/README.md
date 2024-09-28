@@ -756,7 +756,7 @@ $TTL    604800
 
 - lakukan pengujian untuk domain yang telah dibuat, dari `Alabasta`
 
-	<img src="images/lb-setup-1.png">
+<img src="images/lb-setup-1.png">
 
 #### EniesLobby (Nginx worker)
 
