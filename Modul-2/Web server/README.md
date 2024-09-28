@@ -708,8 +708,8 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 
 ```bash
 zone "jarkom.site" {
-		type master;
-		file "/etc/bind/jarkom/jarkom.site";
+	type master;
+	file "/etc/bind/jarkom/jarkom.site";
 };
 
 zone "2.168.192.in-addr.arpa" {
@@ -762,90 +762,90 @@ $TTL    604800
 
 - install lalu setup Nginx dan PHP
 
-	```bash
-	apt-get update && apt install nginx php php-fpm -y
-	```
+```bash
+apt-get update && apt install nginx php php-fpm -y
+```
 
 - cek versi dari PHP
 
-	```bash
-	php -v
-	```
+```bash
+php -v
+```
 
 	<img src="images/lb-setup-2.png">
 
 - buat direktori baru di `/var/www`, dengan nama `jarkom`
 
-	```bash
-	mkdir /var/www/jarkom
-	```
+```bash
+mkdir /var/www/jarkom
+```
 
 - masuk direktori `jarkom` lalu buat file `index.php`
 
-	```php
-	<?php
-	echo "Halo, Kamu berada di EniesLobby";
-	?>
-	```
+```php
+<?php
+echo "Halo, Kamu berada di EniesLobby";
+?>
+```
 
 - selanjutnya kita akan melakukan konfigurasi pada Nginx, pertama masuk ke direktori `/etc/nginx/sites-available` lalu buat file baru dengan nama `jarkom`
 
-	```
-	nano jarkom
-	```
+```
+nano jarkom
+```
 
 - kemudian isi dengan konfigurasi server block ini:
 
-	```bash
-	server {
+```bash
+server {
 
-		listen 80;
+	listen 80;
 
-		root /var/www/jarkom;
+	root /var/www/jarkom;
 
-		index index.php index.html index.htm;
-		server_name _;
+	index index.php index.html index.htm;
+	server_name _;
 
-		location / {
-				try_files $uri $uri/ /index.php?$query_string;
-		}
+	location / {
+			try_files $uri $uri/ /index.php?$query_string;
+	}
 
-		# pass PHP scripts to FastCGI server
-		location ~ \.php$ {
-		include snippets/fastcgi-php.conf;
-		fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
-		}
+	# pass PHP scripts to FastCGI server
+	location ~ \.php$ {
+	include snippets/fastcgi-php.conf;
+	fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+	}
 
 	location ~ /\.ht {
-				deny all;
+		deny all;
 		}
-
+	
 		error_log /var/log/nginx/jarkom_error.log;
 		access_log /var/log/nginx/jarkom_access.log;
 	}
-	```
+```
 
 - lalu simpan, kemudian buat `symlink`
 
-	```bash
-	ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled
-	```
+```bash
+ln -s /etc/nginx/sites-available/jarkom /etc/nginx/sites-enabled
+```
 
 - terakhir restart Nginx
 
-	```bash
-	service nginx restart
+```bash
+service nginx restart
 
-	atau
+atau
 
-	/etc/init.d/nginx restart
-	```
+/etc/init.d/nginx restart
+```
 
 - jika mengecek apakah konfigurasi yang dibuat sudah benar atau belum, bisa mengunakan perintah berikut:
 
-	```bash
-	nginx -t
-	```
+```bash
+nginx -t
+```
 
 	<img src="images/lb-setup-3.png">
 
@@ -854,11 +854,11 @@ $TTL    604800
 
 - lakukan hal yang sama seperti di node EniesLobby, namun bedakan pada konfigurasi `index.php` nya agar memudahkan pada saat pengujian
 
-	```php
-	<?php
-	echo "Halo, Kamu berada di Water7";
-	?>
-	```
+```php
+<?php
+echo "Halo, Kamu berada di Water7";
+?>
+```
 #### Penjelasan
 
 ##### Server Block:
