@@ -495,9 +495,7 @@ apt-get update
 apt-get install nginx
 ```
 
-jika muncul tulisan _"Do you want to continue? [Y/n]"_  input `Y` lalu tekan ___enter___.
-
-Apabila instalasi Nginx telah selesai, jangan lupa jalankan perintah berikut
+Apabila instalasi Nginx telah selesai, jangan lupa jalankan perintah berikut:
 
 ```bash
 service nginx start
@@ -603,9 +601,9 @@ server {
 
 #### D. Reverse Proxy
 
-Reverse Proxy adalah sistem proxy yang digunakan untuk meneruskan/bypass permintaan client. Reverse proxy sebagai jembatan diantara server frontend dan backend, dan bertugas untuk menjamin pertukaran data dan request berjalan secara lancar.
+Reverse proxy adalah konfigurasi server yang mendistribusikan traffic ke berbagai server back-end berdasarkan URL, memastikan bahwa beban server dibagi secara merata agar lebih efisien dan menjaga ketersediaan resource.
 
-Selain pertukaran data, Reverse Proxy juga memberikan keamanan dan kompresi, sehingga server menjadi lebih ringan dalam memenuhi banyak permintaan sekaligus. Berikut script sederhana menggunakan reverse proxy
+Namun, tidak sekadar menangani pengalihan traffic sederhana, server NGINX reverse proxy juga memainkan peran penting dalam meningkatkan performa aplikasi web. Server ini mampu mengelola konten dinamis dan statis secara efektif, merutekannya ke server yang sesuai untuk pemrosesan dan penyajian yang optimal.
 
 ```bash
 server {
@@ -618,9 +616,7 @@ server {
 }
 ```
 
-Jika pengunjung mengakses http://jarkom.site/blog/my-post, Nginx akan mem-proxy permintaan ini ke server lain dengan alamat http://blog.jarkom.site:8000/posts. Meski begitu, tetap server utama yang menerima dan melayani koneksi. Singkatnya hanya sebagai perantara.
-
-Ketika alamat server proxy berisi URI, /blog/, permintaan URI yang diteruskan ke server proxy digantikan oleh URI yang ditentukan dalam directive. Jika alamat server proxy ditentukan tanpa URI, maka permintaan koneksi ke URI diteruskan ke server proxy.
+Jika pengunjung mengakses http://jarkom.site/blog, Nginx akan mem-proxy permintaan ini ke server lain dengan alamat http://blog.jarkom.site:8000/posts.  Singkatnya server utama hanya sebagai perantara.
 
 #### E. Setup Load Balancing di Nginx
 
@@ -711,15 +707,6 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 - isi dari file __named.conf.local__
 
 	```bash
-	//
-	// Do any local configuration here
-	//
-
-	// Consider adding the 1918 zones here, if they are not used in your
-	// organization
-	//include "/etc/bind/zones.rfc1918";
-
-
 	zone "jarkom.site" {
 			type master;
 			file "/etc/bind/jarkom/jarkom.site";
@@ -805,10 +792,6 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 
 	```
 	nano jarkom
-
-	atau
-
-	touch jarkom
 	```
 
 - kemudian isi dengan konfigurasi server block ini:
@@ -855,10 +838,10 @@ Setup IP Address di masing-masing nodes, pastikan setiap nodes terhubung ke  int
 
 	atau
 
-	nginx -s reload
+	/etc/init.d/nginx restart
 	```
 
-- jika mengecek apakah konfigurasi yang dibuat sudah benar atau belum, bisa mengunakan perintah berikut
+- jika mengecek apakah konfigurasi yang dibuat sudah benar atau belum, bisa mengunakan perintah berikut:
 
 	```bash
 	nginx -t
