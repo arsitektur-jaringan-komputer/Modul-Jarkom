@@ -511,7 +511,7 @@ service nginx status
 
 ##### 2. Gunakan `lynx` untuk mengakses web.
 
-Buka web __IP Water7 Masing-Masing Kelompok__ dengan `lynx` sampai muncul halaman Nginx seperti di bawah ini.
+Lalu akses web servernya dengan menggunakan `lynx IP Foosha` di client.
 
 <img src="images/lynx-nginx-1.png">
 
