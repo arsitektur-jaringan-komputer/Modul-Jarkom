@@ -4,7 +4,7 @@ Pada bagian ini akan dijelaskan implementasi Load Balancer dalam kehidupan sehar
 
 ## Persiapan
 
-Untuk melakukan deployment aplikasi Laravel pada GNS3, tambahkan image docker `danielcristh0/debian-buster:1.1` pada GNS3 sesuai langkah yang tertera pada [Modul GNS3](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-GNS3#memasukkan-image-ubuntu-ke-gns3). Gunakan image tersebut untuk membuat topologi pada GNS3.
+Untuk melakukan deployment aplikasi Laravel pada GNS3, tambahkan image docker `danielcristh0/ubuntu-focal:1.1` pada GNS3 sesuai langkah yang tertera pada [Modul GNS3](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-GNS3#memasukkan-image-ubuntu-ke-gns3). Gunakan image tersebut untuk membuat topologi pada GNS3.
 
 Kemudian buatlah topologi dan lakukan konfigurasi sebagai berikut:
 
@@ -42,6 +42,24 @@ $TTL    604800
 www     IN      CNAME   implementasi.yyy.com.
 ```
 
+Untuk implementasi DNS Forwarder pada image docker ini sedikit berbeda. Kia lakukan nano pada `/etc/bind/named.conf.options`. Lalu
+
+```
+options {
+        directory "/var/cache/bind";
+
+        forwarders {
+                192.168.122.1;
+         };
+
+        dnssec-validation no;
+        allow-query{any;};
+        auth-nxdomain no;
+        listen-on-v6 { any; };
+};
+
+```
+
 Lakukan uji coba ping DNS pada Client:
 
 ![ping](assets/ping.png)
@@ -61,6 +79,12 @@ Kemudian nyalakan service mysql dengan perintah berikut
 ```sh
 service mysql start
 ```
+
+Untuk akses di dalam mysql, dapat menggunakan command
+```
+mysql
+```
+
 
 Lakukan konfigurasi mysql sebagai berikut dengan yyy merupakan kode kelompok:
 ```sql
@@ -106,31 +130,13 @@ Deployment akan dilakukan pada masing-masing worker. Untuk melakukan deployment,
 
 1. Instalasi Package yang Diperlukan
 
-    Pertama, lakukan update package-list dengan command:
-    
-    ```sh
+    Pertama, install properties dan add repository:
+    ```
     apt-get update
+    apt-get install software-properties-common
+    add-apt-repository ppa:ondrej/php
     ```
 
-    Lakukan instalasi package yang diperlukan untuk menambahkan repository PHP.
-
-    ```sh
-    apt-get install -y lsb-release ca-certificates apt-transport-https software-properties-common gnupg2
-    ```
-
-    unduh GPG-key dan tambahkan dengan perintah berikut:
-    
-    ```sh
-    curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg
-    ```
-
-    Tambahkan entri repositori baru untuk paket PHP Ondrej Sury ke worker dengan perintah berikut:
-
-    ```sh
-    sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-    ```
-
-    Perintah di atas akan menambahkan repository PHP sesuai dengan distro sistem yang digunakan kemudian menuliskannya pada file `php.list`
 
     Kemudian lakukan update repositori dengan perintah
     ```
@@ -261,6 +267,11 @@ Deployment akan dilakukan pada masing-masing worker. Untuk melakukan deployment,
     Jalankan service php-fpm dengan perintah berikut:
     ```
     service php8.0-fpm start
+    ```
+
+    Jangan lupa untuk restart nginx:
+    ```
+    service nginx restart
     ```
 
     Setelah semua perintah dijalankan, lakukan testing dengan menggunakan lynx hingga muncul halaman berikut:
