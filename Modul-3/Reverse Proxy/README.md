@@ -733,7 +733,7 @@ unlink /etc/nginx/sites-enabled/default
 ```
 
 ```bash
-ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites/enabled/
+ln -s /etc/nginx/sites-available/lb-jarkom /etc/nginx/sites-enabled/
 ```
 
 ```bash
