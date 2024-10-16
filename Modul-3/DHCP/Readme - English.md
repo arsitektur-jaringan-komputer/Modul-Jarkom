@@ -76,15 +76,15 @@ Video: [https://youtu.be/S43CFcpOZSI](https://youtu.be/S43CFcpOZSI)
 
 ### 1.2.1 ISC-DHCP-Server Installation
 
-In the current topology, we will use the router **Foosha** as a DHCP Server. We then should _install_ **isc-dhcp-server** at **Foosha** with the following commands:
+In the current topology, we will use **Westalis** as a DHCP Server. We then should _install_ **isc-dhcp-server** at **Westalis** with the following commands:
 
-1. Update _package lists_ at router **Foosha** with
+1. Update _package lists_ at router **Westalis** with
 
 ```
 apt-get update
 ```
 
-2. Install **isc-dhcp-server** at router **Foosha**
+2. Install **isc-dhcp-server** at node **Westalis**
 
 ```
 apt-get install isc-dhcp-server
@@ -96,7 +96,7 @@ apt-get install isc-dhcp-server
 dhcpd --version
 ```
 
-![image](https://user-images.githubusercontent.com/61197343/139392770-655e93b6-70f9-4cd9-8d67-8323b9cd25dc.png)
+![image](./images/dhcpd_version.jpeg)
 
 
 ### 1.2.2 DHCP Server Configuration

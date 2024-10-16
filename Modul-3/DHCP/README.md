@@ -184,7 +184,7 @@ Tidak hanya itu, kalian masih ingat kan dengan topologi yang kita pakai di modul
 
 !![topologi-lawas](https://raw.githubusercontent.com/arsitektur-jaringan-komputer/Modul-Jarkom/master/Modul-GNS3/images/create-topology-1.jpg)
 
-Nah, untuk implementasi DHCP ini, pada subnet yang berisi client, kita tambahkan satu node baru bernama **`Jipangu`**. Kemudian, untuk subnet yang berisi DNS Server dan lainnya, kita tambahkan satu node baru bernama **`Westalis`** yang nantinya akan berperan sebagai **`DHCP Server`**.
+Nah, untuk implementasi DHCP ini, pada subnet yang berisi client, kita tambahkan satu node baru bernama **`Jipangu`**. Kemudian, untuk subnet yang berisi DNS Server dan lainnya, kita tambahkan satu node baru bernama **`Westalis`** yang nantinya akan berperan sebagai **`DHCP Server`**. Topologi terbaru terdapat di `modul prerequisite`
 
 
 ### **1.2.1 Instalasi ISC-DHCP-Server**
@@ -209,7 +209,7 @@ apt-get install isc-dhcp-server
 dhcpd --version
 ```
 
-![image](https://user-images.githubusercontent.com/61197343/139392770-655e93b6-70f9-4cd9-8d67-8323b9cd25dc.png)
+![image](./images/dhcpd_version.jpeg)
 
 
 ### **1.2.2 Konfigurasi DHCP Server**
@@ -224,9 +224,9 @@ Silakan edit *file* konfigurasi `isc-dhcp-server` pada `/etc/default/isc-dhcp-se
 
 ##### A.2. Tentukan *Interface*
 
-Coba perhatikan topologi yang telah kalian buat. Contoh dari topologi yang dibuat adalah `interface` dari **Westalis** yang menuju ke `switch` adalah `eth0`, maka kita akan memilih `interface` `eth0` untuk diberikan layanan DHCP.
+Coba perhatikan topologi yang telah kalian buat. Contoh dari topologi yang dibuat adalah `interface` dari **Westalis** yang menuju ke `switch` adalah `eth0`, maka kita akan memilih `interfacev4` `eth0` untuk diberikan layanan DHCP.
 
-![image](https://user-images.githubusercontent.com/61197343/139393762-9f2f6df2-489d-42bc-84bf-e2270b74f71f.png)
+![image](./images/interfaces.jpeg)
 
 #### B. Melakukan Konfigurasi pada `isc-dhcp-server`
 
@@ -269,9 +269,9 @@ subnet 'NID' netmask 'Netmask' {
 | 8      | `default-lease-time 'Waktu'`                       | Lama waktu DHCP server meminjamkan `IP Address` kepada client, dalam satuan detik. Default 600 detik                                                                                                                                                                                                      |
 | 9      | `max-lease-time 'Waktu'`                           | Waktu maksimal yang di alokasikan untuk peminjaman IP oleh DHCP server ke client dalam satuan detik. Default 7200 detik                                                                                                                                                                                |
 
-Pada contoh berikut, kita akan menggunakan DNS 202.46.129.2. Maka konfigurasinya menjadi sebagai berikut.
+Pada contoh berikut, kita akan menggunakan DNS 192.168.2.3. Maka konfigurasinya menjadi sebagai berikut.
 
-![image](https://user-images.githubusercontent.com/61197343/139402619-96aaa7ee-896e-4632-b80c-621d0a8781b8.png)
+![image](./images/subnet.jpeg)
 
 ##### A.3. Restart Service `isc-dhcp-server` Dengan Perintah
 
@@ -310,13 +310,13 @@ Pada `/etc/default/isc-dhcp-relay` lakukan konfigurasi berikut.
 
 ```
 SERVERS="[IP Address dari DHCP Server]"  
-INTERFACES="eth1 eth2"
+INTERFACES="eth1 eth2 eth3"
 OPTIONS=
 ```
 
-Isi dari `INTERFACES=` harus menyesuaikan jumlah *interface* *output* yang terhubung dengan *client*. Pada kasus ini, terdapat 2 *interface* *output* yang terhubung dengan *client*, yaitu `eth1` dan `eth2`. 
+Isi dari `INTERFACES=` harus menyesuaikan jumlah *interface* *output* yang terhubung dengan *client*. Pada kasus ini, terdapat 3 *interface* *output* yang terhubung dengan *client*, yaitu `eth1`, `eth2`, dan `eth3`. 
 
-!![eth](https://raw.githubusercontent.com/arsitektur-jaringan-komputer/Modul-Jarkom/nur-change/Modul-3/DHCP/images/ethrelay.png)
+!![eth](./images/output_foosha.jpeg)
 
 Tidak lupa, `SERVERS=` berisi `IP Address` dari `DHCP Server` yang terhubung.
 
@@ -410,29 +410,29 @@ Setelah `IP Address` dipinjamkan ke sebuah client, maka `IP Address` tersebut ti
 Lakukan konfigurasi pada DHCP, yaitu pada `/etc/dhcp/dhcpd.conf` untuk mengatur *leasing time* pada masing-masing `subnet` yang terhubung. Pada topologi yang digunakan sekarang, `subnet` tersebut adalah `subnet` yang terhubung dengan **Alabasta**, **Loguetown**, dan **Jipangu**. 
 
 ```
-subnet [Prefix IP].1.0 netmask 255.255.255.0 {
-    range [Prefix IP].1.50 [Prefix IP].1.88;
-    range [Prefix IP].1.120 [Prefix IP].1.155;
-    option routers [Prefix IP].1.1;
-    option broadcast-address [Prefix IP].1.255;
-    option domain-name-servers [Prefix IP].2.2;
+subnet [Prefix IP].3.0 netmask 255.255.255.0 {
+}
+
+subnet [Prefix IP].2.0 netmask 255.255.255.0 {
+    range [Prefix IP].2.120 [Prefix IP].2.155;
+    option routers [Prefix IP].2.1;
+    option broadcast-address [Prefix IP].2.255;
+    option domain-name-servers [Prefix IP].2.3;
     default-lease-time 300;
     max-lease-time 6900;
 
 }
-subnet [Prefix IP].2.0 netmask 255.255.255.0 {
-    range [Prefix IP].2.10 [Prefix IP].2.30;
-    range [Prefix IP].2.60 [Prefix IP].2.85;
-    option routers [Prefix IP].2.1;
-    option broadcast-address [Prefix IP].2.255;
-    option domain-name-servers [Prefix IP].2.2;
+subnet [Prefix IP].1.0 netmask 255.255.255.0 {
+    range [Prefix IP].1.60 [Prefix IP].1.85;
+    option routers [Prefix IP].1.1;
+    option broadcast-address [Prefix IP].1.255;
+    option domain-name-servers [Prefix IP].2.3;
     default-lease-time 600;
     max-lease-time 6900;
-
 }
 ```
 
-Pada konfigurasi tersebut, dilakukan *leasing* pada subnet `[Prefix IP].1.0` dan `[Prefix IP].3.0`. Pengaturan lama waktu *leasing* ditunjukkan pada tiga baris terakhir pada setiap pengaturan `subnet` dengan satuan ukuran *milisecond*. Selanjutnya, silahkan *restart* `isc-dhcp-server` dengan perintah sebagai berikut.s
+Pada konfigurasi tersebut, dilakukan *leasing* pada subnet `[Prefix IP].1.0` dan `[Prefix IP].2.0`. Pengaturan lama waktu *leasing* ditunjukkan pada tiga baris terakhir pada setiap pengaturan `subnet` dengan satuan ukuran *milisecond*. Selanjutnya, silahkan *restart* `isc-dhcp-server` dengan perintah sebagai berikut.s
 
 ```
 service isc-dhcp-server stop
@@ -449,7 +449,7 @@ Konfigurasi dapat dilakukan sebagai berikut.
 >
 > Ternyata kapal milik Franky yang diparkir di **Jipangu** selain menjadi *client*, juga akan digunakan sebagai *server* suatu aplikasi jual beli kapal, sehingga akan menyulitkan jika `IP Address`nya berganti-ganti setiap **Jipangu** terhubung ke jaringan internet. Oleh karena itu, **Jipangu** membutuhkan `IP Address` yang tetap dan tidak berganti-ganti.
 
-Masalah yang dihadapi oleh Franky adalah IP address dari Jipangu yang berganti-ganti. Sehingga, requirementnya adalah `IP address` yang tetap. Oleh karena itu, solusi yang dapat ditawarkan adalah dengan fitur dari DHCP Server, yaitu layanan untuk "menyewakan" `IP Address` secara tetap pada suatu *host*, yakni **Fixed Address**. Dalam kasus ini, **Jipangu** akan mendapatkan `IP Address` tetap, yaitu `[Prefix IP].1.13`.
+Masalah yang dihadapi oleh Franky adalah IP address dari Jipangu yang berganti-ganti. Sehingga, requirementnya adalah `IP address` yang tetap. Oleh karena itu, solusi yang dapat ditawarkan adalah dengan fitur dari DHCP Server, yaitu layanan untuk "menyewakan" `IP Address` secara tetap pada suatu *host*, yakni **Fixed Address**. Dalam kasus ini, **Jipangu** akan mendapatkan `IP Address` tetap, yaitu `[Prefix IP].2.13`.
 
 #### A. Konfigurasi `DHCP Server` di **Westalis**
 
@@ -462,17 +462,17 @@ Buka dan edit file `/etc/dhcp/dhcpd.conf`.
 ```
 host Jipangu {
     hardware ethernet 'hwaddress_milik_Jipangu';
-    fixed-address [Prefix IP].1.13;
+    fixed-address [Prefix IP].2.13;
 }
 ```
 
-![image](https://user-images.githubusercontent.com/61197343/139408258-00413d72-cd37-4a6f-8df8-8af62ac81dc2.png)
+![image](./images/host_jipangu.jpeg)
 
 **Penjelasan**:
 
 - Untuk mencari `hwaddress_milik_Jipangu` (*hardware* *address* milik Jipangu), kamu bisa mengeksekusi perintah `ip a` di Jipangu, kemudian lihat *interface* yang berhubungan dengan `DHCP Relay`, dalam kasus ini adalah `eth0`, dan lihat pada bagian `link/ether`. Silakan *copy* *address* tersebut dan masukkan pada konfigurasi `isc-dhcp-server` di **Westalis**.
 
-![image](https://user-images.githubusercontent.com/61197343/139408469-54699b15-3ce3-43e0-828a-5a1fdef434e5.png)
+![image](./images/hwaddress_jipangu.jpeg)
 
 - **fixed-address** adalah `IP Address` yang "disewa" tetap oleh **Jipangu**
 
@@ -492,7 +492,7 @@ host Jipangu {
 hwaddress ether 'hwaddress_milik_Jipangu'
 ```
 
-![image](https://user-images.githubusercontent.com/61197343/139409129-4ced81d2-2248-4582-ade5-bbba00aaf434.png)
+![image](./images/interfaces_jipangu.png)
 
 **Keterangan**:
 *Hardware addresss* perlu di-_setting_ juga di `/etc/network/interfaces` untuk mencegah bergantinya `hwaddress` saat *project* GNS3 dimatikan atau di-*export*.
@@ -505,9 +505,9 @@ Silakan *restart* *node* Jipangu di halaman GNS3.
 
 Periksa IP **Jipangu** dengan melakukan `ip a`.
 
-![image](https://user-images.githubusercontent.com/61197343/139409496-78bc3496-a836-4ec9-9aa6-c4dfa778d32d.png)
+![image](./images/ip_jipangu.png)
 
-`IP Address` **Jipangu** telah berubah menjadi `192.168.0.13` sesuai dengan *Fixed* *Address* yang diberikan oleh `DHCP Server`. 👋👋👋
+`IP Address` **Jipangu** telah berubah menjadi `192.168.2.13` sesuai dengan *Fixed* *Address* yang diberikan oleh `DHCP Server`. 👋👋👋
 
 ---
 
@@ -519,7 +519,7 @@ Setelah melakukan berbagai konfigurasi di atas, kalian bisa memastikan apakah` D
 2. Menyalakan kembali semua *node*.
 3. Lakukan perintah `ip a` pada setiap *node*.
 
-Jika *node client* berganti `IP Address` sesuai dengan *range* yang telah dikonfigurasi pada `DHCP Server` dan **Jipangu** tetap mendapatkan `IP Address` `[Prefix IP].0.13`, maka konfigurasi `DHCP Server` kalian berhasil.
+Jika *node client* berganti `IP Address` sesuai dengan *range* yang telah dikonfigurasi pada `DHCP Server` dan **Jipangu** tetap mendapatkan `IP Address` `[Prefix IP].2.13`, maka konfigurasi `DHCP Server` kalian berhasil.
 
 ## **Soal Latihan**
 
@@ -530,6 +530,6 @@ Jika *node client* berganti `IP Address` sesuai dengan *range* yang telah dikonf
 - [http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm](http://www.tcpipguide.com/free/t_DHCPGeneralOperationandClientFiniteStateMachine.htm)
 
 
-# **Love Sign dari Oniel 🙆‍♀️🙆‍♂️**
+# *Yeay, Tamat. Jempol dari Gracie 👍*
 
-<img src="https://media.tenor.com/ml0i8eZ4Oe4AAAAC/onieljkt48-jkt48oniel.gif" width="500" height="500">
+<img src="https://tenor.com/view/grace-greci-grace-octaviani-grace-jkt48-greci-jkt48-gif-12082126541423360500.gif" width="100%">

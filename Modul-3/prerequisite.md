@@ -12,7 +12,31 @@ Buat topologi baru sesuai dengan peta topologi jaringan dibawah.
 
 Konfigurasi interface sama seperti [Modul GNS3](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml), dengan tambahan:
 
-* **Dressrosa** (SEBAGAI REVERSE PROXY)
+* **Foosha** (SEBAGAI ROUTER & DHCP RELAY)
+```
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+	address [Prefix IP].1.1
+	netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+	address [Prefix IP].2.1
+	netmask 255.255.255.0
+
+auto eth3
+iface eth3 inet static
+	address [Prefix IP].3.1
+	netmask 255.255.255.0
+
+up iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s [Prefix IP].0.0/16
+
+```
+
+* **Dressrosa** (SEBAGAI REVERSE PROXY & LOAD BALANCER)
 ```
 auto eth0
 iface eth0 inet static
@@ -30,6 +54,16 @@ iface eth0 inet static
 	gateway [Prefix IP].2.1
 ```
 
+* **Westalis** (SEBAGAI DHCP SERVER)
+```
+auto eth0
+iface eth0 inet static
+	address [Prefix IP].3.2
+	netmask 255.255.255.0
+	gateway [Prefix IP].3.1
+
+```
+
 ## 3. Instalasi
 
 Dalam modul 3, kita akan menggunakan 3 aplikasi, yaitu:
@@ -40,13 +74,13 @@ Dalam modul 3, kita akan menggunakan 3 aplikasi, yaitu:
 
 Lakukan langkah-langkah berikut:
 
-1. Mengupdate package list pada **Foosha**, **EniesLobby** dan **Dressrosa**.
+1. Mengupdate package list pada **Foosha**, **Westalis**, **EniesLobby** dan **Dressrosa**.
 
     ```
     apt-get update
     ```
 
-2. Menginstal **isc-dhcp-server** pada router **Foosha**
+2. Menginstal **isc-dhcp-server** pada server **Westalis**
 
     ```
     apt-get install isc-dhcp-server
@@ -62,6 +96,12 @@ Lakukan langkah-langkah berikut:
 
     ```
     apt-get install nginx
+    ```
+
+5. Menginstal **isc-dhcp-relay** pada router **Foosha**
+
+    ```
+    apt-get install isc-dhcp-relay
     ```
 
 ## Konfigurasi DNS
