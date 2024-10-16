@@ -60,6 +60,11 @@ options {
 
 ```
 
+Jangan lupa untuk lakukan restart pada bind9:
+```
+service named restart
+```
+
 Lakukan uji coba ping DNS pada Client:
 
 ![ping](assets/ping.png)
