@@ -8,6 +8,6 @@
 
 1. [Dynamic Host Configuration Protocol (DHCP)](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/DHCP)
 2. [Reverse Proxy](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Reverse%20Proxy)
-3. [Apache JMeter](ttps://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Jmeter)
+3. [Apache JMeter](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Jmeter)
 4. [Implementasi](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Implementasi)
 
