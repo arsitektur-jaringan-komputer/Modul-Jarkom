@@ -94,9 +94,9 @@ Berikut adalah contoh dari request yang berhasil:
 1. Simpan testplan
 2. Sasuk ke folder bin di apache jmeter
 lalu jalankan perintah seperti berikut di terminal
-``sh
+```sh
 jmeter -n -t <nama test plan> -l <[nama log output].csv> -e -o <[direktori output]>
-``
+```
 3. Berikut adalah contoh penggunaan jmeter melalui cli dan isi folder output:
 
 <img width="927" alt="image" src="https://github.com/user-attachments/assets/cccce392-d9f0-487b-948b-808d5bee18c9">
