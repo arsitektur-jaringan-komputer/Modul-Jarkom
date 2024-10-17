@@ -92,7 +92,7 @@ Berikut adalah contoh dari request yang berhasil:
 *Note: Kalau kalian ingin menjalankan di dalam gns3, kalian bisa copy kontent dari file testplan yang sudah disimpan di host os, lalu paste kontennya ke sebuah file di node gns3 dengan format file [nama file].jmx
 
 1. Simpan testplan
-2. Sasuk ke folder bin di apache jmeter
+2. Masuk ke folder bin di apache jmeter
 lalu jalankan perintah seperti berikut di terminal
 ```sh
 jmeter -n -t <nama test plan> -l <[nama log output].csv> -e -o <[direktori output]>
