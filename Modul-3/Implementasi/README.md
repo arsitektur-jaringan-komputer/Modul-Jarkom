@@ -501,7 +501,7 @@ Lalu, masuk ke direktori JMeter dan pastikan isinya telah sesuai seperti ini
 Masuk terlebih dahulu ke
 
 ```
-cd apache-jmeter-5.6.3/bin/jmeter
+cd apache-jmeter-5.6.3/bin
 ```
 
 Kemudian lakukan testing dengan JMeter dengan syntax:
