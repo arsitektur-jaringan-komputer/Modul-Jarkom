@@ -481,7 +481,7 @@ Untuk mengetahui hasil pengujian, kalian bisa menambahkan listener dengan `klik 
 
 ![view_result_tree](./assets/view_result_tree.png)
 
-Lalu klik tombol hijau diatas dan save file .jmx. Hasil dari .jmx tersebut kita cat lalu copas contentnya
+Lalu save file dengan `haha.jmx`. Hasil dari .jmx tersebut kita cat lalu copas contentnya
 
 ![content_jmx](./assets/content_jmx.png)
 
