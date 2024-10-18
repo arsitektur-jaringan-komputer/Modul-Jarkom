@@ -1144,7 +1144,7 @@ Step 1 - Di Dressrosa silahkan generate user dan password menggunakan htpasswd
 htpasswd -c /etc/nginx/.htpasswd luffy
 ```
 
-Step 2 - Tambahkan konfigurasi Auth Basic di `/etc/nginx/sites/available/lb-jarkom`
+Step 2 - Tambahkan konfigurasi Auth Basic di `/etc/nginx/sites-available/lb-jarkom`
 
 ```bash
 auth_basic "Administrator's Area";
