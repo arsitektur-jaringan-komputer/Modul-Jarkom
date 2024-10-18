@@ -324,6 +324,8 @@ Untuk melakukan testing, buka halaman `implementasi.yyy.com` pada client dengan 
 
 ## Load Testing
 
+### Testing dengan Apache Benchmark
+
 Untuk melakukan testing, lakukan instalasi Apache Benchmark sesuai pada [modul instalasi Apache Benchmark](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Reverse%20Proxy#231-apache-benchmark).
 
 Kemudian lakukan testing pada endpoint `/api/airing/` sebagai berikut:
@@ -455,3 +457,67 @@ Dari hasil testing di atas, terdapat informasi bahwa terjadi 1921 request yang g
 
 Error tersebut disebabkan oleh upstream membutuhkan waktu terlalu lama untuk menjawab request dan NGINX menganggap upstream telah gagal dalam memproses permintaan tersebut.
 
+### Testing dengan Apache JMeter
+
+Untuk melakukan testing, lakukan instalasi Apache JMeter sesuai pada [modul instalasi Apache JMeter](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Jmeter).
+
+Kemudian buka thread group dengan `klik kanan (nama testplan) -> Add -> Threads (Users) -> Thread Group` dan setup `Number of Threads` sebanyak `3`
+
+![thread_group](./assets/thread_group_apache.png)
+
+Buat HTTP Request sampler dengan `klik kanan Thread Group -> Sampler -> HTTP Request`
+
+![http_request](./assets/http_request.png)
+
+Masukkan domain dari GNS yang telah ditentukan. Dalam modul ini kita gunakan `implementasi.yyy.com`.
+
+![implementasi](./assets/jmeter_implementasi.png)
+
+Ubah HTTP request dan path sesuai yang kita inginkan. Disini kita gunakan `GET` dan mengarah ke endpoint yang ingin kita uji yaitu `/api/airing`
+
+![jmeter_api_airing](./assets/api_airing.png)
+
+Untuk mengetahui hasil pengujian, kalian bisa menambahkan listener dengan `klik kanan (Test Plan) -> Add -> Listener -> View Result Tree`
+
+![view_result_tree](./assets/view_result_tree.png)
+
+Lalu klik tombol hijau diatas dan save file .jmx. Hasil dari .jmx tersebut kita cat lalu copas contentnya
+
+![content_jmx](./assets/content_jmx.png)
+
+
+Setelah itu kita copas dan masukkan di dalam client gns. Nama file testplan `haha.jmx`
+
+![haha_jmx](./assets/haha_jmx.png)
+
+![hasil_copas](./assets/hasil_copas.png)
+
+Kemudian di `GNS` jangan lupa untuk install `java` dan `JMeter` dalam GNS sesuai pada  [modul instalasi Apache JMeter](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Jmeter).
+
+Lalu, masuk ke direktori JMeter dan pastikan isinya telah sesuai seperti ini
+
+![direktori_jmeter](./assets/direktori_jmeter.png)
+
+Masuk terlebih dahulu ke
+
+```
+cd apache-jmeter-5.6.3/bin/jmeter
+```
+
+Kemudian lakukan testing dengan JMeter dengan syntax:
+
+```
+./jmeter -n -t <nama test plan> -l <[nama log output].csv> -e -o <[direktori output]>
+```
+
+> Di kasus ini, nama test plan sesuai dengan nama .jmx yang telah dimasukkan dalam gns yaitu `haha.jmx`
+
+> Untuk nama log output kita gunakan `haha.csv`
+
+> Direktori output adalah `haha`
+
+![hasil_haha](./assets/haha_csv.png)
+
+Masuk ke dalam folder `haha` dan isinya terdapat `index.html`. Kalian bisa buka hasilnya di `.html`
+
+![hasil_haha](./assets/hasil_haha.png)
