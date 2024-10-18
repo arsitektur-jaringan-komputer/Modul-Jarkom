@@ -498,16 +498,11 @@ Lalu, masuk ke direktori JMeter dan pastikan isinya telah sesuai seperti ini
 
 ![direktori_jmeter](./assets/direktori_jmeter.png)
 
-Masuk terlebih dahulu ke
-
-```
-cd apache-jmeter-5.6.3/bin
-```
 
 Kemudian lakukan testing dengan JMeter dengan syntax:
 
 ```
-./jmeter -n -t <nama test plan> -l <[nama log output].csv> -e -o <[direktori output]>
+./apache-jmeter-5.6.3/bin/jmeter -n -t <nama test plan> -l <[nama log output].csv> -e -o <[direktori output]>
 ```
 
 > Di kasus ini, nama test plan sesuai dengan nama .jmx yang telah dimasukkan dalam gns yaitu `haha.jmx`
