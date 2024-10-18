@@ -23,6 +23,7 @@ Berikut adalah perbedaan dari masing masing jenis testing:
 Apache jmeter bisa digunakan untuk melakukan testing melalui Command Line Interface (CLI). Tetapi akan lebih mudah apabila konfigurasinya dilakukan menggunakan Graphical User Interface (GUI).
 Untuk sementara, kita cukup akan mengimplementasikan load testing sederhana menggunakan ``Thread Group``.
 
+### Persiapan jmeter di linux
 
 Cek apakah java sudah terinstall
 ```sh
@@ -43,7 +44,10 @@ Lalu extract Apacher jmeternya
 ```sh
 unzip apache-jmeter-5.6.3.zip
 ```
-
+### Persiapan jmeter di windows
+1. Download jmeter di link berikut: https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
+2. Unzip foldernya
+3. Masuk ke folder bin, akan terdapat file ``ApacheJmeter.jmx``
 ## Membuat Benchmark Testplan
 
 Karena membuat testplan lebih mudah dilakukan dengan GUI, maka lakukan hal serupa pada host os.
@@ -95,7 +99,7 @@ Berikut adalah contoh dari request yang berhasil:
 2. Masuk ke folder bin di apache jmeter
 lalu jalankan perintah seperti berikut di terminal
 ```sh
-jmeter -n -t <nama test plan> -l <[nama log output].csv> -e -o <[direktori output]>
+./jmeter -n -t <nama test plan> -l <[nama log output].csv> -e -o <[direktori output]>
 ```
 3. Berikut adalah contoh penggunaan jmeter melalui cli dan isi folder output:
 
