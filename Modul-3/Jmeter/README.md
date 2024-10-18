@@ -95,13 +95,20 @@ Berikut adalah contoh dari request yang berhasil:
 
 *Note: Kalau kalian ingin menjalankan di dalam gns3, kalian bisa copy kontent dari file testplan yang sudah disimpan di host os, lalu paste kontennya ke sebuah file di node gns3 dengan format file [nama file].jmx
 
-1. Simpan testplan
-2. Masuk ke folder bin di apache jmeter
+1. Simpan testplan di host os
+
+2. Buka file dan copy konte dari testplan
+
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/901fb0d7-f757-4ddf-adc1-7c7c31f4dbc9">
+
+3. Copy ke node di gns3 dan simpan dengan format [namafile].jmx
+
+4. Masuk ke folder bin di apache jmeter
 lalu jalankan perintah seperti berikut di terminal
 ```sh
 ./jmeter -n -t <nama test plan> -l <[nama log output].csv> -e -o <[direktori output]>
 ```
-3. Berikut adalah contoh penggunaan jmeter melalui cli dan isi folder output:
+5. Berikut adalah contoh penggunaan jmeter melalui cli dan isi folder output:
 
 <img width="927" alt="image" src="https://github.com/user-attachments/assets/cccce392-d9f0-487b-948b-808d5bee18c9">
 
