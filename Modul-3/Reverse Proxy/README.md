@@ -230,6 +230,12 @@ location ~ \.php$ {
 }
 ```
 
+Start service PHP-FPM
+
+```bash
+service php7.2-fpm start
+```
+
 Step 4 - Lakukan pengujian dari Loguetown
 
 ```bash
@@ -340,7 +346,7 @@ Step 4 - Ubah beberapa konfigurasi menjadi seperti berikut:
 [dressrosa_site]
 user = dressrosa_user
 group = dressrosa_user
-listen = /var/run/php8.1-fpm-dressrosa-site.sock
+listen = /var/run/php7.2-fpm-dressrosa-site.sock
 listen.owner = www-data
 listen.group = www-data
 php_admin_value[disable_functions] = exec,passthru,shell_exec,system
