@@ -68,3 +68,46 @@ b. Manfaat
 - <b> Efisiensi</b>, hal ini didapat dalam mudahnya melakukan otomasisasi dan pengelolaan infrastruktur menggunakan konfigurasi Terraform.
 - <b> Konsistensi</b>, dikarenakan diatur dengan menggunakan satu konfigurasi, maka banyak node akan konsisten dengan pengaturan satu konfigurasi.
 - <b> Skalabilitas</b>, dengan menggunakan satu konfigurasi Terraform, kalian dapat membuat/mengelola banyak infrastruktur dengan mudah.
+
+#### Terraform bisa digunain di case kaya gimana?
+
+Bayangkan kamu sedang praktikum, dan soal praktikumnya meminta kamu untuk membuat 10,000 VM dengan ukuran disk spesifik, di mana 5,000 VM menggunakan image Debian, dan sisanya menggunakan image Kali Linux. Karena kamu orang yang cerdas, kamu hanya membuat satu konfigurasi Terraform. Di dalam konfigurasi itu, kamu menentukan untuk membuat 5,000 VM dengan image Debian dan 5,000 VM lainnya dengan image Kali Linux, serta menetapkan ukuran disk sesuai ketentuan soal.
+
+Setelah selesai membuat konfigurasi, kamu tinggal menjalankan perintah Terraform, dan semua VM akan dibuat secara otomatis. Dengan cara ini, kamu tidak perlu repot membuat VM satu per satu.
+
+## B. Instalasi
+### 1. Linux
+#### a. Update dan Install Dependensi
+```
+sudo apt-get update && sudo apt-get install -y wget unzip
+```
+#### b. Download Terraform
+```
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform
+```
+#### c. Verifikasi Instalasi
+```
+terraform -v
+```
+
+### 2. Windows
+#### a. Download Terraform
+Buka situs berikut https://developer.hashicorp.com/terraform/install dan pilih binary download yang disesuaikan dengan spesifikasi laptop kalian, pilih 386 untuk 32-bit dan amd64 untuk 64-bit/x86.
+
+#### b. Ekstrak File
+Ekstrak file yang awalnya di-zip, lalu di situ terdapat `terraform.exe`.
+
+#### c. Tambahkan Terraform ke Path
+Pindahkan file `terraform.exe` ke folder yang sudah ada di Path, atau tambahkan folder tempat `terraform.exe` berada ke Environment Variables Path.
+
+<b> Langkah menambahkan ke path: </b>
+- Buka <b>System Properties > Advanced > Environment Variables</b>.
+- Pilih <b>Path</b> pada <b>System Variables</b>, klik <b>Edit</b>, dan tambahkan lokasi folder `terraform.exe`.
+
+#### D. Verifikasi Instalasi
+Lakukan verifikasi instalasi pada command prompt (CMD) atau Powershell dengan command berikut:
+```
+terraform -v
+```

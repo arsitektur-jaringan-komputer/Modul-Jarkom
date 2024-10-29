@@ -26,6 +26,9 @@ Instalasi GNS3 untuk MacOS dapat melihat video youtube berikut:
 <br>
 [![GNS3-MAC-INSTALLATION](https://img.youtube.com/vi/7N_hJ5bOofg/0.jpg)](https://youtu.be/7N_hJ5bOofg?si=thDG4ZY7FIdfaPlG)
 
+<b>Note:</b> Khusus untuk Mac dengan processor Intel, dapat mendownload image yang sama seperti windows dengan link berikut
+[GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VirtualBox.2.2.42.zip). Sehabis itu langsung saja extract.
+
 
 ### Import Image di VirtualBox
 1. Install VirtualBox
