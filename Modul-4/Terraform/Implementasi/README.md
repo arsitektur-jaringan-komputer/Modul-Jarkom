@@ -1,37 +1,41 @@
-# Implementasi Terraform
+# Implementasi Terraform Dengan VirtualBox
 
-## A. Implementasi Terraform Dengan Virtual Box
+Panduan ini menjelaskan langkah-langkah untuk melakukan *spawning* VM menggunakan Terraform pada VirtualBox dan konfigurasi routing serta subnetting dalam VM.
 
-Pada modul ini, kita akan mencoba melakukan _spawning_ vm dengan menggunakan Terraform pada Virtual Box. Setelah melakukan _spawning_, kita akan mencoba mengonfigurasikan routing dan subnetting yang terdapat di dalam VM.
+## Prerequisites
 
-### 1. Prerequisites
+Pastikan perangkat berikut sudah terpasang pada komputer Anda:
+- [VirtualBox](https://www.virtualbox.org/)
+- [Terraform](https://www.terraform.io/)
 
-Pastikan kalian sudah menginstall virtual box dan terraform pada laptop kalian.
+## Langkah-Langkah
 
-### 2. Atur network
+### 1. Konfigurasi Network
 
-Buatlah VirtualBox Host-Only Ethernet Adapter dengan cara:
-1. Klik tulisan network pada sidebar atas
-2. Klik create, jika ada pop up mengenai warning pembuatan interface, maka klik yes
-3. Klik VirtualBox Host-Only Ethernet Adapter baru yang muncul setelah melakukan create
-4. Lalu pada adapter, kalian bisa atur IPv4 address dan netmask sesuai yang kalian mau
+Buatlah VirtualBox Host-Only Ethernet Adapter dengan langkah berikut:
+1. Buka **Network** di sidebar atas VirtualBox.
+![Network-Vbox](../../assets/network-vbox.png)
+2. Klik **Create**. Jika muncul peringatan, klik **Yes**.
+3. Pilih adapter yang baru dibuat, **VirtualBox Host-Only Ethernet Adapter**.
+![Host-Only-Adapter-Vbox](../../assets/host-only-vbox.png)
+4. Atur IPv4 address dan netmask sesuai kebutuhan. Contoh: `192.168.10.0/24` dan `192.168.20.0/24`.
+![IPv4-conf-vbox](../../assets/ipv4-conf-vbox.png)
 
-Pada contoh implementasi ini, kita akan menggunakan IPv4 address berupa `192.168.10.0/24` dan `192.168.20.0/24`.
+### 2. Topologi
 
-### 3. Topologi
+Topologi yang akan kita buat melibatkan satu router yang terhubung ke dua node, masing-masing dengan subnet `192.168.10.0/24` dan `192.168.20.0/24`.
 
-Pada contoh ini kita akan membuat contoh subnetting dan routing yang sangat sederhanaaaaaa.
+![Topologi](../../assets/topo.png)
 
-[Images](../../assets/topo.png)
+### 3. Konfigurasi Terraform
 
-Pada gambar topologi di atas, terdiri dari satu router yang akan diconnect pada 2 node, dengan masing-masing node memiliki subnet `192.168.10.0/24` dan `192.168.20.0/24`
+Pada implementasi ini, kita akan menggunakan tiga file Terraform: `main.tf`, `variables.tf`, dan `outputs.tf`.
 
-### 3. Terraform script
+#### main.tf
 
-Pada contoh ini, kita akan membuat 3 file terraform, yaitu `main.tf`, `variables.tf`, dan `outputs.tf`.
+File ini mendefinisikan infrastruktur untuk router dan dua node:
 
-Pada `main.tf`, kita akan isi dengan ini:
-```
+```hcl
 terraform {
   required_providers {
     virtualbox = {
@@ -89,39 +93,26 @@ resource "virtualbox_vm" "node2" {
   }
 }
 ```
+#### Penjelasan
 
-Oke, sekarang mari kita breakdown code di atas:
-1. Di sini kita akan menggunakan provider `terrafarm` untuk membantu melakukan spawning vm pada virtualbox dengan menggunakan terraform.
+**Provider**
+<br>
+Menggunakan `terra-farm/virtualbox` sebagai provider untuk membuat VM di VirtualBox. Provider ini memungkinkan Terraform untuk mengelola sumber daya VirtualBox, termasuk pembuatan dan pengaturan virtual machines.
 
-    ```
-    terraform {
-        required_providers {
-            virtualbox = {
-                source  = "terra-farm/virtualbox"
-                version = "0.2.2-alpha.1"
-            }
-        }
-    }
-    ```
+**Resources**
+- **Router**
+  - VM yang bertindak sebagai router dengan:
+    - Dua hostonly adapter untuk jaringan internal
+    - Satu adapter NAT untuk koneksi internet
 
-2. Di code di atas, juga didefine 3 resources yang akan dipakai, yaitu router, node1, dan node2. Pada setiap resources tersebut memiliki konfigurasi sebagai berikut
+- **Node1 dan Node2**
+  - Dua node dengan satu adapter hostonly yang terhubung pada subnet masing-masing, yang memungkinkan komunikasi antara node dan router.
 
--   name: nama vm
--   image: file image untuk vm
--  cpus: jumlah cpu yang dialokasikan
--  memory: jumlah memori yang dialokasikan
--  user_data: file konfigurasi yang dapat digunakan untuk inisialisasi VM
+#### variables.tf
 
-    Karena dari code di atas mengunakan file yang bernama `user_data`. Maka, buatlah file dengan nama tersebut tanpa isi apapun.
+File ini mendefinisikan variabel-variabel yang diperlukan.
 
--   network_adapter: menentukan bagaimana VM dapat terhubung dengan jaringan maupun berkomunikasi dengan node lain
-    
-    Pada network adapter, terdapat beberapa jenis. Dalam contoh di atas, digunakan 2, yaitu `nat` yang digunakan untuk memungkingkan VM mengakses internet melalui ip host-nya dan `hostonly`yang menghubungkan VM ke host tanpa akses eksternal ke internet.
-
-
-Jika kalian liat di code pada `main.tf`, maka kalian akan menemukan beberapa penulisan `var`. Dalam hal ini, `var` merupakan variable. Untuk code yang akan ada di `variables.tf` dapat dilihat dalam berikut:
-
-```
+```hcl
 variable "router_name" {
   description = "Name of the router VM"
   type        = string
@@ -176,46 +167,173 @@ variable "host_only_adapter2" {
   default     = "VirtualBox Host-Only Ethernet Adapter #5"
 }
 ```
+### Catatan Tambahan
+- Buat file kosong bernama `user_data` di direktori proyek, yang akan digunakan dalam inisialisasi VM.
+- Periksa pengaturan adapter jaringan di VirtualBox untuk memastikan mereka sesuai dengan konfigurasi yang diberikan di `variables.tf`.
 
-Nah kode di atas memiliki format berupa:
+### 4. Menjalankan Perintah Terraform
 
-```
-variable "<nama variable>" {
-  description = "<deskripsi variable>"
-  type        = <jenis variable>
-  default     = "<default isi variable>"
-}
-```
-Penjelasan:
-- `variable` adalah blok untuk mendeklarasikan variabel input dalam Terraform.
-- `description` memberikan deskripsi singkat tentang kegunaan variabel ini.
-- `type` mendefinisikan tipe data variabel.
-- `default` menentukan nilai awal atau bawaan untuk variabel. Jika tidak ada nilai lain yang diberikan, Terraform akan menggunakan nilai default ini.
-
-### 4. Terraform command
-
-Untuk menjalankan kode di atas, dapat dilakukan dengan langkah-langkah berikut:
+Untuk menjalankan konfigurasi Terraform, ikuti langkah-langkah berikut:
 
 #### a. Navigasi ke Direktori Proyek
-Pastikan bahwa kamu sudah berada pada direktori yang menyimpan `main.tf`
+Pastikan bahwa Anda berada di direktori proyek yang menyimpan `main.tf`.
 
-#### b. Membuat Rencana (Plan)
+#### b. Inisiasi Terraform
+```bash
+terraform init
+```
+
+#### c. Membuat Rencana (Plan)
 ```bash
 terraform plan
 ```
-Terraform akan menampilkan rencana implementasi. Pastikan untuk meninjau hasil rencana ini. Jika hasilnya sesuai dengan yang diharapkan, kamu bisa melanjutkan ke langkah berikutnya.
 
-#### c. Menerapkan Konfigurasi (Apply)
+#### d. Menerapkan Konfigurasi (Apply)
 ```bash
 terraform apply
 ```
-Setelah meninjau rencana, Terraform akan meminta konfirmasi. Ketik yes untuk melanjutkan. Namun, jika ingin melewati konfirmasi yes, maka lakukan perintah ini
+
+Atau untuk menghindari konfirmasi, gunakan:
 ```bash
 terraform apply -auto-approve
 ```
 
-#### d. Memeriksa Output
-Setelah `terraform apply` selesai, Terraform akan menampilkan output yang telah didefinisikan (seperti IP Router dan Node).
+### 5. Memeriksa Output
 
-### 5. Konfigurasi dalam VM
-Setelah menjalankan perinrah `terraform apply` dan VM telah terbuat dalam virtualbox, maka kita bisa 
+Setelah `terraform apply` dijalankan, VM akan muncul di VirtualBox. Masuk ke dalam VM tersebut untuk melanjutkan konfigurasi.
+
+### 6. Konfigurasi IP
+
+#### Router
+Setelah melakukan _spawning_ VM, buka VM tersebut dan lakukan:
+
+```bash
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
+Perintah ini membuka file yang digunakan untuk mengatur jaringan di router.
+
+Pada router, kita akan menghubungkan dengan 2 subnet, yaitu 192.168.10.0/24 dan 192.168.20.0/24, sehingga kita akan memasukkan konfigurasi di bawah ini ke dalam `50-cloud-init.yaml`:
+
+```bash
+network:
+  version: 2
+  ethernets:
+    enp0s8:
+      dhcp4: no
+      addresses:
+        - 192.168.10.1/24
+    enp0s9:
+      dhcp4: no
+      addresses:
+        - 192.168.20.1/24
+```
+Dari code di atas, kita memberi alamat IP statis untuk dua antarmuka jaringan router. enp0s8 akan digunakan untuk Node 1 dan enp0s9 untuk Node 2.
+
+Setelah memasukkan konfigurasi, jalankan perintah berikut untuk menerapkan perubahan:
+```bash
+sudo netplan apply
+```
+
+Kemudian, lakukan up pada ethernet:
+```bash
+sudo ip link set enp0s8 up
+sudo ip link set enp0s9 up
+```
+Perintah di atas ini mengaktifkan interface jaringan agar router bisa berkomunikasi.
+
+Langkah selanjutnya, untuk memastikan router dapat meneruskan paket data antara node, kita harus mengaktifkan IP forwarding:
+```bash
+sudo sysctl -w net.ipv4.ip_forward=1
+```
+
+Selanjutnya, kita perlu mengatur iptables agar router dapat menangani lalu lintas:
+```bash
+sudo iptables -t nat -A POSTROUTING -o enp0s17 -j MASQUERADE
+```
+Perintah di atas akan menyembunyikan alamat IP asli dari paket yang keluar dari router, membantu dalam pengaturan jaringan.
+
+Tambahkan rute untuk masing-masing node sehingga router tahu cara mencapai mereka:
+```bash
+sudo ip route add 192.168.10.0/24 via 192.168.10.1
+sudo ip route add 192.168.20.0/24 via 192.168.20.1
+```
+Perintah ini memberi tahu router bagaimana menemukan Node 1 dan Node 2.
+
+Untuk sementara, kita matikan firewall (UFW) agar tidak menghalangi koneksi:
+```bash
+sudo ufw disable
+```
+Menonaktifkan firewall memungkinkan semua lalu lintas jaringan melewati tanpa batasan.
+
+#### Node 1
+
+Masukkan konfigurasi berikut pada `50-cloud-init.yaml`
+```bash
+network:
+  version: 2
+  ethernets:
+    enp0s17:
+      dhcp4: no
+      addresses:
+        - 192.168.10.10/24
+      gateway4: 192.168.10.1
+```
+Di sini, kita memberi Node 1 alamat IP dan menyebutkan router sebagai gateway.
+
+Lalu, Jalankan perintah ini untuk menerapkan pengaturan:
+```bash
+sudo netplan apply
+```
+
+Setelah itu, kita aktifkan interface jaringan node 1:
+```bash
+sudo ip link set enp0s17 up
+```
+
+#### Node 2
+
+Buka terminal di Node 2 dan jalankan perintah berikut:
+```bash
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
+
+Di dalam file, masukkan konfigurasi berikut:
+```bash
+network:
+  version: 2
+  ethernets:
+    enp0s17:
+      dhcp4: no
+      addresses:
+        - 192.168.20.10/24
+      gateway4: 192.168.20.1
+```
+
+Jalankan perintah ini untuk menerapkan pengaturan:
+```bash
+sudo netplan apply
+```
+
+Setelah itu, kita aktifkan interface jaringan node 2:
+```bash
+sudo ip link set enp0s17 up
+```
+
+### 7. Lakukan testing pada routing
+
+Setelah itu kita cek dengan node1 melakukan ping pada node2 dan sebaliknya, serta router melakukan ping pada masing-masing node.
+
+Pada node1:
+```bash
+ping 192.168.20.10
+```
+Hasil:
+![Ping-Node1](../../assets/ping-node1.png)
+
+
+Pada node2:
+```bash
+ping 192.168.10.10
+```
+Hasil:
+![Ping-Node2](../../assets/ping-node2.png)
