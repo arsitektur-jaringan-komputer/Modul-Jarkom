@@ -14,11 +14,16 @@ Pastikan perangkat berikut sudah terpasang pada komputer Anda:
 
 Buatlah VirtualBox Host-Only Ethernet Adapter dengan langkah berikut:
 1. Buka **Network** di sidebar atas VirtualBox.
+   
 ![Network-Vbox](../../assets/network-vbox.png)
-2. Klik **Create**. Jika muncul peringatan, klik **Yes**.
-3. Pilih adapter yang baru dibuat, **VirtualBox Host-Only Ethernet Adapter**.
+
+3. Klik **Create**. Jika muncul peringatan, klik **Yes**.
+4. Pilih adapter yang baru dibuat, **VirtualBox Host-Only Ethernet Adapter**.
+
 ![Host-Only-Adapter-Vbox](../../assets/host-only-vbox.png)
-4. Atur IPv4 address dan netmask sesuai kebutuhan. Contoh: `192.168.10.0/24` dan `192.168.20.0/24`.
+
+5. Atur IPv4 address dan netmask sesuai kebutuhan. Contoh: `192.168.10.0/24` dan `192.168.20.0/24`.
+
 ![IPv4-conf-vbox](../../assets/ipv4-conf-vbox.png)
 
 ### 2. Topologi
@@ -328,6 +333,7 @@ Pada node1:
 ping 192.168.20.10
 ```
 Hasil:
+
 ![Ping-Node1](../../assets/ping-node1.png)
 
 
