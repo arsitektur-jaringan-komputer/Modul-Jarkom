@@ -391,8 +391,14 @@ data "archive_file" "example" {
   type        = "zip"
   source_dir  = var.source_dir
   output_path = "example.zip"
+  depends_on = [
+    local_file.example
+  ]
 }
 ```
+
+> depends_on digunakan agar `archive_file` akan dijalankan **SETELAH** `local_file` membuat file di dalam direktori source, karena jika kita mau melakukan zip di suatu direktori kosong maka akan error
+
 
 Tambahkan konfigurasi "local" untuk memodifikasi file pada directory komputer kalian masing-masing
 
