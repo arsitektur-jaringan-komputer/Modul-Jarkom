@@ -111,3 +111,364 @@ Lakukan verifikasi instalasi pada command prompt (CMD) atau Powershell dengan co
 ```
 terraform -v
 ```
+
+<br>
+
+## C. Lifecycle Terraform
+
+![Terraform Life Cycle](../assets/tf-lifecycle.png)
+
+Lifecycle Terraform merujuk pada serangkaian langkah atau tahapan yang dilakukan dalam penggunaan Terraform untuk mengelola infrastruktur. Tahapan ini meliputi:
+
+* **Menulis atau memperbarui konfigurasi Terraform:** 
+
+  Menyiapkan file konfigurasi yang mendefinisikan infrastruktur.
+
+* **Inisialisasi project dengan menjalankan command `terraform init`:** 
+
+  Menginisialisasi proyek dan menarik providers atau modules yang dibutuhkan. Untuk mengubah atau mengupdate versi providers atau modules yang digunakan dapat menggunakan opsi `-upgrade`
+
+* **Perencanaan dengan menjalankan command `terraform plan`:** 
+
+  Melihat perubahan yang akan diterapkan dan membuat execution plan.
+
+* **Validasi dengan menjalankan command `terraform validate`:** 
+  
+  Memastikan bahwa konfigurasi sesuai dengan tipe dan nilai yang valid.
+
+* **Menjalankan menjalankan command `terraform apply`:**
+
+  Menerapkan perubahan yang ada dalam execution plan, atau menggunakan command `terraform destroy` untuk menghapus infrastruktur yang ada. Untuk menambahkan atau menghapus konfigurasi spesifik dapat menggunakan opsi `-target=[tipe_resource].[nama_resource]`
+
+* **Pembaharuan konfigurasi:**
+
+  Siklus ini kembali berlanjut ke tahap pembaruan konfigurasi sesuai kebutuhan.
+
+<br>
+
+## D. Terraform Core Concepts
+
+### a. Variables
+
+Variabel dalam Terraform adalah cara untuk membuat konfigurasi yang lebih dinamis dan fleksibel. Dengan menggunakan variabel, hardcoding dapat dihindari nilai-nilai tertentu dalam file konfigurasi. Berikut adalah penjelasan singkat tentang beberapa aspek penting dari variabel dalam Terraform:
+
+1. **Variable Type**:
+
+   Terraform mendukung beberapa jenis tipe data untuk variabel, termasuk:
+      - **string**: Menyimpan nilai teks (misalnya, nama, alamat).
+      - **number**: Menyimpan nilai numerik (misalnya, 10, 100.5).
+      - **bool**: Menyimpan nilai boolean (misalnya, true atau false).
+      - **list(type)**: Daftar dari beberapa elemen yang memiliki tipe yang sama (misalnya, list(string)).
+      - **set(type)**: array yang berisi elemen unik (misalnya, set(number)).
+      - **map(type)**: Menyimpan pasangan key-value (misalnya, map(string)).
+      - **object**: Tipe variabel yang lebih kompleks yang dapat mencakup beberapa atribut dengan tipe yang berbeda.
+      - **tuple**: Menggunakan urutan elemen dengan tipe yang berbeda.
+   
+   <br>
+
+   Tipe variabel dapat dispesifikasikan dengan menggunakan atribut `type` dalam deklarasi variabel. Misalnya:
+     ```hcl
+     variable "instance_count" {
+       type = number
+     }
+     ```
+
+<br>
+
+2. **default**:
+      Default adalah salah satu atribut dalam deklarasi variable yang berfungsi untuk menginisiasi nilai dari variable tersebut.
+      
+      ```hcl
+      variable "instance_count" {
+       type = number
+       default = 10
+      }
+      ```
+
+      Jika atribut default tidak di tuliskan, ada beberapa cara yang dapat dilakkan untuk mengisi value dari variable tersebut.
+      - Mengisi prompt pada saat `terraform apply` <br>
+
+      ![prompt variable](../assets/variable-prompt.png)
+
+      - Menggunakan opsi `-var` pada comman `terraform apply` <br>
+      ```bash
+      terraform apply -var="var_name=var_value"
+      ```
+
+      - Menggunakan file `.tfvars` atau `.auto.tfvars`
+      - Mengunaakn Environment Variable
+
+<br>
+
+3. **.tfvars / auto.tfvars**:
+
+      Untuk variable sensitif seperti password atau api token, kita tidak bisa meng-hardcode nilai variable tersebut kedalam file konfigurasi main.tf, dan akan sangat tidak praktikal jika perlu mengisi secara manual variable tersebut setiap kali mmelakukan `terraform apply`. Maka dari itu, kita dapat membuat file khusus untuk menyimpan semua variable yang akan digunakan pada main.tf dengan menggunakan tipe file `.tfvars`. File ini menggunakan format key value pair.
+      
+      Contoh:
+      ```hcl
+      token = "tokenabalabal"
+      password = "supersecretpassword"
+      ``` 
+      <br>
+      Sebelum bisa menggunakan variable yang sudah kita simpan dalam `.tfvars` kita perlu melakukan beberapa hal terlebih dahulu:
+
+      - Deklarasi variable pada main.tf <br>
+        Karena `.tfvars` merupakan cara untuk memberi input pada variable, bukan deklarasi variable, kita perlu mendeklarasikan terlebih dahulu variable dengan nama yang sama pada main.tf <br>
+
+          ```hcl
+          variable "password" {}
+          variable "token" {}
+          ``` <br>
+
+      - Menspesifikasikan file `.tfvars` yang digunakan pada saat apply menggunakan opsi `--var-file=<nama_file>.tfvars` <br>
+          ```bash
+          terraform apply --var-file="secret.tfvars"
+          ``` 
+      <br>
+
+      Selain `.tfvars` ada juga tipe file `.auto.tfvars`, perbedaannya adalah kita tidak perlu menggunakan opsi `--var-file` karena terraform otomatis akan menggunakan file tersebut.
+
+      <br>
+
+      Lalu kenapa kita tidak menggunakan `.auto.tfvars` saja? Kapan kita perlu menggunakan `.tfvars`?
+
+      <br>
+      
+      `.tfvars` sangat berguna ketika kita punya beberapa environment berbeda seperti **development**, **staging**, dan **porduction** yang memiliki credential yang berbeda-beda, sehingga kita bisa memilih untuk menggunakan `.tfvars` yang mana yang mau digunakan. 
+      
+      <br>
+
+4. **Environment Variables (env)**:
+   - Variabel lingkungan juga dapat digunakan untuk menetapkan nilai variabel dalam Terraform.
+   - Variabel lingkungan harus diawali dengan `TF_VAR_`, diikuti dengan nama variabel. Misalnya:
+     ```bash
+     export TF_VAR_instance_count=3
+     ```
+
+<br>
+
+5. **Sensitive Variables**:
+   - Dengan menandai variabel sebagai `sensitive`, Terraform akan menyembunyikan nilai variabel tersebut dari output log untuk menjaga kerahasiaan data sensitif.
+   - Contoh deklarasi variabel sensitif:
+     ```hcl
+     variable "db_password" {
+       type      = string
+       sensitive = true
+     }
+     ```
+
+<br>
+
+6. **Validation**:
+   - Terraform mendukung validasi variabel dengan menggunakan blok `validation` untuk memastikan bahwa nilai yang diberikan memenuhi kriteria tertentu.
+   - Contoh validasi:
+     ```hcl
+     variable "instance_count" {
+       type = number
+       validation {
+         condition     = var.instance_count > 0
+         error_message = "Instance count must be greater than zero."
+       }
+     }
+     ```
+
+Dengan menggunakan variabel, Anda dapat membuat konfigurasi Terraform yang lebih fleksibel dan mudah diatur ulang sesuai kebutuhan.
+
+### b. State
+State adalah file yang menyimpan informasi tentang infrastruktur yang telah dibuat oleh Terraform. File ini penting untuk melacak perubahan yang telah diterapkan.
+
+Berikut adalah penjelasan singkat namun detail tentang modul, sumber daya (resource), sumber data (data source), dan hubungan mereka dengan provider dalam Terraform:
+
+### c. Module
+   - Modul adalah unit dasar dari organisasi dalam Terraform. Setiap konfigurasi Terraform adalah modul, dan modul dapat digunakan untuk mengelompokkan sumber daya terkait untuk digunakan kembali.
+   - Modul dapat bersifat lokal atau diambil dari repositori jarak jauh seperti Terraform Registry.
+   - Modul digunakan dengan mendeklarasikan blok `module` dan menentukan sumber serta variabel yang diperlukan.
+   - Contoh penggunaan modul:
+     ```hcl
+     module "network" {
+       source = "./modules/network"
+       vpc_id = var.vpc_id
+     }
+     ```
+
+### d. Resource
+   - Resource adalah blok dasar dalam Terraform yang mendefinisikan objek infrastruktur seperti instans EC2, bucket S3, atau database RDS.
+   - Setiap resource memiliki tipe dan nama, serta atribut yang dapat dikonfigurasi.
+    
+      ```hcl
+      resource "tipe_resource" "nama_resource" {
+        atribut = value
+      }
+      ```
+
+   - Contoh:
+     ```hcl
+     resource "aws_instance" "example" {
+       ami           = "ami-0c55b159cbfafe1f0"
+       instance_type = "t2.micro"
+     }
+     ```
+
+### e. Data Source
+   - Data Source digunakan untuk mengambil informasi dari infrastruktur atau layanan yang ada tanpa mengubahnya.
+   - Data source berguna untuk mendapatkan informasi yang diperlukan untuk mengonfigurasi resource lainnya.
+   - Contoh:
+     ```hcl
+     data "aws_ami" "latest" {
+       most_recent = true
+       owners      = ["self"]
+     }
+     ```
+
+### f. Provider
+   - Provider adalah plugin yang mengelola interaksi dengan layanan API untuk sumber daya yang Anda definisikan.
+   - Setiap provider harus dikonfigurasi sebelum digunakan, dan biasanya menentukan kredensial dan wilayah.
+   - Contoh konfigurasi provider:
+     ```hcl
+     provider "aws" {
+       region = "us-west-2"
+     }
+     ```
+
+### g. Terraform Registry
+Terraform Registry adalah repositori publik yang menyediakan modul-modul siap pakai untuk infrastruktur sebagai kode (IaC) dengan Terraform. Registry ini memudahkan pengguna menemukan, berbagi, dan menggunakan modul yang mengelola sumber daya di berbagai cloud provider serta infrastruktur lain. Pengguna juga bisa membuat registry privat untuk modul khusus organisasi, menjaga keamanan dan konsistensi infrastruktur.
+
+Secara sederhana, Terraform regitry mirip dengan DockerHub atau GitHub
+
+<br>
+
+## E. Terraform Config
+
+Secara umum, project terraform terbagi menjadi 3 file, yaitu `main.tf`, `variables.tf`, serta `outputs.tf`
+
+### 1. main.tf
+`main.tf` adalah file utama dalam konfigurasi Terraform di mana Anda mendefinisikan sumber daya infrastruktur yang ingin Anda buat, ubah, atau hapus. File ini biasanya berisi blok konfigurasi yang mendeskripsikan penyedia (provider) dan sumber daya (resources) yang akan dikelola oleh Terraform.
+
+Dalam contoh di atas, kita mendefinisikan penyedia AWS dan sebuah sumber daya berupa instance EC2 dengan tipe `t2.micro`.
+
+### 2. variables.tf
+`variables.tf` adalah file tempat Anda mendefinisikan variabel yang memungkinkan Anda untuk membuat konfigurasi yang lebih dinamis dan dapat disesuaikan. Anda dapat mendefinisikan variabel dengan tipe data tertentu dan memberikan nilai default jika diperlukan.
+
+Dengan mendefinisikan variabel di `variables.tf`, Anda dapat menggunakannya dalam file `main.tf` untuk menggantikan nilai yang sebelumnya ditentukan secara statis.
+
+
+### 3. outputs.tf
+`outputs.tf` adalah file yang digunakan untuk mendefinisikan output dari konfigurasi Terraform. Output ini dapat memberikan informasi penting tentang sumber daya yang dibuat, seperti alamat IP atau ID sumber daya.
+
+Output ini akan ditampilkan setelah Anda menjalankan `terraform apply`, sehingga Anda dapat dengan mudah melihat informasi penting dari sumber daya yang telah Anda buat.
+
+### Kesimpulan
+Dengan memahami dan menggunakan ketiga file ini (`main.tf`, `variables.tf`, dan `outputs.tf`), Anda dapat membuat konfigurasi Terraform yang lebih terstruktur, dinamis, dan mudah dikelola. Anda dapat menyesuaikan konfigurasi dengan variabel dan mendapatkan informasi penting melalui output yang didefinisikan.
+
+### Skenario
+Berikut adalah contoh skenario penggunaan file `main.tf`, `variables.tf`, dan `outputs.tf`.
+
+#### 0. Setup project directory
+
+Buat file `main.tf`, `variables.tf`, dan `outputs.tf`, serta buat directory bernama `source`
+
+![Gambar](../assets/skenario-1.png)
+
+#### 1. main.tf
+Di dalam `main.tf`, kita akan menggunakan beberapa provider lokal untuk mendemonstrasikan bagaimana utilities ini dapat digunakan.
+
+Tambahkan konfigurasi "random" berikut untuk membuat string random
+```hcl
+provider "random" {}
+
+resource "random_string" "example" {
+  length  = 16
+  special = false
+}
+
+```
+
+Tambahkan konfigurasi "archive" untuk melakukan zip pada file
+```hcl
+provider "archive" {}
+
+data "archive_file" "example" {
+  type        = "zip"
+  source_dir  = var.source_dir
+  output_path = "example.zip"
+}
+```
+
+Tambahkan konfigurasi "local" untuk memodifikasi file pada directory komputer kalian masing-masing
+
+```hcl
+provider "local" {}
+
+resource "local_file" "example" {
+  content  = random_string.example.result
+  filename = "${var.source_dir}/random_string.txt"
+}
+```
+
+#### 2. variables.tf
+Kita akan mendefinisikan beberapa variabel yang digunakan dalam `main.tf` untuk menentukan direktori sumber dan tujuan.
+
+Tambahkan variabel source_dir
+```hcl
+variable "source_dir" {
+  description = "Direktori sumber yang akan diarsipkan"
+  type        = string
+  default     = "./source"
+}
+```
+
+Variabel ini membantu kita untuk menentukan direktori sumber yang akan diarsipkan dan direktori tujuan untuk menyimpan file hasil.
+
+#### 3. outputs.tf
+Di dalam `outputs.tf`, kita akan mendefinisikan beberapa output untuk menampilkan hasil dari operasi yang telah dilakukan.
+
+```hcl
+output "random_string" {
+  description = "String acak yang dihasilkan"
+  value       = random_string.example.result
+}
+
+output "archive_file_path" {
+  description = "Path dari file arsip yang dihasilkan"
+  value       = data.archive_file.example.output_path
+}
+
+output "local_file_path" {
+  description = "Path dari file lokal yang dibuat"
+  value       = local_file.example.filename
+}
+```
+
+Output ini akan memberikan informasi tentang string acak yang dihasilkan, lokasi file arsip, dan lokasi file lokal yang dibuat.
+
+#### Run Konfigurasi
+
+Setalah semua file sudah dibuat lakuka:
+
+```bash
+terraform init
+```
+
+maka akan menghasilkan tampilan seperti berikut:
+
+![Gambar](../assets/skenario-2.png)
+
+Kemudian jalankan command plan untuk mengecek apakah behaviour dari konfigurasi yang sudah kita buat sudah sesuai keinginan kita:
+
+```bash
+terraform plan
+```
+
+![Gambar](../assets/skenario-3.png)
+
+Lalu lakukan apply untuk menjalankan konfigurasi
+
+```bash
+terraform apply
+```
+
+ketikkan "yes" ketika diminta
+
+Setelah selesai, maka outputs yang sudah didefinisikan akan keluar:
+
+![Gambar](../assets/skenario-4.png)
