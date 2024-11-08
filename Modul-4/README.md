@@ -243,8 +243,8 @@ Perhatikan subnet **A1** dan **A2**. Subnet **A1** memiliki netmask /25, dan sub
 Lalu ulangi langkah tersebut sampai menjadi sebuah subnet besar yang mencakup 1 topologi yang kita miliki.
 
 ![Gambar](assets/cidr_3.png)
-![Gambar](assets/cidr_4.png)
-![Gambar](assets/cidr_5.png)
+![Gambar](assets/cidr_4_.jpg)
+![Gambar](assets/cidr_5_.jpg)
 
 **Langkah 3** - Dari proses penggabungan yang telah dilakukan, didapatkan sebuah subnet besar dengan netmask **/21**. Kali ini dapat menggunakan NID **192.168.0.0**, netmask **255.255.248.0**.
 
