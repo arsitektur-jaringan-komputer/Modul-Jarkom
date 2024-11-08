@@ -11,7 +11,13 @@
   - Merveille (50 Host) 
   - Rakesh (20 Host) 
   - Enies Lobby (10 Host) 
-2. Installing *Cisco Packet Tracer* version 8.0, can be downloaded at https://www.netacad.com/courses/packet-tracer
+2. Install the latest (_latest_) version of *Cisco Packet Tracer*, downloadable at https://www.netacad.com/resources/lab-downloads
+     - Step 1: Download the application according to the operating system used
+     - Step 2: Create a netacad account, click the login button, then click the sign up button
+    - Step 3: Install the application
+    - Step 4: Open the application, then login with Skills For All **(The Green One)** using the account you created earlier
+
+Translated with DeepL.com (free version)
 
 # SUBNETTING AND ROUTING
 
@@ -239,8 +245,8 @@ Note the **A1** and **A2** subnets. The subnet **A1** has a netmask of /25, and 
 Then repeat these steps until it becomes a large subnet that includes 1 topology that we have.
 
 ![Gambar](assets/cidr_3.png)
-![Gambar](assets/cidr_4.png)
-![Gambar](assets/cidr_5.png)
+![Gambar](assets/cidr_4_.jpg)
+![Gambar](assets/cidr_5_.jpg)
 
 **Step 3** - From the merging process that has been done, we got a large subnet with a netmask **/21**. This time can use NID **192.168.0.0**, netmask **255.255.248.0**.
 

@@ -11,7 +11,11 @@
   - Merveille (50 Host) 
   - Rakesh (20 Host) 
   - Enies Loby (10 Host) 
-2. Menginstall *Cisco Packet Tracer* versi terbaru (_latest_), dapat di download di https://www.netacad.com/courses/packet-tracer
+2. Menginstall *Cisco Packet Tracer* versi terbaru (_latest_), dapat di download di https://www.netacad.com/resources/lab-downloads
+    - Langkah 1: Download aplikasi sesuai sistem operasi yang digunakan
+    - Langkah 2: Buat akun netacad, klik tombol login, lalu klik tombol sign up
+    - Langkah 3: Install aplikasi
+    - Langkah 4: Buka Aplikasi, lalu login dengan Skills For All **(Warna Hijau)** menggunakan akun yang kalian buat tadi
 
 # SUBNETTING AND ROUTING
 
