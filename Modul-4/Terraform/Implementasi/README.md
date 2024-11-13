@@ -408,7 +408,7 @@ resource "proxmox_virtual_environment_file" "script" {
   file_mode = "0700"
 
   source_file {
-    path = "./script-router1.sh"
+    path = "./script.sh"
   }
 }
 ```
