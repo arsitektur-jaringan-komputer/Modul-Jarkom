@@ -673,7 +673,7 @@ Hal yang membedakan resource untuk *router* dan *client lain* adalah penambahan 
 
 <br>
 
-### 2. variables.tf
+### 2. Penggunaan variables.tf
 
 deklarasikan semua variable yang digunakan pada `main.tf` di dalam `variables.tf` sesuai tipe nya.
 
@@ -728,7 +728,7 @@ variable "gateaway_list" {
 
 <br>
 
-### 3. script.sh
+### 3. Penggunaan script.sh
 
 script yang bisa di tempelkan ke vm pada proxmox berupa `hook script` yang memiliki format khusus. 
 
@@ -797,7 +797,22 @@ fi
 
 <br>
 
-### 4. ping check
+### 4. Clone VM
+Jika Anda ingin melakukan _spawning_ VM dengan mengacu pada VM yang sudah ada, maka dapat dilakukan dengan cara _clone_.
+Contoh _clone_ adalah sebagai berikut:
+```
+clone {
+      datastore_id = ""
+      node_name = ""
+      vm_id = 
+    }
+```
+Penjelasan:
+- datastore_id: Menunjukkan identitas penyimpanan (datastore) yang akan digunakan. 
+- node_name: Menyatakan nama node atau server tempat VM akan dibuat atau di-clone. 
+- vm_id: Merupakan ID unik VM yang akan di-clone.
+
+### 5. Testing 'ping' Check
 
 Anda dapat melakuka tesing ping melalui web gui proxmox dengan langkah-langkah sebagai berikut:
 
