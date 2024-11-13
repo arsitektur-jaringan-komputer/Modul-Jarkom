@@ -346,7 +346,7 @@ Hasil:
 
 
 
-# Implementasi Terraform Dengan VirtualBox
+# Implementasi Terraform Dengan Proxmox
 
 Panduan ini menjelaskan langkah-langkah untuk melakukan *spawning* VM menggunakan Terraform pada Proxmox dan konfigurasi routing serta subnetting dalam VM.
 
