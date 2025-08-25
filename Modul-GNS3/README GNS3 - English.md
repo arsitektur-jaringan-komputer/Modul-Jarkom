@@ -28,6 +28,13 @@ Installation of GNS3 for macOS can be viewed in the following YouTube video:
 <br>
 [![GNS3-MAC-INSTALLATION](https://img.youtube.com/vi/7N_hJ5bOofg/0.jpg)](https://youtu.be/7N_hJ5bOofg?si=thDG4ZY7FIdfaPlG)
 
+### GNS3 Windows Installation
+Installation of GNS3 for Windows can be viewed in the following YouTube video:
+<br>
+[![GNS3-WINDOWS-INSTALLATION](https://img.youtube.com/vi/2RNlsxK0AzY/0.jpg)](https://youtu.be/2RNlsxK0AzY?si=KkeadApIC3U9C-ke)
+
+<b>Note:</b> This video follows the installation of GNS 3 using VMWare, the step-by-step instruction can be found at [Import Image on VMWare](#import-image-on-vmware). This video is voiced in Indonesian. Turn on subtitles for English if needed.
+
 ### Import Image on VirtualBox
 1. Installing VirtualBox
 Please download from [following link](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html)
