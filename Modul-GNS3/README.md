@@ -122,13 +122,13 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
 
 1. Import image ubuntu
 
-- Klik `Open menu`
-  ![insert-image-1](images/2025/gns-openmenu.png)<br>
-- Klik `Template preferences`
-  ![insert-image-2](images/2025/gns-templatepref.png)<br>
+- Klik `Open menu`<br>
+  ![insert-image-1](images/2025/gns-openmenu.png)
+- Klik `Template preferences`<br>
+  ![insert-image-2](images/2025/gns-templatepref.png)
 - Klik `Docker`
-- Klik `Add Docker container template`
-  ![insert-image-3](images/2025/gns-addplus.png)<br>
+- Klik `Add Docker container template`<br>
+  ![insert-image-3](images/2025/gns-addplus.png)
 - `Server type` pilih `Run this Docker container locally`
 - Klik `Docker Virtual Machine`, pilih `New image` isikan `royyana/netics-pc:debi-latest` di Image name<br>
   ![insert-image-4](images/2025/gns-dockerimage.png)
