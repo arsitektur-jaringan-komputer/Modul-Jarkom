@@ -43,7 +43,7 @@ Installation of GNS3 for Windows can be viewed in the following YouTube video:
    Please download from [following link](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html)
 
 2. Download Image VM GNS3
-   Please download from [following link](https://github.com/GNS3/gns3-gui/releases/download/v2.2.19/GNS3.VM.VirtualBox.2.2.19.zip). After that, extract it.
+   Please download from [GNS3 VM 3.0.5](https://github.com/GNS3/gns3-gui/releases/download/v3.0.5/GNS3.VM.VMware.Workstation.3.0.5.zip). After that, extract it.
 
 3. Import .ova file to VirtualBox
 
@@ -279,7 +279,7 @@ iface eth0 inet static
 
 ## Terms
 
-- Practician **only** allowed to use docker image `kuuhaku86/gns3-ubuntu`
+- Practician **only** allowed to use docker image `royyana/netics-pc:debi-latest`
 
 ## Warnings, Advice, Tips and Tricks
 

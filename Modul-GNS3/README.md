@@ -44,7 +44,7 @@ Instalasi GNS3 untuk Windows dapat melihat video youtube berikut:
    Silahkan mendownload dari link berikut [VirtualBox 7.0](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
 
 2. Download Image VM GNS3
-   Silahkan mendowload dari link berikut [GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VirtualBox.2.2.42.zip). Sehabis itu langsung saja extract.
+   Silahkan mendowload dari link berikut [GNS3 VM 3.0.5](https://github.com/GNS3/gns3-gui/releases/download/v3.0.5/GNS3.VM.VMware.Workstation.3.0.5.zip). Sehabis itu langsung saja extract.
 
 3. Import file .ova ke VirtualBox
 
@@ -282,7 +282,7 @@ iface eth0 inet static
 
 ## Ketentuan
 
-- Praktikan **hanya** diperbolehkan menggunakan image docker `danielcristh0/ubuntu-bionic:1.1`
+- Praktikan **hanya** diperbolehkan menggunakan image docker `royyana/netics-pc:debi-latest`
 
 ## Peringatan, Saran, Tips, dan Trik
 
