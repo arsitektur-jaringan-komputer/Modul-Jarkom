@@ -88,7 +88,7 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
    Silahkan mendownload dari [VMware Workstation 17](https://www.vmware.com/products/workstation-pro/workstation-pro-evaluation.html).
 
 2. Download Image VM GNS3
-   Silahkan mendowload dari [GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VMware.Workstation.2.2.42.zip). Sehabis itu langsung saja extract.
+   Silahkan mendowload dari [GNS3 VM 3.0.5](https://github.com/GNS3/gns3-gui/releases/download/v3.0.5/GNS3.VM.VMware.Workstation.3.0.5.zip). Sehabis itu langsung saja extract.
 
 3. Import file .ova ke VMWare dan namai VM.
 
@@ -153,6 +153,7 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
 - Bisa dilakukan dengan `Web console` <br/>
   ![akses-node-1](images/akses-node-1.jpg)
 - Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` di terminal lokal pc kita, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 192.168.0.16 5000`
+
   ![akses-node-2](images/akses-node-2.jpg)
 - Jika menggunakan telnet, hati-hati jika ingin keluar dari node. Gunakan `Ctrl + ]` lalu ketik quit untuk keluar dari node.
 - Jika command prompt tidak kunjung keluar, bisa klik enter berkali-kali sampai keluar

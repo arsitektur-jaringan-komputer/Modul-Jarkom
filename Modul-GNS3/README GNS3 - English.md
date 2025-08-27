@@ -85,7 +85,7 @@ After that please proceed to import the Ubuntu image into GNS3 [here](#insert-ub
    Please download from [VMware Workstation 17](https://www.vmware.com/products/workstation-pro/workstation-pro-evaluation.html).
 
 2. Download Image VM GNS3
-   Please download from [GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VMware.Workstation.2.2.42.zip). After that, just extract.
+   Please download from [GNS3 VM 3.0.5](https://github.com/GNS3/gns3-gui/releases/download/v3.0.5/GNS3.VM.VMware.Workstation.3.0.5.zip). After that, just extract.
 
 3. Import the .ova file into VMWare and name the VM.
 
@@ -150,6 +150,7 @@ After that please continue to import the Ubuntu image into GNS3 [here](#insert-u
 - Can be done with `Web console` <br/>
   ![akses-node-1](images/akses-node-1.jpg)
 - This can be done using the command `telnet [VM IP] [Port node]` according to the one on the right, if you use the example in the picture, the command is `telnet 192.168.0.16 5000`
+
   ![akses-node-2](images/akses-node-2.jpg)
 - If using telnet, be careful if you want to exit the node. Use `Ctrl + ]` then type quit to exit the node.
 - If the command prompt doesn't come out, you can click enter many times until it comes out
