@@ -108,9 +108,10 @@ After that please proceed to import the Ubuntu image into GNS3 [here](#insert-ub
 5.  Run the VM
 
 - Then the VM should be able to display this
-  ![vm](images/new-vm-2.png)
+  ![vm](images/2025/vmware-gnsstart.png)
 - Then open the address with the caption "To launch the Web-UI" in the browser
-  ![vm-2](images/new-vm-vmware-2.png)
+- If prompted to enter a username and password, you can use the default credentials shown on the GNS VMware screen.
+  ![vm-2](images/2025/vmware-gnswebinterface.png)
 
 After that please continue to import the Ubuntu image into GNS3 [here](#insert-ubuntu-image-into-gns3)
 
@@ -118,40 +119,43 @@ After that please continue to import the Ubuntu image into GNS3 [here](#insert-u
 
 1. Import ubuntu image
 
-- Click `Go to preferences`
+- Click `Open menu`<br>
+  ![insert-image-1](images/2025/gns-openmenu.png)
+- Click `Template preferences`<br>
+  ![insert-image-2](images/2025/gns-templatepref.png)
 - Click `Docker`
-- Click `Add Docker container template`
+- Click `Add Docker container template`<br>
+  ![insert-image-3](images/2025/gns-addplus.png)
 - `Server type` choose `Run this Docker container locally`
 - Click `Docker Virtual Machine`, choose `New image` fill `royyana/netics-pc:debi-latest` in Image name<br>
-  ![insert-image-1](images/insert-imaget-2.jpg)
-- Click `Container name` fill `ubuntu-1` as container name
+  ![insert-image-4](images/2025/gns-dockerimage.png)
+- Click `Container name` fill `netics-pc` as container name
 - Click `Network adapters` and enter the number 4
 - Leave the `Start command` blank.
 - Then click `Add template` button on the bottom.
 
 2. Try the imported image
 
-- Click `Servers` on upper left
-- Click `local`
+- Click `Projects` on upper left
 - Click `Add blank project`
 - Enter the project name (any name)
 - Click `Add project`
-- Click `Add a node` button on the left <br/>
-  ![test-image-1](images/test-image-1.jpg)
+- Click + `Add a node` button on the left <br/>
+  ![test-image-1](images/2025/gns-addnode.png)
 - Then drag `ubuntu-1` to an empty area on the page
 - Wait until loading is complete
 - If successful will display a display similar to this
-  ![test-image-2](images/test-image-2.jpg)
+  ![test-image-2](images/2025/gns-neticspc.png)
 - We can start by right-clicking on node and click `Start` <br/>
-  ![test-image-3](images/test-image-3.jpg)
+  ![test-image-3](images/2025/gns-startnode.png)
 
 3. Access the node
 
 - Can be done with `Web console` <br/>
-  ![akses-node-1](images/akses-node-1.jpg)
-- This can be done using the command `telnet [VM IP] [Port node]` according to the one on the right, if you use the example in the picture, the command is `telnet 192.168.0.16 5000`
+  ![akses-node-1](images/2025/gns-webconsole.png)
+- This can be done using the command `telnet [VM IP] [Port node]` according to the one on the right, if you use the example in the picture, the command is `telnet 192.168.61.129 5000`
 
-  ![akses-node-2](images/akses-node-2.jpg)
+  ![akses-node-2](images/2025/gns-telnetnode.png)
 - If using telnet, be careful if you want to exit the node. Use `Ctrl + ]` then type quit to exit the node.
 - If the command prompt doesn't come out, you can click enter many times until it comes out
 
@@ -167,11 +171,11 @@ After that please continue to import the Ubuntu image into GNS3 [here](#insert-u
 
 1. Open the Add a Node menu
 2. Drag NAT to empty area <br/>
-   ![using-internet-1](images/using-internet-1.jpg)
+   ![using-internet-1](images/2025/gns-nat.png)
 3. Use activate the `Add a Link` menu <br/>
-   ![using-internet-2](images/using-internet-2.jpg)
+   ![using-internet-2](images/2025/gns-addlink.png)
 4. Then click the node, select the interface `eth0`, and click the NAT node that was drawn earlier <br/>
-   ![using-internet-3](images/using-internet-3.jpg)
+   ![using-internet-3](images/2025/gns-natlink.png)
 5. Then configure the IP of the ubuntu node
 
 - Look for 2 lines like this
@@ -190,14 +194,14 @@ iface eth0 inet dhcp
 
 6. Start node
 7. Access the console from node, and try to ping google, if it works then your settings are correct
-   ![using-internet-4](images/using-internet-4.jpg)
+   ![using-internet-4](images/2025/gns-pinggoogle.png)
 8. This node will be used later as a router for this module, rename this node to `Foosha` with the `Change hostname` feature on the node, and also change the symbol to the router symbol with the `Change symbol` feature
 
 ### Making Topology
 
 1. Add some ethernet switch nodes and ubuntu nodes, then make the connection between the nodes and the names of the nodes to like in the image <br/>
-   ![create-topology-1](images/create-topology-1.jpg)
-2. Gunakan fitur `Change hostname` untuk merubah nama-nama dari node
+   ![create-topology-1](images/2025/gns-topologi.png)
+2. Use the feature `Change hostname` to change the name of the nodes
 3. Then we set the network of each node with the `Edit network configuration` feature as shown [here](#setup-ip-in-node) before, we can delete all the settings and fill in the settings below
 
 - Foosha
@@ -263,9 +267,13 @@ iface eth0 inet static
 
 4. Restart all nodes
 5. Check all ubuntu nodes whether they have the appropriate ip with the `ip a` command. Here is an example for `Foosha` node with IP Prefix `10.40`, adjust it to your respective group IP Prefix
-   ![create-topology-2](images/create-topology-2.jpg)
+   ![create-topology-2](images/2025/gns-foosha.png)
 6. The topology that has been created can run locally, but we can't access the outgoing network yet. Then we need to do a few things.
-
+- Install iptables
+  ```
+  apt update
+  apt install iptables
+  ```
 - Type **`iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s [IP Prefix].0.0/16`** on router `Foosha`
   **Explanation:**
   - **iptables:** iptables is a tool in the Linux operating system that functions as a filter on data traffic. With this iptables we will manage all traffic on the computer, both incoming, outgoing, and or just passing through traffic on our computer. Further explanation will be discussed in Module 5.
@@ -275,6 +283,8 @@ iface eth0 inet static
 - Type command `cat /etc/resolv.conf` in `Foosha` <br/>
   ![create-topology-3](images/create-topology-3.jpg)
 - Remember that IP because it is DNS IP, then type this command in another ubuntu node `echo nameserver [DNS IP] > /etc/resolv.conf`. In the example case, the command is `echo nameserver 192.168.122.1 > /etc/resolv.conf`.
+- The following is an example of performing a ping before and after adding a nameserver on the Water7 node.<br>
+  ![create-topology-4](images/2025/gns-echoresolv.png)
 - All nodes should now be able to ping google, which means they are connected to the internet
 
 ## Terms
