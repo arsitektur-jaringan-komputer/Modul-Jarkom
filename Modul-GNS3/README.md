@@ -121,40 +121,43 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
 
 1. Import image ubuntu
 
-- Klik `Go to preferences`
+- Klik `Open menu`
+  ![insert-image-1](images/2025/gns-openmenu.png)
+- Klik `Template preferences`
+  ![insert-image-2](images/2025/gns-templatepref.png)
 - Klik `Docker`
 - Klik `Add Docker container template`
+  ![insert-image-3](images/2025/gns-addplus.png)
 - `Server type` pilih `Run this Docker container locally`
 - Klik `Docker Virtual Machine`, pilih `New image` isikan `royyana/netics-pc:debi-latest` di Image name<br>
-  ![insert-image-1](images/insert-imaget-2.jpg)
-- Klik `Container name` masukkan `ubuntu-1` sebagai nama container
+  ![insert-image-4](images/2025/gns-dockerimage.png)
+- Klik `Container name` masukkan `netics-pc` sebagai nama container
 - Klik `Network adapters` dan masukkan angka 4
 - Kosongi bagian `Start command`.
 - Lalu klik tombol `Add template` di bawah sendiri
 
 2. Coba image yang telah di-import
 
-- Klik `Servers` di kiri atas
-- Klik `local`
+- Klik `Projects` di kiri atas
 - Klik `Add blank project`
 - Masukkan nama project (terserah)
 - Klik `Add project`
-- Klik tombol `Add a node` di samping kiri <br/>
-  ![test-image-1](images/test-image-1.jpg)
-- Lalu tarik `ubuntu-1` ke area kosong di halaman
+- Klik tombol + `Add a node` di samping kiri <br/>
+  ![test-image-1](images/2025/gns-addnode.png)
+- Lalu tarik `netics-pc` ke area kosong di halaman
 - Tunggu sampai loading selesai
 - Jika berhasil akan menampilkan tampilan yang mirip dengan ini
-  ![test-image-2](images/test-image-2.jpg)
+  ![test-image-2](images/2025/gns-neticspc.png)
 - Kita bisa start dengan klik kanan di node dan klik `Start` <br/>
-  ![test-image-3](images/test-image-3.jpg)
+  ![test-image-3](images/2025/gns-startnode.png)
 
 3. Akses node
 
 - Bisa dilakukan dengan `Web console` <br/>
-  ![akses-node-1](images/akses-node-1.jpg)
-- Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` di terminal lokal pc kita, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 192.168.0.16 5000`
+  ![akses-node-1](images/2025/gns-webconsole.png)
+- Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` di terminal lokal pc kita, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 192.168.61.129 5000`
 
-  ![akses-node-2](images/akses-node-2.jpg)
+  ![akses-node-2](images/2025/gns-telnetnode.png)
 - Jika menggunakan telnet, hati-hati jika ingin keluar dari node. Gunakan `Ctrl + ]` lalu ketik quit untuk keluar dari node.
 - Jika command prompt tidak kunjung keluar, bisa klik enter berkali-kali sampai keluar
 
@@ -170,12 +173,12 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
 
 1. Buka menu Add a Node
 2. Tarik NAT ke area kosong <br/>
-   ![using-internet-1](images/using-internet-1.jpg)
+   ![using-internet-1](images/2025/gns-nat.png)
 3. Gunakan aktifkan menu `Add a Link` <br/>
-   ![using-internet-2](images/using-internet-2.jpg)
+   ![using-internet-2](images/2025/gns-addlink.png)
 4. Lalu klik node, pilih interface `eth0`, dan klik node NAT yang ditarik tadi <br/>
-   ![using-internet-3](images/using-internet-3.jpg)
-5. Lalu konfigurasi IP dari node ubuntu
+   ![using-internet-3](images/2025/gns-natlink.png)
+5. Lalu konfigurasi IP dari node netics-pc
 
 - Cari 2 line yang seperti ini
 
@@ -193,13 +196,13 @@ iface eth0 inet dhcp
 
 6. Start node
 7. Akses console dari node, dan coba ping ke google, jika berhasil maka settingan Anda benar
-   ![using-internet-4](images/using-internet-4.jpg)
+   ![using-internet-4](images/2025/gns-pinggoogle.png)
 8. Node ini akan nanti digunakan sebagai router untuk modul ini, ganti nama node ini menjadi `Foosha` dengan fitur `Change hostname` di node, dan juga ganti symbol ke simbol router dengan fitur `Change symbol`
 
 ### Membuat Topologi
 
 1. Tambahkan beberapa node ethernet switch dan ubuntu, lalu buat hubungan antar node dan nama-nama dari node hingga seperti di gambar <br/>
-   ![create-topology-1](images/create-topology-1.jpg)
+   ![create-topology-1](images/2025/gns-topologi.png)
 2. Gunakan fitur `Change hostname` untuk merubah nama-nama dari node
 3. Lalu kita setting network masing-masing node dengan fitur `Edit network configuration` seperti yang ditunjukkan [disini](#setup-ip-di-node) sebelumnya, kita bisa menghapus semua settingnya dan mengisi dengan settingan di bawah
 
@@ -266,9 +269,13 @@ iface eth0 inet static
 
 4. Restart semua node
 5. Cek semua node ubuntu apakah sudah memiliki ip yang sesuai dengan settingan dengan command `ip a`. Berikut adalah contoh untuk node `Foosha` dengan Prefix IP `10.40`, sesuaikan dengan Prefix IP kelompok kalian masing-masing
-   ![create-topology-2](images/create-topology-2.jpg)
+   ![create-topology-2](images/2025/gns-foosha.png)
 6. Topologi yang dibuat sudah bisa berjalan secara lokal, tetapi kita belum bisa mengakses jaringan keluar. Maka kita perlu melakukan beberapa hal.
-
+- Install tool iptables
+  ```
+  apt update
+  apt install iptables
+  ```
 - Ketikkan **`iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s [Prefix IP].0.0/16`** pada router `Foosha`
   **Keterangan:**
   - **iptables:** iptables merupakan suatu tools dalam sistem operasi Linux yang berfungsi sebagai filter terhadap lalu lintas data. Dengan iptables inilah kita akan mengatur semua lalu lintas dalam komputer, baik yang masuk, keluar, maupun yang sekadar melewati komputer kita. Untuk penjelasan lebih lanjut nanti akan dibahas pada Modul 5.
@@ -278,6 +285,8 @@ iface eth0 inet static
 - Ketikkan command `cat /etc/resolv.conf` di `Foosha` <br/>
   ![create-topology-3](images/create-topology-3.jpg)
 - Ingat-ingat IP tersebut karena IP tersebut merupakan IP DNS, lalu ketikkan command ini di node ubuntu yang lain `echo nameserver [IP DNS] > /etc/resolv.conf`. Jika pada kasus contoh maka command-nya adalah `echo nameserver 192.168.122.1 > /etc/resolv.conf`.
+
+  ![create-topology-4](images/2025/gns-echoresolv.png)
 - Semua node sekarang seharusnya sudah bisa melakukan ping ke google, yang artinya adalah sudah tersambung ke internet
 
 ## Ketentuan
