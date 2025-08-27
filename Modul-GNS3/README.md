@@ -114,7 +114,7 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
   ![vm](images/2025/vmware-gnsstart.png)
 - Lalu buka alamat dengan keterangan "To launch the Web-UI" di browser
 - Jika diminta masukkan username dan password, bisa menggunakan credentials default pada tampilan gns vmware.
-  ![vm-2](images/2025/vmware-gnswebui.png)
+  ![vm-2](images/2025/vmware-gnswebinterface.png)
 
 Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#memasukkan-image-ubuntu-ke-gns3)
 
