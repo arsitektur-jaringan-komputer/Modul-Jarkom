@@ -111,9 +111,10 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
 5.  Jalankan VM
 
 - Maka VM seharusnya bisa menampilkan ini
-  ![vm](images/new-vm-2.png)
+  ![vm](images/2025/vmware-gnsstart.png)
 - Lalu buka alamat dengan keterangan "To launch the Web-UI" di browser
-  ![vm-2](images/new-vm-vmware-2.png)
+- Jika diminta masukkan username dan password, bisa menggunakan credentials default pada tampilan gns vmware.
+  ![vm-2](images/2025/vmware-gnswebui.png)
 
 Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#memasukkan-image-ubuntu-ke-gns3)
 
@@ -122,12 +123,12 @@ Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#me
 1. Import image ubuntu
 
 - Klik `Open menu`
-  ![insert-image-1](images/2025/gns-openmenu.png)
+  ![insert-image-1](images/2025/gns-openmenu.png)<br>
 - Klik `Template preferences`
-  ![insert-image-2](images/2025/gns-templatepref.png)
+  ![insert-image-2](images/2025/gns-templatepref.png)<br>
 - Klik `Docker`
 - Klik `Add Docker container template`
-  ![insert-image-3](images/2025/gns-addplus.png)
+  ![insert-image-3](images/2025/gns-addplus.png)<br>
 - `Server type` pilih `Run this Docker container locally`
 - Klik `Docker Virtual Machine`, pilih `New image` isikan `royyana/netics-pc:debi-latest` di Image name<br>
   ![insert-image-4](images/2025/gns-dockerimage.png)
@@ -285,7 +286,7 @@ iface eth0 inet static
 - Ketikkan command `cat /etc/resolv.conf` di `Foosha` <br/>
   ![create-topology-3](images/create-topology-3.jpg)
 - Ingat-ingat IP tersebut karena IP tersebut merupakan IP DNS, lalu ketikkan command ini di node ubuntu yang lain `echo nameserver [IP DNS] > /etc/resolv.conf`. Jika pada kasus contoh maka command-nya adalah `echo nameserver 192.168.122.1 > /etc/resolv.conf`.
-
+- Berikut merupakan contoh saat melakukan ping sebelum dan sesudah menambahkan nameserver pada node Water7<br>
   ![create-topology-4](images/2025/gns-echoresolv.png)
 - Semua node sekarang seharusnya sudah bisa melakukan ping ke google, yang artinya adalah sudah tersambung ke internet
 
