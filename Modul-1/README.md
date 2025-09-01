@@ -2,23 +2,25 @@
 
 ## Daftar Isi
 + 0.[Basic Command Line Tools untuk Koneksi pada Jaringan](#0-basic-command-line-tools-untuk-koneksi-pada-jaringan)
-    + [telnet](#01-telnet)
-    + [nc](#02-netcat-nc)
-    + [ping](#03-ping)
-    + [ssh](#04-ssh-secure-shell)
-+ 1.[Konsep IP dan Port]()
-    + Konsep IP
-    + Alokasi Port
-+ 2.[Wire Crimping](#1-wire-crimping)
-     + 2.1 [Peralatan yang dibutuhkan](#11-peralatan-yang-dibutuhkan)
-     + 2.2 [Jenis-jenis Konfigurasi Kabel UTP](#12-konfigurasi-kabel)
-     + 2.3 [Langkah-langkah](#13-langkah---langkah)
-+ 3.[Wireshark](#2-wireshark)
-	+ 3.1 [Instalasi](#21-instalasi)
-	+ 3.2 [Filters](#22-filters)
-	+ 3.3 [Export data hasil packet capture](#23-export-data-hasil-paket-capture)
-	+ 3.4 [Penggunaan Wireshark pada FTP Server](#24-penggunaan-wireshark-pada-ftp-server)
-+ 4. [Termshark](#3-termshark)
+  + [telnet](#01-telnet)
+  + [ssh](#02-ssh-secure-shell)
+  + [nc](#03-netcat-nc)
+  + [ping](#04-ping)
++ 1.[Konsep IP dan Port](#1-konsep-ip-dan-port)
+  + [Konsep IP](#11-konsep-ip)
+  + [Alokasi Port](#12-alokasi-port)
++ 2.[Wire Crimping](#2-wire-crimping)
+   + 2.1 [Peralatan yang dibutuhkan](#21-peralatan-yang-dibutuhkan)
+   + 2.2 [Jenis-jenis Konfigurasi Kabel UTP](#22-konfigurasi-kabel)
+   + 2.3 [Langkah-langkah](#23-langkah---langkah)
++ 3.[Wireshark](#3-wireshark)
+  + 3.1 [Instalasi](#31-instalasi)
+  + 3.2 [Filters](#32-filters)
+  + 3.3 [Export data hasil packet capture](#33-export-data-hasil-paket-capture)
+  + 3.4 [Penggunaan Wireshark pada FTP Server](#34-penggunaan-wireshark-pada-ftp-server)
++ 4.[Termshark](#4-termshark)
+  + 4.1 [Instalasi](#41-instalasi-termshark)
+  + 4.2 [Penggunaan](#42-penggunaan-termshark)
 
 ## 0. Basic Command Line Tools untuk Koneksi pada Jaringan
 
