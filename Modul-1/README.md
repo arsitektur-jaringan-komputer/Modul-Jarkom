@@ -2,22 +2,25 @@
 
 ## Daftar Isi
 + 0.[Basic Command Line Tools untuk Koneksi pada Jaringan](#0-basic-command-line-tools-untuk-koneksi-pada-jaringan)
-    + [telnet](#01-telnet)
-    + [nc](#02-netcat-nc)
-    + [ping](#03-ping)
-    + [ssh](#04-ssh-secure-shell)
-+ 1.[Konsep IP dan Port]()
-    + Konsep IP
-    + Alokasi Port
-+ 2.[Wire Crimping](#1-wire-crimping)
-     + 2.1 [Peralatan yang dibutuhkan](#11-peralatan-yang-dibutuhkan)
-     + 2.2 [Jenis-jenis Konfigurasi Kabel UTP](#12-konfigurasi-kabel)
-     + 2.3 [Langkah-langkah](#13-langkah---langkah)
-+ 3.[Wireshark](#2-wireshark)
-	+ 3.1 [Instalasi](#21-instalasi)
-	+ 3.2 [Filters](#22-filters)
-	+ 3.3 [Export data hasil packet capture](#23-export-data-hasil-paket-capture)
-	+ 3.4 [Penggunaan Wireshark pada FTP Server](#24-penggunaan-wireshark-pada-ftp-server)
+  + [telnet](#01-telnet)
+  + [ssh](#02-ssh-secure-shell)
+  + [nc](#03-netcat-nc)
+  + [ping](#04-ping)
++ 1.[Konsep IP dan Port](#1-konsep-ip-dan-port)
+  + [Konsep IP](#11-konsep-ip)
+  + [Alokasi Port](#12-alokasi-port)
++ 2.[Wire Crimping](#2-wire-crimping)
+   + 2.1 [Peralatan yang dibutuhkan](#21-peralatan-yang-dibutuhkan)
+   + 2.2 [Jenis-jenis Konfigurasi Kabel UTP](#22-konfigurasi-kabel)
+   + 2.3 [Langkah-langkah](#23-langkah---langkah)
++ 3.[Wireshark](#3-wireshark)
+  + 3.1 [Instalasi](#31-instalasi)
+  + 3.2 [Filters](#32-filters)
+  + 3.3 [Export data hasil packet capture](#33-export-data-hasil-paket-capture)
+  + 3.4 [Penggunaan Wireshark pada FTP Server](#34-penggunaan-wireshark-pada-ftp-server)
++ 4.[Termshark](#4-termshark)
+  + 4.1 [Instalasi](#41-instalasi-termshark)
+  + 4.2 [Penggunaan](#42-penggunaan-termshark)
 
 ## 0. Basic Command Line Tools untuk Koneksi pada Jaringan
 
@@ -419,6 +422,55 @@ Saat hasil capture dilihat akan muncul data dibawah ini :
 
 ![STOR](images/retr.JPG)
 
+## 4. Termshark
+Jika sebelumnya kita sudah menggunakan Wireshark, sekarang kita akan menggunakan tools bernama **Termshark**. Pada dasarnya, Termshark merupakan wrapper dari tshark yang memungkinkan kita untuk menganalisis lalu lintas jaringan melalui terminal tanpa memerlukan GUI. Fitur-fitur pada Termshark mirip dengan Wireshark. Banyak command-command Wireshark yang juga bisa digunakan pada Termshark.
+
+### 4.1 Instalasi Termshark
+Termshark merupakan binary standalone yang dapat di download langsung pada GitHub [Termshark Releases](https://github.com/gcla/termshark/releases). Pada saat penulisan modul ini, versi paling terbaru dari Termshark merupakan versi *v2.4.0*, atau menggunakan package manager seperti `apt`:
+```sh
+sudo apt install termshark
+```
+
+### 4.2 Penggunaan Termshark
+Untuk menggunakan Termshark, kita dapat menjalankan perintah berikut di terminal:
+```sh
+$ termshark
+```
+Maka akan muncul tampilan seperti berikut:
+
+![termshark-init](images/termshark-init.png)
+
+Secara default, Termshark akan melakukan packet capture pada interface eth0.
+
+Termshark juga dapat melakukan packet capture pada interface lain dengan menggunakan opsi `-i` diikuti dengan nama interface yang diinginkan.
+```sh
+$ termshark -i [nama_interface]
+```
+![termshark-interface](images/termshark-interface.png)
+
+Termshark juga dapat melakukan inspeksi file pcap/pcapng dengan menggunakan opsi `-r` diikuti dengan nama file yang ingin dianalisis.
+```sh
+$ termshark -r [nama_file.pcap]
+```
+Kita juga dapat melakukan filtering packet seperti pada Wireshark, command-command yang digunakan sangat mirip dengan Wireshark. Kalian bisa refer command-command yang ada pada section [3.2 Filters](#32-filters) di atas.
+
+Disini kita akan mencoba untuk melakukan request ke http://example.com dan hanya filter traffic http:
+
+```sh
+#!/bin/bash
+while true; do
+  curl -s http://example.com >/dev/null 2>&1
+  sleep 10
+done &
+```
+Jalankan script diatas lalu buka **Termshark** dan filter dengan `http`.
+
+Maka akan terlihat traffic http ke http://example.com
+
+![termshark-http](images/termshark-http.png)
+
+Untuk petunjuk penggunaan lebih lengkap, kita bisa merujuk ke [dokumentasi Termshark](https://github.com/gcla/termshark/blob/master/docs/UserGuide.md).
+
 ## Latihan
 1. Apakah perbedaan capture filter dan display filter pada wireshark berdasarkan paket yang ditangkap?
 2. Apa perbedaan filter `ip.dst` dengan `ip.dst_host`
@@ -437,3 +489,4 @@ Saat hasil capture dilihat akan muncul data dibawah ini :
 + https://computer.howstuffworks.com/question5251.htm]
 + https://www.comparitech.com/net-admin/difference-between-straight-through-crossover-rollover-cables/
 + https://www.indowebsite.co.id/kb/cara-mengaktifkan-ftp-pada-localhost-atau-xammp/
++ https://github.com/gcla/termshark
