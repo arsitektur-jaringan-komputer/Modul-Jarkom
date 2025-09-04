@@ -1,13 +1,4 @@
-# Modul 3 Jaringan Komputer 2021
+# Modul 3 Jaringan Komputer
 
-## Persiapan
-
-[Persiapan](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-3/prerequisite.md)
-
-## Materi
-
-1. [Dynamic Host Configuration Protocol (DHCP)](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/DHCP)
-2. [Reverse Proxy](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Reverse%20Proxy)
-3. [Apache JMeter](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Jmeter)
-4. [Implementasi](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-3/Implementasi)
-
+1. [DNS (Domain Name System)](DNS/README.md)
+2. [Web Server](Web%20server/README.md)
