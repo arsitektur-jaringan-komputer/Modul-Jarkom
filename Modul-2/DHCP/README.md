@@ -1,26 +1,26 @@
-# **1. Dynamic Host Configuration Protocol (DHCP)**
+# **2. Dynamic Host Configuration Protocol (DHCP)**
 
 Materi pada modul ini memiliki _outline_ sebagai berikut.
 
 ## **Outline**
 
-- [**1. Dynamic Host Configuration Protocol (DHCP)**](#1-dynamic-host-configuration-protocol-dhcp)
+- [**2. Dynamic Host Configuration Protocol (DHCP)**](#2-dynamic-host-configuration-protocol-dhcp)
   - [**Outline**](#outline)
-  - [**1.1 Konsep**](#11-konsep)
-    - [**1.1.1 Pendahuluan**](#111-pendahuluan)
-    - [**1.1.2 Apa itu DHCP?**](#112-apa-itu-dhcp)
-    - [**1.1.3 Bootstrap Protocol dan Dynamic Host Configuration Protocol**](#113-bootstrap-protocol-dan-dynamic-host-configuration-protocol)
-    - [**1.1.4 DHCP Message Header**](#114-dhcp-message-header)
-    - [**1.1.5 Cara Kerja DHCP**](#115-cara-kerja-dhcp)
-    - [**1.1.6 DHCP Relay**](#116-dhcp-relay)
+  - [**2.1 Konsep**](#21-konsep)
+    - [**2.1.1 Pendahuluan**](#211-pendahuluan)
+    - [**2.1.2 Apa itu DHCP?**](#212-apa-itu-dhcp)
+    - [**2.1.3 Bootstrap Protocol dan Dynamic Host Configuration Protocol**](#213-bootstrap-protocol-dan-dynamic-host-configuration-protocol)
+    - [**2.1.4 DHCP Message Header**](#214-dhcp-message-header)
+    - [**2.1.5 Cara Kerja DHCP**](#215-cara-kerja-dhcp)
+    - [**2.1.6 DHCP Relay**](#216-dhcp-relay)
       - [A. Konsep DHCP Relay](#a-konsep-dhcp-relay)
       - [B. Mengapa DHCP Relay diperlukan?](#b-mengapa-dhcp-relay-diperlukan)
-    - [**1.7 DHCP Lease Time**](#17-dhcp-lease-time)
+    - [**2.7 DHCP Lease Time**](#27-dhcp-lease-time)
       - [A. Lease Time dalam DHCP](#a-lease-time-dalam-dhcp)
       - [B. Pentingnya Pengaturan Lease Time](#b-pentingnya-pengaturan-lease-time)
-  - [**1.2 Implementasi**](#12-implementasi)
-    - [**1.2.1 Instalasi ISC-DHCP-Server**](#121-instalasi-isc-dhcp-server)
-    - [**1.2.2 Konfigurasi DHCP Server**](#122-konfigurasi-dhcp-server)
+  - [**2.2 Implementasi**](#22-implementasi)
+    - [**2.2.1 Instalasi ISC-DHCP-Server**](#221-instalasi-isc-dhcp-server)
+    - [**2.2.2 Konfigurasi DHCP Server**](#222-konfigurasi-dhcp-server)
       - [A. Menentukan _Interface_ yang akan Diberi Layanan DHCP](#a-menentukan-interface-yang-akan-diberi-layanan-dhcp)
         - [A.1. Buka _File_ Konfigurasi _Interface_](#a1-buka-file-konfigurasi-interface)
         - [A.2. Tentukan _Interface_](#a2-tentukan-interface)
@@ -28,11 +28,11 @@ Materi pada modul ini memiliki _outline_ sebagai berikut.
         - [B.1. Buka _File_ Konfigurasi DHCP](#b1-buka-file-konfigurasi-dhcp)
         - [B.2. Tambahkan _Script_ Konfigurasi](#b2-tambahkan-script-konfigurasi)
         - [A.3. Restart Service `isc-dhcp-server` Dengan Perintah](#a3-restart-service-isc-dhcp-server-dengan-perintah)
-    - [**1.2.3 Konfigurasi DHCP Relay**](#123-konfigurasi-dhcp-relay)
+    - [**2.2.3 Konfigurasi DHCP Relay**](#223-konfigurasi-dhcp-relay)
       - [A. Melakukan Instalasi](#a-melakukan-instalasi)
       - [B. Melakukan Konfigurasi pada `isc-dhcp-relay`](#b-melakukan-konfigurasi-pada-isc-dhcp-relay)
       - [C. Melakukan Konfigurasi IP Forwarding](#c-melakukan-konfigurasi-ip-forwarding)
-    - [**1.2.4 Konfigurasi DHCP Client**](#124-konfigurasi-dhcp-client)
+    - [**2.2.4 Konfigurasi DHCP Client**](#224-konfigurasi-dhcp-client)
       - [A. Mengonfigurasi _Client_](#a-mengonfigurasi-client)
         - [A.1. Periksa IP Alabasta dengan `ip a`](#a1-periksa-ip-alabasta-dengan-ip-a)
         - [A.2. Buka `/etc/network/interfaces` untuk Mengonfigurasi _Interface_ **Alabasta**](#a2-buka-etcnetworkinterfaces-untuk-mengonfigurasi-interface-alabasta)
@@ -40,8 +40,8 @@ Materi pada modul ini memiliki _outline_ sebagai berikut.
         - [A.4. Restart Alabasta](#a4-restart-alabasta)
       - [B. Testing](#b-testing)
       - [C. Lakukan kembali langkah - langkah di atas pada client Loguetown dan Water7](#c-lakukan-kembali-langkah---langkah-di-atas-pada-client-loguetown-dan-water7)
-    - [**1.2.5 Leasing Times**](#125-leasing-times)
-    - [**1.2.6 Fixed Address**](#126-fixed-address)
+    - [**2.2.5 Leasing Times**](#225-leasing-times)
+    - [**2.2.6 Fixed Address**](#226-fixed-address)
       - [A. Konfigurasi `DHCP Server` di _Router_ Foosha](#a-konfigurasi-dhcp-server-di-router-foosha)
         - [A.1. Buka File Konfigurasi `isc-dhcp-server`](#a1-buka-file-konfigurasi-isc-dhcp-server)
         - [A.2. Tambahkan _Script_ Berikut](#a2-tambahkan-script-berikut)
@@ -51,24 +51,24 @@ Materi pada modul ini memiliki _outline_ sebagai berikut.
         - [B.2. Tambah konfigurasi berikut](#b2-tambah-konfigurasi-berikut)
       - [B.3. _Restart Node_ Water7](#b3-restart-node-water7)
       - [C. _Testing_](#c-testing)
-    - [**1.2.7 Menguji Konfigurasi DHCP pada Topologi**](#127-menguji-konfigurasi-dhcp-pada-topologi)
+    - [**2.2.7 Menguji Konfigurasi DHCP pada Topologi**](#227-menguji-konfigurasi-dhcp-pada-topologi)
   - [**Soal Latihan**](#soal-latihan)
   - [**Referensi**](#referensi)
 - [**Love Sign dari Oniel 🙆‍♀️🙆‍♂️**](#love-sign-dari-oniel-️️)
 
 </br>
 
-## **1.1 Konsep**
+## **2.1 Konsep**
 
 Sebelum membahas lebih jauh, kita akan berkenalan pelan-pelan dengan DHCP. Kalian akan mempelajari konsep, cara kerja, dan implementasi DHCP. Selamat membaca!
 
-### **1.1.1 Pendahuluan**
+### **2.1.1 Pendahuluan**
 
 Pada topologi sederhana, kita bisa melakukan konfigurasi `IP Address`, `nameserver`, `gateway`, dan `subnetmask` pada _node_ secara manual/statis. Metode manual ini oke-oke saja saat diimplementasikan pada jaringan yang memiliki sedikit _host_. Tapi bagaimana jika jaringan tersebut memiliki banyak host? Jaringan WiFi umum misalnya. Apakah administrator jaringannya harus mengonfigurasi setiap _host_-nya satu per satu? Membayangkannya saja mengerikan, ya.
 
 Di sinilah peran DHCP sangat dibutuhkan.
 
-### **1.1.2 Apa itu DHCP?**
+### **2.1.2 Apa itu DHCP?**
 
 **Dynamic Host Configuration Protocol (DHCP)** adalah protokol berbasis arsitektur _client-server_ yang dipakai untuk memudahkan pengalokasian `IP Address` dalam satu jaringan. DHCP secara otomatis akan meminjamkan `IP Address` kepada _host_ yang memintanya.
 
@@ -76,7 +76,7 @@ Di sinilah peran DHCP sangat dibutuhkan.
 
 Tanpa DHCP, administrator jaringan harus memasukkan `IP Address` masing-masing komputer dalam suatu jaringan secara manual. Namun jika DHCP dipasang di jaringan, maka semua komputer yang tersambung ke jaringan akan mendapatkan `IP Address` secara otomatis dari `DHCP Server`.
 
-### **1.1.3 Bootstrap Protocol dan Dynamic Host Configuration Protocol**
+### **2.1.3 Bootstrap Protocol dan Dynamic Host Configuration Protocol**
 
 Selain DHCP, terdapat protokol lain yang juga memudahkan pengalokasian `IP Address` dalam suatu jaringan, yaitu `Bootstrap Protocol (BOOTP)`. Perbedaan `BOOTP` dan DHCP terletak pada proses konfigurasinya, sebagai berikut.
 
@@ -84,13 +84,13 @@ Selain DHCP, terdapat protokol lain yang juga memudahkan pengalokasian `IP Addre
 | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Administrator jaringan melakukan konfigurasi _mapping_ `MAC Address` _client_ dengan `IP Address` tertentu. | _Server_ akan melakukan peminjaman `IP Address` dan konfigurasi lainnya dalam rentang waktu tertentu. Protokol ini dibuat berdasarkan cara kerja `BOOTP` |
 
-### **1.1.4 DHCP Message Header**
+### **2.1.4 DHCP Message Header**
 
 ![DHCP header](images/DHCP-message-header.png)
 
 ![DHCP header legend](images/DHCP-message-header-keterangan.png)
 
-### **1.1.5 Cara Kerja DHCP**
+### **2.1.5 Cara Kerja DHCP**
 
 DHCP bekerja dengan melibatkan dua pihak yakni **Server** dan **Client** sebagai berikut.
 
@@ -112,7 +112,7 @@ Terdapat 5 tahapan yang dilakukan dalam proses peminjaman `IP Address` pada DHCP
 
 Lebih lanjut, kalian dapat menonton atau melihat visualisasi kerja dari DHCP di berbagai sumber untuk menambah pemahaman. Salah satunya, adalah pada video berikut [https://youtu.be/S43CFcpOZSI](https://youtu.be/S43CFcpOZSI).
 
-### **1.1.6 DHCP Relay**
+### **2.1.6 DHCP Relay**
 
 Sebelumnya, telah disebutkan bahwa DHCP melibatkan dua pihak, yaitu `DHCP Server` dan `DHCP Client`. Pada bagian ini, dibahas satu pihak lain yang juga terlibat dalam proses peminjaman `IP Address`, yaitu `DHCP Relay`. Apa itu `DHCP Relay`?
 
@@ -144,7 +144,7 @@ Ada beberapa alasan mengapa `DHCP Relay` diperlukan, yaitu sebagai berikut.
 - Memudahkan manajemen jaringan. Administrator jaringan cukup melakukan konfigurasi dan manajemen pada satu `DHCP Server` saja, tidak perlu satu-satu.
 - Meningkatkan keamanan jaringan dengan membatasi akses `DHCP Server` hanya dari `DHCP Relay`.
 
-### **1.7 DHCP Lease Time**
+### **2.7 DHCP Lease Time**
 
 `DHCP Lease Time` adalah waktu yang dialokasikan oleh `DHCP Server` ketika sebuah `IP Address` dipinjamkan kepada komputer _client_. Singkatnya, setelah waktu pinjam ini selesai, maka `IP Address` tersebut dapat dipinjam lagi oleh komputer _client_ yang sama atau komputer _client_ tersebut mendapatkan `IP Address` lain jika `IP Address` yang sebelumnya dipinjam, dipergunakan oleh komputer _client_ lain.
 
@@ -176,7 +176,7 @@ Beberapa alasan mengapa pengaturan lease time DHCP itu penting adalah sebagai be
 
 </br>
 
-## **1.2 Implementasi**
+## **2.2 Implementasi**
 
 Setelah memahami konsep, lalu bagaimana implementasinya? Untuk implementasi, kita akan menggunakan topologi berikut
 
@@ -194,7 +194,7 @@ EniesLobby: 10.40.2.2
 Water7: 10.40.2.3
 ```
 
-### **1.2.1 Instalasi ISC-DHCP-Server**
+### **2.2.1 Instalasi ISC-DHCP-Server**
 
 Pada topologi ini, kita akan menjadikan **EniesLobby** sebagai DHCP Server. Oleh sebab itu, kita harus meng-_install_ **isc-dhcp-server** di **EniesLobby** dengan melakukan langkah-langkah sebagai berikut.
 
@@ -218,7 +218,7 @@ dhcpd --version
 
 ![image](./images/dhcpd_version_new.jpg)
 
-### **1.2.2 Konfigurasi DHCP Server**
+### **2.2.2 Konfigurasi DHCP Server**
 
 Langkah-langkah yang harus dilakukan setelah instalasi adalah sebagai berikut.
 
@@ -295,7 +295,7 @@ Selamat 🎉, konfigurasi `DHCP Server` telah selesai!
 
 ---
 
-### **1.2.3 Konfigurasi DHCP Relay**
+### **2.2.3 Konfigurasi DHCP Relay**
 
 Ketika DHCP Server berada pada subnet yang berbeda dengan DHCP client, maka kita akan membutuhkan `DHCP Relay`. Maka dari itu, langkah-langkah berikut harus dilakukan pada perangkat yang dijadikan sebagai `DHCP Relay` (umumnya pada _router_). Oleh karena itu, _router_ **Foosha** akan menjadi DHCP Relay. Langkah-langkah yang harus dilakukan adalah sebagai berikut.
 
@@ -343,7 +343,7 @@ Selamat 🎉, konfigurasi `DHCP Relay` telah selesai!
 
 ---
 
-### **1.2.4 Konfigurasi DHCP Client**
+### **2.2.4 Konfigurasi DHCP Client**
 
 Setelah mengonfigurasi _server_, kita juga perlu mengonfigurasi _interface_ _client_ supaya bisa mendapatkan layanan dari `DHCP Server`. Di dalam topologi ini, contoh _client_-nya adalah **Alabasta**, **Loguetown**, dan **Water7**.
 
@@ -406,7 +406,7 @@ Setelah `IP Address` dipinjamkan ke sebuah client, maka `IP Address` tersebut ti
 
 ---
 
-### **1.2.5 Leasing Times**
+### **2.2.5 Leasing Times**
 
 Lakukan konfigurasi pada DHCP, yaitu pada `/etc/dhcp/dhcpd.conf` untuk mengatur _leasing time_ pada masing-masing `subnet` yang terhubung. Pada topologi yang digunakan sekarang, `subnet` tersebut adalah `subnet` yang terhubung dengan **Alabasta**, **Loguetown**, dan **Water7**.
 
@@ -438,7 +438,7 @@ service isc-dhcp-server stop
 service isc-dhcp-server start
 ```
 
-### **1.2.6 Fixed Address**
+### **2.2.6 Fixed Address**
 
 Konfigurasi dapat dilakukan sebagai berikut.
 
@@ -508,7 +508,7 @@ Periksa IP **Water7** dengan melakukan `ip a`.
 
 ---
 
-### **1.2.7 Menguji Konfigurasi DHCP pada Topologi**
+### **2.2.7 Menguji Konfigurasi DHCP pada Topologi**
 
 Setelah melakukan berbagai konfigurasi di atas, kalian bisa memastikan apakah` DHCP Server` kalian berhasil dengan cara sebagai berikut.
 
