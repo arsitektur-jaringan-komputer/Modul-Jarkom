@@ -18,6 +18,7 @@ network) yang terhubung dengan internet. DNS Server berfungsi menerjemahkan nama
 ![DNS](images/1.jpg)
 
 Berikut adalah cara kerja DNS:
+
 1. Ketika kamu mengetik alamat website (seperti www.contoh.com) di browser, komputer (client) akan meminta alamat IP dari website tersebut ke server DNS.
 
 2. Jika server DNS sudah tahu alamat IP dari website itu, maka server DNS akan mengirimkan alamat IP tersebut kembali ke komputer kamu.
@@ -42,15 +43,15 @@ Untuk praktikum jarkom kita menggunakan aplikasi BIND9 sebagai DNS server, karen
 
 DNS record adalah catatan di DNS server yang membantu menghubungkan nama website yang kalian ketik dengan alamat IP servernya. Jadi, saat kalian mengetik nama website (seperti www.youtube.com), DNS record memberitahu browser ke mana harus pergi untuk menemukan website tersebut, seperti petunjuk arah di internet.
 
-| Tipe          | Deskripsi                     |
-| ------------- |:-----------------------------|
-| A             | Memetakan nama domain ke alamat IP (IPv4) dari komputer hosting domain|
-| AAAA          | AAAA record hampir mirip A record, tapi mengarahkan domain ke alamat Ipv6|
-| CNAME         | Alias ​​dari satu nama ke nama lain: pencarian DNS akan dilanjutkan dengan mencoba lagi pencarian dengan nama baru|
-| NS            | Delegasikan zona DNS untuk menggunakan authoritative name servers yang diberikan|
-| PTR           | Digunakan untuk Reverse DNS (Domain Name System) lookup|
-| SOA           | Mengacu server DNS yang mengediakan otorisasi informasi tentang sebuah domain Internet|
-| TXT           | Mengijinkan administrator untuk memasukan data acak ke dalam catatan DNS, catatan ini juga digunakan di spesifikasi Sender Policy Framework|
+| Tipe  | Deskripsi                                                                                                                                   |
+| ----- | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| A     | Memetakan nama domain ke alamat IP (IPv4) dari komputer hosting domain                                                                      |
+| AAAA  | AAAA record hampir mirip A record, tapi mengarahkan domain ke alamat Ipv6                                                                   |
+| CNAME | Alias ​​dari satu nama ke nama lain: pencarian DNS akan dilanjutkan dengan mencoba lagi pencarian dengan nama baru                          |
+| NS    | Delegasikan zona DNS untuk menggunakan authoritative name servers yang diberikan                                                            |
+| PTR   | Digunakan untuk Reverse DNS (Domain Name System) lookup                                                                                     |
+| SOA   | Mengacu server DNS yang mengediakan otorisasi informasi tentang sebuah domain Internet                                                      |
+| TXT   | Mengijinkan administrator untuk memasukan data acak ke dalam catatan DNS, catatan ini juga digunakan di spesifikasi Sender Policy Framework |
 
 ### 1.1.E SOA (Start of Authority)
 
@@ -64,22 +65,16 @@ DNS zone adalah bagian dari sistem DNS yang mengelola semua catatan untuk satu d
 
 Adalah informasi yang dimiliki oleh suatu DNS zone.
 
-| Nama          | Deskripsi                     |
-| ------------- |:-----------------------------|
-| Serial        | Jumlah revisi dari file zona ini. Kenaikan nomor ini setiap kali file zone diubah sehingga perubahannya akan didistribusikan ke server DNS sekunder manapun|
-| Refresh       | Jumlah waktu dalam detik bahwa nameserver sekunder harus menunggu untuk memeriksa salinan baru dari zona DNS dari nameserver utama domain. Jika file zona telah berubah maka server DNS sekunder akan memperbarui salinan zona tersebut agar sesuai dengan zona server DNS utama|
-| Retry         | Jumlah waktu dalam hitungan detik bahwa nameserver utama domain (atau server) harus menunggu jika upaya refresh oleh nameserver sekunder gagal sebelum mencoba refresh zona domain dengan nameserver sekunder itu lagi|
-| Expire        | Jumlah waktu dalam hitungan detik bahwa nameserver sekunder (atau server) akan menahan zona sebelum tidak lagi mempunyai otoritas|
-| Minimum       | Jumlah waktu dalam hitungan detik bahwa catatan sumber daya domain valid. Ini juga dikenal sebagai TTL minimum, dan dapat diganti oleh TTL catatan sumber daya individu|
-| TTL           | (waktu untuk tinggal) - Jumlah detik nama domain di-cache secara lokal sebelum kadaluarsa dan kembali ke nameserver otoritatif untuk informasi terbaru|
+| Nama    | Deskripsi                                                                                                                                                                                                                                                                        |
+| ------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Serial  | Jumlah revisi dari file zona ini. Kenaikan nomor ini setiap kali file zone diubah sehingga perubahannya akan didistribusikan ke server DNS sekunder manapun                                                                                                                      |
+| Refresh | Jumlah waktu dalam detik bahwa nameserver sekunder harus menunggu untuk memeriksa salinan baru dari zona DNS dari nameserver utama domain. Jika file zona telah berubah maka server DNS sekunder akan memperbarui salinan zona tersebut agar sesuai dengan zona server DNS utama |
+| Retry   | Jumlah waktu dalam hitungan detik bahwa nameserver utama domain (atau server) harus menunggu jika upaya refresh oleh nameserver sekunder gagal sebelum mencoba refresh zona domain dengan nameserver sekunder itu lagi                                                           |
+| Expire  | Jumlah waktu dalam hitungan detik bahwa nameserver sekunder (atau server) akan menahan zona sebelum tidak lagi mempunyai otoritas                                                                                                                                                |
+| Minimum | Jumlah waktu dalam hitungan detik bahwa catatan sumber daya domain valid. Ini juga dikenal sebagai TTL minimum, dan dapat diganti oleh TTL catatan sumber daya individu                                                                                                          |
+| TTL     | (waktu untuk tinggal) - Jumlah detik nama domain di-cache secara lokal sebelum kadaluarsa dan kembali ke nameserver otoritatif untuk informasi terbaru                                                                                                                           |
 
-
-
-------
-
-
-
-
+---
 
 ## 1.2 Praktik
 
@@ -91,24 +86,25 @@ Kita akan membuat node `EniesLobby` sebagai DNS server.
 
 ### 1.2.A Instalasi bind
 
-- Buka *EniesLobby* dan update package lists dengan menjalankan command:
+- Buka _EniesLobby_ dan update package lists dengan menjalankan command:
 
-	```
-	apt-get update
-	```
+  ```
+  apt-get update
+  ```
 
-- Setalah melakukan update silahkan install aplikasi bind9 pada *EniesLobby* dengan perintah:
+- Setalah melakukan update silahkan install aplikasi bind9 pada _EniesLobby_ dengan perintah:
 
-	```
-	apt-get install bind9 -y
-	```
+  ```
+  apt-get install bind9 -y
+  ```
 
 ![instal bind9](images/1.png)
 
 ### 1.2.B Pembuatan Domain
-Pada sesilab ini kita akan membuat domain **jarkom2022.com**.
 
-- Lakukan perintah pada *EniesLobby*. Isikan seperti berikut:
+Kemudian, kita akan membuat domain **jarkom2022.com**.
+
+- Lakukan perintah pada _EniesLobby_. Isikan seperti berikut:
 
   ```
   nano /etc/bind/named.conf.local
@@ -137,7 +133,7 @@ Pada sesilab ini kita akan membuat domain **jarkom2022.com**.
   cp /etc/bind/db.local /etc/bind/jarkom/jarkom2022.com
   ```
 
-- Kemudian buka file **jarkom2022.com** dan edit seperti gambar berikut dengan IP *EniesLobby* masing-masing kelompok:
+- Kemudian buka file **jarkom2022.com** dan edit seperti gambar berikut dengan IP _EniesLobby_ masing-masing:
 
   ```
   nano /etc/bind/jarkom/jarkom2022.com
@@ -145,16 +141,15 @@ Pada sesilab ini kita akan membuat domain **jarkom2022.com**.
 
 ![konfig jarkom2022](images/3-1.png)
 
-- Restart bind9 dengan perintah 
+- Restart bind9 dengan perintah
 
   ```
   service bind9 restart
-  
+
   ATAU
-  
+
   named -g //Bisa digunakan untuk restart sekaligus debugging
   ```
-
 
 ### 1.2.C Setting nameserver pada client
 
@@ -164,15 +159,15 @@ Nameserver adalah seperti petugas yang memberi arahan di jalan di dunia internet
 
 Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu kita harus merubah settingan nameserver yang ada pada client kita.
 
-- Pada client *Loguetown* dan *Alabasta* arahkan nameserver menuju IP *EniesLobby* dengan mengedit file _resolv.conf_ dengan mengetikkan perintah 
+- Pada client _Loguetown_ dan _Alabasta_ arahkan nameserver menuju IP _EniesLobby_ dengan mengedit file _resolv.conf_ dengan mengetikkan perintah
 
-	```
-	nano /etc/resolv.conf
-	```
+  ```
+  nano /etc/resolv.conf
+  ```
 
 ![ping](images/4-1.png)
 
-- Untuk mencoba koneksi DNS, lakukan ping domain **jarkom2022.com** dengan melakukan  perintah berikut pada client *Loguetown* dan *Alabasta*
+- Untuk mencoba koneksi DNS, lakukan ping domain **jarkom2022.com** dengan melakukan perintah berikut pada client _Loguetown_ dan _Alabasta_
 
   ```
   ping jarkom2022.com -c 5
@@ -180,19 +175,17 @@ Domain yang kita buat tidak akan langsung dikenali oleh client oleh sebab itu ki
 
 ![ping](images/5-1.png)
 
-
-
 ### 1.2.D Reverse DNS (Record PTR)
 
 Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan string domain **jarkom2022.com** kedalam alamat IP agar dapat dibuka, maka Reverse DNS atau Record PTR digunakan untuk menerjemahkan alamat IP ke alamat domain yang sudah diterjemahkan sebelumnya.
 
-- Edit file **/etc/bind/named.conf.local** pada *EniesLobby*
+- Edit file **/etc/bind/named.conf.local** pada _EniesLobby_
 
   ```
   nano /etc/bind/named.conf.local
   ```
 
-- Lalu tambahkan konfigurasi berikut ke dalam file **named.conf.local**. Tambahkan reverse dari 3 byte awal dari IP yang ingin dilakukan Reverse DNS. Karena di contoh saya menggunakan IP `192.168.2` untuk IP dari records, maka reversenya adalah `2.168.192` 
+- Lalu tambahkan konfigurasi berikut ke dalam file **named.conf.local**. Tambahkan reverse dari 3 byte awal dari IP yang ingin dilakukan Reverse DNS. Karena di contoh saya menggunakan IP `192.168.2` untuk IP dari records, maka reversenya adalah `2.168.192`
 
   ```
   zone "2.168.192.in-addr.arpa" {
@@ -209,46 +202,11 @@ Jika pada pembuatan domain sebelumnya DNS server kita bekerja menerjemahkan stri
   cp /etc/bind/db.local /etc/bind/jarkom/2.168.192.in-addr.arpa
   ```
 
-  *Keterangan 2.168.192 adalah 3 byte pertama IP EniesLobby yang dibalik urutan penulisannya*
+  _Keterangan 2.168.192 adalah 3 byte pertama IP EniesLobby yang dibalik urutan penulisannya_
 
 - Edit file **2.168.192.in-addr.arpa** menjadi seperti gambar di bawah ini
 
-
 ![konfig](images/7-1.png)
-
-- Kemudian restart bind9 dengan perintah 
-
-  ```
-  service bind9 restart
-  ```
-
-- Untuk mengecek apakah konfigurasi sudah benar atau belum, lakukan perintah berikut pada client *Loguetown* 
-
-  ```
-  // Install package dnsutils
-  // Pastikan nameserver di /etc/resolv.conf telah dikembalikan sama dengan nameserver dari Foosha
-  apt-get update
-  apt-get install dnsutils
-  
-  //Kembalikan nameserver agar tersambung dengan EniesLobby
-  host -t PTR "IP EniesLobby"
-  ```
-
-![host](images/8-1.png)
-
-
-
-### 1.2.E Record CNAME
-Record CNAME adalah sebuah record yang membuat alias name dan mengarahkan domain ke alamat/domain yang lain.
-
-Langkah-langkah membuat record CNAME:
-
-- Buka file **jarkom2022.com** pada server *EniesLobby* dan tambahkan konfigurasi seperti pada gambar berikut:
-
-
-![DNS](images/9-1.png)
-
-
 
 - Kemudian restart bind9 dengan perintah
 
@@ -256,16 +214,43 @@ Langkah-langkah membuat record CNAME:
   service bind9 restart
   ```
 
-- Lalu cek dengan melakukan `host -t CNAME www.jarkom2022.com` atau `ping www.jarkom2022.com -c 5`. Hasilnya harus mengarah ke host dengan IP *EniesLobby*.
+- Untuk mengecek apakah konfigurasi sudah benar atau belum, lakukan perintah berikut pada client _Loguetown_
 
+  ```
+  // Install package dnsutils
+  // Pastikan nameserver di /etc/resolv.conf telah dikembalikan sama dengan nameserver dari Foosha
+  apt-get update
+  apt-get install dnsutils
+
+  //Kembalikan nameserver agar tersambung dengan EniesLobby
+  host -t PTR "IP EniesLobby"
+  ```
+
+![host](images/8-1.png)
+
+### 1.2.E Record CNAME
+
+Record CNAME adalah sebuah record yang membuat alias name dan mengarahkan domain ke alamat/domain yang lain.
+
+Langkah-langkah membuat record CNAME:
+
+- Buka file **jarkom2022.com** pada server _EniesLobby_ dan tambahkan konfigurasi seperti pada gambar berikut:
+
+![DNS](images/9-1.png)
+
+- Kemudian restart bind9 dengan perintah
+
+  ```
+  service bind9 restart
+  ```
+
+- Lalu cek dengan melakukan `host -t CNAME www.jarkom2022.com` atau `ping www.jarkom2022.com -c 5`. Hasilnya harus mengarah ke host dengan IP _EniesLobby_.
 
 ![DNS](images/10-1.png)
 
-
-
 ### 1.2.F Membuat DNS Slave
 
-DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami kegagalan. Kita akan menjadikan server *Water7* sebagai DNS slave dan server *EniesLobby* sebagai DNS masternya.
+DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami kegagalan. Kita akan menjadikan server _Water7_ sebagai DNS slave dan server _EniesLobby_ sebagai DNS masternya.
 
 #### I. Konfigurasi Pada Server EniesLobby
 
@@ -283,25 +268,21 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
 
   ![DNS](images/11-2.png)
 
-
-
 - Lakukan restart bind9
 
   ```
   service bind9 restart
   ```
 
-
-
 #### II. Konfigurasi Pada Server Water7
 
-- Buka *Water7* dan update package lists dengan menjalankan command:
+- Buka _Water7_ dan update package lists dengan menjalankan command:
 
   ```
   apt-get update
   ```
 
-- Setalah melakukan update silahkan install aplikasi bind9 pada *Water7* dengan perintah:
+- Setalah melakukan update silahkan install aplikasi bind9 pada _Water7_ dengan perintah:
 
   ```
   apt-get install bind9 -y
@@ -325,32 +306,27 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
   service bind9 restart
   ```
 
-
-
 #### III. Testing
 
-- Pada server *EniesLobby* silahkan matikan service bind9
+- Pada server _EniesLobby_ silahkan matikan service bind9
 
   ```
   service bind9 stop
   ```
 
-- Pada client *Loguetown* pastikan pengaturan nameserver mengarah ke IP *EniesLobby* dan IP *Water7*
+- Pada client _Loguetown_ pastikan pengaturan nameserver mengarah ke IP _EniesLobby_ dan IP _Water7_
 
   ![DNS](images/13-1.png)
 
-- Lakukan ping ke jarkom2022.com pada client *Loguetown*. Jika ping berhasil maka konfigurasi DNS slave telah berhasil
-
+- Lakukan ping ke jarkom2022.com pada client _Loguetown_. Jika ping berhasil maka konfigurasi DNS slave telah berhasil
 
 ![DNS](images/14-1.png)
-
-
 
 ### 1.2.G Membuat Subdomain
 
 Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu ke suatu alamat fisik di sebuah situs contohnya: **jarkom2022.com** merupakan sebuah domain induk. Sedangkan **luffy.jarkom2022.com** merupakan sebuah subdomain.
 
-- Pada *EniesLobby*, edit file **/etc/bind/jarkom/jarkom2022.com** lalu tambahkan subdomain untuk **jarkom2022.com** yang mengarah ke IP *Water7*.
+- Pada _EniesLobby_, edit file **/etc/bind/jarkom/jarkom2022.com** lalu tambahkan subdomain untuk **jarkom2022.com** yang mengarah ke IP _Water7_.
 
   ```
   nano /etc/bind/jarkom/jarkom2022.com
@@ -360,33 +336,31 @@ Subdomain adalah bagian dari sebuah nama domain induk. Subdomain umumnya mengacu
 
 ![DNS](images/15-1.png)
 
-- Restart service bind  
+- Restart service bind
 
   ```
   service bind9 restart
   ```
 
-- Coba ping ke subdomain dengan perintah berikut dari client *Loguetown*
+- Coba ping ke subdomain dengan perintah berikut dari client _Loguetown_
 
   ```
   ping luffy.jarkom2022.com -c 5
-  
+
   ATAU
-  
+
   host -t A luffy.jarkom2022.com
   ```
 
   ![DNS](images/16-1.png)
 
-
-
 ### 1.2.H Delegasi Subdomain
 
 Delegasi subdomain adalah proses di mana pemilik domain memberikan wewenang kepada server DNS lain untuk mengelola subdomain tertentu. Ini memungkinkan subdomain tersebut dikelola secara terpisah dari domain utamanya.
 
-#### I. Konfigurasi Pada Server *EniesLobby*
+#### I. Konfigurasi Pada Server _EniesLobby_
 
-- Pada *EniesLobby*, edit file **/etc/bind/jarkom/jarkom2022.com** dan ubah menjadi seperti di bawah ini sesuai dengan pembagian IP *EniesLobby* kelompok masing-masing.
+- Pada _EniesLobby_, edit file **/etc/bind/jarkom/jarkom2022.com** dan ubah menjadi seperti di bawah ini sesuai dengan pembagian IP _EniesLobby_ masing-masing.
 
   ```
   nano /etc/bind/jarkom/jarkom2022.com
@@ -394,7 +368,7 @@ Delegasi subdomain adalah proses di mana pemilik domain memberikan wewenang kepa
 
 ![DNS](images/17-1.png)
 
-- Kemudian edit file **/etc/bind/named.conf.options** pada *EniesLobby*.
+- Kemudian edit file **/etc/bind/named.conf.options** pada _EniesLobby_.
 
   ```
   nano /etc/bind/named.conf.options
@@ -405,7 +379,6 @@ Delegasi subdomain adalah proses di mana pemilik domain memberikan wewenang kepa
   ```
   allow-query{any;};
   ```
-
 
 ![DNS](images/18.png)
 
@@ -419,7 +392,6 @@ Delegasi subdomain adalah proses di mana pemilik domain memberikan wewenang kepa
   };
   ```
 
-
 ![DNS](images/19-1.png)
 
 - Setelah itu restart bind9
@@ -428,9 +400,9 @@ Delegasi subdomain adalah proses di mana pemilik domain memberikan wewenang kepa
   service bind9 restart
   ```
 
-#### II. Konfigurasi Pada Server *Water7*
+#### II. Konfigurasi Pada Server _Water7_
 
-- Pada *Water7* edit file **/etc/bind/named.conf.options**
+- Pada _Water7_ edit file **/etc/bind/named.conf.options**
 
   ```
   nano /etc/bind/named.conf.options
@@ -448,9 +420,9 @@ Delegasi subdomain adalah proses di mana pemilik domain memberikan wewenang kepa
 
 ![DNS](images/21-2.png)
 
-- Kemudian buat direktori dengan nama **delegasi** 
+- Kemudian buat direktori dengan nama **delegasi**
 
-- Copy **db.local** ke direktori tersebut dan edit namanya menjadi **its.jarkom2022.com** 
+- Copy **db.local** ke direktori tersebut dan edit namanya menjadi **its.jarkom2022.com**
 
   ```
   mkdir /etc/bind/delegasi
@@ -469,17 +441,15 @@ Delegasi subdomain adalah proses di mana pemilik domain memberikan wewenang kepa
 
 #### III. Testing
 
-- Lakukan ping ke domain **its.jarkom2022.com** dan **integra.its.jarkom2022.com** dari client *Loguetown*
+- Lakukan ping ke domain **its.jarkom2022.com** dan **integra.its.jarkom2022.com** dari client _Loguetown_
 
 ![DNS](images/23-1.png)
-
-
 
 ### 1.2.I DNS Forwarder
 
 DNS Forwarder digunakan untuk mengarahkan DNS Server ke IP yang ingin dituju.
 
-- Edit file **/etc/bind/named.conf.options** pada server *EniesLobby*
+- Edit file **/etc/bind/named.conf.options** pada server _EniesLobby_
 - Uncomment pada bagian ini
 
 ```
@@ -487,11 +457,13 @@ forwarders {
     "IP nameserver dari Foosha";
 };
 ```
+
 - Comment pada bagian ini
 
 ```
 // dnssec-validation auto;
 ```
+
 - Dan tambahkan
 
 ```
@@ -499,6 +471,7 @@ allow-query{any;};
 ```
 
 ![DNS](images/24-1.png)
+
 - Restart bind9
 
   ```
@@ -509,8 +482,6 @@ allow-query{any;};
 - Coba ping google.com pada Loguetown, kalau benar maka tetap bisa mendapatkan respon dari google
 
 ![DNS](images/25.png)
-
-
 
 ### 1.3 Keterangan Configurasi Zone file
 
@@ -535,24 +506,23 @@ allow-query{any;};
 
    Pada salah satu contoh di atas, dapat kita amati pada kolom keempat terdapat record yang menggunakan titik pada akhir kata dan ada yang tidak. Penggunaan titik berfungsi sebagai penentu FQDN (Fully-Qualified Domain Name) suatu domain.
 
-   Contohnya jika "**jarkom2022.com.**" di akhiri dengan titik maka akan dianggap sebagai FQDN dan akan dibaca sebagai "**jarkom2022.com**" , sedangkan ns1 di atas tidak menggunakan titik sehingga dia tidak terbaca sebagai FQDN. Maka ns1 akan di tambahkan di depan terhadap nilai $ORIGIN sehinga ns1 akan terbaca sebagai "**ns1.jarkom2022.com**" . Nilai $ORIGIN diambil dari penamaan zone yang terdapat pada  */etc/bind/named.conf.local*.
+   Contohnya jika "**jarkom2022.com.**" di akhiri dengan titik maka akan dianggap sebagai FQDN dan akan dibaca sebagai "**jarkom2022.com**" , sedangkan ns1 di atas tidak menggunakan titik sehingga dia tidak terbaca sebagai FQDN. Maka ns1 akan di tambahkan di depan terhadap nilai $ORIGIN sehinga ns1 akan terbaca sebagai "**ns1.jarkom2022.com**" . Nilai $ORIGIN diambil dari penamaan zone yang terdapat pada _/etc/bind/named.conf.local_.
 
 3. #### Penulisan Name Server (NS) record
 
-   Salah satu aturan penulisan NS record adalah dia harus menuju A record., bukan CNAME. 
-
-
+   Salah satu aturan penulisan NS record adalah dia harus menuju A record., bukan CNAME.
 
 ## Latihan
 
-1. Buatlah agar bila kita mengecek *IP EniesLobby* menggunakan dnsutils (host -t PTR 'IP EniesLobby') hasilnya ip tersebut dimiliki oleh domain **jarkom.com** !
-2. Buatlah subdomain **seru.jarkom.com**, **pre-test.jarkom.com**, dan **cool.jarkom.com** yang mengarah ke *IP Water7*!
-3. Buatlah subdomain **kerja.jarkom.com**. Lalu buatlah subdomain dalam subdomain dalam subdomain **yyy.lagi.ngerjain.jarkom.com** yang mengarah ke EniesLobby ! (yyy = nama kelompok)
-4. Buat record CNAME **bagus.jarkom.com** dan **semangat.yyy.jarkom.com** yang mengarah ke **jarkom.com**! (yyy = nama kelompok)
-5. Delegasikan subdomain **yyy.ngerjain.jarkom.com** dan **asyik.yyy.ngerjain.jarkom.com** dari EniesLobby ke Water7 ! (yyy = nama kelompok)
+1. Buatlah agar bila kita mengecek _IP EniesLobby_ menggunakan dnsutils (host -t PTR 'IP EniesLobby') hasilnya ip tersebut dimiliki oleh domain **jarkom.com** !
+2. Buatlah subdomain **seru.jarkom.com**, **pre-test.jarkom.com**, dan **cool.jarkom.com** yang mengarah ke _IP Water7_!
+3. Buatlah subdomain **kerja.jarkom.com**. Lalu buatlah subdomain dalam subdomain dalam subdomain **yyy.lagi.ngerjain.jarkom.com** yang mengarah ke EniesLobby ! (yyy = 3 digit NRP terakhir)
+4. Buat record CNAME **bagus.jarkom.com** dan **semangat.yyy.jarkom.com** yang mengarah ke **jarkom.com**! (yyy = 3 digit NRP terakhir)
+5. Delegasikan subdomain **yyy.ngerjain.jarkom.com** dan **asyik.yyy.ngerjain.jarkom.com** dari EniesLobby ke Water7 ! (yyy = 3 digit NRP terakhir)
 
 ## References
-* https://computer.howstuffworks.com/dns.htm
-* http://knowledgelayer.softlayer.com/faq/what-does-serial-refresh-retry-expire-minimum-and-ttl-mean
-* https://en.wikipedia.org/wiki/List_of_DNS_record_types
-* https://kb.indowebsite.id/knowledge-base/pengertian-catatan-dns-atau-record-dns/
+
+- https://computer.howstuffworks.com/dns.htm
+- http://knowledgelayer.softlayer.com/faq/what-does-serial-refresh-retry-expire-minimum-and-ttl-mean
+- https://en.wikipedia.org/wiki/List_of_DNS_record_types
+- https://kb.indowebsite.id/knowledge-base/pengertian-catatan-dns-atau-record-dns/

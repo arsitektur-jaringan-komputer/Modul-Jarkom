@@ -134,8 +134,7 @@ Step 1 - Masuk ke `/var/www/html`, lalu buat buat suatu file HTML baru dengan na
 </html>
 ```
 
-Step 2 - Ganti `server name` di `/etc/nginx/sites-available/default` dengan domain utama yang telah dibuat sebelumnya di
-[modul persiapan](../prerequisite.md).
+Step 2 - Ganti `server name` di `/etc/nginx/sites-available/default` dengan domain utama yang telah dibuat sebelumnya.
 
 ```bash
 server_name jarkom.site;
@@ -296,17 +295,17 @@ Setiap kali server web menerima permintaan untuk skrip PHP, server web akan meng
 
 #### C. Perbadingan PHP-FPM Versi 7 dan versi 8
 
-|Konfigurasi(default value)  | PHP-FPM 7| PHP-FPM 8|
-|----------------------------|----------|----------|
-|pm                          | static   | ondemand |
-|pm.max_children             | 5        | 100      |
-|pm.min_spare_servers        | 1        | 2        |
-|pm.max_spare_servers        | 5        | 50       |
+| Konfigurasi(default value) | PHP-FPM 7 | PHP-FPM 8 |
+| -------------------------- | --------- | --------- |
+| pm                         | static    | ondemand  |
+| pm.max_children            | 5         | 100       |
+| pm.min_spare_servers       | 1         | 2         |
+| pm.max_spare_servers       | 5         | 50        |
 
-|Fitur                       |PHP-FPM 7            | PHP-FPM 8               |
-|----------------------------|---------------------|-------------------------|
-|stream_socket_server        |tidak support        |support                  |
-|php_stream_set_option       |support options      |support options dan flags|
+| Fitur                 | PHP-FPM 7       | PHP-FPM 8                 |
+| --------------------- | --------------- | ------------------------- |
+| stream_socket_server  | tidak support   | support                   |
+| php_stream_set_option | support options | support options dan flags |
 
 #### D. Konfigurasi Dasar
 
@@ -641,12 +640,93 @@ location /app3/ {
 `proxy_bind <ip_address>` - Menentukan alamat IP yang akan digunakan oleh server utama untuk melakukan binding ke server backend atau worker.
 
 `proxy_pass http://<ip_address>` - Meneruskan permintaan clien ke server backend atau worker.
+f
 
 ### 2.2.5 Load Balancing Lanjutan
 
-Jika di modul 2, kita telah mencoba salah satu metode atau algoritma load balancing yaitu `Round Robin`, pada modul kali ini kita akan mencoba algoritma lainnya yaitu: `Least-connection`, `IP Hash`, dan `Generic Hash`. Diharapkan kalian telah membaca pengertian dan cara kerjanya di [modul 2](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-2/Web%20server/README.md#b-load-balancing-pada-nginx).
+Pada submodul sebelumnya, kita telah membahas sekilas mengenai load balancing. Di submodul ini, kita akan mencoba untuk mengimplementasikannya. Namun, kita perlu mengetahui lebih jauh mengenai load balancing. Karena kita akan menggunakan nginx sebagai load balancer, maka berikut merupakan arsitektur load balancing yang umumnya digunakan di Nginx (default):
 
-Pada modul ini kita akan mengkonfigurasi semua metode load balancing yang dibahas sebelumnya.
+<img src="images/nginx-lb-default.png">
+
+Namun kita juga bisa menggunakan jenis arsitektur lain, yaitu **Weighted load balancing**, dengan menambahkan parameter `weight` pada konfigurasi Nginx sehingga ada satu node yang memiliki weight atau beban lebih.
+
+<img src="images/nginx-lb-weight.png">
+
+Nginx juga menawarkan beberapa metode atau algoritma load balancing yang dapat disesuaikan dengan kebutuhan pengguna, berikut ini beberapa metode yang sering digunakan:
+
+- Round robin
+
+  Jika kita memilih metode ini maka distribusi beban akan didistribusikan sesuai dengan urutan nomer dari server atau master. Jika kita memiliki 3 buah node, maka urutannya adalah dari node pertama, kemudian node kedua, dan ketiga. Setelah node ketiga menerima beban, maka akan diulang kembali dari node ke satu. Round robin sendiri merupakan metode default yang ada di Nginx.
+
+```bash
+upstream mynode {
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+}
+```
+
+- Least-connection
+
+  Jika Round robin akan mendistribusikan berdasarkan nomer dan urutan server, maka least-connection akan melakukan prioritas pembagian dari beban kinerja yang paling rendah. Node master akan mencatat semua beban dan kinerja dari semua node, dan akan melakukan prioritas dari beban yang paling rendah. Sehingga diharapkan tidak ada server dengan beban yang rendah.
+
+```bash
+upstream mynode {
+        least_conn;
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+}
+```
+
+- IP Hash
+
+  Agak berbeda dengan kedua algoritma di atas, algoritma ini akan melakukan hash berdasarkan request dari pengguna (menggunakan alamat IP dari pengguna). Sehingga server akan selalu menerima request dari alamat IP yang berbeda. Ketika server ini tidak tersedia, permintaan dari klien ini akan dilayani oleh server lain.
+
+  ```bash
+  upstream mynode {
+        ip_hash;
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+  }
+  ```
+
+- Generic Hash
+
+  Metode Load Balancer Hash ini memetakan beban ke masing-masing node dengan cara membuat hashing berdasarkan text dan atau `Nginx Variables` yang ditentukan dalam hash config.
+
+  ```bash
+  upstream mynode {
+        hash $request_uri consistent;
+        server srv1.example.com;
+        server srv2.example.com;
+        server srv3.example.com;
+  }
+  ```
+
+Upstream pada Nginx merujuk pada kelompok atau cluster nodes yang ingin kita gunakan sebagai web server.
+
+```bash
+http {
+    upstream nama_upstream {
+        nama_method;
+        server 192.168.1.2;
+        server 192.168.1.3;
+        server 192.168.1.4 weight=5;
+        server ....;
+    }
+}
+
+server {
+    location / {
+        proxy_pass http://nama_upstream;
+    }
+}
+
+```
+
+Selanjutnya, kita akan mengkonfigurasi semua metode load balancing yang dibahas tersebut.
 
 #### A. Round Robin
 
@@ -1493,7 +1573,6 @@ cat /var/log/nginx/lb_error.log
 
 `Request` & `concurrency` - Untuk jumlah request dan konkurensi harap disesuaikan dengan CPU dan Memory.
 
-
 #### Referensi
 
 - <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy>
@@ -1504,3 +1583,7 @@ cat /var/log/nginx/lb_error.log
 - <https://www.linuxid.net/31888/mengenal-konfigurasi-nginx-error-log-dan-access-log>
 - <https://betterstack.com/community/guides/logging/how-to-view-and-configure-nginx-access-and-error-logs>
 - <https://httpd.apache.org/docs/2.4/programs/ab.html>
+
+<!-- NGINX DARI MODUL WEBSERVER  -->
+
+#### B. Load Balancing pada Nginx

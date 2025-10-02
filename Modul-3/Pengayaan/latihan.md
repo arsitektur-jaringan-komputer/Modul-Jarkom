@@ -1,4 +1,4 @@
-# Persiapan
+# Latihan
 
 ![image](https://c.tenor.com/A-zBK3Pr8YQAAAAM/suuuper-franky.gif)
 
@@ -12,7 +12,8 @@ Buat topologi baru sesuai dengan peta topologi jaringan dibawah.
 
 Konfigurasi interface sama seperti [Modul GNS3](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/modul-uml), dengan tambahan:
 
-* **Foosha** (SEBAGAI ROUTER & DHCP RELAY)
+- **Foosha** (SEBAGAI ROUTER & DHCP RELAY)
+
 ```
 auto eth0
 iface eth0 inet dhcp
@@ -36,7 +37,8 @@ up iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s [Prefix IP].0.0/16
 
 ```
 
-* **Dressrosa** (SEBAGAI REVERSE PROXY & LOAD BALANCER)
+- **Dressrosa** (SEBAGAI REVERSE PROXY & LOAD BALANCER)
+
 ```
 auto eth0
 iface eth0 inet static
@@ -44,7 +46,8 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway [Prefix IP].2.1
 ```
-* **Jipangu** (SEBAGAI WORKER)
+
+- **Jipangu** (SEBAGAI WORKER)
 
 ```
 auto eth0
@@ -54,7 +57,8 @@ iface eth0 inet static
 	gateway [Prefix IP].2.1
 ```
 
-* **Westalis** (SEBAGAI DHCP SERVER)
+- **Westalis** (SEBAGAI DHCP SERVER)
+
 ```
 auto eth0
 iface eth0 inet static
@@ -68,116 +72,116 @@ iface eth0 inet static
 
 Dalam modul 3, kita akan menggunakan 3 aplikasi, yaitu:
 
-* **isc-dhcp-server** digunakan untuk DHCP Server
-* **bind9** digunakan untuk DNS Server
-* **nginx** digunakan untuk Reverse Proxy
+- **isc-dhcp-server** digunakan untuk DHCP Server
+- **bind9** digunakan untuk DNS Server
+- **nginx** digunakan untuk Reverse Proxy
 
 Lakukan langkah-langkah berikut:
 
 1. Mengupdate package list pada **Foosha**, **Westalis**, **EniesLobby** dan **Dressrosa**.
 
-    ```
-    apt-get update
-    ```
+   ```
+   apt-get update
+   ```
 
 2. Menginstal **isc-dhcp-server** pada server **Westalis**
 
-    ```
-    apt-get install isc-dhcp-server
-    ```
+   ```
+   apt-get install isc-dhcp-server
+   ```
 
 3. Menginstal **bind9** pada server **EniesLobby**
 
-    ```
-    apt-get install bind9
-    ```
+   ```
+   apt-get install bind9
+   ```
 
 4. Menginstal **nginx** pada server **Dressrosa**
 
-    ```
-    apt-get install nginx
-    ```
+   ```
+   apt-get install nginx
+   ```
 
 5. Menginstal **isc-dhcp-relay** pada router **Foosha**
 
-    ```
-    apt-get install isc-dhcp-relay
-    ```
+   ```
+   apt-get install isc-dhcp-relay
+   ```
 
 ## Konfigurasi DNS
 
 Masuk ke Enieslobby untuk melakukan konfigurasi DNS
 
-### Membuat Domain Utama  & Subdomain
+### Membuat Domain Utama & Subdomain
 
 - Pada topologi kali ini kita akan menggunakan `jarkom.site` sebagai domain utama. Isi dari `named.conf.local`
 
-    ```bash
-    zone "jarkom.site" {
-            type master;
-            file "/etc/bind/jarkom/jarkom.site";
-    };
+  ```bash
+  zone "jarkom.site" {
+          type master;
+          file "/etc/bind/jarkom/jarkom.site";
+  };
 
-    zone "2.168.192.in-addr.arpa" {
-        type master;
-        file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
-    };
-    ```
+  zone "2.168.192.in-addr.arpa" {
+      type master;
+      file "/etc/bind/jarkom/2.168.192.in-addr.arpa";
+  };
+  ```
 
 - Konfigurasi CNAME dan subdomain pada file `jarkom.site`
 
-    ```bash
-    ;
-    ; BIND data file for local loopback interface
-    ;
-    $TTL    604800
-    @       IN      SOA     jarkom.site. root.jarkom.site. (
-    			    2023110101    ; Serial
-                            604800        ; Refresh
-                            86400         ; Retry
-                            2419200       ; Expire
-                            604800 )      ; Negative Cache TTL
-    ;
-    @               IN      NS      jarkom.site.
-    @               IN      A       192.168.2.2 ; IP Dressrosa
-    www             IN      CNAME   jarkom.site.
-    enieslobby      IN      A       192.168.2.3 ; IP EniesLobby
-    water7          IN      A       192.168.2.4 ; IP Water7
-    jipangu         IN      A       192.168.2.5 ; IP Jipangu
+  ```bash
+  ;
+  ; BIND data file for local loopback interface
+  ;
+  $TTL    604800
+  @       IN      SOA     jarkom.site. root.jarkom.site. (
+  			    2023110101    ; Serial
+                          604800        ; Refresh
+                          86400         ; Retry
+                          2419200       ; Expire
+                          604800 )      ; Negative Cache TTL
+  ;
+  @               IN      NS      jarkom.site.
+  @               IN      A       192.168.2.2 ; IP Dressrosa
+  www             IN      CNAME   jarkom.site.
+  enieslobby      IN      A       192.168.2.3 ; IP EniesLobby
+  water7          IN      A       192.168.2.4 ; IP Water7
+  jipangu         IN      A       192.168.2.5 ; IP Jipangu
 
-    ```
+  ```
 
 - Konfigurasi reverse di file `2.168.192.in-addr.arpa`
 
-    ```bash
+  ```bash
 
-    ; BIND data file for local loopback interface
-    ;
-    $TTL    604800
-    @       IN      SOA     jarkom.site. root.jarkom.site. (
-                            2023110101    ; Serial
-                            604800        ; Refresh
-                            86400         ; Retry
-                            2419200       ; Expire
-                            604800 )      ; Negative Cache TTL
-    ;
-    2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
-    2                               IN      PTR     jarkom.site.
-    ```
+  ; BIND data file for local loopback interface
+  ;
+  $TTL    604800
+  @       IN      SOA     jarkom.site. root.jarkom.site. (
+                          2023110101    ; Serial
+                          604800        ; Refresh
+                          86400         ; Retry
+                          2419200       ; Expire
+                          604800 )      ; Negative Cache TTL
+  ;
+  2.168.192.in-addr.arpa.         IN      NS      jarkom.site.
+  2                               IN      PTR     jarkom.site.
+  ```
 
 - Pastikan konfigurasinya sudah sesuai, lalu restart bind9
 
-    ```bash
-    service bind9 restart
-    ```
+  ```bash
+  service bind9 restart
+  ```
 
 - Lakukan pengujian dari Alabasta atau Loguetown. Jangan lupa untuk mengganti `resolv.conf`
 
-    ```bash
-    nameserver 192.168.2.3
-    ```
+  ```bash
+  nameserver 192.168.2.3
+  ```
 
-    ![Testing Subdomain](./Reverse%20Proxy/img/subdomain-tes.png)
+  ![Testing Subdomain](./Reverse%20Proxy/img/subdomain-tes.png)
 
 ## Inget ini yaa 👋
 
@@ -189,6 +193,6 @@ Lakukan beberapa hal dasar di bawah ini setiap kali kamu **menjalankan GNS3**:
 
 ## Selamat mengerjakan :)
 
-n.b. Jika terjadi masalah, silahkan restart GNS3 nya atau VM nya. Jika masih juga belum menemukan solusinya, silakan tanya ke asisten masing-masing. **Jika** masih belum belum juga nemuin solusinya, silakan kontak [master](https://github.com/kuuhaku86). Suemangatttt 🤓
+n.b. Jika terjadi masalah, silahkan restart GNS3 nya atau VM nya. Jika masih juga belum menemukan solusinya, silakan tanya ke asisten masing-masing. Suemangatttt 🤓
 
 ![](https://64.media.tumblr.com/fb2eb1aa1d88b93a8fec36fd81b051cb/fbcc43fc5be59b7e-17/s500x750/b90ad78abd57064acf96ae5bde0ffed0b23ac968.gifv)
