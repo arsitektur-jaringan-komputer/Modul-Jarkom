@@ -292,3 +292,10 @@ atau dengan memastikan `net.ipv4.ip_forward=1` ada (biasa di-comment) di dalam `
 ```
 sysctl -p
 ```
+
+## Referensi
+
+- https://www.geeksforgeeks.org/computer-networks/open-systems-interconnection-model-osi/
+- https://www.tutorialspoint.com/data_communication_computer_network/computer_network_models.htm
+- https://www.geeksforgeeks.org/computer-networks/computer-network-models/
+- https://www.lifewire.com/layers-of-the-osi-model-illustrated-818017
