@@ -91,7 +91,7 @@ Setelah mengetahui beberapa kategori protokol pada Dynamic Routing, kita akan me
 
 Agar lebih mudah, mari kita menggunakan gambar topologi sederhana berikut ini
 
-# GBRMDL D01
+![Gambar](../assets/rip_topology.jpg)
 
 Dari sudut pandang R2, subnet 172.16.1.0/24 dan 192.168.1.0/24 terhubung langsung dengannya, maka dari itu hop count nya bernilai 0 (karena tidak perlu ada _hop_ atau router lagi di tengah-tengahnya). Begitu pula dengan R3, karena subnet 10.1.1.0/24 dan 172.16.1.0/24 terhubung langsung dengannya, maka hop count nya akan bernilai 0. Kemudian, pada interval yang ditentukan (umumnya setiap 30 detik), R2 dan R3 akan berbagi informasi mengenai routing table masing-masing.
 
