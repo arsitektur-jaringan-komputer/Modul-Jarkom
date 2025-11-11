@@ -16,7 +16,9 @@
     - [Poison Reverse](#poison-reverse)
     - [Split Horizon](#split-horizon)
   - [OSPF](#ospf)
-    - [???]
+    - [LSA dan LSDB](#lsa-dan-lsdb)
+    - [Area]
+    - [Packet]
 - [D. Implementasi](#d-implementasi)
 
 ## A. Pengenalan
@@ -120,3 +122,173 @@ Berbeda dengan Route Poisoning yang terjadi ketika ada sambungan yang gagal, Spl
 Poison Reverse merupakan teknik yang mirip dengan Split Horizon, yaitu mekanisme untuk mencegah looping. Namun berbeda dengan Split Horizon yang lebih "sunyi" (karena router tidak memberi informasi kembali), Poison Reverse bekerja dengan lebih eksplisit sehingga banyak yang beranggapan bahwa Split Horizon dengan Poison Reverse lebih aman daripada Split Horizon saja. Cara kerjanya juga mirip, yaitu bagikan informasi kembali mengenai cara meraih suatu subnet ke router asal kamu mempelajarinya, namun tandai bahwa subnet tersebut bisa diraih dalam 15+1 hop. Dengan kata lain, apabila router A mendapat informasi cara meraih subnet X melalui router B, maka A akan memberi tahu bahwa router B bisa meraih subnet X melalui router A dalam 15+1 hop. Maka dari itu, router B akan menganggap bahwa subnet X _unreachable_ via A. \
 
 > Bila merujuk pada topologi di atas, router A bisa dimisalkan R2, router B bisa dimisalkan R3, dan X bisa dimisalkan subnet 10.1.1.0/24.
+
+### OSPF
+
+![Gambar](../assets/ospf_01.jpg)
+
+**Open Shortest Path First** atau yang biasa dikenal dengan **OSPF** adalah suatu protokol routing link-state yang bertujuan untuk melakukan routing dan menentukan jalur terbaik yang ditempuh suatu packet di dalam suatu Autonomous System (AS) yang sama. Pada intinya, router-router pada OSPF akan saling bertukar informasi yang diketahuinya mengenai seluruh topologi dengan tetangga-tetangganya. Hasilnya, router-router yang bertetangga akan memiliki informasi yang sama mengenai jaringan dan bisa menghitung rute dengan algoritma seperti **Dijkstra's Algorithm**
+
+Ada 3 tabel utama yang digunakan oleh OSPF, yakni:
+
+1. **Neighbor Table** menunjukkan router OSPF lainnya yang terhubung secara langsung
+2. **Topology Table** merupakan jantung dari OSPF yang berisi informasi mengenai topologi. Di dalam OSPF, tabel ini juga biasa dikenal sebagai **LSDB** dan akan kita bahas selanjutnya
+3. **Routing Table** adalah tabel untuk menunjukkan jalur yang digunakan suatu packet. Tabel ini sudah sering kita singgung di modul-modul sebelumnya
+
+#### LSA dan LSDB
+
+![Gambar](../assets/ospf_02.jpg)
+
+Pada OSPF, informasi mengenai topologi disimpan di dalam suatu tabel yang disebut **Link State Database (LSDB)**. Suatu LSDB berisi kumpulan **Link State Advertisement (LSA)** yang merupakan informasi-informasi kecil yang dimiliki oleh masing-masing router OSPF.
+
+Dalam suatu area (akan kita bahas sebentar lagi), **semua router harus memiliki LSDB yang sama persis**. Karena LSDB terdiri dari LSA, maka LSA yang dimiliki oleh semua router juga harus sama persis. Maka dari itu, router-router akan membagikan menunjukkan LSDB masing-masing dan saling berbagi LSA kepada sesama router dengan tujuan semua router memiliki pengetahuan yang sama.
+
+### Area
+
+Karena OSPF bertujuan supaya semua router memiliki LSDB yang sama, maka hal ini memicu banyak sekali traffic di jaringan seperti penunjukan LSDB, permintaan LSA, pengiriman LSA, dan lain-lain. Hal ini tentu saja akan sangat mempengaruhi kualitas jaringan, terutama apabila jumlah router meningkat. Maka dari itu, dibuatlah suatu konsep **Area** untuk mengumpulkan beberapa router menjadi kelompok-kelompok kecil.
+
+![Gambar](../assets/ospf_05.jpg)
+
+Umumnya area bisa dibagi menjadi 2, yaitu Backbone Area dan Standard Area. Backbone Area merupakan area pusat dimana semua area akan terhubung dengan area ini dan komunikasi antar-area harus melalui Backbone Area. Area ini diberi Area ID khusus, yaitu 0 (sehingga Area 0 = Backbone Area). Standard Area adalah area selain Backbone Area dan dapat diberi ID berapapun selain 0
+
+> Namun, ada beberapa tipe area lainnya seperti Stub Area, NSSA, dan Totally Stubby. Namun tipe-tipe ini tidak akan kita bahas di modul ini.
+
+![Gambar](../assets/ospf_03.jpg)
+
+Idealnya, router-router dalam suatu area harus memiliki LSDB yang sama. Sehingga, traffic di dalam suatu area akan dipenuhi pertukaran informasi sampai seluruh router telah tersinkronisasi (memiliki LSDB yang sama). Namun, LSDB pada suatu area dan area lain bisa (dan pasti) berbeda. Untungnya, suatu router tidak perlu memiliki LSDB dari area yang tidak dihuni olehnya.
+
+Misal merujuk pada gambar di bawah ini, R2 dan R3 (dan ABR1 juga) akan memiliki LSDB yang sama untuk Area 25. Namun, R2 dan R3 tidak perlu memiliki LSDB untuk Area 34, 0, dan 0.0.0.5. Namun, karena ABR1 juga terhubung ke Area 34 dan Area 0, maka ABR1 harus memiliki LSDB untuk area-area tersebut. Sehingga, ABR1 akan memiliki 3 LSDB yang berbeda (satu untuk masing-masing area).
+
+![Gambar](../assets/ospf_04.svg)
+
+Dari gambar di atas kita juga bisa melakukan klasifikasi router berdasarkan role-nya, yaitu:
+
+1. **Internal Router**: Router yang semua interfacenya ada pada 1 non-backbone area saja. Contoh: R1, R2, R3, R4, R5.
+2. **Backbone Router**: Router yang memiliki setidaknya 1 interface pada Area 0. Contoh: BB1, BB2, ABR1, ABR2, ASBR1.
+3. **Area Border Router**: Router yang terhubung ke lebih dari 1 area OSPF (salah satunya pasti Area 0). Contoh: ABR1, ABR2
+4. **Autonomous System Boundary Router**: Router yang terhubung ke area OSPF dan arean non-OSPF. Contoh: ASBR1.
+
+> Agar bisa lebih paham dengan cara kerja OSPF, bagaimana proses pertukaran informasi terjadi, dan bagaimana proses _network adjacency_ pada router-router yang terhubung langsung, kalian juga bisa mempelajari 5 tipe packet yang ada pada OSPF yaitu Hello, DBD, LSR, LSU, dan LSAck.
+
+## D. Implementasi
+
+Pada modul ini, kita akan mencoba mengimplementasikan protokol **RIP** di GNS3 menggunakan image `royyana/netics-pc:debi-latest`. Kita akan menggunakan package **frr** atau Free-Range Routing. Selain itu, kita juga akan menggunakan topologi yang sangat sederhana seperti berikut ini:
+
+![Gambar](../assets/impl_topo.jpg)
+
+Dan konfigurasi IP sebagai berikut:
+
+```
+Kasparov:
+eth0: 10.10.1.2
+gateway: 10.10.1.1
+
+Maxime:
+eth0: 10.10.1.1
+eth1: 10.10.2.1
+
+Vachier:
+eth0: 10.10.2.2
+eth1: 10.10.3.2
+
+Lagrave:
+eth0: 10.10.3.1
+eth1: 10.10.4.1
+
+Karpov:
+eth0: 10.10.4.2
+gateway: 10.10.4.1
+```
+
+Karena di dalam image sudah tersedia frr, maka kita tidak perlu melakukan instalasi dan bisa langsung navigasi ke direktori frr
+
+```
+cd /usr/lib/frr
+```
+
+Lalu, nyalakan semua service yang diperlukan
+
+```
+./zebra -d
+./ripd -d
+./mgmtd -d
+```
+
+> Gunakan flag -d untuk mengeksekusi sebagai daemon. Apabila tidak ingin dijalankan sebagai daemon, maka bisa menggunakan tmux untuk tetap menggunakan shell.
+
+Selanjutnya, masuk ke semua router (node **Maxime**, **Vachier**, dan **Lagrave**) dan jalankan command berikut untuk memasuki CLI untuk berinteraksi dengan FRRouting:
+
+```
+vtysh
+```
+
+![Gambar](../assets/impl_02.jpg)
+
+Pada semua router, mulai konfigurasi dengan menjalankan command berikut di dalam `vtysh`:
+
+```
+conf t
+router rip
+```
+
+Command selanjutnya cukup menjalankan
+
+```
+network <NID>/<NETMASK>
+```
+
+dimana NID berisi network ID dari subnet yang terhubung secara langsung dan NETMASK merupakan subnet masknya. Lakukan ini untuk semua interface yang ada, sehingga:
+
+Pada node **Maxime**:
+
+```
+network 10.10.1.0/24
+network 10.10.2.0/24
+```
+
+Pada node **Vachier**:
+
+```
+network 10.10.2.0/24
+network 10.10.3.0/24
+```
+
+Pada node **Lagrave**:
+
+```
+network 10.10.3.0/24
+network 10.10.4.0/24
+```
+
+Lalu di semua node, kembali ke privileged EXEC mode dengan:
+
+```
+exit
+exit
+```
+
+![Gambar](../assets/impl_03.jpg)
+
+Untuk melihat apakah RIP dan route sudah benar, bisa dengan:
+
+```
+show ip rip
+show ip route
+```
+
+![Gambar](../assets/impl_01.jpg)
+
+Apabila sudah muncul R, maka routing hasil dari RIP sudah berhasil masuk dan bisa dites dengan melakukan ping dari **Kasparov** ke **Karpov** (atau sebaliknya, sama aja)
+
+![Gambar](../assets/impl_ping.jpg)
+
+## Referensi
+
+- https://www.catchpoint.com/dynamic-routing-protocols
+- https://www.idn.id/routing-dynamic/
+- https://www.baeldung.com/cs/routing-igp-egp-protocols
+- https://www.geeksforgeeks.org/computer-networks/difference-between-distance-vector-routing-and-link-state-routing/
+- https://www.youtube.com/playlist?list=PLIFyRwBY_4bSkwy0-im5ERL-_CeBxEdx3
+- https://docs.paloaltonetworks.com/pan-os/11-0/pan-os-networking-admin/ospf/ospf-concepts/ospf-router-types
+- https://ipcisco.com/lesson/ospf-stub-area-and-totally-stub-area-on-cisco-packet-tracer/
+- https://ipcisco.com/lesson/what-is-lsdb/
