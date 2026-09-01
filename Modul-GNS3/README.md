@@ -40,7 +40,7 @@
 <br>
 
 ## Instalasi GNS3 VM
-1. Buka tautan GitHub berikut https://github.com/GNS3/gns3-gui/releases, lalu unduh file **GNS3-2.2.61-all-in-one.exe** dan **GNS3.VM.VirtualBox.2.2.61.zip**.
+1. Buka tautan GitHub berikut https://github.com/gns3/gns3-gui/releases?page=2#release-v3.0.6, lalu unduh file **GNS3-3.0.6-all-in-one.exe** dan **GNS3.VM.VMware.Workstation.3.0.6.zip**.
 
    ![Releases](images/gns3-vm-1.png)
 
@@ -78,7 +78,7 @@
 
    ![Template](images/netics-pc-appliance-1.png)
 
-2. Pilih opsi **Import an appliance file**, lalu pilih berkas **netics-alpinet.gns3a** yang telah diunduh.
+2. Pilih opsi **Import an appliance file**, lalu pilih berkas **netics-alpinet.gns3a** yang telah diunduh. Untuk berkas **netics-alpinet.gns3a** bisa anda dapatkan dari [sini](netics-pc-alpinet\netics-alpinet.gns3a)
 
    ![Appliance](images/netics-pc-appliance-2.png)
 
