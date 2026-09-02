@@ -2,7 +2,8 @@
 
 - [Modul Pengenalan GNS3](#modul-pengenalan-gns3)
   - [Apakah GNS3 itu?](#apakah-gns3-itu)
-  - [Instalasi VMWare Workstation](#instalasi-vmware-workstation)
+  - [Instalasi GNS3 MacOS](#apakah-gns3-itu)
+  - [Instalasi VMWare Workstation](#instalasi-gns3-macos)
   - [Instalasi VirtualBox](#instalasi-virtualbox)
   - [Instalasi GNS3 VM di VMWare](#instalasi-gns3-vm-di-vmware)
   - [Import GNS3 VM di VirtualBox](#import-gns3-vm-di-virtualbox)
@@ -25,6 +26,15 @@
 **GNS3 (Graphical Network Simulator-3)** adalah alat yang membantu Anda untuk bisa menjalankan sebuah simulasi dari topologi kecil yang hanya terdiri dari beberapa alat saja di komputer Anda sampai dengan topologi yang memiliki banyak alat yang di-hosting di beberapa server.
 
 <br>
+
+## Instalasi GNS3 Mac0S
+
+Instalasi GNS3 untuk MacOS dapat melihat video youtube berikut:
+<br>
+[![GNS3-MAC-INSTALLATION](https://img.youtube.com/vi/7N_hJ5bOofg/0.jpg)](https://youtu.be/7N_hJ5bOofg?si=thDG4ZY7FIdfaPlG)
+
+<b>Note:</b> Khusus untuk Mac dengan processor Intel, dapat mendownload image yang sama seperti windows dengan link berikut
+[GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VirtualBox.2.2.42.zip). Sehabis itu langsung saja extract.
 
 ## Instalasi VMWare Workstation
 1. Buka situs web https://support.broadcom.com/ lalu daftarkan akun baru (disarankan menggunakan email pribadi).

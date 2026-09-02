@@ -2,6 +2,7 @@
 
 - [GNS3 Introduction Module](#gns3-introduction-module)
   - [What is GNS3?](#what-is-gns3)
+  - [GNS3 MacOS Installation](#gns3-macos-installation)
   - [Installing VMware Workstation](#installing-vmware-workstation)
   - [Installing VirtualBox](#installing-virtualbox)
   - [Installing GNS3 VM in VMWare](#installing-gns3-vm)
@@ -25,6 +26,12 @@
 **GNS3 (Graphical Network Simulator-3)** is a tool that helps you run a simulation of anything from a small topology consisting of just a few devices on your computer all the way up to a topology with many devices hosted across multiple servers.
 
 <br>
+
+## GNS3 MacOS Installation
+
+Installation of GNS3 for macOS can be viewed in the following YouTube video:
+<br>
+[![GNS3-MAC-INSTALLATION](https://img.youtube.com/vi/7N_hJ5bOofg/0.jpg)](https://youtu.be/7N_hJ5bOofg?si=thDG4ZY7FIdfaPlG)
 
 ## Installing VMware Workstation
 1. Open the website https://support.broadcom.com/ and register a new account (using a personal email is recommended).
