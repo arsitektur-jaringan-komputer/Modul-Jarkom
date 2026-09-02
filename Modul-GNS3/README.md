@@ -19,6 +19,8 @@
 
 <br>
 
+
+
 ## Instalasi VMWare Workstation
 1. Buka situs web https://support.broadcom.com/ lalu daftarkan akun baru (disarankan menggunakan email pribadi).
 2. Buka menu **VMWare Cloud Foundation → My Downloads → Free Software Downloads** untuk mengakses daftar software yang tersedia secara gratis.
@@ -39,7 +41,17 @@
 
 <br>
 
-## Instalasi GNS3 VM
+## Instalasi VirtualBox
+
+Silahkan mendownload dari link berikut 
+
+- [VirtualBox 7.0](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
+
+Pilih versi VirtualBox yang sesuai dengan jenis dari OS anda.
+
+<br>
+
+## Instalasi GNS3 VM di VMWare
 1. Buka tautan GitHub berikut https://github.com/gns3/gns3-gui/releases?page=2#release-v3.0.6, lalu unduh file **GNS3-3.0.6-all-in-one.exe** dan **GNS3.VM.VMware.Workstation.3.0.6.zip**.
 
    ![Releases](images/gns3-vm-1.png)
@@ -57,6 +69,45 @@
 5. Jika muncul kendala saat menyalakan virtual machine, buka menu **Settings → Processors**, lalu hapus tanda centang pada opsi **Virtualize Intel VT-x/EPT or AMD-V/RVI**.
 
    ![Processor](images/gns3-vm-4.png)
+
+<br>
+
+## Import GNS3 VM di VirtualBox
+
+1. Download Image VM GNS3
+   Silahkan mendowload dari link berikut [GNS3 VM 3.0.6](https://github.com/GNS3/gns3-gui/releases/download/v3.0.6/GNS3.VM.VirtualBox.3.0.6.zip). Sehabis itu langsung saja extract.
+
+2. Import file .ova ke VirtualBox
+
+![import-ova](images/import-ova.jpg)
+
+![import-ova-2](images/import-ova-2.jpg)
+
+3.  Membuat host network adapter baru
+
+- Pilih File Menu -> Host Network Manager <br/>
+  ![new-host-network-adapter](images/new-host-network-adapter-1.jpg)
+- Klik Create <br/>
+  ![new-host-network-adapter-2](images/new-host-network-adapter-2.jpg)
+- Lalu setting agar IPv4 Address adalah `192.168.0.1`, dan IPv4 Network Mask `255.255.255.0` lalu klik apply
+  ![new-host-network-adapter-4](images/new-host-network-adapter-4.jpg)
+  ![new-host-network-adapter-5](images/new-host-network-adapter-5.jpg)
+
+4. Ubah Network Adapter di VM
+
+- Pergi ke Settings -> Network
+- Ubah Adapter 1 ke Host-only Adapter dan sesuaikan dengan host network yang telah dibuat sebelumnya
+  ![setting-network-vm-1](images/setting-network-vm-1-new.jpg)
+- Dan ubah Adapter 2 menjadi NAT <br/>
+  ![setting-network-vm-2](images/setting-network-vm-2.jpg)
+- Agar Web-UI dari gns3 dapat diakses pada browser host, tambahkan `port forwarding`(pada dropdown `Advance`) untuk port 80 pada guest, dengan begitu gns3 dapat diakses melalui `127.0.0.1:80` <br/>
+  ![setting-network-vm-3](images/setting-network-vm-3.jpg)
+- Lalu klik OK
+
+5.  Jalankan VM
+
+- Maka VM seharusnya bisa menampilkan ini
+  ![vm](images/vb-new-vm-1.png)
 
 <br>
 
@@ -115,6 +166,10 @@
    ![Koneksi](images/using-internet-3.png)
 
 5. Lalu konfigurasi IP dari node netics-pc
+
+Klik kanan pada node netics-pc-1 dan pilih **Configure** dan tekan tombol **Edit** pada bagian Network Configuration.
+
+![Konfigurasi Network Adapter](images/using-internet-5.png) 
 
 - Cari 2 line yang seperti ini
 
@@ -239,6 +294,26 @@ iface eth0 inet static
 
 <br>
 
+## Cara export project gns3
+
+1. Di gns3 desktop, cari pilihan menu **File**, kemudian cari menu **Export Project**
+
+![alt text](images/export-project-1.png) 
+
+2. Kemudian akan muncul pop up untuk konfigurasi dan preferensi cara export project, disini kalian pilih tipe kompresi **bzip2 compression** dan untuk level compression nya dibiarkan default value nya 9 saja
+
+![alt text](images/export-project-2b.png)
+
+3. Kemudian pilih path folder dan juga nama dari export project gns
+
+![alt text](images/export-project-2c.png)
+
+4. Untuk step ini bisa diabaikan saja atau kalau mau di-custom juga diperbolehkan, kalau sudah tinggal tekan tombol "Finish" saja
+
+![alt text](images/export-project-2.png) 
+
+![alt text](images/export-project-3.png)
+
 ## Ketentuan
 
 - Praktikan **hanya** diperbolehkan menggunakan appliances **netics-alpinet.gns3a**
@@ -263,6 +338,21 @@ iface eth0 inet static
 - Tidak disarankan untuk menggunakan gns3 pada WSL ataupun windows(GUI) _*jika-ada-masalah-selesaikan-sendiri*_
 - Ada sesuatu yang biasanya bisa tetapi tiba-tiba tidak bisa? Coba matikan dulu VM nya baru nyalakan kembali. Masih tidak bisa? Coba cara install GNS3 yang lain dahulu sebelum bertanya ke asisten.
 - Tidak bisa install di satu metode? Coba cara install yang lain dulu sebelum bertanya ke asisten.
+
+## Troubleshooting
+
+- _[UNTUK VIRTUALBOX]_ jika gns3 tidak dapat terkoneksi dengan internet,<br>
+  ![troubleshoot-1](images/troubleshoot-1.png)
+  coba ganti Network Adapter 2 Dari `NAT` menjadi `Bridged Adapter`, kemudian pada dropdown `Advanced` ubah `Promiscuous Mode` menjadi `Allow All` serta pastikan `Cable Connected` diaktifkan <br>
+  ![troubleshoot-2](images/troubleshoot-2.png)
+- Ada sesuatu yang biasanya bisa tetapi tiba-tiba tidak bisa? Coba matikan dulu VM nya baru nyalakan kembali. Masih tidak bisa? Coba cara instal GNS3 yang lain dahulu sebelum bertanya ke asisten.
+- Tidak bisa instal di satu metode? Coba cara instal yang lain dulu sebelum bertanya ke asisten.
+- Jika terjadi error 404 ketika akan meng-export project, <br>
+  ![troubleshoot-3](images/troubleshoot-3.png)
+  - pertama, masuk kedalam terminal dengan memilih opsi shell pada GUI:<br>
+    ![troubleshoot-4](images/troubleshoot-4.png)
+  - kemudian ubah permission directory penyimpanan project gns3 (sesuai path yang muncul pada error) dengan command `sudo chown -R gns3:gns3 /path/to/directory` <br>
+    ![troubleshoot-5](images/troubleshoot-5.png)
 
 ## Sumber
 
