@@ -3,13 +3,20 @@
 - [Modul Pengenalan GNS3](#modul-pengenalan-gns3)
   - [Apakah GNS3 itu?](#apakah-gns3-itu)
   - [Instalasi VMWare Workstation](#instalasi-vmware-workstation)
-  - [Instalasi GNS3 VM](#instalasi-gns3-vm)
+  - [Instalasi VirtualBox](#instalasi-virtualbox)
+  - [Instalasi GNS3 VM di VMWare](#instalasi-gns3-vm-di-vmware)
+  - [Import GNS3 VM di VirtualBox](#import-gns3-vm-di-virtualbox)
   - [Instalasi GNS3 GUI](#instalasi-gns3-gui)
   - [Instalasi netics-pc appliance](#instalasi-netics-pc-appliance)
   - [Penggunaan GNS3](#penggunaan-gns3)
     - [Setup IP di Node](#setup-ip-di-node)
     - [Akses Sebuah Node ke Internet](#akses-sebuah-node-ke-internet)
     - [Membuat Topologi](#membuat-topologi)
+  - [Cara export project gns3](#cara-export-project-gns3)
+  - [Ketentuan](#ketentuan)
+  - [Peringatan, Saran, Tips, dan Trik](#peringatan-saran-tips-dan-trik)
+  - [Troubleshooting](#troubleshooting)
+  - [Sumber](#sumber)
 
 <br>
 
@@ -18,8 +25,6 @@
 **GNS3 (Graphical Network Simulator-3)** adalah alat yang membantu Anda untuk bisa menjalankan sebuah simulasi dari topologi kecil yang hanya terdiri dari beberapa alat saja di komputer Anda sampai dengan topologi yang memiliki banyak alat yang di-hosting di beberapa server.
 
 <br>
-
-
 
 ## Instalasi VMWare Workstation
 1. Buka situs web https://support.broadcom.com/ lalu daftarkan akun baru (disarankan menggunakan email pribadi).
@@ -313,6 +318,8 @@ iface eth0 inet static
 ![alt text](images/export-project-2.png) 
 
 ![alt text](images/export-project-3.png)
+
+<br>
 
 ## Ketentuan
 

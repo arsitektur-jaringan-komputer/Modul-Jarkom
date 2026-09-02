@@ -3,13 +3,20 @@
 - [GNS3 Introduction Module](#gns3-introduction-module)
   - [What is GNS3?](#what-is-gns3)
   - [Installing VMware Workstation](#installing-vmware-workstation)
-  - [Installing GNS3 VM](#installing-gns3-vm)
+  - [Installing VirtualBox](#installing-virtualbox)
+  - [Installing GNS3 VM in VMWare](#installing-gns3-vm)
+  - [Importing the GNS3 VM in VirtualBox](#importing-the-gns3-vm-in-virtualbox)
   - [Installing GNS3 GUI](#installing-gns3-gui)
   - [Installing the netics-pc appliance](#installing-the-netics-pc-appliance)
   - [Using GNS3](#using-gns3)
     - [Setting Up IP on a Node](#setting-up-ip-on-a-node)
     - [Connecting a Node to the Internet](#connecting-a-node-to-the-internet)
     - [Creating a Topology](#creating-a-topology)
+  - [Exporting a GNS3 Project](#exporting-a-gns3-project)
+  - [Requirements](#requirements)
+  - [Warnings, Advice, Tips, and Tricks](#warnings-advice-tips-and-tricks)
+  - [Troubleshooting](#troubleshooting)
+  - [Sources](#sources)
 
 <br>
 
@@ -39,6 +46,16 @@
 
 <br>
 
+## Installing VirtualBox
+
+Please download it from the following link:
+
+- [VirtualBox 7.0](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
+
+Choose the VirtualBox version that matches your OS.
+
+<br>
+
 ## Installing GNS3 VM
 1. Open the following GitHub link https://github.com/gns3/gns3-gui/releases?page=2#release-v3.0.6, then download the **GNS3-3.0.6-all-in-one.exe** and **GNS3.VM.VMware.Workstation.3.0.6.zip** files.
 
@@ -57,6 +74,47 @@
 5. If you run into an issue when turning on the virtual machine, open the **Settings → Processors** menu, then uncheck the **Virtualize Intel VT-x/EPT or AMD-V/RVI** option.
 
    ![Processor](images/gns3-vm-4.png)
+
+<br>
+
+<br>
+
+## Importing the GNS3 VM in VirtualBox
+
+1. Download the GNS3 VM image
+   Please download it from the following link [GNS3 VM 3.0.6](https://github.com/GNS3/gns3-gui/releases/download/v3.0.6/GNS3.VM.VirtualBox.3.0.6.zip). Once done, extract it right away.
+
+2. Import the .ova file into VirtualBox
+
+![import-ova](images/import-ova.jpg)
+
+![import-ova-2](images/import-ova-2.jpg)
+
+3. Create a new host network adapter
+
+- Select File Menu -> Host Network Manager <br/>
+  ![new-host-network-adapter](images/new-host-network-adapter-1.jpg)
+- Click Create <br/>
+  ![new-host-network-adapter-2](images/new-host-network-adapter-2.jpg)
+- Then set the IPv4 Address to `192.168.0.1`, and the IPv4 Network Mask to `255.255.255.0`, then click Apply
+  ![new-host-network-adapter-4](images/new-host-network-adapter-4.jpg)
+  ![new-host-network-adapter-5](images/new-host-network-adapter-5.jpg)
+
+4. Change the Network Adapter on the VM
+
+- Go to Settings -> Network
+- Change Adapter 1 to Host-only Adapter and match it to the host network you created earlier
+  ![setting-network-vm-1](images/setting-network-vm-1-new.jpg)
+- And change Adapter 2 to NAT <br/>
+  ![setting-network-vm-2](images/setting-network-vm-2.jpg)
+- So that the GNS3 Web-UI can be accessed from a browser on the host, add `port forwarding` (in the `Advanced` dropdown) for port 80 on the guest; this way GNS3 can be accessed via `127.0.0.1:80` <br/>
+  ![setting-network-vm-3](images/setting-network-vm-3.jpg)
+- Then click OK
+
+5. Run the VM
+
+- The VM should now display this
+  ![vm](images/vb-new-vm-1.png)
 
 <br>
 
@@ -236,6 +294,30 @@ iface eth0 inet static
   ![Nameserver](images/create-topology-4.png)
 
 - All nodes should now be able to ping Google, which means they are connected to the internet
+
+<br>
+
+<br>
+
+## Exporting a GNS3 Project
+
+1. In the GNS3 desktop app, go to the **File** menu, then find the **Export Project** option.
+
+   ![alt text](images/export-project-1.png)
+
+2. A pop-up will appear for export configuration and preferences. Choose the **bzip2 compression** type and leave the compression level at its default value of 9.
+
+   ![alt text](images/export-project-2b.png)
+
+3. Then choose the destination folder and the name of the exported GNS3 project.
+
+   ![alt text](images/export-project-2c.png)
+
+4. This step can be skipped, or customized if you'd like; once done, just click the "Finish" button.
+
+   ![alt text](images/export-project-2.png)
+
+   ![alt text](images/export-project-3.png)
 
 <br>
 
