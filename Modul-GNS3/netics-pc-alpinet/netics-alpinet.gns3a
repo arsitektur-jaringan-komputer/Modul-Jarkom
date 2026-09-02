@@ -1,0 +1,25 @@
+{
+    "appliance_id": "a2209414-88a6-403b-a2e1-477a057ec955",
+    "name": "netics-pc",
+    "category": "guest",
+    "description": "multipurpose computing for praktikum Jarkom di lab NETICS dept teknik informatika",
+    "vendor_name": "NETICS",
+    "vendor_url": "its.id/netics",
+    "product_name": "netics-pc",
+    "registry_version": 4,
+    "status": "stable",
+    "maintainer": "royyana",
+    "maintainer_email": "roy@its.ac.id",
+    "symbol":"linux_guest.svg",
+    "usage": "The /root directory is persistent ",
+    "docker": {
+        "adapters": 4,
+        "image": "royyana/netics-pc:alpinet2",
+        "console_type": "telnet",
+        "environment": "TERM=xterm",
+    	"extra_volumes": [
+      		"/root",
+		"/etc/network"
+    		]
+    }
+}

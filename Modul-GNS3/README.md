@@ -2,26 +2,32 @@
 
 - [Modul Pengenalan GNS3](#modul-pengenalan-gns3)
   - [Apakah GNS3 itu?](#apakah-gns3-itu)
-  - [Instalasi GNS3](#instalasi-gns3)
-    - [Import Image di VirtualBox](#import-image-di-virtualbox)
-    - [Import Image di VMWare](#import-image-di-vmware)
-    - [Memasukkan Image Ubuntu ke GNS3](#memasukkan-image-ubuntu-ke-gns3)
+  - [Instalasi GNS3 MacOS](#apakah-gns3-itu)
+  - [Instalasi VMWare Workstation](#instalasi-gns3-macos)
+  - [Instalasi VirtualBox](#instalasi-virtualbox)
+  - [Instalasi GNS3 VM di VMWare](#instalasi-gns3-vm-di-vmware)
+  - [Import GNS3 VM di VirtualBox](#import-gns3-vm-di-virtualbox)
+  - [Instalasi GNS3 GUI](#instalasi-gns3-gui)
+  - [Instalasi netics-pc appliance](#instalasi-netics-pc-appliance)
   - [Penggunaan GNS3](#penggunaan-gns3)
     - [Setup IP di Node](#setup-ip-di-node)
     - [Akses Sebuah Node ke Internet](#akses-sebuah-node-ke-internet)
     - [Membuat Topologi](#membuat-topologi)
+  - [Cara export project gns3](#cara-export-project-gns3)
   - [Ketentuan](#ketentuan)
   - [Peringatan, Saran, Tips, dan Trik](#peringatan-saran-tips-dan-trik)
   - [Troubleshooting](#troubleshooting)
   - [Sumber](#sumber)
 
+<br>
+
 ## Apakah GNS3 itu?
 
 **GNS3 (Graphical Network Simulator-3)** adalah alat yang membantu Anda untuk bisa menjalankan sebuah simulasi dari topologi kecil yang hanya terdiri dari beberapa alat saja di komputer Anda sampai dengan topologi yang memiliki banyak alat yang di-hosting di beberapa server.
 
-## Instalasi GNS3
+<br>
 
-### Instalasi GNS3 Mac0S
+## Instalasi GNS3 Mac0S
 
 Instalasi GNS3 untuk MacOS dapat melihat video youtube berikut:
 <br>
@@ -30,29 +36,69 @@ Instalasi GNS3 untuk MacOS dapat melihat video youtube berikut:
 <b>Note:</b> Khusus untuk Mac dengan processor Intel, dapat mendownload image yang sama seperti windows dengan link berikut
 [GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VirtualBox.2.2.42.zip). Sehabis itu langsung saja extract.
 
-### Instalasi GNS3 Windows
+## Instalasi VMWare Workstation
+1. Buka situs web https://support.broadcom.com/ lalu daftarkan akun baru (disarankan menggunakan email pribadi).
+2. Buka menu **VMWare Cloud Foundation → My Downloads → Free Software Downloads** untuk mengakses daftar software yang tersedia secara gratis.
 
-Instalasi GNS3 untuk Windows dapat melihat video youtube berikut:
+   ![Registrasi](images/vmware-1.png)
+
+   ![Download](images/vmware-2.png)
+
+3. Pilih menu **VMWare Workstation Pro**, lalu tentukan versi yang akan diinstal. Untuk Windows, disarankan memilih **VMWare Workstation Pro 17.0 for Windows** versi terbaru.
+
+   ![VMware](images/vmware-3.png)
+
+   ![Versi](images/vmware-4.png)
+
+4. Centang box **Terms & Conditions**, lalu lengkapi data screening untuk memulai proses instalasi.
+
+   ![Formulir](images/vmware-5.png)
+
 <br>
-[![GNS3-WINDOWS-INSTALLATION](https://img.youtube.com/vi/2RNlsxK0AzY/0.jpg)](https://youtu.be/2RNlsxK0AzY?si=KkeadApIC3U9C-ke)
 
-<b>Note:</b> Video ini mengikuti penginstalan GNS 3 dengan VMWare, langkah-langkah secara poin terdapat pada [Import Image di VMWare](#import-image-di-vmware).
+## Instalasi VirtualBox
 
-### Import Image di VirtualBox
+Silahkan mendownload dari link berikut 
 
-1. Install VirtualBox
-   Silahkan mendownload dari link berikut [VirtualBox 7.0](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
+- [VirtualBox 7.0](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html).
 
-2. Download Image VM GNS3
-   Silahkan mendowload dari link berikut [GNS3 VM 3.0.5](https://github.com/GNS3/gns3-gui/releases/download/v3.0.5/GNS3.VM.VMware.Workstation.3.0.5.zip). Sehabis itu langsung saja extract.
+Pilih versi VirtualBox yang sesuai dengan jenis dari OS anda.
 
-3. Import file .ova ke VirtualBox
+<br>
+
+## Instalasi GNS3 VM di VMWare
+1. Buka tautan GitHub berikut https://github.com/gns3/gns3-gui/releases?page=2#release-v3.0.6, lalu unduh file **GNS3-3.0.6-all-in-one.exe** dan **GNS3.VM.VMware.Workstation.3.0.6.zip**.
+
+   ![Releases](images/gns3-vm-1.png)
+
+2. Ekstrak file **GNS3.VM.VirtualBox.2.2.61.zip** yang telah diunduh.
+
+3. Buka VMWare Workstation, lalu pilih menu **File → Open** dan pilih file **.ova** dari folder hasil ekstraksi.
+
+   ![Import](images/gns3-vm-2.png)
+
+4. Setelah proses import berhasil, nyalakan virtual machine dan tunggu hingga alamat IP beserta port GNS3 muncul. Catat alamat IP beserta port tersebut, karena keduanya akan digunakan untuk terhubung dengan GNS3 GUI.
+
+   ![IP](images/gns3-vm-3.png)
+
+5. Jika muncul kendala saat menyalakan virtual machine, buka menu **Settings → Processors**, lalu hapus tanda centang pada opsi **Virtualize Intel VT-x/EPT or AMD-V/RVI**.
+
+   ![Processor](images/gns3-vm-4.png)
+
+<br>
+
+## Import GNS3 VM di VirtualBox
+
+1. Download Image VM GNS3
+   Silahkan mendowload dari link berikut [GNS3 VM 3.0.6](https://github.com/GNS3/gns3-gui/releases/download/v3.0.6/GNS3.VM.VirtualBox.3.0.6.zip). Sehabis itu langsung saja extract.
+
+2. Import file .ova ke VirtualBox
 
 ![import-ova](images/import-ova.jpg)
 
 ![import-ova-2](images/import-ova-2.jpg)
 
-4.  Membuat host network adapter baru
+3.  Membuat host network adapter baru
 
 - Pilih File Menu -> Host Network Manager <br/>
   ![new-host-network-adapter](images/new-host-network-adapter-1.jpg)
@@ -62,7 +108,7 @@ Instalasi GNS3 untuk Windows dapat melihat video youtube berikut:
   ![new-host-network-adapter-4](images/new-host-network-adapter-4.jpg)
   ![new-host-network-adapter-5](images/new-host-network-adapter-5.jpg)
 
-5. Ubah Network Adapter di VM
+4. Ubah Network Adapter di VM
 
 - Pergi ke Settings -> Network
 - Ubah Adapter 1 ke Host-only Adapter dan sesuaikan dengan host network yang telah dibuat sebelumnya
@@ -73,113 +119,72 @@ Instalasi GNS3 untuk Windows dapat melihat video youtube berikut:
   ![setting-network-vm-3](images/setting-network-vm-3.jpg)
 - Lalu klik OK
 
-6.  Jalankan VM
-
-- Maka VM seharusnya bisa menampilkan ini
-  ![vm](images/new-vm-1.png)
-- Lalu buka alamat dengan keterangan "To launch the Web-UI" di browser
-  ![vm-2](images/vm-2.jpg)
-
-Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#memasukkan-image-ubuntu-ke-gns3)
-
-### Import Image di VMWare
-
-1. Install VMWare
-   Silahkan mendownload dari [VMware Workstation 17](https://www.vmware.com/products/workstation-pro/workstation-pro-evaluation.html).
-
-2. Download Image VM GNS3
-   Silahkan mendowload dari [GNS3 VM 3.0.5](https://github.com/GNS3/gns3-gui/releases/download/v3.0.5/GNS3.VM.VMware.Workstation.3.0.5.zip). Sehabis itu langsung saja extract.
-
-3. Import file .ova ke VMWare dan namai VM.
-
-![import-ova](images/insert-image-vmware-1.png)
-
-![import-ova-2](images/insert-image-vmware-2.png)
-
-![import-ova-3](images/insert-image-vmware-3.png)
-
-4. Sesuaikan settingan VMWare dengan klik `Edit virtual machine settings`.
-
-- Pastikan settingan Network sudah sesuai.
-
-![settingan-vmware-1](images/settingan-vmware-1.png)
-
-- Jika ada error `Virtualized ... Not Supported on Platform` saat vm nanti dijalankan, coba disable virtualisasi di settingan processor
-
-![settingan-vmware-2](images/settingan-vmware-2.png)
-
 5.  Jalankan VM
 
 - Maka VM seharusnya bisa menampilkan ini
-  ![vm](images/2025/vmware-gnsstart.png)
-- Lalu buka alamat dengan keterangan "To launch the Web-UI" di browser
-- Jika diminta masukkan username dan password, bisa menggunakan credentials default pada tampilan gns vmware.
-  ![vm-2](images/2025/vmware-gnswebinterface.png)
+  ![vm](images/vb-new-vm-1.png)
 
-Setelah itu silahkan lanjutkan untuk mengimpor image Ubuntu ke GNS3 [disini](#memasukkan-image-ubuntu-ke-gns3)
+<br>
 
-### Memasukkan Image Ubuntu ke GNS3
+## Instalasi GNS3 GUI
+1. Jalankan file **.exe** GNS3 yang telah diunduh, lalu ikuti proses instalasi hingga selesai.
 
-1. Import image ubuntu
+2. Buka menu **Edit → Preferences → Server → Remote servers**, lalu isi kolom **Host** dan **Port** dengan alamat IP dan port yang telah diperoleh dari GNS3 VM sebelumnya.
 
-- Klik `Open menu`<br>
-  ![insert-image-1](images/2025/gns-openmenu.png)
-- Klik `Template preferences`<br>
-  ![insert-image-2](images/2025/gns-templatepref.png)
-- Klik `Docker`
-- Klik `Add Docker container template`<br>
-  ![insert-image-3](images/2025/gns-addplus.png)
-- `Server type` pilih `Run this Docker container locally`
-- Klik `Docker Virtual Machine`, pilih `New image` isikan `royyana/netics-pc:debi-latest` di Image name<br>
-  ![insert-image-4](images/2025/gns-dockerimage.png)
-- Klik `Container name` masukkan `netics-pc` sebagai nama container
-- Klik `Network adapters` dan masukkan angka 4
-- Kosongi bagian `Start command`.
-- Lalu klik tombol `Add template` di bawah sendiri
+   ![Preferences](images/gns3-gui-1.png)
 
-2. Coba image yang telah di-import
+   ![Host](images/gns3-gui-2.png)
 
-- Klik `Projects` di kiri atas
-- Klik `Add blank project`
-- Masukkan nama project (terserah)
-- Klik `Add project`
-- Klik tombol + `Add a node` di samping kiri <br/>
-  ![test-image-1](images/2025/gns-addnode.png)
-- Lalu tarik `netics-pc` ke area kosong di halaman
-- Tunggu sampai loading selesai
-- Jika berhasil akan menampilkan tampilan yang mirip dengan ini
-  ![test-image-2](images/2025/gns-neticspc.png)
-- Kita bisa start dengan klik kanan di node dan klik `Start` <br/>
-  ![test-image-3](images/2025/gns-startnode.png)
+3. Untuk memulai proyek baru, pilih menu **File → New blank project**.
 
-3. Akses node
+<br>
 
-- Bisa dilakukan dengan `Web console` <br/>
-  ![akses-node-1](images/2025/gns-webconsole.png)
-- Bisa dilakukan menggunakan command `telnet [IP VM] [Port node]` di terminal lokal pc kita, jika menggunakan contoh di gambar, maka commandnya adalah `telnet 192.168.61.129 5000`
+## Instalasi netics-pc appliance
+1. Pilih menu **File → New Template**.
 
-  ![akses-node-2](images/2025/gns-telnetnode.png)
-- Jika menggunakan telnet, hati-hati jika ingin keluar dari node. Gunakan `Ctrl + ]` lalu ketik quit untuk keluar dari node.
-- Jika command prompt tidak kunjung keluar, bisa klik enter berkali-kali sampai keluar
+   ![Template](images/netics-pc-appliance-1.png)
+
+2. Pilih opsi **Import an appliance file**, lalu pilih berkas **netics-alpinet.gns3a** yang telah diunduh. Untuk berkas **netics-alpinet.gns3a** bisa anda dapatkan dari [sini](netics-pc-alpinet\netics-alpinet.gns3a)
+
+   ![Appliance](images/netics-pc-appliance-2.png)
+
+3. Pilih opsi **Install appliance on a remote server**.
+
+   ![Remote](images/netics-pc-appliance-3.png)
+
+4. Drag and drop appliance **netics-pc** ke area kosong untuk mencoba.
+
+   ![Netics](images/netics-pc-appliance-4.png)
+
+<br>
 
 ## Penggunaan GNS3
 
 ### Setup IP di Node
-
 1. Klik kanan pada node, buka `Configure`
 2. Pada menu `General settings`, cari tombol `Edit network configuration`
 3. Di situ kalian bisa setup IP sesuai dengan interface yang digunakan. Interface adalah sesuatu yang digunakan untuk menghubungkan dua device
 
 ### Akses Sebuah Node ke Internet
 
-1. Buka menu Add a Node
-2. Tarik NAT ke area kosong <br/>
-   ![using-internet-1](images/2025/gns-nat.png)
-3. Gunakan aktifkan menu `Add a Link` <br/>
-   ![using-internet-2](images/2025/gns-addlink.png)
-4. Lalu klik node, pilih interface `eth0`, dan klik node NAT yang ditarik tadi <br/>
-   ![using-internet-3](images/2025/gns-natlink.png)
+1. Tarik NAT ke area kosong
+2. Hubungkan NAT ke netics-pc dengan link
+
+   ![NAT](images/using-internet-1.png)
+
+3. Klik menu **Show/Hide interface labels** untuk menampilkan informasi interface node
+
+   ![Interface](images/using-internet-2.png)
+
+4. Lalu klik node, pilih interface `eth0`, dan klik node NAT yang ditarik tadi
+
+   ![Koneksi](images/using-internet-3.png)
+
 5. Lalu konfigurasi IP dari node netics-pc
+
+Klik kanan pada node netics-pc-1 dan pilih **Configure** dan tekan tombol **Edit** pada bagian Network Configuration.
+
+![Konfigurasi Network Adapter](images/using-internet-5.png) 
 
 - Cari 2 line yang seperti ini
 
@@ -197,13 +202,19 @@ iface eth0 inet dhcp
 
 6. Start node
 7. Akses console dari node, dan coba ping ke google, jika berhasil maka settingan Anda benar
-   ![using-internet-4](images/2025/gns-pinggoogle.png)
+
+   ![Ping](images/using-internet-4.png)
+
 8. Node ini akan nanti digunakan sebagai router untuk modul ini, ganti nama node ini menjadi `Foosha` dengan fitur `Change hostname` di node, dan juga ganti symbol ke simbol router dengan fitur `Change symbol`
+
+<br>
 
 ### Membuat Topologi
 
-1. Tambahkan beberapa node ethernet switch dan ubuntu, lalu buat hubungan antar node dan nama-nama dari node hingga seperti di gambar <br/>
-   ![create-topology-1](images/2025/gns-topologi.png)
+1. Tambahkan beberapa node ethernet switch dan ubuntu, lalu buat hubungan antar node dan nama-nama dari node hingga seperti di gambar
+
+   ![Topologi](images/create-topology-1.png)
+
 2. Gunakan fitur `Change hostname` untuk merubah nama-nama dari node
 3. Lalu kita setting network masing-masing node dengan fitur `Edit network configuration` seperti yang ditunjukkan [disini](#setup-ip-di-node) sebelumnya, kita bisa menghapus semua settingnya dan mengisi dengan settingan di bawah
 
@@ -269,13 +280,15 @@ iface eth0 inet static
 - **Gateway**: Jalur pada jaringan yang harus dilewati paket-paket data untuk dapat masuk ke jaringan yang lain.
 
 4. Restart semua node
-5. Cek semua node ubuntu apakah sudah memiliki ip yang sesuai dengan settingan dengan command `ip a`. Berikut adalah contoh untuk node `Foosha` dengan Prefix IP `10.40`, sesuaikan dengan Prefix IP kelompok kalian masing-masing
-   ![create-topology-2](images/2025/gns-foosha.png)
+5. Cek semua node ubuntu apakah sudah memiliki ip yang sesuai dengan settingan dengan command `ip a`. Berikut adalah contoh untuk node `Foosha` dengan Prefix IP `10.105`, sesuaikan dengan Prefix IP kelompok kalian masing-masing
+
+   ![Foosha](images/create-topology-2.png)
+
 6. Topologi yang dibuat sudah bisa berjalan secara lokal, tetapi kita belum bisa mengakses jaringan keluar. Maka kita perlu melakukan beberapa hal.
 - Install tool iptables
   ```
-  apt update
-  apt install iptables
+  apk update
+  apk add iptables
   ```
 - Ketikkan **`iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s [Prefix IP].0.0/16`** pada router `Foosha`
   **Keterangan:**
@@ -283,30 +296,65 @@ iface eth0 inet static
   - **NAT (Network Address Translation):** Suatu metode penafsiran alamat jaringan yang digunakan untuk menghubungkan lebih dari satu komputer ke jaringan internet dengan menggunakan satu alamat IP.
   - **Masquerade:** Digunakan untuk menyamarkan paket, misal mengganti alamat pengirim dengan alamat router.
   - **-s (Source Address):** Spesifikasi pada source. Address bisa berupa nama jaringan, nama host, atau alamat IP.
-- Ketikkan command `cat /etc/resolv.conf` di `Foosha` <br/>
-  ![create-topology-3](images/create-topology-3.jpg)
-- Ingat-ingat IP tersebut karena IP tersebut merupakan IP DNS, lalu ketikkan command ini di node ubuntu yang lain `echo nameserver [IP DNS] > /etc/resolv.conf`. Jika pada kasus contoh maka command-nya adalah `echo nameserver 192.168.122.1 > /etc/resolv.conf`.
-- Berikut merupakan contoh saat melakukan ping sebelum dan sesudah menambahkan nameserver pada node Water7<br>
-  ![create-topology-4](images/2025/gns-echoresolv.png)
+- Ketikkan command `cat /etc/resolv.conf` di `Foosha`
+
+  ![Resolv](images/create-topology-3.png)
+
+- Ingat-ingat IP tersebut karena IP tersebut merupakan IP DNS, lalu ketikkan command ini di node ubuntu yang lain `echo nameserver [IP DNS] > /etc/resolv.conf`. Jika pada kasus contoh maka command-nya adalah `echo nameserver 192.168.153.2 > /etc/resolv.conf`.
+- Berikut merupakan contoh saat melakukan ping sebelum dan sesudah menambahkan nameserver pada node Water7
+
+  ![Nameserver](images/create-topology-4.png)
+
 - Semua node sekarang seharusnya sudah bisa melakukan ping ke google, yang artinya adalah sudah tersambung ke internet
+
+<br>
+
+## Cara export project gns3
+
+1. Di gns3 desktop, cari pilihan menu **File**, kemudian cari menu **Export Project**
+
+![alt text](images/export-project-1.png) 
+
+2. Kemudian akan muncul pop up untuk konfigurasi dan preferensi cara export project, disini kalian pilih tipe kompresi **bzip2 compression** dan untuk level compression nya dibiarkan default value nya 9 saja
+
+![alt text](images/export-project-2b.png)
+
+3. Kemudian pilih path folder dan juga nama dari export project gns
+
+![alt text](images/export-project-2c.png)
+
+4. Untuk step ini bisa diabaikan saja atau kalau mau di-custom juga diperbolehkan, kalau sudah tinggal tekan tombol "Finish" saja
+
+![alt text](images/export-project-2.png) 
+
+![alt text](images/export-project-3.png)
+
+<br>
 
 ## Ketentuan
 
-- Praktikan **hanya** diperbolehkan menggunakan image docker `royyana/netics-pc:debi-latest`
+- Praktikan **hanya** diperbolehkan menggunakan appliances **netics-alpinet.gns3a**
+
+<br>
 
 ## Peringatan, Saran, Tips, dan Trik
 
 - Apa yang diinstal di node **tidak persisten**, artinya saat Anda mengerjakan project tersebut lagi Anda perlu menginstal aplikasi itu kembali
 - Maka **selalu** simpan config di node ke directory `/root` sebelum keluar dari project
-- Anda bisa memasukkan command yang ingin selalu dijalankan di node tersebut ke file `/root/.bashrc` di bagian paling bawah. (Contoh : command iptables dan echo nameserver tadi)</br>
-  ![tips-trik-1](images/tips-trik-1.jpg)
-- selain `/root/.bashrc`, anda dapat menambahkan startup script dengan meletakkan command pada `network config` dengan didahului kata `up` seperti contoh berikut:<br>
-  ![tips-trik-3](images/tips-trik-3.jpg)
-- Anda bisa melakukan ekspor project jika bekerja secara tim dengan pergi ke menu `Project settings` -> `Export portable project`.</br>
-  ![tips-trik-2](images/tips-trik-2.jpg)
+- Anda bisa memasukkan command yang ingin selalu dijalankan di node tersebut ke file `/root/.bashrc` di bagian paling bawah. (Contoh : command iptables dan echo nameserver tadi)
+
+  ![Bashrc](images/tips-trick-1.png)
+
+- selain `/root/.bashrc`, anda dapat menambahkan startup script dengan meletakkan command pada `network config` dengan didahului kata `up` seperti contoh berikut:
+
+  ![Network](images/tips-trick-2.png)
+
+- Anda bisa melakukan ekspor project jika bekerja secara tim dengan pergi ke menu `File` -> `Export portable project`
 - Jika mengerjakan menggunakan VM di local kalian sendiri. Kalian bisa mencegah hilangnya aplikasi atau file config dengan mematikan VM di mode save state.
 - Manfaatkan bash scripting untuk install-install aplikasi yang diperlukan sehingga tidak perlu memasukkan command satu-satu, lalu save ke `/root`.
 - Tidak disarankan untuk menggunakan gns3 pada WSL ataupun windows(GUI) _*jika-ada-masalah-selesaikan-sendiri*_
+- Ada sesuatu yang biasanya bisa tetapi tiba-tiba tidak bisa? Coba matikan dulu VM nya baru nyalakan kembali. Masih tidak bisa? Coba cara install GNS3 yang lain dahulu sebelum bertanya ke asisten.
+- Tidak bisa install di satu metode? Coba cara install yang lain dulu sebelum bertanya ke asisten.
 
 ## Troubleshooting
 
