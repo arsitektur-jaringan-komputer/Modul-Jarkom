@@ -155,6 +155,8 @@ Choose the VirtualBox version that matches your OS.
 
    ![Netics](images/netics-pc-appliance-4.png)
 
+You can download the netics-pc gns3a appliance file [Here](https://drive.google.com/file/d/1McrXZs10dDU1I_HDM-wd3iE4agobPEXd/view?usp=sharing)
+
 <br>
 
 ## Using GNS3

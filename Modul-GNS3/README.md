@@ -140,6 +140,8 @@ Pilih versi VirtualBox yang sesuai dengan jenis dari OS anda.
 <br>
 
 ## Instalasi netics-pc appliance
+
+
 1. Pilih menu **File → New Template**.
 
    ![Template](images/netics-pc-appliance-1.png)
@@ -155,6 +157,8 @@ Pilih versi VirtualBox yang sesuai dengan jenis dari OS anda.
 4. Drag and drop appliance **netics-pc** ke area kosong untuk mencoba.
 
    ![Netics](images/netics-pc-appliance-4.png)
+
+Link download file netics-pc appliance [here](https://drive.google.com/file/d/1McrXZs10dDU1I_HDM-wd3iE4agobPEXd/view?usp=sharing)
 
 <br>
 
