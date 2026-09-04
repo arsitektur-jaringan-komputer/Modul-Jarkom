@@ -1,26 +1,44 @@
 # Crimping dan Wireshark
 
 ## Daftar Isi
-+ 0.[Basic Command Line Tools untuk Koneksi pada Jaringan](#0-basic-command-line-tools-untuk-koneksi-pada-jaringan)
++ 0. [Basic Command Line Tools untuk Koneksi pada Jaringan](#0-basic-command-line-tools-untuk-koneksi-pada-jaringan)
   + [telnet](#01-telnet)
   + [ssh](#02-ssh-secure-shell)
   + [nc](#03-netcat-nc)
   + [ping](#04-ping)
-+ 1.[Konsep IP dan Port](#1-konsep-ip-dan-port)
++ 1. [Konsep IP dan Port](#1-konsep-ip-dan-port)
   + [Konsep IP](#11-konsep-ip)
   + [Alokasi Port](#12-alokasi-port)
-+ 2.[Wire Crimping](#2-wire-crimping)
-   + 2.1 [Peralatan yang dibutuhkan](#21-peralatan-yang-dibutuhkan)
-   + 2.2 [Jenis-jenis Konfigurasi Kabel UTP](#22-konfigurasi-kabel)
-   + 2.3 [Langkah-langkah](#23-langkah---langkah)
-+ 3.[Wireshark](#3-wireshark)
-  + 3.1 [Instalasi](#31-instalasi)
-  + 3.2 [Filters](#32-filters)
-  + 3.3 [Export data hasil packet capture](#33-export-data-hasil-paket-capture)
-  + 3.4 [Penggunaan Wireshark pada FTP Server](#34-penggunaan-wireshark-pada-ftp-server)
-+ 4.[Termshark](#4-termshark)
-  + 4.1 [Instalasi](#41-instalasi-termshark)
-  + 4.2 [Penggunaan](#42-penggunaan-termshark)
++ 2. [Topologi Jaringan Dasar](#2-topologi-jaringan-dasar)
+  + [2.1 Bagaimana node terhubung?](#21-bagaimana-node-terhubung)
+    + [2.1.1 Melalui console](#211-melalui-console)
+    + [2.1.2 Melalui "edit network config"](#212-melalui-edit-network-config)
+  + [2.2 Bagaimana mengetahui kapasitas transfer antar nodes?](#22-bagaimana-mengetahui-kapasitas-transfer-antar-nodes)
+    + [2.2.1 Menggunakan iperf3](#221-menggunakan-iperf3)
+  + [2.3 Menghubungkan Banyak Node Menggunakan Bridge](#23-menghubungkan-banyak-node-menggunakan-bridge)
+    + [2.3.1 Konfigurasi Dasar Bridge](#231-konfigurasi-dasar-bridge)
+  + [2.4 Simulasi Jaringan](#24-simulasi-jaringan)
+    + [2.4.1 Simulasi Packet Loss](#241-simulasi-packet-loss)
+    + [2.4.2 Simulasi Pembatasan Throughput](#242-simulasi-pembatasan-throughput)
+  + [2.5 Beralih dari Bridge ke Switch](#25-beralih-dari-bridge-ke-switch)
+    + [2.5.1 Topologi Sederhana Switch](#251-topologi-sederhana-switch)
+    + [2.5.2 Simulasi Meneruskan Paket pada Switch](#252-simulasi-meneruskan-paket-pada-switch)
+  + [2.6 Konfigurasi IP Otomatis dengan DHCP](#26-konfigurasi-ip-otomatis-dengan-dhcp)
+    + [2.6.1 Konfigurasi DHCP Server (udhcpd)](#261-konfigurasi-dhcp-server-udhcpd)
+    + [2.6.2 Konfigurasi DHCP client](#262-konfigurasi-dhcp-client)
+    + [2.6.3 Konfigurasi DHCP client manual](#263-konfigurasi-dhcp-client-manual)
++ 3. [Wire Crimping](#3-wire-crimping)
+  + [3.1 Peralatan yang dibutuhkan](#31-peralatan-yang-dibutuhkan)
+  + [3.2 Jenis-jenis Konfigurasi Kabel UTP](#32-konfigurasi-kabel)
+  + [3.3 Langkah-Langkah](#33-langkah-langkah)
++ 4. [Wireshark](#4-wireshark)
+  + [4.1 Instalasi](#41-instalasi)
+  + [4.2 Filters](#42-filters)
+  + [4.3 Export data hasil packet capture](#43-export-data-hasil-paket-capture)
+  + [4.4 Penggunaan Wireshark pada FTP Server](#44-penggunaan-wireshark-pada-ftp-server)
++ 5. [Termshark](#5-termshark)
+  + [5.1 Instalasi](#51-instalasi-termshark)
+  + [5.2 Penggunaan](#52-penggunaan-termshark)
 
 ## 0. Basic Command Line Tools untuk Koneksi pada Jaringan
 
@@ -90,10 +108,6 @@ Bayangkan Anda mengirimkan pesan singkat ke komputer atau server dan menunggu ba
 Ping merupakan singkatan dari Packet Internet Network Groper. Secara sederhana, ping adalah perintah untuk mengecek status dan keberadaan host dalam sebuah jaringan internet.
 
 Prinsip utama ping adalah seperti penggunaan sonar untuk mengukur kedalaman laut. Jadi, sebuah sinyal dikirimkan ke dasar, lalu lamanya waktu kembali ke atas menjadi dasar perhitungannya.
-
-![ping](https://niagaspace.sgp1.digitaloceanspaces.com/blog/wp-content/uploads/2021/12/14203814/cara-kerja-ping-2-1024x546.jpg)
-
-source: [https://www.niagahoster.co.id/blog/apa-itu-ping/](https://www.niagahoster.co.id/blog/apa-itu-ping/)
 
 Berikut merupakan cara melakukan ping:
 
@@ -184,10 +198,381 @@ Berikut ini beberapa contoh logical port yang sering digunakan beserta fungsinya
 + Port 443 (HTTPS),  berguna untuk menghubungkan klien ke internet, namun dengan fitur keamanan tambahan yang tidak dimiliki port HTTP 80. Port 443 mengenkripsi paket jaringan sebelum mentransfernya.
 + Port 143 (IMAP), Internet Message Access Protocol atau IMAP adalah protokol untuk mengakses email dari server.
 
-## 2. Wire Crimping
+<br>
+
+## 2. Topologi Jaringan Dasar
+
+Topologi jaringan dasar merujuk pada struktur fisik maupun logis yang menentukan bagaimana node-node saling terhubung dan berkomunikasi. Kita akan mensimulasikan dan mempelajari langkah fundamental dalam membangun jaringan komputer, mulai dari koneksi langsung antar dua nodes (point-to-point), pengujian performa jaringan, penggunaan switch, hingga mengatur alokasi alamat IP secara otomatis.
+
+### 2.1 Bagaimana node terhubung?
+
+Pada dasarnya, node dalam jaringan dapat saling berkomunikasi jika memiliki alamat IP dan berada dalam segmen jaringan yang sama. Pada tahap awal ini, kita akan menghubungkan dua node secara langsung (Point-to-Point) dan mengonfigurasi IP Address secara statis agar keduanya dapat saling mengenali dan mengirim paket data.
+
+#### 2.1.1 Melalui console
+
+1. Buatlah project baru pada GNS3, tambahkan 2 buah node **netics-pc** dan hubungkan kedua node melalui link (menggunakan interface eth0 pada kedua node)
+
+   ![](images/topologi-dasar-1.png)
+
+2. Start kedua node, buka console, lalu set IP address dan interface pada masing-masing node.
+
+  Di netics-pc-1:
+```
+ip addr add 192.168.100.101/24 dev eth0
+ip link set eth0 up
+```
+
+  Di netics-pc-2:
+```
+ip addr add 192.168.100.102/24 dev eth0
+ip link set eth0 up
+```
+
+3. Konfirmasi IP address yang baru dengan menjalankan **ip -br addr**
+
+   ![](images/topologi-dasar-2.png)
+   ![](images/topologi-dasar-3.png)
+
+4. Verifikasi kedua node terhubung dengan ping salah satu node dari node lain
+
+   ![](images/topologi-dasar-4.png)
+<br>
+
+#### 2.1.2 Melalui "edit network config"
+
+1. Klik kanan pada node -> **Configure** -> **Edit Network Configuration**. Lalu isi dengan konfigurasi berikut:
+
+  Di **netics-pc-1**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.101
+    netmask 255.255.255.0
+```
+
+  Di **netics-pc-2**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.102
+    netmask 255.255.255.0
+```
+
+2. Setelah Anda klik Save, konfigurasi ini tidak akan langsung aktif. Anda harus merestart node tersebut (klik kanan -> Stop, lalu klik kanan -> Start) supaya node bisa membaca ulang file konfigurasinya saat proses booting.
+
+<br>
+
+### 2.2 Bagaimana mengetahui kapasitas transfer antar nodes?
+
+Setelah node terhubung, kita akan mengukur seberapa besar kapasitas maksimal interface dan kecepatan transfer riil (throughput) di antara keduanya. Kita lakukan menggunakan utilitas **ethtool** untuk mengecek batas kapasitas node dan **iperf3** untuk menguji pengiriman beban traffic data secara aktual.
+
+#### 2.2.1 Menggunakan **iperf3**
+
+1. Untuk mengetahui kapasitas interface, gunakan command **ethtool [interface]**
+
+   ![](images/topologi-dasar-5.png)
+
+Output menunjukkan kecepatan maksimum sebesar 10 Gbps
+
+
+2. Kita akan melakukan uji coba performa dengan **iperf3**
+
+iperf3 adalah alat untuk pengukuran aktif bandwidth maksimum yang dapat dicapai pada jaringan IP.
+
+Di **netics-pc-1**:
+```
+iperf3 -s
+```
+
+**-s** artinya menjalankan node dalam mode server. Node akan listening menunggu traffic data masuk dari node client
+
+Di **netics-pc-2**:
+```
+iperf3 -c <ip-netics-pc-1> -u -b 10G
+```
+**-c** artinya menjalankan node dalam mode client untuk memulai tes ke arah server. **-u** untuk memerintahkan iPerf3 untuk menggunakan protokol UDP. **-b 10G** untuk menargetkan kecepatan pengiriman data sebesar 10 Gigabit/detik
+
+Hasil pengujian:
+
+   ![](images/topologi-dasar-6.png)
+
+   ![](images/topologi-dasar-7.png)
+
+Berdasarkan gambar, iperf3 melaporkan bahwa traffic riil yang berhasil dibangkitkan oleh **netics-pc-2** (sender) mencapai rata-rata 2.64 Gbps, sementara **netics-pc-1** (receiver) hanya mampu menerima aliran data pada kecepatan rata-rata 397 Mbps dengan tingkat kehilangan data (packet loss) yang sangat tinggi, yakni sebesar 86%. Angka pencapaian ini berada jauh di bawah kapasitas nominal interface sebesar 10 Gbps. Hal ini secara jelas membuktikan bahwa kapasitas nominal suatu interface jaringan tidak selalu mencerminkan throughput aktualnya. Throughput riil dipengaruhi oleh banyak faktor, seperti kemampuan pemrosesan CPU pada node virtual, overhead protokol, serta beban kerja sistem yang menjalankan simulasi.
+
+<br>
+
+### 2.3 Menghubungkan Banyak Node Menggunakan Bridge
+
+Sebelumnya, kita telah menghubungkan dua nodes secara langsung (Point-to-Point). Namun, bagaimana jika kita ingin menghubungkan tiga nodes atau lebih ke dalam satu jaringan yang sama? Kita tidak bisa lagi hanya menggunakan koneksi langsung. Kita membutuhkan **bridge**
+
+#### 2.3.1 Konfigurasi Dasar Bridge
+
+1. Tambahkan 1 node baru yang akan bertindak sebagai switch (misal kita beri nama **netics-pc-bridge**). Hubungkan **netics-pc-1** ke eth0 pada **netics-pc-bridge** dan **netics-pc-2** ke eth1 pada **netics-pc-bridge**
+
+   ![](images/topologi-dasar-8.png)
+
+2. Lakukan pengujian koneksi dan pelacakan rute menggunakan perintah **mtr** dari **netics-pc-1** ke **netics-pc-2**
+
+Di **netics-pc-1**:
+```
+mtr 192.168.100.102
+```
+
+  ![](images/topologi-dasar-9.png)
+
+Pada tahap ini, pengujian akan gagal (No route to host). Belum ada reply karena **netics-pc-bridge** yang berada di tengah belum dikonfigurasi untuk meneruskan paket data.
+
+3. Kita akan membuat konfigurasi bridge pada **netics-pc-bridge**. Buka console pada **netics-pc-bridge**, lalu jalankan command berikut untuk menjadikannya sebagai ethernet bridge
+
+Di **netics-pc-bridge**:
+```
+ip -br addr                    # cek interface: terdapat eth0 dan eth1
+brctl addbr br0
+brctl addif br0 eth0
+brctl addif br0 eth1
+brctl show
+ip link set br0 up
+```
+
+  ![](images/topologi-dasar-10.png)
+
+4. Jalankan ulang pengujian rute dari **netics-pc-1** ke **netics-pc-2** seperti pada langkah ke-2.
+
+  ![](images/topologi-dasar-11.png)
+
+Koneksi kini berhasil karena antarmuka bridge pada **netics-pc-bridge** telah aktif dan berfungsi untuk meneruskan paket data antara kedua nodes.
+
+<br>
+
+### 2.4 Simulasi Jaringan
+Dalam jaringan nyata, kondisi ideal tanpa hambatan jarang terjadi. Seringkali kita dihadapkan pada masalah seperti packet loss atau keterbatasan kapasitas jaringan (bandwidth). Untuk itu, kita akan mensimulasikan gangguan-gangguan ini tanpa harus menggunakan perangkat keras jaringan sungguhan.
+
+#### 2.4.1 Simulasi Packet Loss
+
+Pada percobaan ini, kita akan mensimulasikan situasi di mana 10% paket yang dikirim mengalami kehilangan atau kerusakan selama perjalanan.
+
+1. Lakukan simulasi *packet loss* sebesar 10% pada kedua interface di **netics-pc-bridge**
+
+Di **netics-pc-bridge**:
+```
+tc qdisc replace dev eth1 root netem loss 10%
+tc qdisc replace dev eth0 root netem loss 10%
+```
+
+2. Lakukan pengujian menggunakan **mtr** dari **netics-pc-1** ke **netics-pc-2** untuk melihat efek dari packet loss.
+
+**mtr** sebelum simulasi packet loss:
+
+  ![](images/topologi-dasar-12.png)
+
+**mtr** setelah simulasi packet loss:
+
+  ![](images/topologi-dasar-13.png)
+
+Hasil mtr menunjukkan peningkatan packet loss dari 0% menjadi 10.2% setelah percobaan packet loss diterapkan pada bridge.
+<br>
+
+#### 2.4.2 Simulasi Pembatasan Throughput
+
+Pada percobaan ini, kita akan mensimulasikan situasi di mana bandwidth/kapasitas jaringan dibatasi. Pembatasan dilakukan di sisi bridge karena node ini berada di jalur yang dilalui seluruh traffic antara sender dan receiver. Hal ini mensimulasikan kondisi nyata, di mana pembatasan bandwidth biasanya diterapkan pada node penghubung seperti switch atau router, bukan pada masing-masing node.
+
+1. Jalankan iperf3 -s di netics-pc-1, lalu iperf3 client dengan target speed 100 Mbps di netics-pc-2.
+
+Di netics-pc-1:
+```
+iperf3 -s
+```
+
+Di netics-pc-2:
+```
+iperf3 -c 192.168.100.101 -u -b 100M
+```
+
+2. Lakukan pembatasan kecepatan (bitrate) menjadi 50 Mbps pada kedua interface di **netics-pc-3**
+
+Di netics-pc-3:
+```
+tc qdisc replace dev eth0 root tbf rate 50mbit burst 64k limit 64k
+tc qdisc replace dev eth1 root tbf rate 50mbit burst 64k limit 64k
+```
+
+Untuk mereset limitasi gunakan:
+```
+tc qdisc del dev eth0 root
+tc qdisc del dev eth1 root
+```
+
+3. Perhatikan hasil pengujian traffic data untuk melihat efek dari pembatasan throughput.
+
+**netics-pc-2 (client):**
+
+  ![](images/topologi-dasar-14.png)
+
+**netics-pc-1 (server):**
+
+  ![](images/topologi-dasar-15.png)
+
+Meskipun client terus mengirimkan data dengan kecepatan 100 Mbps, kecepatan aktual yang diterima oleh server turun menjadi sekitar 48,6 Mbps. Hal ini membuktikan bahwa pembatasan bandwidth 50 Mbps berhasil, di mana jaringan secara otomatis mendrop paket data yang melebihi batas kapasitas.
+
+<br>
+
+### 2.5 Beralih dari Bridge ke Switch
+Sebelumnya, kita menggunakan node **netics-pc** yang dikonfigurasi secara manual sebagai Bridge untuk menghubungkan beberapa node. Meskipun bridge dan switch sama-sama bekerja di Layer 2 (Data Link) dan meneruskan paket berdasarkan MAC Address, pada praktiknya kita lebih sering menggunakan Switch.
+
+Mengapa menggunakan Switch daripada Bridge?
+1. **Kapasitas Port**: Bridge biasanya hanya menghubungkan dua atau sedikit segmen jaringan, sedangkan Switch didesain memiliki port yang lebih banyak untuk menghubungkan banyak node sekaligus.
+2. **Kinerja**: Switch fisik menggunakan perangkat keras khusus (ASIC) untuk memproses dan meneruskan paket data dengan sangat cepat, sementara konfigurasi bridge membebani kerja CPU.
+3. **Kemudahan**: Dalam simulated environment (seperti GNS3) maupun dunia nyata, sebuah unmanaged switch bisa langsung digunakan tanpa perlu melakukan konfigurasi manual (seperti perintah brctl atau ip link yang panjang).
+
+#### 2.5.1 Topologi Sederhana Switch
+1. Buatlah topologi seperti berikut.
+
+   ![](images/topologi-dasar-16.png)
+
+2. Konfigurasikan IP Address pada ketiga node dalam satu subnet yang sama melalui menu Edit Network Configuration.
+
+Di **netics-pc-1**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.101
+    netmask 255.255.255.0
+```
+
+Di **netics-pc-2**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.102
+    netmask 255.255.255.0
+```
+
+Di **netics-pc-3**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.103
+    netmask 255.255.255.0
+```
+<br>
+
+#### 2.5.2 Simulasi Meneruskan Paket pada Switch
+
+Cara kerja Switch sangat pintar. Switch ini otomatis mengenali dan mencatat identitas (MAC Address) dari setiap node yang terhubung kepadanya, lalu menyimpannya ke dalam sebuah daftar memori bernama **MAC Address Table**
+
+Untuk menyimulasikan bagaimana Switch meneruskan paket, lakukan pengujian berikut:
+
+1. Buka console di **netics-pc-1** dan lakukan ping ke **netics-pc-3**.
+```
+ping -c 4 192.168.100.103
+```
+
+   ![](images/topologi-dasar-17.png)
+
+Saat ping pertama dikirim, Switch belum mengetahui lokasi tujuan. Oleh karena itu, switch melakukan broadcast (pesan ARP) ke semua port aktif. Begitu node target membalas, Switch langsung mencatat MAC Address beserta posisi portnya ke dalam **MAC Address Table**. Menggunakan informasi ini, pengiriman paket kedua dan seterusnya, switch tidak lagi melakukan broadcast ke semua node, melainkan langsung mengirim paket ke node tujuan saja.
+
+<br>
+
+### 2.6 Konfigurasi IP Otomatis dengan DHCP
+
+Sejauh ini, kita selalu mengonfigurasi IP Address secara manual (Static IP). Dalam skala jaringan yang besar, cara ini tentu tidak efisien dan rentan terjadi tabrakan IP (IP conflict). Oleh karena itu, kita menggunakan DHCP (Dynamic Host Configuration Protocol) agar node (client) bisa mendapatkan konfigurasi jaringan secara otomatis dari server.
+
+Mekanisme DHCP dalam memberikan IP dikenal dengan sebutan DORA:
+
+- Discover: Client mengirim pesan broadcast ke seluruh jaringan untuk mencari DHCP server.
+- Offer: DHCP server yang menerima permintaan akan menawarkan sebuah alamat IP dari pool (kumpulan IP yang tersedia).
+- Request: Client secara resmi meminta IP yang ditawarkan tersebut.
+- Acknowledge: Server mengonfirmasi dan memberikan hak sewa (lease) IP tersebut kepada client.
+
+Kita akan menggunakan program yang umum digunakan untuk konfigurasi DHCP:
+
+1. **udhcpd**: Sebagai DHCP Server (Pemberi IP).
+2. **udhcpc**: Sebagai DHCP Client (Penerima/Peminta IP).
+
+#### 2.6.1 Konfigurasi DHCP Server (udhcpd)
+
+Kita akan memanfaatkan topologi Switch yang sama seperti **sub-bab 2.5** di atas. Jadikan **netics-pc-1** sebagai **DHCP Server**, sementara node lainnya akan menjadi **DHCP Client**.
+
+   ![](images/topologi-dasar-16.png)
+
+1. Pastikan **netics-pc-1** sudah memiliki IP statis (misal: 192.168.100.101/24).
+```
+ip addr add 192.168.100.101/24 dev eth0
+```
+
+2. Buat file kosong yang akan digunakan oleh sistem sebagai tempat penyimpanan catatan peminjaman (lease) IP:
+```
+touch /etc/dhcpd.leases
+```
+
+3. Buat file konfigurasi DHCP ke file **/etc/dhcpd.conf**. Kita akan menggunakan alokasi IP dari **.150** hingga **.155**:
+```
+echo "start 192.168.100.150
+end 192.168.100.155
+interface eth0
+max_leases 5
+pidfile /etc/dhcpd.pid
+lease_file /etc/dhcpd.leases
+option subnet 255.255.255.0" > /etc/dhcpd.conf
+```
+
+4. Jalankan aplikasi DHCP server agar berjalan di layar utama (foreground):
+```
+udhcpd -f /etc/dhcpd.conf
+```
+<br>
+
+#### 2.6.2 Konfigurasi DHCP client
+Kita akan mengubah konfigurasi pada **netics-pc-2** dan **netics-pc-3** agar langsung meminta konfigurasi IP secara otomatis pada saat node menyala.
+
+1. Klik kanan pada node -> Configure -> Edit Network Configuration dan uncomment bagian berikut:
+
+Di **netics-pc-2**:
+```
+auto eth0
+iface eth0 inet dhcp
+    hostname netics-pc-2
+```
+
+Di **netics-pc-3**:
+```
+auto eth0
+iface eth0 inet dhcp
+    hostname netics-pc-3
+```
+
+Pastikan bahwa konfigurasi IP statisnya telah dicomment kembali agar kita bisa mendapat IP DHCP, bukan IP statis.
+
+2. Save dan restart node tersebut agar sistem membaca konfigurasi baru saat booting. Client akan otomatis mendapat IP DHCP.
+
+   ![](images/topologi-dasar-18.png)
+   ![](images/topologi-dasar-19.png)
+<br>
+
+#### 2.6.3 Konfigurasi DHCP client manual
+Skenario ini mensimulasikan kondisi ketika suatu node tidak diset untuk meminta IP secara otomatis saat startup (misalnya node yang baru dipasang). Kita akan meminta IP secara manual pada **netics-pc-2**.
+
+1. Buka console **netics-pc-2**. Cek IP address yang ada saat ini (pastikan hanya ada link local, belum ada IP dari jaringan):
+```
+ip -br addr
+```
+
+2. Jalankan DHCP client secara manual untuk meminta IP address pada interface **eth0** dan biarkan prosesnya berjalan di background (-b):
+```
+udhcpc -i eth0 -b
+```
+
+   ![](images/topologi-dasar-20.png)
+
+3. Setelah itu cek kembali IP client, seharusnya sudah mendapatkan IP dari DHCP.
+
+<br>
+
+## 3. Wire Crimping
 Dalam jaringan komputer, terjadi komunikasi antara satu perangkat dengan perangkat lainnya. Komunikasi itu tentu membutuhkan suatu media. Walaupun sudah ada teknologi komunikasi nirkabel, peran kabel dalam jaringan masih penting dan belum tergantikan. Oleh karena itu dalam modul kali ini, kita akan belajar cara melakukan _crimping_ pada salah satu jenis kabel jaringan yang bernama kabel UTP (_Unshielded Twisted Pair_).
 
-### 2.1 Peralatan yang dibutuhkan
+### 3.1 Peralatan yang dibutuhkan
 Untuk melakukan _wire crimping_ kita membutuhkan peralatan di bawah ini:
 #### a. Kabel UTP
 ![Kabel UTP](images/kabelutp.jpg)
@@ -205,7 +590,7 @@ Tang ini digunakan untuk memasangkan kabel pada RJ45.
 ![Kabel UTP](images/lan_tester.jpg)
 
 Seperti namanya, alat ini digunakan untuk memeriksa apakah kabel yang kita buat berfungsi dengan baik atau tidak.
-### 1.2 Konfigurasi Kabel
+### 3.2 Konfigurasi Kabel
 Ada beberapa macam konfigurasi kabel. Dari urutan warnanya yang sesuai standar internasional dapat dibagi menjadi __T568A__ dan __T568B__.
 
 ![Perbedaan urutan warna T568A dan T568B](images/urutan_warna.png)
@@ -225,7 +610,7 @@ Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk meny
 
   Aturan pemasangannya pun berbeda dengan kabel jenis straight-trough, kabel jenis Crossover memiliki urutan warna yang berbeda dikedua ujungnya. Tapi, perbedaan warna ini tidak boleh sembarangan, karena kedua ujung ini juga memiliki aturan urutan warna. Pada kabel jenis Crossover standar, jika salah satu ujung Pin memiliki susunan warna berdasarkan aturan T568A, maka ujung Pin yang lain harus memiliki urutan warna berdasarkan standar T568B.
 
-### 2.3 Langkah - Langkah
+### 3.3 Langkah-Langkah
 1. Siapkan keperluan crimping (kabel UTP, RJ45, tang crimping, LAN tester)
 2. Kupas pelindung kabel UTP
 3. Urutkan kabel sesuai konfigurasi yang diinginkan (Straight/Cross/yang lainnya).
@@ -238,7 +623,7 @@ Berkebalikan dengan kabel Straight-through, pengkabelan ini digunakan untuk meny
 
 [![video-straight](https://i.ytimg.com/vi/JDiybTG9dGY/maxresdefault.jpg)](https://youtu.be/NL0F8bP8k7I)
 
-## 3. Wireshark
+## 4. Wireshark
 Wireshark adalah sebuah aplikasi penganalisa paket jaringan. Penganalisa paket jaringan akan mencoba menangkap paket jaringan dan mencoba untuk menampilkan data paket sedetail mungkin.
 Sebuah jaringan komputer dibangun dengan tujuan mengirimkan atau menerima data antara satu end-point dengan end-point lainnya. Data dikirim dalam bentuk paket-paket. Struktur sebuah paket terdiri dari :
 
@@ -260,16 +645,16 @@ Payload juga disebut sebagai ***body*** dari paket. Pada bagian inilah data yang
 ***3. Trailer***
 trailer, kadang-kadang disebut ***footer***, biasanya memuat sepasang bit yang memberi sinyal pada perangkat penerima bahwa paket sudah mencapai ujungnya. trailer juga bisa memuat semacam *error checking*.
 
-### 3.1 Instalasi
+### 4.1 Instalasi
 Instalasi untuk OS WIndows atau macOS bisa mengunduh installer pada [ laman ini](https://www.wireshark.org/download.html). Untuk OS linux dapat melihat tutorialnya [di sini](https://linuxtechlab.com/install-wireshark-linux-centosubuntu/).
 Setelah melakukan instalasi , jalankan Wireshark sebagai **administrator** (WIndows) atau **root** (linux)
 Berikut tampilan awalnya :
 ![wireshark](images/wireshark.png)
 
-### 3.2 Filters
+### 4.2 Filters
 Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Display Filter***
 
-#### 3.2.1 Capture Filter
+#### 4.2.1 Capture Filter
 ![Capture](images/capture.png)
 
  - Definisi : Memilah paket yang akan ditangkap (captured). Paket yang tidak memenuhi kriteria dibiarkan lewat tanpa ditangkap
@@ -297,7 +682,7 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
  - Contoh capture filter `host 10.151.36.1`
 ![Contoh-capture](images/capture-filter.png)
 
-#### 3.2.2 Display Filter
+#### 4.2.2 Display Filter
 ![Display](images/display.png)
  - Definisi : Memilah paket yang akan ditampilkan dari kumpulan paket yang sudah ditangkap
  - Secara umum sintaks display filter terdiri dari `[protokol] [field] [comparison operator] [value]`. Berikut ini daftar ***comparison operator*** yang tersedia :
@@ -336,7 +721,7 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
  - Contoh display filter `tcp.port == 80`, berikut hasilnya :
 ![Contoh-display](images/display-filter.png)
 
-### 3.3 Export data hasil paket capture
+### 4.3 Export data hasil paket capture
 
  1. Setelah memiliki packet, pilih pada menu bar File -> Export Objects -> (protokol yang diinginkan). Pada contoh ini dipilih protokol HTTP
 ![export](images/export.PNG)
@@ -345,9 +730,9 @@ Dalam Wireshark terdapat 2 jenis filter yaitu ***Capture Filter*** dan ***Displa
  3. File berhasil di-export
 ![logo](images/logo.png)
 
-### 3.4 Penggunaan Wireshark pada FTP Server
+### 4.4 Penggunaan Wireshark pada FTP Server
 Jalankan aplikasi wireshark sebelum *connect* ke server FTP yang dituju.
-#### 3.4.1 Connect ke Server
+#### 4.4.1 Connect ke Server
 ##### a. Windows
 Untuk pengguna windows kita akan menggunakan bantuan **FileZilla**. Untuk percobaan di server, di sini menggunakan Filezilla Server dan untuk client menggunakan Filezilla Client. Nantinya server dan clientnya bisa komputer yang sama atau berbeda (asal terhubung ke jaringan komputer).
 
@@ -366,7 +751,7 @@ Untuk pengguna windows kita akan menggunakan bantuan **FileZilla**. Untuk percob
 
 Server untuk FTP berhasil dibuat.
 
-#### 3.4.2 Koneksi dari Client
+#### 4.4.2 Koneksi dari Client
 
 ##### a. Menggunakan Filezilla client
 Buka FileZilla dan masukkan *Host*, *Username*, *Password*, dan *Port* dari server yang akan disambungkan. Bila sudah yakin, klik *Quickconnect* untuk menyambungkan.
@@ -386,7 +771,7 @@ Saat hasil capture dari Wireshark dilihat, akan muncul data di bawah ini:
 | USER | Username yang digunakan untuk login ke FTP server |
 | PWD | Password yang digunakan untuk login ke FTP server |)
 
-#### 3.4.3 Upload File
+#### 4.4.3 Upload File
 ##### a. Menggunakan Filezilla client
 Untuk FileZilla drag file dari Local site lalu drop di Remote site
 
@@ -404,7 +789,7 @@ Saat hasil capture dilihat akan muncul data dibawah ini :
 
 ![STOR](images/stor.JPG)
 
-#### 3.4.4 Download File
+#### 4.4.4 Download File
 ##### a. Menggunakan Filezilla client
 Untuk Filezilla drag file dari Remote site ke Local site
 
@@ -422,16 +807,16 @@ Saat hasil capture dilihat akan muncul data dibawah ini :
 
 ![STOR](images/retr.JPG)
 
-## 4. Termshark
+## 5. Termshark
 Jika sebelumnya kita sudah menggunakan Wireshark, sekarang kita akan menggunakan tools bernama **Termshark**. Pada dasarnya, Termshark merupakan wrapper dari tshark yang memungkinkan kita untuk menganalisis lalu lintas jaringan melalui terminal tanpa memerlukan GUI. Fitur-fitur pada Termshark mirip dengan Wireshark. Banyak command-command Wireshark yang juga bisa digunakan pada Termshark.
 
-### 4.1 Instalasi Termshark
+### 5.1 Instalasi Termshark
 Termshark merupakan binary standalone yang dapat di download langsung pada GitHub [Termshark Releases](https://github.com/gcla/termshark/releases). Pada saat penulisan modul ini, versi paling terbaru dari Termshark merupakan versi *v2.4.0*, atau menggunakan package manager seperti `apt`:
 ```sh
 sudo apt install termshark
 ```
 
-### 4.2 Penggunaan Termshark
+### 5.2 Penggunaan Termshark
 Untuk menggunakan Termshark, kita dapat menjalankan perintah berikut di terminal:
 ```sh
 $ termshark
@@ -452,7 +837,7 @@ Termshark juga dapat melakukan inspeksi file pcap/pcapng dengan menggunakan opsi
 ```sh
 $ termshark -r [nama_file.pcap]
 ```
-Kita juga dapat melakukan filtering packet seperti pada Wireshark, command-command yang digunakan sangat mirip dengan Wireshark. Kalian bisa refer command-command yang ada pada section [3.2 Filters](#32-filters) di atas.
+Kita juga dapat melakukan filtering packet seperti pada Wireshark, command-command yang digunakan sangat mirip dengan Wireshark. Kalian bisa refer command-command yang ada pada section [4.2 Filters](#42-filters) di atas.
 
 Disini kita akan mencoba untuk melakukan request ke http://example.com dan hanya filter traffic http:
 
