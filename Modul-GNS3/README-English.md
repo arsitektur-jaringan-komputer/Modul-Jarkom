@@ -40,7 +40,7 @@ To install GNS3 on macOS, please watch the following YouTube video:
 >
 > Some changes and steps to follow regarding the video:
 > 1. `Minute 5:23`: Upgrade to version 3.0.6.
-> 2. `Minute 7:16`: For step 2, use the "netics-pc" image.
+> 2. `Minute 7:16`: For step 2, use the "netics-pc" image. (you can skip this for now)
 
 <br>
 

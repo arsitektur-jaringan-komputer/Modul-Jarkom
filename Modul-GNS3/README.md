@@ -40,7 +40,7 @@ Instalasi GNS3 untuk MacOS dapat melihat video youtube berikut:
 >
 > Beberapa perubahan dan langkah yang harus dilakukan pada video
 > 1. `menit 5.23`: upgrade ke version 3.0.6
-> 2. `menit 7.16`: poin 2 pake image "netics-pc”
+> 2. `menit 7.16`: poin 2 pake image "netics-pc” (bisa di skip dulu)
 
 ## Instalasi VMWare Workstation (Windows)
 1. Buka situs web https://support.broadcom.com/ lalu daftarkan akun baru (disarankan menggunakan email pribadi).
