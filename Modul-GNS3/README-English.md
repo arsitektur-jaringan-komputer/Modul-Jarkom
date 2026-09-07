@@ -29,11 +29,22 @@
 
 ## GNS3 MacOS Installation
 
-Installation of GNS3 for macOS can be viewed in the following YouTube video:
+To install GNS3 on macOS, please watch the following YouTube video:
 <br>
 [![GNS3-MAC-INSTALLATION](https://img.youtube.com/vi/7N_hJ5bOofg/0.jpg)](https://youtu.be/7N_hJ5bOofg?si=thDG4ZY7FIdfaPlG)
 
-## Installing VMware Workstation
+> [!IMPORTANT]
+> <b>Note: (Please read before watching the video)</b>
+> Please download the files required for the video from this link: [GNS3 MAC](https://drive.google.com/drive/folders/1rq2WIeBvOkhdIGJQKfNfvuk1pZfZzqb8?usp=sharing).
+> There are two files: `GNS3-3.zip` (GNS3 image) and `VMware-Fusion-13.6.4-24832108_universal.dmg` (VMware).
+>
+> Some changes and steps to follow regarding the video:
+> 1. `Minute 5:23`: Upgrade to version 3.0.6.
+> 2. `Minute 7:16`: For step 2, use the "netics-pc" image.
+
+<br>
+
+## Installing VMware Workstation (Windows)
 1. Open the website https://support.broadcom.com/ and register a new account (using a personal email is recommended).
 2. Open the menu **VMware Cloud Foundation → My Downloads → Free Software Downloads** to access the list of software available for free.
 

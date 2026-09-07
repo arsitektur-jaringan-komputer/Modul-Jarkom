@@ -33,10 +33,16 @@ Instalasi GNS3 untuk MacOS dapat melihat video youtube berikut:
 <br>
 [![GNS3-MAC-INSTALLATION](https://img.youtube.com/vi/7N_hJ5bOofg/0.jpg)](https://youtu.be/7N_hJ5bOofg?si=thDG4ZY7FIdfaPlG)
 
-<b>Note:</b> Khusus untuk Mac dengan processor Intel, dapat mendownload image yang sama seperti windows dengan link berikut
-[GNS3 VM 2.2.42](https://github.com/GNS3/gns3-gui/releases/download/v2.2.42/GNS3.VM.VirtualBox.2.2.42.zip). Sehabis itu langsung saja extract.
+> [!IMPORTANT]
+> <b>Note: (Mohon dibaca sebelum melihat video)</b> 
+> Silahkan mendownload file-file yang dibutuhkan di video di link berikut: [GNS3 MAC](https://drive.google.com/drive/folders/1rq2WIeBvOkhdIGJQKfNfvuk1pZfZzqb8?usp=sharing).
+> Akan terdapat 2 file: `GNS3-3.zip` (image GNS3) dan `VMware-Fusion-13.6.4-24832108_universal.dmg` (VMWare)
+>
+> Beberapa perubahan dan langkah yang harus dilakukan pada video
+> 1. `menit 5.23`: upgrade ke version 3.0.6
+> 2. `menit 7.16`: poin 2 pake image "netics-pc”
 
-## Instalasi VMWare Workstation
+## Instalasi VMWare Workstation (Windows)
 1. Buka situs web https://support.broadcom.com/ lalu daftarkan akun baru (disarankan menggunakan email pribadi).
 2. Buka menu **VMWare Cloud Foundation → My Downloads → Free Software Downloads** untuk mengakses daftar software yang tersedia secara gratis.
 
@@ -126,7 +132,7 @@ Pilih versi VirtualBox yang sesuai dengan jenis dari OS anda.
 
 <br>
 
-## Instalasi GNS3 GUI
+## Instalasi GNS3 GUI (Untuk MAC silahkan menggunakan GNS3 Web UI, tidak menggunakan GNS3 GUI Desktop)
 1. Jalankan file **.exe** GNS3 yang telah diunduh, lalu ikuti proses instalasi hingga selesai.
 
 2. Buka menu **Edit → Preferences → Server → Remote servers**, lalu isi kolom **Host** dan **Port** dengan alamat IP dan port yang telah diperoleh dari GNS3 VM sebelumnya.
@@ -140,7 +146,6 @@ Pilih versi VirtualBox yang sesuai dengan jenis dari OS anda.
 <br>
 
 ## Instalasi netics-pc appliance
-
 
 1. Pilih menu **File → New Template**.
 
@@ -159,6 +164,12 @@ Pilih versi VirtualBox yang sesuai dengan jenis dari OS anda.
    ![Netics](images/netics-pc-appliance-4.png)
 
 Link download file netics-pc appliance [here](https://drive.google.com/file/d/1McrXZs10dDU1I_HDM-wd3iE4agobPEXd/view?usp=sharing)
+
+<br>
+
+## Instalasi netics-pc appliance khusus web (MAC)
+
+1. menyusul
 
 <br>
 
