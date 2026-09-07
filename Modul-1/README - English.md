@@ -10,15 +10,33 @@
 + 1.[IP and Port Concepts](#1-ip-and-port-concepts)
     + [IP Concept](#11-ip-concept)
     + [Port Allocation](#12-port-allocation)
-+ 2.[Wire Crimping](#1-wire-crimping)
-     + 2.1 [Tools needed](#21-tools-needed)
-     + 2.2 [Cable Configuration](#22-cable-configuration)
-     + 2.3 [Crimping Steps](#23-crimping-steps)
-+ 3.[Wireshark](#3-wireshark)
-  + 3.1 [Installation](#31-installation)
-  + 3.2 [Filters](#32-filters)
-  + 3.3 [Export Packet Capture Data](#33-export-packet-capture-data)
-  + 3.4 [Wireshark Usage on FTP Server](#34-wireshark-usage-on-ftp-server)
++ 2. [Basic Network Topology](#2-basic-network-topology)
+  + [2.1 How do nodes connect?](#21-how-do-nodes-connect)
+    + [2.1.1 Via console](#211-via-console)
+    + [2.1.2 Via "edit network config"](#212-via-edit-network-config)
+  + [2.2 How do you find the transfer capacity between nodes?](#22-how-do-you-find-the-transfer-capacity-between-nodes)
+    + [2.2.1 Using iperf3](#221-using-iperf3)
+  + [2.3 Connecting Multiple Nodes Using a Bridge](#23-connecting-multiple-nodes-using-a-bridge)
+    + [2.3.1 Basic Bridge Configuration](#231-basic-bridge-configuration)
+  + [2.4 Network Simulation](#24-network-simulation)
+    + [2.4.1 Packet Loss Simulation](#241-packet-loss-simulation)
+    + [2.4.2 Throughput Limitation Simulation](#242-throughput-limitation-simulation)
+  + [2.5 Switching from a Bridge to a Switch](#25-switching-from-a-bridge-to-a-switch)
+    + [2.5.1 Simple Switch Topology](#251-simple-switch-topology)
+    + [2.5.2 Simulating Packet Forwarding on a Switch](#252-simulating-packet-forwarding-on-a-switch)
+  + [2.6 Automatic IP Configuration with DHCP](#26-automatic-ip-configuration-with-dhcp)
+    + [2.6.1 DHCP Server Configuration (udhcpd)](#261-dhcp-server-configuration-udhcpd)
+    + [2.6.2 DHCP Client Configuration](#262-dhcp-client-configuration)
+    + [2.6.3 Manual DHCP Client Configuration](#263-manual-dhcp-client-configuration)
++ 3. [Wire Crimping](#3-wire-crimping)
+  + [3.1 Tools needed](#31-tools-needed)
+  + [3.2 Cable Configuration](#32-cable-configuration)
+  + [3.3 Crimping Steps](#33-crimping-steps)
++ 4. [Wireshark](#4-wireshark)
+  + [4.1 Installation](#41-installation)
+  + [4.2 Filters](#42-filters)
+  + [4.3 Export Packet Capture Data](#43-export-packet-capture-data)
+  + [4.4 Wireshark Usage on FTP Server](#44-wireshark-usage-on-ftp-server)
 
 ## 0. Basic Command Line Tools for Network Connection
 
@@ -184,10 +202,378 @@ Here are some examples of commonly used logical ports and their functions:
 + Port 443 (HTTPS): Connects clients to the internet but with added security features that HTTP port 80 lacks. Port 443 encrypts network packets before transferring them.
 + Port 143 (IMAP): Internet Message Access Protocol, or IMAP, is a protocol for accessing emails from the server.
 
-## 2. Wire Crimping
+## 2. Basic Network Topology
+
+Basic network topology refers to the physical as well as logical structure that determines how nodes connect to each other and communicate. We will simulate and learn the fundamental steps of building a computer network, starting from a direct connection between two nodes (point-to-point), network performance testing, using a switch, up to configuring IP addresses automatically.
+
+### 2.1 How do nodes connect?
+
+Basically, nodes in a network can communicate with each other if they have an IP address and are in the same network segment. In this first stage, we will connect two nodes directly (Point-to-Point) and configure the IP addresses statically so that both nodes can recognize each other and send data packets.
+
+#### 2.1.1 Via console
+
+1. Create a new project in GNS3, add 2 netics-pc nodes and connect the two nodes with a link (using the eth0 interface on both nodes)
+
+   ![](images/topologi-dasar-1.png)
+
+2. Start both nodes, open the console, then set the IP address and interface on each node.
+
+  On **netics-pc-1**:
+```
+ip addr add 192.168.100.101/24 dev eth0
+ip link set eth0 up
+```
+
+  On **netics-pc-2**:
+```
+ip addr add 192.168.100.102/24 dev eth0
+ip link set eth0 up
+```
+
+3. Confirm the new IP address by running **ip -br addr**
+
+   ![](images/topologi-dasar-2.png)
+   ![](images/topologi-dasar-3.png)
+
+4. Verify that the two nodes are connected by pinging one node from the other node.
+
+   ![](images/topologi-dasar-4.png)
+<br>
+
+#### 2.1.2 Via "edit network config"
+
+1. Right-click on the node -> **Configure** -> **Edit Network Configuration**. Then fill in with the following configuration:
+
+  On **netics-pc-1**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.101
+    netmask 255.255.255.0
+```
+
+  On **netics-pc-2**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.102
+    netmask 255.255.255.0
+```
+
+2. After you click Save, this configuration will not take effect immediately. You have to restart the node (right-click -> Stop, then right-click -> Start) so that the node can read its configuration file again during the boot process.
+
+<br>
+
+### 2.2 How do you find the transfer capacity between nodes?
+
+Once the nodes are connected, we will measure how large the maximum interface capacity is and the actual transfer speed (throughput) between them. We do this using the **ethtool** utility to check the node's capacity limit and **iperf3** to test the actual traffic load.
+
+#### 2.2.1 Using **iperf3**
+
+1. To find out the interface capacity, use the command **ethtool [interface]**
+
+   ![](images/topologi-dasar-5.png)
+
+The output shows a capacity speed of 10 Gbps
+
+2. We will run a performance test with iperf3
+
+iPerf3 is a tool for measuring the maximum active bandwidth that can be achieved on an IP network.
+
+On **netics-pc-1**:
+```
+iperf3 -s
+```
+
+**-s** means running the node in server mode. The node will listen, waiting for incoming traffic data from the client node.
+
+On **netics-pc-2**:
+```
+iperf3 -c <ip-netics-pc-1> -u -b 10G
+```
+**-c** means running the node in client mode to start the test toward the server. **-u** tells iPerf3 to use the UDP protocol. **-b 10G** targets a data transmission speed of 10 Gigabits/second.
+
+Test results:
+
+   ![](images/topologi-dasar-6.png)
+
+   ![](images/topologi-dasar-7.png)
+
+Based on the images, iperf3 reports that the actual traffic successfully generated by **netics-pc-2** (sender) reaches an average of 2.64 Gbps, while **netics-pc-1** (receiver) can only receive data at an average speed of 397 Mbps with a very high packet loss rate, namely 86%. This result is far below the nominal interface capacity of 10 Gbps. This clearly proves that the nominal capacity of a network interface does not always reflect its actual throughput. Real throughput is influenced by many factors, such as the CPU processing capability of the virtual node, protocol overhead, as well as the system workload running the simulation.
+
+<br>
+
+### 2.3 Connecting Multiple Nodes Using a Bridge
+
+Previously, we connected two nodes directly (Point-to-Point). However, what if we want to connect three or more nodes into the same network? We can no longer rely only on a direct connection. We need a **bridge**.
+
+#### 2.3.1 Basic Bridge Configuration
+
+1. Add 1 new node that will act as a switch (let's name it **netics-pc-bridge**). Connect **netics-pc-1** to eth0 on **netics-pc-bridge** and **netics-pc-2** to eth1 on **netics-pc-bridge**
+
+   ![](images/topologi-dasar-8.png)
+
+2. Test the connection and trace the route using the **mtr** command from **netics-pc-1** to **netics-pc-2**
+
+On **netics-pc-1**:
+```
+mtr 192.168.100.102
+```
+
+  ![](images/topologi-dasar-9.png)
+
+At this stage, the test will fail (No route to host). There is no reply yet because **netics-pc-bridge**, which is in the middle, has not been configured to forward data packets.
+
+3. We will create the bridge configuration on **netics-pc-bridge**. Open the console on **netics-pc-bridge**, then run the following command to make it an ethernet bridge
+
+On **netics-pc-bridge**:
+```
+ip -br addr                    # check interface: eth0 and eth1 are present
+brctl addbr br0
+brctl addif br0 eth0
+brctl addif br0 eth1
+brctl show
+ip link set br0 up
+```
+
+  ![](images/topologi-dasar-10.png)
+
+4. Re-run the route test from **netics-pc-1** to **netics-pc-2** as in step 2.
+
+  ![](images/topologi-dasar-11.png)
+
+The connection now succeeds because the bridge interface on **netics-pc-bridge** is active and works to forward data packets between the two nodes.
+
+<br>
+
+### 2.4 Network Simulation
+In a real network, ideal conditions without obstacles rarely happen. We are often faced with problems such as packet loss or limited network capacity (bandwidth). Therefore, we will simulate these disturbances without having to use real network hardware.
+
+#### 2.4.1 Packet Loss Simulation
+
+In this experiment, we will simulate a situation where 10% of sent packets are lost or damaged during the journey.
+
+1. Simulate a *packet loss* of 10% on both interfaces on **netics-pc-bridge**
+
+On **netics-pc-bridge**:
+```
+tc qdisc replace dev eth1 root netem loss 10%
+tc qdisc replace dev eth0 root netem loss 10%
+```
+
+2. Run the test using **mtr** from **netics-pc-1** to **netics-pc-2** to see the effect of packet loss.
+
+**mtr** before the packet loss simulation:
+
+  ![](images/topologi-dasar-12.png)
+
+**mtr** after the packet loss simulation:
+
+  ![](images/topologi-dasar-13.png)
+
+The mtr result shows an increase in packet loss from 0% to 10.2% after the packet loss experiment was applied to the bridge.
+<br>
+
+#### 2.4.2 Throughput Limitation Simulation
+
+In this experiment, we will simulate a situation where the network bandwidth/capacity is limited. The limitation is done on the bridge side because this node is on the path traversed by all traffic between the sender and receiver. This simulates real conditions, where bandwidth limitations are usually applied to connecting nodes such as switches or routers, not to each individual end node.
+
+1. Run iperf3 -s on netics-pc-1, then if iperf3 client with a target speed of 100 Mbps on netics-pc-2.
+
+On **netics-pc-1**:
+```
+iperf3 -s
+```
+
+On **netics-pc-2**:
+```
+iperf3 -c 192.168.100.101 -u -b 100M
+```
+
+2. Limit the speed (bitrate) to 50 Mbps on both interfaces on **netics-pc-3**
+
+On **netics-pc-3**:
+```
+tc qdisc replace dev eth0 root tbf rate 50mbit burst 64k limit 64k
+tc qdisc replace dev eth1 root tbf rate 50mbit burst 64k limit 64k
+```
+
+To reset the limitation, run:
+```
+tc qdisc del dev eth0 root
+tc qdisc del dev eth1 root
+```
+
+3. Observe the traffic data test results to see the effect of the throughput limitation.
+
+**netics-pc-2 (client):**
+
+  ![](images/topologi-dasar-14.png)
+
+**netics-pc-1 (server):**
+
+  ![](images/topologi-dasar-15.png)
+
+Even though the client keeps sending data at 100 Mbps, the actual speed received by the server drops to around 48.6 Mbps. This proves that the 50 Mbps bandwidth limitation works, where the network automatically drops data packets that exceed the capacity limit.
+
+<br>
+
+### 2.5 Switching from a Bridge to a Switch
+Previously, we used the **netics-pc** node configured manually as a bridge to connect several nodes. Although bridge and switch both work at Layer 2 (Data Link) and forward packets based on MAC Addresses, in practice we more often use a Switch.
+
+Why use a Switch instead of a Bridge?
+1. **Port Capacity**: A bridge usually only connects two or a few network segments, while a Switch is designed to have more ports to connect many nodes at once.
+2. **Performance**: A physical switch uses special hardware (ASIC) to process and forward data packets very quickly, while a bridge configuration burdens the CPU.
+3. **Ease**: In a simulated environment (such as GNS3) as well as the real world, an unmanaged switch can be used directly without manual configuration (such as the long brctl or ip link commands).
+
+#### 2.5.1 Simple Switch Topology
+1. Create the following topology.
+
+   ![](images/topologi-dasar-16.png)
+
+2. Configure the IP Addresses on the three nodes in the same subnet through the Edit Network Configuration menu.
+
+On **netics-pc-1**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.101
+    netmask 255.255.255.0
+```
+
+On **netics-pc-2**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.102
+    netmask 255.255.255.0
+```
+
+On **netics-pc-3**:
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.100.103
+    netmask 255.255.255.0
+```
+<br>
+
+#### 2.5.2 Simulating Packet Forwarding on a Switch
+
+The way a Switch works is very smart. The switch automatically recognizes and records the identity (MAC Address) of each node connected to it, then stores them in a memory list called the **MAC Address Table**.
+
+To simulate how the Switch forwards packets, do the following test:
+
+1. Open the console on **netics-pc-1** and ping **netics-pc-3**.
+```
+ping -c 4 192.168.100.103
+```
+
+   ![](images/topologi-dasar-17.png)
+
+When the first ping is sent, the Switch doesn't know the destination location yet. Therefore, the switch broadcasts (ARP message) to all active ports. Once the target node replies, the Switch immediately records the MAC Address along with its port position in the **MAC Address Table**. Using this information, for the second packet and onwards, the switch no longer broadcasts to all nodes, but directly sends the packet to the destination node only.
+
+<br>
+
+### 2.6 Automatic IP Configuration with DHCP
+
+So far, we have always configured IP Addresses manually (Static IP). On a large network scale, this method is certainly inefficient and prone to IP conflicts. Therefore, we use DHCP (Dynamic Host Configuration Protocol) so that the nodes (clients) can get network configuration automatically from the server.
+
+The DHCP mechanism in providing IP is known as DORA:
+
+- Discover: The client broadcasts a message to the whole network to look for the DHCP server.
+- Offer: The DHCP server that receives the request offers an IP address from the pool (collection of available IPs).
+- Request: The client formally requests the offered IP.
+- Acknowledge: The server confirms and grants the IP lease to the client.
+
+We will use programs that are commonly used for DHCP configuration:
+
+1. **udhcpd**: As the DHCP Server (IP provider).
+2. **udhcpc**: As the DHCP Client (IP requester).
+
+#### 2.6.1 DHCP Server Configuration (udhcpd)
+
+We will reuse the same Switch topology as **sub-chapter 2.5** above. Make **netics-pc-1** the **DHCP Server**, while the other nodes will become **DHCP Clients**.
+
+   ![](images/topologi-dasar-16.png)
+
+1. Make sure **netics-pc-1** already has a static IP (e.g., 192.168.100.101/24).
+```
+ip addr add 192.168.100.101/24 dev eth0
+```
+
+2. Create an empty file that will be used by the system as storage for the IP lease records:
+```
+touch /etc/dhcpd.leases
+```
+
+3. Create the DHCP configuration file at **/etc/dhcpd.conf**. We will use the IP allocation from **.150** to **.155**:
+```
+echo "start 192.168.100.150
+end 192.168.100.155
+interface eth0
+max_leases 5
+pidfile /etc/dhcpd.pid
+lease_file /etc/dhcpd.leases
+option subnet 255.255.255.0" > /etc/dhcpd.conf
+```
+
+4. Run the DHCP server application so it runs on the main screen (foreground):
+```
+udhcpd -f /etc/dhcpd.conf
+```
+<br>
+
+#### 2.6.2 DHCP Client Configuration
+We will change the configuration on **netics-pc-2** and **netics-pc-3** so that they directly request IP configuration automatically when the nodes start.
+
+1. Right-click on the node -> Configure -> Edit Network Configuration and uncomment the following sections:
+
+On **netics-pc-2**:
+```
+auto eth0
+iface eth0 inet dhcp
+    hostname netics-pc-2
+```
+
+On **netics-pc-3**:
+```
+auto eth0
+iface eth0 inet dhcp
+    hostname netics-pc-3
+```
+
+Make sure that the static IP configuration has been commented out again so that we can get the DHCP IP instead of a static IP.
+
+2. Save and restart the node so that the system reads the new configuration during boot. The client will automatically get the DHCP IP.
+
+   ![](images/topologi-dasar-18.png)
+   ![](images/topologi-dasar-19.png)
+<br>
+
+#### 2.6.3 Manual DHCP Client Configuration
+This scenario simulates a condition when a node is not configured to request IP automatically at startup (e.g., a newly installed node). We will request the IP manually on **netics-pc-2**.
+
+1. Open the console on **netics-pc-2**. Check the current IP address (make sure there is only a link local address, no IP from the network yet):
+```
+ip -br addr
+```
+
+2. Run the DHCP client manually to request an IP address on the **eth0** interface and let the process run in the background (-b):
+```
+udhcpc -i eth0 -b
+```
+
+   ![](images/topologi-dasar-20.png)
+
+3. After that, check the client IP again, it should have gotten an IP from DHCP.
+
+<br>
+
+## 3. Wire Crimping
 In a computer network, communication occurs between one device to the other. For this to happen, of course there needs a medium. Although there is already wireless communication technology, wires still have a major role in network and can't be replaced. Therefore, in this module, we will learn how to crimp a type of network cable called UTP (Unshielded Twisted Pair).
 
-### 2.1 Tools needed
+### 3.1 Tools needed
 
 To do wire crimping, the following tools are needed.
 
@@ -215,7 +601,7 @@ Crimping pliers or Crimpers are used to attach wires to RJ45.
 
 As the name suggests, this tool is used to check whether the cable we make is working properly or not.
 
-### 2.2 Cable Configuration
+### 3.2 Cable Configuration
 
   There are several types of cable configurations. Based on the color order, according to international standards, there are divided into __T568A__ and __T568B__.
 
@@ -239,7 +625,7 @@ While from the cable installation, there are divided into :
   
   The installation rules are also different from straight-through cables, crossover cables have different color sequences at both ends. However, this color difference should not be arbitrary, because these two ends also have a color order rule. In standard crossover cables, if one end of the Pin has a color arrangement according to the T568A rule, then the other end of the Pin must have a color order according to the T568B standard.
 
-### 2.3 Crimping Steps
+### 3.3 Crimping Steps
 
   1. Prepare the crimping needs (UTP cable, RJ45, crimping pliers, LAN tester)
   2. Strip the UTP cable shield
@@ -253,7 +639,7 @@ While from the cable installation, there are divided into :
 
 [![video-straight](https://i.ytimg.com/vi/JDiybTG9dGY/maxresdefault.jpg)](https://youtu.be/NL0F8bP8k7I)
 
-## 3. Wireshark
+## 4. Wireshark
 Wireshark is a network packet analyzer application. The network packet analyzer will try to capture network packets and display the packet data as detailed as possible. A computer network is built with the aim of sending or receiving data between one end-point and another. Data is sent in the form of packets. The structure of a package consists of:
 
 ***1. Header***
@@ -274,17 +660,17 @@ Payload is also referred to the **body** of the packet. This is where the data t
 ***3. Trailer***
 A trailer, or sometimes called a ***footer***, contains a pair of bits that signal to the reciever that the packet has reached its end. It can also provide some sort of *error checking*.
 
-### 3.1 Installation
+### 4.1 Installation
 
 For installation on Windows OS or macOS, you can download the installer on [this page](https://www.wireshark.org/download.html). For Linux OS, see the tutorial [here](https://linuxtechlab.com/install-wireshark-linux-centosubuntu/).
 After the installation completed, run Wireshark as an **administrator** (Windows) or as a **root** (Linux).
 Here's the initial view :
 ![wireshark](images/wireshark.png)
 
-### 3.2 Filters
+### 4.2 Filters
 In Wireshark, there are 2 types of filters, i.e. ***Capture Filter*** and ***Display Filter***
 
-#### 3.2.1 Capture Filter
+#### 4.2.1 Capture Filter
 ![Capture](images/capture.png)
 
  - Definition : Filtering packets to be captured. Packets that don't meet the criteria are allowed to pass without being captured.
@@ -312,7 +698,7 @@ In Wireshark, there are 2 types of filters, i.e. ***Capture Filter*** and ***Dis
  - Example of capture filter `host 10.151.36.1`
 ![Contoh-capture](images/capture-filter.png)
 
-#### 3.2.2 Display Filter
+#### 4.2.2 Display Filter
 ![Display](images/display.png)
 
  - Definition : Filtering packets to be displayed from a collection of packets that have been captured.
@@ -353,7 +739,7 @@ In Wireshark, there are 2 types of filters, i.e. ***Capture Filter*** and ***Dis
  - As an example of display filter `tcp.port == 80`, the result is as follows :
 ![Contoh-display](images/display-filter.png)
 
-### 3.3 Export Packet Capture Data
+### 4.3 Export Packet Capture Data
 
  1. After having the packet, select File on the menu bar -> Export Objects -> (select the desired protocol), in this case, the HTTP protocol is selected.
 ![export](images/export.PNG)
@@ -362,11 +748,11 @@ In Wireshark, there are 2 types of filters, i.e. ***Capture Filter*** and ***Dis
  3. File exported successfully.
 ![logo](images/logo.png)
 
-### 3.4 Wireshark Usage on FTP Server
+### 4.4 Wireshark Usage on FTP Server
 
 Run the wireshark application before connect to the FTP server.
 
-#### 3.4.1 Connect ke Server
+#### 4.4.1 Connect to Server
 
 ##### a. Windows
 
@@ -388,7 +774,7 @@ For windows, we will use FileZilla. For an experiment on the server, we used Fil
 
 FTP Server was created successfully.
 
-#### 3.4.2 Client Connection
+#### 4.4.2 Client Connection
 
 ##### a. Using Filezilla client
 
@@ -410,7 +796,7 @@ When the capture results are available, the data will appear as shown below:
 | USER | Username used to login to the FTP server |
 | PWD | Password used to login to the FTP server |)
 
-#### 3.4.3 Upload Files
+#### 4.4.3 Upload Files
 
 ##### a. Using Filezilla client
 While using FileZilla client, drag files from Local site and drop on Remote site.
@@ -429,7 +815,7 @@ When the capture results are available, the data will appear as shown below:
 
 ![STOR](images/stor.JPG)
 
-#### 3.4.4 Download Files
+#### 4.4.4 Download Files
 
 ##### a. Using Filezilla client
 While using FileZilla client, drag files from Remote site and drop on Local site.
