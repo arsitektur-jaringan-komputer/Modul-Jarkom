@@ -9,6 +9,7 @@
   - [Importing the GNS3 VM in VirtualBox](#importing-the-gns3-vm-in-virtualbox)
   - [Installing GNS3 GUI](#installing-gns3-gui)
   - [Installing the netics-pc appliance](#installing-the-netics-pc-appliance)
+  - [Installing the netics-pc appliance via the web interface (macOS)](#installing-the-netics-pc-appliance-via-the-web-interface-(macOS))
   - [Using GNS3](#using-gns3)
     - [Setting Up IP on a Node](#setting-up-ip-on-a-node)
     - [Connecting a Node to the Internet](#connecting-a-node-to-the-internet)
@@ -44,7 +45,7 @@ To install GNS3 on macOS, please watch the following YouTube video:
 
 <br>
 
-## Installing VMware Workstation (Windows)
+## Installing VMware Workstation
 1. Open the website https://support.broadcom.com/ and register a new account (using a personal email is recommended).
 2. Open the menu **VMware Cloud Foundation → My Downloads → Free Software Downloads** to access the list of software available for free.
 

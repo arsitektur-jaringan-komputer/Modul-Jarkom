@@ -9,6 +9,7 @@
   - [Import GNS3 VM di VirtualBox](#import-gns3-vm-di-virtualbox)
   - [Instalasi GNS3 GUI](#instalasi-gns3-gui)
   - [Instalasi netics-pc appliance](#instalasi-netics-pc-appliance)
+  - [Instalasi netics-pc appliance khusus web (MAC)](#instalasi-netics-pcappliance-khusus-web-(MAC))
   - [Penggunaan GNS3](#penggunaan-gns3)
     - [Setup IP di Node](#setup-ip-di-node)
     - [Akses Sebuah Node ke Internet](#akses-sebuah-node-ke-internet)
@@ -42,7 +43,7 @@ Instalasi GNS3 untuk MacOS dapat melihat video youtube berikut:
 > 1. `menit 5.23`: upgrade ke version 3.0.6
 > 2. `menit 7.16`: poin 2 pake image "netics-pc” (bisa di skip dulu)
 
-## Instalasi VMWare Workstation (Windows)
+## Instalasi VMWare Workstation
 1. Buka situs web https://support.broadcom.com/ lalu daftarkan akun baru (disarankan menggunakan email pribadi).
 2. Buka menu **VMWare Cloud Foundation → My Downloads → Free Software Downloads** untuk mengakses daftar software yang tersedia secara gratis.
 
