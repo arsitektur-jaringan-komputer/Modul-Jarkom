@@ -169,21 +169,50 @@ Link download file netics-pc appliance [here](https://drive.google.com/file/d/1M
 
 ## Instalasi netics-pc appliance khusus web (MAC)
 
-Image netics-pc untuk yang menggunakan *MAC* `royyana/netics-pc:alpinet2-arm`
 
-Network Adapters : `4`
 
-Name : `netics-pc`
+> [!IMPORTANT]
+>
+> Pastikan GNS3 VM nya sudah menyala
 
-Start Command : `` (blank)
+1. Untuk mac silahkan bisa mengakses GNS3 Web Interface melalui browser dengan mengetikkan IP yang diberikan di GNS3 VM nya
 
-Console type : `telnet`
+2. Klik icon GNS3 di pojok kiri atas, dan pilih menu `Template Preferences`
 
-Environment : `` (blank)
+![alt text](images/mac-neticspc-1.png) 
 
-<!-- 1. Untuk mac silahkan bisa mengakses GNS3 Web Interface melalui browser dengan mengetikkan IP yang diberikan di GNS3 VM nya -->
+3. Kemudian pilih menu `Docker`
 
-etc etc
+![alt text](images/mac-neticspc-2.png) 
+
+![alt text](images/mac-neticspc-3.png) 
+
+4. Kemudian isi detail Docker Appliance nya seperti berikut (bisa melihat screenshot di bawah)
+
+> Image netics-pc untuk yang menggunakan *MAC* `royyana/netics-pc:alpinet2-arm`
+> Network Adapters : `4`
+> Name : `netics-pc`
+> Start Command : (blank)
+> Console type : `telnet`
+> Auxilarry Console type : `none`
+> Environment :  (blank)
+
+![alt text](images/mac-neticspc-4.png)
+![alt text](images/mac-neticspc-4b.png)
+![alt text](images/mac-neticspc-4c.png)
+![alt text](images/mac-neticspc-4d.png)
+![alt text](images/mac-neticspc-4e.png)
+![alt test](images/mac-neticspc-4f.png)
+
+5. Setelah selesai, klik tombol `Add template` di pojok kanan bawah
+![alt text](images/mac-neticspc-5.png)
+
+6. Setelah itu pergi ke project yang sudah dibuat atau blank project, dan drag n drop appliance netics-pc tadi ke area simulasi
+
+Ditunggu saja kalau agak lama muncul netics-pc nya
+
+![alt text](images/mac-neticspc-6.png)
+![alt text](images/mac-neticspc-6b.png)
 
 <br>
 

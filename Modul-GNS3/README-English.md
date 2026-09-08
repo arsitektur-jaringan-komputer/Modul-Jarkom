@@ -170,6 +170,55 @@ You can download the netics-pc gns3a appliance file [Here](https://drive.google.
 
 <br>
 
+## Installing the netics-pc appliance via the web interface (macOS)
+
+
+
+> [!IMPORTANT]
+>
+> Ensure the GNS3 VM is running.
+
+1. On macOS, access the GNS3 Web Interface via your browser by entering the IP address displayed on the GNS3 VM.
+
+2. Click the GNS3 icon in the top-left corner and select the `Template Preferences` menu.
+
+![alt text](images/mac-neticspc-1.png)
+
+3. Then, select the `Docker` menu.
+
+![alt text](images/mac-neticspc-2.png)
+
+![alt text](images/mac-neticspc-3.png)
+
+4. Fill in the Docker Appliance details as follows (refer to the screenshots below):
+
+> Image (for *macOS*): `royyana/netics-pc:alpinet2-arm`
+> Network Adapters: `4`
+> Name: `netics-pc`
+> Start Command: (leave blank)
+> Console type: `telnet`
+> Auxiliary Console type: `none`
+> Environment: (leave blank)
+
+![alt text](images/mac-neticspc-4.png)
+![alt text](images/mac-neticspc-4b.png)
+![alt text](images/mac-neticspc-4c.png)
+![alt text](images/mac-neticspc-4d.png)
+![alt text](images/mac-neticspc-4e.png)
+![alt test](images/mac-neticspc-4f.png)
+
+5. Once finished, click the `Add template` button in the bottom-right corner.
+![alt text](images/mac-neticspc-5.png)
+
+6. Next, go to an existing project or a blank project, and drag and drop the netics-pc appliance into the simulation area.
+
+Please wait a moment if the netics-pc takes a little time to appear.
+
+![alt text](images/mac-neticspc-6.png)
+![alt text](images/mac-neticspc-6b.png)
+
+<br>
+
 ## Using GNS3
 
 ### Setting Up IP on a Node
