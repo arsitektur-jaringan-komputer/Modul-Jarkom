@@ -212,7 +212,8 @@ You can download the netics-pc gns3a appliance file [Here](https://drive.google.
 
 6. Next, go to an existing project or a blank project, and drag and drop the netics-pc appliance into the simulation area.
 
-Please wait a moment if the netics-pc takes a little time to appear.
+> [!IMPORTANT]
+> Just wait a bit if `netics-pc` takes a while to appear (please ignore the `netics-pc` name shown in the image below; the installation still uses `netics-pc`, not `netics-pc-arm`).
 
 ![alt text](images/mac-neticspc-6.png)
 ![alt text](images/mac-neticspc-6b.png)

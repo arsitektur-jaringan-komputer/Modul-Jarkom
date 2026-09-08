@@ -209,7 +209,8 @@ Link download file netics-pc appliance [here](https://drive.google.com/file/d/1M
 
 6. Setelah itu pergi ke project yang sudah dibuat atau blank project, dan drag n drop appliance netics-pc tadi ke area simulasi
 
-Ditunggu saja kalau agak lama muncul netics-pc nya
+> [!IMPORTANT]
+> Ditunggu saja kalau agak lama muncul netics-pc nya (tolong diabaikan nama netics-pc yang ada di gambar bawah, instalasi nya tetap menggunakan `netics-pc`, bukan `netics-pc-arm`)
 
 ![alt text](images/mac-neticspc-6.png)
 ![alt text](images/mac-neticspc-6b.png)
