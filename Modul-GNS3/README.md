@@ -169,7 +169,21 @@ Link download file netics-pc appliance [here](https://drive.google.com/file/d/1M
 
 ## Instalasi netics-pc appliance khusus web (MAC)
 
-1. menyusul
+Image netics-pc untuk yang menggunakan *MAC* `royyana/netics-pc:alpinet2-arm`
+
+Network Adapters : `4`
+
+Name : `netics-pc`
+
+Start Command : `` (blank)
+
+Console type : `telnet`
+
+Environment : `` (blank)
+
+<!-- 1. Untuk mac silahkan bisa mengakses GNS3 Web Interface melalui browser dengan mengetikkan IP yang diberikan di GNS3 VM nya -->
+
+etc etc
 
 <br>
 
