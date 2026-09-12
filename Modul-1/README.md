@@ -6,6 +6,8 @@
   + [ssh](#02-ssh-secure-shell)
   + [nc](#03-netcat-nc)
   + [ping](#04-ping)
+  + [traceroute](#05-traceroute)
+  + [mtr](#06-mtr)
 + 1. [Konsep IP dan Port](#1-konsep-ip-dan-port)
   + [Konsep IP](#11-konsep-ip)
   + [Alokasi Port](#12-alokasi-port)
@@ -119,6 +121,82 @@ Dengan perintah di atas, Anda akan mendapatkan informasi sebagai berikut:
 + Time adalah lamanya waktu respon dari host, yang dihitung dengan satuan ms, atau millisecond. Waktu ping yang bagus adalah di bawah 100ms, terutama kalau penggunaannya untuk game online yang menuntut ping yang rendah.
 + TTL (Time To Live) merupakan durasi sebuah paket data dapat berada di jaringan, yang dicatat dalam hitungan detik. Umumnya, TTL diatur pada kisaran ideal 64 detik.
 
+### 0.5 Traceroute
+
+Analoginya, bayangkan ketika kamu hendak mengirim surat ke seseorang di kota lain, dan kamu ingin tahu kantor pos mana saja yang dilalui surat tersebut sebelum sampai ke tujuan. Traceroute bekerja seperti itu dengan menunjukkan setiap "titik singgah" (hop) yang dilalui paket data Anda dari komputer menuju server tujuan.
+
+```
+traceroute google.com
+```
+
+![traceroute-example-basic](images/traceroute-1.png) 
+
+#### Apa itu Traceroute?
+
+**Traceroute** adalah alat diagnosa jaringan yang digunakan untuk melacak jalur (rute) yang dilalui paket data dari komputer sumber menuju host tujuan. Traceroute bekerja dengan mengirimkan paket secara bertahap dengan nilai **TTL** (Time To Live) yang terus bertambah (dimulai dari 1), sehingga setiap router (hop) di sepanjang jalur akan membalas dengan pesan _"TTL Exceeded"_ begitu TTL paket mencapai nol. Dari balasan inilah traceroute bisa memetakan setiap hop yang dilewati.
+
+Dengan Traceroute, Anda bisa melihat:
++ **Hop number**: urutan titik (router) yang dilalui paket, dimulai dari 1.
++ **Hostname/IP**: alamat IP atau nama host dari setiap hop.
++ **RTT (Round Trip Time)**: waktu tempuh pulang-pergi paket ke hop tersebut, biasanya ditampilkan tiga kali percobaan (dalam ms).
++ **Timeout (`* * *`)**: menandakan hop tersebut tidak memberikan balasan dalam batas waktu tertentu (bisa karena firewall memblokir ICMP, bukan berarti jaringan putus).
+
+![traceroute-column-detail](images/traceroute-2.png) 
+
+Traceroute sangat berguna untuk mengidentifikasi di titik mana sebuah koneksi mengalami hambatan atau kegagalan, terutama saat troubleshooting masalah konektivitas ke suatu server.
+
+Cara penggunaan dasar Traceroute adalah sebagai berikut:
+```
+traceroute [hostname/ip]
+```
+
+Beberapa opsi yang umum digunakan:
+```
+traceroute -n [hostname/ip]              # menampilkan hop hanya dalam bentuk IP address, tanpa resolusi DNS
+traceroute -m [maksimum] [hostname/ip]   # menentukan jumlah maksimum hop yang akan dilacak
+traceroute -I [hostname/ip]              # menggunakan ICMP ECHO alih-alih UDP untuk paket probe
+```
+
+![traceroute-with-flag-command-added](images/traceroute-3.png) 
+
+### 0.6 MTR
+
+Bayangkan Anda mengirim paket ke sebuah server tujuan, namun paket tersebut tidak sampai dalam waktu yang wajar. Anda ingin tahu di titik mana masalahnya terjadi, apakah di jaringan lokal Anda, di ISP, atau di server tujuan itu sendiri. MTR membantu melihat seluruh "rute" yang dilalui paket, sekaligus kualitas koneksi di setiap titik (hop) yang dilewati.
+
+```
+mtr google.com
+```
+
+![mtr-basic](images/mtr-1.png) 
+
+#### Definisi Formal MTR?
+
+**MTR** adalah alias dari **My Traceroute** adalah alat diagnosa jaringan yang menggabungkan fungsi **ping** dan **traceroute** menjadi satu. Jika ping hanya memberi tahu apakah host tujuan bisa dijangkau dan traceroute hanya menunjukkan jalur (hop) yang dilalui paket, MTR melakukan keduanya secara terus-menerus (real-time) dan menampilkan statistik performa untuk setiap hop di sepanjang rute.
+
+Dengan MTR, Anda bisa melihat:
++ **Host**: alamat IP atau hostname dari setiap hop (titik) yang dilalui paket menuju tujuan.
++ **Loss%**: persentase paket yang hilang pada masing-masing hop.
++ **Snt**: jumlah paket yang telah dikirim ke hop tersebut.
++ **Last, Avg, Best, Worst**: nilai latency (waktu tempuh) terakhir, rata-rata, tercepat, dan terlambat dari paket ke hop tersebut.
++ **StDev**: standar deviasi dari latency, untuk melihat seberapa stabil koneksi di hop tersebut.
+
+![mtr-columns](images/mtr-2.png) 
+
+Karena MTR menampilkan data secara _contionus_ (bukan hanya sekali seperti traceroute biasa), MTR sangat berguna untuk mengidentifikasi hop mana yang menjadi penyebab packet loss atau latency tinggi dalam sebuah jaringan.
+
+Cara penggunaan dasar MTR adalah sebagai berikut:
+```
+mtr [hostname/ip]
+```
+
+Beberapa opsi yang umum digunakan:
+```
+mtr -r [hostname/ip]            # laporan (report) yaitu hasil ditampilkan sekali setelah sejumlah paket terkirim, tidak real-time
+mtr -c [jumlah] [hostname/ip]   # menentukan jumlah paket (cycle) yang dikirim ke tiap hop
+mtr -n [hostname/ip]            # menampilkan hop hanya dalam bentuk IP address, tanpa resolusi DNS
+```
+
+![mtr-report-mode](images/mtr-3.png) 
 
 ## 1. Konsep IP dan Port
 

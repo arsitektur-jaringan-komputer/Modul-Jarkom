@@ -4,9 +4,11 @@
 
 + 0.[Basic Command Line Tools for Network Connection](#0-basic-command-line-tools-for-network-connection)
     + [telnet](#01-telnet)
-    + [nc](#02-netcat-nc)
-    + [ping](#03-ping)
-    + [ssh](#04-ssh-secure-shell)
+    + [ssh](#02-ssh-secure-shell)
+    + [nc](#03-netcat-nc)
+    + [ping](#04-ping)
+    + [traceroute](#05-traceroute)
+    + [mtr](#06-mtr)
 + 1.[IP and Port Concepts](#1-ip-and-port-concepts)
     + [IP Concept](#11-ip-concept)
     + [Port Allocation](#12-port-allocation)
@@ -122,6 +124,82 @@ With the command above, you will get the following information:
 + Bytes is the amount of data sent. For Windows, this is usually 32 bytes.
 + Time is the duration of the response from the host, measured in milliseconds (ms). A good ping time is under 100ms, especially for online gaming which requires low latency.
 + TTL (Time To Live) is the duration a data packet can stay in the network, recorded in seconds. Typically, TTL is set around 64 seconds.
+
+### 0.5 Traceroute
+
+To visualize this, imagine sending a letter to someone in another city and wanting to know which post offices the letter passes through before reaching its destination. Traceroute works in a similar way by showing every "stop" (hop) your data packet traverses from your computer to the destination server.
+
+```
+traceroute google.com
+```
+
+![traceroute-example-basic](images/traceroute-1.png)
+
+#### What is Traceroute?
+
+**Traceroute** is a network diagnostic tool used to track the path (route) taken by data packets from a source computer to a destination host. It works by sending packets incrementally with an increasing **TTL** (Time To Live) value (starting at 1); consequently, each router (hop) along the path replies with a *"TTL Exceeded"* message once the packet's TTL reaches zero. Based on these replies, traceroute can map out every hop traversed.
+
+With Traceroute, you can see:
++ **Hop number**: the sequence of points (routers) the packet passes through, starting from 1.
++ **Hostname/IP**: the IP address or hostname of each hop.
++ **RTT (Round Trip Time)**: the round-trip travel time for the packet to reach that hop; usually displayed as three attempts (in ms).
++ **Timeout (`* * *`)**: indicates that the hop did not provide a reply within the specified time limit (this could be due to a firewall blocking ICMP, not necessarily a broken network connection).
+
+![traceroute-column-detail](images/traceroute-2.png)
+
+Traceroute is highly useful for identifying exactly where a connection is experiencing bottlenecks or failures, particularly when troubleshooting connectivity issues with a server. The basic usage of Traceroute is as follows:
+```
+traceroute [hostname/ip]
+```
+
+Some commonly used options:
+```
+traceroute -n [hostname/ip]              # displays hops only as IP addresses, without DNS resolution
+traceroute -m [maximum] [hostname/ip]   # specifies the maximum number of hops to trace
+traceroute -I [hostname/ip]              # uses ICMP ECHO instead of UDP for probe packets
+```
+
+![traceroute-with-flag-command-added](images/traceroute-3.png)
+
+### 0.6 MTR
+
+Imagine sending a packet to a destination server, but it fails to arrive within a reasonable timeframe. You want to pinpoint where the issue lies—whether it is in your local network, with your ISP, or at the destination server itself. MTR allows you to visualize the entire "route" the packet takes, as well as the connection quality at each point (hop) along the way.
+
+```
+mtr google.com
+```
+
+![mtr-basic](images/mtr-1.png)
+
+#### What is MTR?
+
+**MTR** (short for **My Traceroute**) is a network diagnostic tool that combines the functions of **ping** and **traceroute** into one. While ping simply indicates whether a destination host is reachable and traceroute shows the path (hops) a packet takes, MTR performs both tasks continuously (in real-time) and displays performance statistics for every hop along the route.
+
+With MTR, you can view:
++ **Host**: The IP address or hostname of each hop (point) the packet passes through on its way to the destination.
++ **Loss%**: Th
+
+
+e percentage of packets lost at each hop.
++ **Snt**: The number of packets sent to that hop.
++ **Last, Avg, Best, Worst**: Latency values ​​(transit time)—specifically the last, average, fastest, and slowest times—for packets reaching that hop.
++ **StDev**: The standard deviation of latency, indicating the stability of the connection at that hop.
+
+![mtr-columns](images/mtr-2.png)
+
+Because MTR displays data continuously (rather than just once, like a standard traceroute), it is highly useful for identifying exactly which hop is causing packet loss or high latency within a network. The basic usage of MTR is as follows:
+```
+mtr [hostname/ip]
+```
+
+Some commonly used options:
+```
+mtr -r [hostname/ip]            # report mode: results are displayed once after a set number of packets are sent (not real-time)
+mtr -c [count] [hostname/ip]    # specifies the number of packets (cycles) sent to each hop
+mtr -n [hostname/ip]            # displays hops as IP addresses only, without DNS resolution
+```
+
+![mtr-report-mode](images/mtr-3.png)
 
 ## 1. IP and Port Concepts
 
