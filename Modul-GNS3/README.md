@@ -9,7 +9,9 @@
   - [Import GNS3 VM di VirtualBox](#import-gns3-vm-di-virtualbox)
   - [Instalasi GNS3 GUI](#instalasi-gns3-gui)
   - [Instalasi netics-pc appliance](#instalasi-netics-pc-appliance)
-  - [Instalasi netics-pc appliance khusus web (MAC)](#instalasi-netics-pcappliance-khusus-web-(MAC))
+  - [Instalasi netics-pc appliance khusus web (MAC)](#instalasi-netics-pcappliance-khusus-web-mac)
+    - [Catatan Penting penambahan Persisten Volumes untuk GNS3 Windows dan MAC](#catatan-penting-penambahan-persisten-volumes-untuk-gns3-windows-dan-mac)
+    - [Uji singkat persistent volumes](#uji-singkat-persistent-volumes)
   - [Penggunaan GNS3](#penggunaan-gns3)
     - [Setup IP di Node](#setup-ip-di-node)
     - [Akses Sebuah Node ke Internet](#akses-sebuah-node-ke-internet)
@@ -177,6 +179,9 @@ Dan klik tombol edit yang ada di bawah seperti gambar di atas, akan muncul pop u
 /etc
 ```
 
+> [!IMPORTANT]
+> Penambahan direktori-direktori diatas digunakan untuk **Persistent volumes** (data tetap tersimpan walau node sedang mati di direktori yang di pilih)
+
 ![Preferences](images/netics-pc-appliance-3e.png)
 
 Jika sudah, klik tombol **OK**, kemudian klik tombol **Apply** dan setelah itu **OK**.
@@ -224,19 +229,146 @@ Link download file netics-pc appliance [here](https://drive.google.com/file/d/1M
 ![alt text](images/mac-neticspc-4e.png)
 ![alt test](images/mac-neticspc-4f.png)
 
-Link download file netics-pc (arm/MAC) appliance [here](https://drive.google.com/file/d/1mKev_TsD2AXX8WvoNDa8J7IA9TFv-Yiz/view?usp=drive_link)
-
 5. Setelah selesai, klik tombol `Add template` di pojok kanan bawah
 ![alt text](images/mac-neticspc-5.png)
 
 6. Setelah itu pergi ke project yang sudah dibuat atau blank project, dan drag n drop appliance netics-pc tadi ke area simulasi
 
+
+> [!IMPORTANT]
+> Langkah-langkah dibawah ini digunakan untuk menambahkan **Persistent volumes** pada `/root`, `/etc` dan `/etc/network`
+
+
+Catat alamat `IP` dan `port` dari GNS3 server yang sudah berjalan dan mengetahui kredensial akun dan passwordnya, serta pastikan `curl` dan `python` sudah terinstall di lokal MAC anda.
+
+> [!TIP]
+> `<GNS3_IP>` dan `<GNS3_PORT>` harus diganti dengan nilai IP dan port yang asli, misalnya `172.16.53.150` dan `80`. Tanda kurung siku (`<` `>`) tidak boleh disertakan pada saat running command.
+
+7. Jalankan perintah berikut untuk melakukan login dan memperoleh JSON Web Token (JWT): (ganti GNS3_USER dan GNS3_PW dengan kredensial username dan password yang ada di gns3 server)
+
+```bash
+curl -X POST http://<GNS3_IP>:<GNS3_PORT>/v3/access/users/login \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=<GNS3_USER>&password=<GNS3_PW>"
+```
+
+Server akan memberikan respons berupa objek JSON yang memuat `access_token`, contoh:
+
+```json
+{"access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...", "token_type": "bearer"}
+```
+
+8. Salin nilai dari `access_token` tanpa menyertakan tanda kutipnya dan simpan ke dalam sebuah variabel environment
+
+```bash
+TOKEN_GNS3_JWT="<access_token>"
+```
+
+9. Jalankan perintah dibawah ini, kemudian cari `template_id` dari node / appliance yang bernama `netics-pc`
+
+```bash
+curl -H "Authorization: Bearer $TOKEN_GNS3_JWT" \
+  http://<GNS3_IP>:<GNS3_PORT>/v3/templates | python3 -m json.tool
+```
+
+Temukan blok JSON yang mirip dengan potongan response seperti dibawah:
+
+```json
+{
+    "template_id": "c4d71fb7-b835-49d9-9e34-1c45b47277ba",
+    "name": "netics-pc",
+    "template_type": "docker",
+    "image": "royyana/netics-pc:alpinet2-arm",
+    "extra_volumes": [],
+    ...
+}
+```
+
+Kemudian catat nilai `template_id` nya (salin ke clipboard atau yang lain)
+
+10. Jalankan perintah dibawah ini, gunanya untuk menambahkan direktori yang akan dijadikan persisten (data tersimpan meskipun node mati pada direktori-direktori yang di set)
+
+```bash
+curl -X PUT http://<GNS3_IP>:<GNS3_PORT>/v3/templates/<template_id> \
+  -H "Authorization: Bearer $TOKEN_GNS3_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{"extra_volumes": ["/root", "/etc", "/etc/network"]}'
+```
+
+Extra volumes yang di set adalah direktori-direktori berikut (dapat digunakan untuk menyimpan script otomasi):
+```
+/root
+/etc/network
+/etc
+```
+
+11. Verifikasi perubahan appliance netics-pc dengan perintah dibawah:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN_GNS3_JWT" \
+  http://<GNS3_IP>:<GNS3_PORT>/v3/templates/<template_id> | python3 -m json.tool
+```
+
+Pastikan output dari command diatas mirip seperti di bawah ini:
+
+```json
+{
+    "environment": "",
+    "console_type": "telnet",
+    "aux_type": "none",
+    "console_auto_start": false,
+    "console_http_port": 80,
+    "console_http_path": "/",
+    "console_resolution": "1024x768",
+    "extra_hosts": "",
+    "extra_volumes": [
+        "/root",
+        "/etc",
+        "/etc/network"
+    ],
+    "memory": 0,
+    "cpus": 0.0,
+    "custom_adapters": []
+}
+```
+
+Pastikan blok `extra_volumes` terdapat 3 direktori yang diset sebelumnya
+
+
 > [!IMPORTANT]
 > Ditunggu saja kalau agak lama muncul netics-pc nya (tolong diabaikan nama netics-pc yang ada di gambar bawah, instalasi nya tetap menggunakan `netics-pc`, bukan `netics-pc-arm`)
+
 
 ![alt text](images/mac-neticspc-6.png)
 ![alt text](images/mac-neticspc-6b.png)
 
+<br>
+
+### Catatan Penting penambahan Persisten Volumes untuk GNS3 Windows dan MAC
+
+> [!TIP]
+> Pembaruan pada template **tidak** secara otomatis memengaruhi node yang telah ada sebelumnya di dalam suatu topology. Apabila sebuah node yang dibuat dari template ini telah ada dalam suatu project, langkah-langkah berikut perlu dilakukan:
+
+1. Hentikan (stop) node tersebut.
+2. Hapus node tersebut dari topology. Tindakan ini tidak menghapus Docker image yang mendasarinya; hanya instance container yang sedang berjalan yang akan dihapus.
+3. Tarik (drag) instance baru dari template tersebut ke dalam topology.
+4. Jalankan (start) node yang baru dibuat. Extra volumes akan ter-mount sebagaimana mestinya.
+
+### Uji singkat persistent volumes
+
+1. Drag&Drop dan jalankan node netics-pc, kemudian buka console-nya.
+2. Buat sebuah file pada salah satu direktori extra volume:
+   ```bash
+   echo "hello" > /root/testfile.txt
+   ```
+3. Pada Web UI/GNS3 Desktop, h1. Jalankan node, kemudian buka console-nya.
+
+4. Periksa apakah file tersebut masih ada:
+   ```bash
+   cat /root/testfile.txt
+   ```
+Apabila file tersebut masih ada, maka persistensi telah terkonfirmasi berfungsi.
+``
 <br>
 
 ## Penggunaan GNS3
@@ -422,11 +554,17 @@ iface eth0 inet static
 
 - Apa yang diinstal di node **tidak persisten**, artinya saat Anda mengerjakan project tersebut lagi Anda perlu menginstal aplikasi itu kembali
 - Maka **selalu** simpan config di node ke directory `/root` sebelum keluar dari project
-- Anda bisa memasukkan command yang ingin selalu dijalankan di node tersebut ke file `/root/.bashrc` di bagian paling bawah. (Contoh : command iptables dan echo nameserver tadi)
+- Anda bisa memasukkan command yang ingin selalu dijalankan di node tersebut ke file `/root/init.sh` di bagian paling bawah. (Contoh : command iptables dan echo nameserver tadi)
 
   ![Bashrc](images/tips-trick-1.png)
 
-- selain `/root/.bashrc`, anda dapat menambahkan startup script dengan meletakkan command pada `network config` dengan didahului kata `up` seperti contoh berikut:
+  > [!TIP]
+  > Direktori yang dijadikan persisten volume pada appliance netics-pc adalah `/root`, `/etc` dan `/etc/network`
+
+  > [!IMPORTANT]
+> Jalankan `chmod +x /root/init.sh` agar file bash init dapat dijalankan setiap kali node di start atau restart.
+
+- selain `/root/init.sh`, anda dapat menambahkan startup script dengan meletakkan command pada `network config` dengan didahului kata `up` atau memodifikasi file `/etc/network/interfaces` seperti contoh berikut:
 
   ![Network](images/tips-trick-2.png)
 

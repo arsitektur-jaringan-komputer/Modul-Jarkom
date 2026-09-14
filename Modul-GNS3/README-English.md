@@ -9,7 +9,9 @@
   - [Importing the GNS3 VM in VirtualBox](#importing-the-gns3-vm-in-virtualbox)
   - [Installing GNS3 GUI](#installing-gns3-gui)
   - [Installing the netics-pc appliance](#installing-the-netics-pc-appliance)
-  - [Installing the netics-pc appliance via the web interface (macOS)](#installing-the-netics-pc-appliance-via-the-web-interface-(macOS))
+  - [Installing the netics-pc appliance via the web interface (macOS)](#installing-the-netics-pc-appliance-via-the-web-interface-macos)
+    - [Important Note on Adding Persistent Volumes for GNS3 on Windows and macOS](#important-note-on-adding-persistent-volumes-for-gns3-on-windows-and-macos)
+    - [Quick test of persistent volumes](#quick-test-of-persistent-volumes)
   - [Using GNS3](#using-gns3)
     - [Setting Up IP on a Node](#setting-up-ip-on-a-node)
     - [Connecting a Node to the Internet](#connecting-a-node-to-the-internet)
@@ -151,28 +153,29 @@ Choose the VirtualBox version that matches your OS.
 <br>
 
 ## Installing the netics-pc appliance
-1. Select the menu **File → New Template**.
 
-   ![Template](images/netics-pc-appliance-1.png)
+1. Select the **File → New Template** menu. 
 
-2. Choose the **Import an appliance file** option, then select the **netics-alpinet.gns3a** file that was downloaded. The **netics-alpinet.gns3a** file can you get from [here](netics-pc-alpinet\netics-alpinet.gns3a)
+![Template](images/netics-pc-appliance-1.png)
 
-   ![Appliance](images/netics-pc-appliance-2.png)
+2. Select the **Import an appliance file** option, then choose the downloaded **netics-alpinet.gns3a** file. You can obtain the **netics-alpinet.gns3a** file [here](netics-pc-alpinet\netics-alpinet.gns3a).
 
-3. Choose the **Install appliance on a remote server** option.
+![Appliance](images/netics-pc-appliance-2.png)
 
-   ![Remote](images/netics-pc-appliance-3.png)
+3. Select the **Install appliance on a remote server** option. 
 
-4. Go to the **Edit** menu and select the **Preferences** option.
+![Remote](images/netics-pc-appliance-3.png)
+
+4. Go to the **Edit** menu and select **Preferences**.
 
 ![Preferences](images/netics-pc-appliance-3b.png)
 
-Then, go to **Docker Containers** and locate the Docker container named `netics-pc`.
+Then, go to **Docker Containers** and search for the Docker container named `netics-pc`.
 
 ![Preferences](images/netics-pc-appliance-3c.png)
 ![Preferences](images/netics-pc-appliance-3d.png)
 
-Click the edit button shown in the image above; a configuration pop-up will appear. Click on **Advanced**, and in the `Additional directories...` box, add the following values:
+Click the edit button shown at the bottom of the image above; a configuration pop-up will appear. Click on the **Advanced** tab, and in the `Additional directories...` box, add the following values:
 
 ```
 /root
@@ -180,15 +183,16 @@ Click the edit button shown in the image above; a configuration pop-up will appe
 /etc
 ```
 
+> [!IMPORTANT]
+> Adding the directories above enables **Persistent volumes** (data remains saved in the selected directories even when the node is powered off).
+
 ![Preferences](images/netics-pc-appliance-3e.png)
 
-Once done, click the **OK** button, then click **Apply**, and finally click **OK**.
+Once done, click **OK**, then click **Apply**, and finally click **OK** again.
 
-5. Drag and drop the **netics-pc** appliance onto an empty area to try it out.
+5. Drag and drop the **netics-pc** appliance onto the workspace to test it. ![Netics](images/netics-pc-appliance-4.png)
 
-   ![Netics](images/netics-pc-appliance-4.png)
-
-You can download the netics-pc gns3a appliance file [Here](https://drive.google.com/file/d/1McrXZs10dDU1I_HDM-wd3iE4agobPEXd/view?usp=drive_link)
+Netics-pc appliance file download link [here](https://drive.google.com/file/d/1McrXZs10dDU1I_HDM-wd3iE4agobPEXd/view?usp=drive_link)
 
 <br>
 
@@ -237,10 +241,139 @@ You can download the netics-pc (arm/MAC) gns3a appliance file [Here](https://dri
 6. Next, go to an existing project or a blank project, and drag and drop the netics-pc appliance into the simulation area.
 
 > [!IMPORTANT]
-> Just wait a bit if `netics-pc` takes a while to appear (please ignore the `netics-pc` name shown in the image below; the installation still uses `netics-pc`, not `netics-pc-arm`).
+> The steps below are used to add **Persistent volumes** for `/root`, `/etc`, and `/etc/network`.
+
+Note the `IP` address and `port` of the running GNS3 server and have the account credentials (username and password) ready; also, ensure `curl` and `python` are installed on your local Mac.
+
+> [!TIP]
+> `<GNS3_IP>` and `<GNS3_PORT>` must be replaced with the actual IP and port values—for example, `172.16.53.150` and `80`. Do not include the angle brackets (`<` `>`) when running the command.
+
+7. Run the following command to log in and obtain a JSON Web Token (JWT): (replace `GNS3_USER` and `GNS3_PW` with the username and password credentials from the GNS3 server)
+
+```bash
+curl -X POST http://<GNS3_IP>:<GNS3_PORT>/v3/access/users/login \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "username=<GNS3_USER>&password=<GNS3_PW>"
+```
+
+The server will respond with a JSON object containing the `access_token`, for example:
+
+```json
+{"access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...", "token_type": "bearer"}
+```
+
+8. Copy the `access_token` value (excluding the quotation marks) and save it to an environment variable:
+
+```bash
+TOKEN_GNS3_JWT="<access_token>"
+```
+
+9. Run the command below, then locate the `template_id` for the node/appliance named `netics-pc`:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN_GNS3_JWT" \
+http://<GNS3_IP>:<GNS3_PORT>/v3/templates |
+``` python3 -m json.tool
+```
+
+Locate the JSON block resembling the response snippet below:
+
+```json
+{
+"template_id": "c4d71fb7-b835-49d9-9e34-1c45b47277ba",
+"name": "netics-pc",
+"template_type": "docker",
+"image": "royyana/netics-pc:alpinet2-arm",
+"extra_volumes": [],
+...
+}
+```
+
+Then, note down the `template_id` value (copy it to your clipboard or elsewhere).
+
+10. Run the command below to add directories that will be made persistent (data remains saved in the specified directories even if the node shuts down):
+
+```bash
+curl -X PUT http://<GNS3_IP>:<GNS3_PORT>/v3/templates/<template_id> \
+-H "Authorization: Bearer $TOKEN_GNS3_JWT" \
+-H "Content-Type: application/json" \
+-d '{"extra_volumes": ["/root", "/etc", "/etc/network"]}'
+```
+
+The extra volumes configured are the following directories (which can be used to store automation scripts):
+```
+/root
+/etc/network
+/etc
+```
+
+11. Verify the changes to the netics-pc appliance using the command below:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN_GNS3_JWT" \
+http://<GNS3_IP>:<GNS3_PORT>/v3/templates/<template_id> |
+``` python3 -m json.tool
+```
+
+Ensure the output from the command above resembles the following:
+
+```json
+{
+"environment": "",
+"console_type": "telnet",
+"aux_type": "none",
+"console_auto_start": false,
+"console_http_port": 80,
+"console_http_path": "/",
+"console_resolution": "1024x768",
+"extra_hosts": "",
+"extra_volumes": [
+"/root",
+"/etc",
+"/etc/network"
+],
+"memory": 0,
+"cpus": 0.0,
+"custom_adapters": []
+}
+```
+
+Ensure the `extra_volumes` block contains the 3 directories set previously.
+
+
+> [!IMPORTANT]
+> Please wait a moment if the `netics-pc` takes a while to appear (please ignore the `netics-pc` name shown in the image below; the installation still uses `netics-pc`, not `netics-pc-arm`).
+
 
 ![alt text](images/mac-neticspc-6.png)
 ![alt text](images/mac-neticspc-6b.png)
+
+<br>
+
+### Important Note on Adding Persistent Volumes for GNS3 on Windows and macOS
+
+> [!TIP]
+> Updates to the template do **not** automatically affect nodes that already exist within a topology. If a node created from this template is already present in a project, the following steps must be taken:
+
+1. Stop the node.
+2. Remove the node from the topology. This action does not delete the underlying Docker image; only the running container instance is removed.
+3. Drag a new instance from the template into the topology.
+4. Start the newly created node. The extra volumes will be mounted correctly.
+
+### Quick test of persistent volumes
+
+1. Drag and drop the `netics-pc` node, start it, and then open its console. 2. Create a file in one of the extra volume directories:
+```bash
+echo "hello" > /root/testfile.txt
+```
+3. In the Web UI or GNS3 Desktop, start the node and then open its console.
+
+4. Check if the file still exists:
+```bash
+cat /root/testfile.txt
+```
+If the file still exists, then persistence is confirmed to be working.
+``
 
 <br>
 
@@ -417,7 +550,7 @@ iface eth0 inet static
 
 ## Requirements
 
-- Practitioners are **only** allowed to use the **netics-alpinet.gns3a** appliance
+- Practitioners are **only** allowed to use the **netics-alpinet.gns3a** appliance or following the tutorial on installing netics-pc on MAC
 
 <br>
 
@@ -425,11 +558,17 @@ iface eth0 inet static
 
 - Whatever is installed on a node is **not persistent**, meaning that when you work on that project again you will need to reinstall the application
 - Therefore, **always** save the node's config to the `/root` directory before leaving the project
-- You can put the command you always want to run on that node into the `/root/.bashrc` file, at the very bottom. (Example: the iptables and echo nameserver commands from earlier)
+- You can put the command you always want to run on that node into the `/root/init.sh` file, at the very bottom. (Example: the iptables and echo nameserver commands from earlier)
 
   ![Bashrc](images/tips-trick-1.png)
 
-- Besides `/root/.bashrc`, you can add a startup script by placing the command in the `network config`, preceded by the word `up`, as in the following example:
+  > [!TIP]
+> The directories configured as persistent volumes on the netics-pc appliance are `/root`, `/etc`, and `/etc/network`.
+
+  > [!IMPORTANT]
+  > Run `chmod +x /root/init.sh` to make the init bash script to be run for every time the node is started/restart
+
+- Besides `/root/init.sh`, you can add a startup script by placing the command in the `network config`, preceded by the word `up` or modify the file `/etc/network/interface`, as in the following example:
 
   ![Network](images/tips-trick-2.png)
 
