@@ -188,7 +188,7 @@ Once done, click the **OK** button, then click **Apply**, and finally click **OK
 
    ![Netics](images/netics-pc-appliance-4.png)
 
-You can download the netics-pc gns3a appliance file [Here](https://drive.google.com/file/d/1McrXZs10dDU1I_HDM-wd3iE4agobPEXd/view?usp=sharing)
+You can download the netics-pc gns3a appliance file [Here](https://drive.google.com/file/d/1McrXZs10dDU1I_HDM-wd3iE4agobPEXd/view?usp=drive_link)
 
 <br>
 
@@ -228,6 +228,8 @@ You can download the netics-pc gns3a appliance file [Here](https://drive.google.
 ![alt text](images/mac-neticspc-4d.png)
 ![alt text](images/mac-neticspc-4e.png)
 ![alt test](images/mac-neticspc-4f.png)
+
+You can download the netics-pc (arm/MAC) gns3a appliance file [Here](https://drive.google.com/file/d/1mKev_TsD2AXX8WvoNDa8J7IA9TFv-Yiz/view?usp=drive_link)
 
 5. Once finished, click the `Add template` button in the bottom-right corner.
 ![alt text](images/mac-neticspc-5.png)

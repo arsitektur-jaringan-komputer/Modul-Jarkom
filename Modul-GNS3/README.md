@@ -185,7 +185,7 @@ Jika sudah, klik tombol **OK**, kemudian klik tombol **Apply** dan setelah itu *
 
    ![Netics](images/netics-pc-appliance-4.png)
 
-Link download file netics-pc appliance [here](https://drive.google.com/file/d/1McrXZs10dDU1I_HDM-wd3iE4agobPEXd/view?usp=sharing)
+Link download file netics-pc appliance [here](https://drive.google.com/file/d/1McrXZs10dDU1I_HDM-wd3iE4agobPEXd/view?usp=drive_link)
 
 <br>
 
@@ -223,6 +223,8 @@ Link download file netics-pc appliance [here](https://drive.google.com/file/d/1M
 ![alt text](images/mac-neticspc-4d.png)
 ![alt text](images/mac-neticspc-4e.png)
 ![alt test](images/mac-neticspc-4f.png)
+
+Link download file netics-pc (arm/MAC) appliance [here](https://drive.google.com/file/d/1mKev_TsD2AXX8WvoNDa8J7IA9TFv-Yiz/view?usp=drive_link)
 
 5. Setelah selesai, klik tombol `Add template` di pojok kanan bawah
 ![alt text](images/mac-neticspc-5.png)
