@@ -19,6 +19,7 @@
         "environment": "TERM=xterm",
     	"extra_volumes": [
       		"/root",
+		"/etc",
 		"/etc/network"
     		]
     }

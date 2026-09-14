@@ -163,7 +163,28 @@ Choose the VirtualBox version that matches your OS.
 
    ![Remote](images/netics-pc-appliance-3.png)
 
-4. Drag and drop the **netics-pc** appliance onto an empty area to try it out.
+4. Go to the **Edit** menu and select the **Preferences** option.
+
+![Preferences](images/netics-pc-appliance-3b.png)
+
+Then, go to **Docker Containers** and locate the Docker container named `netics-pc`.
+
+![Preferences](images/netics-pc-appliance-3c.png)
+![Preferences](images/netics-pc-appliance-3d.png)
+
+Click the edit button shown in the image above; a configuration pop-up will appear. Click on **Advanced**, and in the `Additional directories...` box, add the following values:
+
+```
+/root
+/etc/network
+/etc
+```
+
+![Preferences](images/netics-pc-appliance-3e.png)
+
+Once done, click the **OK** button, then click **Apply**, and finally click **OK**.
+
+5. Drag and drop the **netics-pc** appliance onto an empty area to try it out.
 
    ![Netics](images/netics-pc-appliance-4.png)
 

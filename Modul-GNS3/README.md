@@ -160,7 +160,28 @@ Pilih versi VirtualBox yang sesuai dengan jenis dari OS anda.
 
    ![Remote](images/netics-pc-appliance-3.png)
 
-4. Drag and drop appliance **netics-pc** ke area kosong untuk mencoba.
+4. Pergi ke menu Edit dan pilih opsi **Preferences**
+
+![Preferences](images/netics-pc-appliance-3b.png) 
+
+Kemudian pergi ke **Docker Containers** dan cari docker container dengan nama `netics-pc`
+
+![Preferences](images/netics-pc-appliance-3c.png)
+![Preferences](images/netics-pc-appliance-3d.png)
+
+Dan klik tombol edit yang ada di bawah seperti gambar di atas, akan muncul pop up konfigurasi, klik yang bertuliskan **Advanced** dan pada box `Additional directories...` tambahkan value berikut:
+
+```
+/root
+/etc/network
+/etc
+```
+
+![Preferences](images/netics-pc-appliance-3e.png)
+
+Jika sudah, klik tombol **OK**, kemudian klik tombol **Apply** dan setelah itu **OK**.
+
+5. Drag and drop appliance **netics-pc** ke area kosong untuk mencoba.
 
    ![Netics](images/netics-pc-appliance-4.png)
 
@@ -169,8 +190,6 @@ Link download file netics-pc appliance [here](https://drive.google.com/file/d/1M
 <br>
 
 ## Instalasi netics-pc appliance khusus web (MAC)
-
-
 
 > [!IMPORTANT]
 >
