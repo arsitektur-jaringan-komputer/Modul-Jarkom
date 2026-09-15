@@ -555,14 +555,14 @@ iface eth0 inet static
 - Apa yang diinstal di node **tidak persisten**, artinya saat Anda mengerjakan project tersebut lagi Anda perlu menginstal aplikasi itu kembali
 - Maka **selalu** simpan config di node ke directory `/root` sebelum keluar dari project
 - Anda bisa memasukkan command yang ingin selalu dijalankan di node tersebut ke file `/root/init.sh` di bagian paling bawah. (Contoh : command iptables dan echo nameserver tadi)
-
-  ![Bashrc](images/tips-trick-1.png)
+  
+  <img width="880" height="392" alt="image" src="https://github.com/user-attachments/assets/4a000b0a-dce2-4ed7-a5ef-b418c4dd263d" />
 
   > [!TIP]
   > Direktori yang dijadikan persisten volume pada appliance netics-pc adalah `/root`, `/etc` dan `/etc/network`
 
   > [!IMPORTANT]
-> Jalankan `chmod +x /root/init.sh` agar file bash init dapat dijalankan setiap kali node di start atau restart.
+  > Jalankan `chmod +x /root/init.sh` agar file bash init dapat dijalankan setiap kali node di start atau restart.
 
 - selain `/root/init.sh`, anda dapat menambahkan startup script dengan meletakkan command pada `network config` dengan didahului kata `up` atau memodifikasi file `/etc/network/interfaces` seperti contoh berikut:
 
