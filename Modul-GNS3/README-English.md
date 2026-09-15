@@ -560,7 +560,7 @@ iface eth0 inet static
 - Therefore, **always** save the node's config to the `/root` directory before leaving the project
 - You can put the command you always want to run on that node into the `/root/init.sh` file, at the very bottom. (Example: the iptables and echo nameserver commands from earlier)
 
-  ![Bashrc](images/tips-trick-1.png)
+  <img width="880" height="392" alt="image" src="https://github.com/user-attachments/assets/4a000b0a-dce2-4ed7-a5ef-b418c4dd263d" />
 
   > [!TIP]
 > The directories configured as persistent volumes on the netics-pc appliance are `/root`, `/etc`, and `/etc/network`.
