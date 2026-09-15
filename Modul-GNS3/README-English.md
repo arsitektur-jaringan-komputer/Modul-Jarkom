@@ -562,11 +562,11 @@ iface eth0 inet static
 
   <img width="880" height="392" alt="image" src="https://github.com/user-attachments/assets/4a000b0a-dce2-4ed7-a5ef-b418c4dd263d" />
 
-  > [!TIP]
+> [!TIP]
 > The directories configured as persistent volumes on the netics-pc appliance are `/root`, `/etc`, and `/etc/network`.
 
-  > [!IMPORTANT]
-  > Run `chmod +x /root/init.sh` to make the init bash script to be run for every time the node is started/restart
+> [!IMPORTANT]
+> Run `chmod +x /root/init.sh` to make the init bash script to be run for every time the node is started/restart
 
 - Besides `/root/init.sh`, you can add a startup script by placing the command in the `network config`, preceded by the word `up` or modify the file `/etc/network/interface`, as in the following example:
 

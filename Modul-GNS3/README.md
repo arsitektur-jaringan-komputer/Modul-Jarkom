@@ -558,11 +558,11 @@ iface eth0 inet static
   
   <img width="880" height="392" alt="image" src="https://github.com/user-attachments/assets/4a000b0a-dce2-4ed7-a5ef-b418c4dd263d" />
 
-  > [!TIP]
-  > Direktori yang dijadikan persisten volume pada appliance netics-pc adalah `/root`, `/etc` dan `/etc/network`
+> [!TIP]
+> Direktori yang dijadikan persisten volume pada appliance netics-pc adalah `/root`, `/etc` dan `/etc/network`
 
-  > [!IMPORTANT]
-  > Jalankan `chmod +x /root/init.sh` agar file bash init dapat dijalankan setiap kali node di start atau restart.
+> [!IMPORTANT]
+> Jalankan `chmod +x /root/init.sh` agar file bash init dapat dijalankan setiap kali node di start atau restart.
 
 - selain `/root/init.sh`, anda dapat menambahkan startup script dengan meletakkan command pada `network config` dengan didahului kata `up` atau memodifikasi file `/etc/network/interfaces` seperti contoh berikut:
 
