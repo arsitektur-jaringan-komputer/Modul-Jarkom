@@ -250,19 +250,19 @@ Kemudian, kita akan membuat domain **jarkom2026.com**.
 
   ```
   ;
-; BIND data file for local loopback interface
-;
-$TTL    604800
-@       IN      SOA     jarkom2026.com. root.jarkom2026.com. (
-                              2022100601         ; Serial
-                                 604800         ; Refresh
-                                  86400         ; Retry
-                                2419200         ; Expire
-                                 604800 )       ; Negative Cache TTL
-;
-@       IN      NS      jarkom2026.com.
-@       IN      A       10.105.2.2     ; IP EniesLobby
-@       IN      AAAA    ::1
+  ; BIND data file for local loopback interface
+  ;
+  $TTL    604800
+  @       IN      SOA     jarkom2026.com. root.jarkom2026.com. (
+                                2022100601         ; Serial
+                                  604800         ; Refresh
+                                    86400         ; Retry
+                                  2419200         ; Expire
+                                   604800 )       ; Negative Cache TTL
+  ;
+  @       IN      NS      jarkom2026.com.
+  @       IN      A       10.105.2.2     ; IP EniesLobby
+  @       IN      AAAA    ::1
   ```
 
 ![Konfigurasi BIND jarkom2026.com](images/Enies_Bind_jarkom2026.png)
