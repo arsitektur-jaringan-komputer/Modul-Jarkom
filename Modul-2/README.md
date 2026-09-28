@@ -120,7 +120,7 @@ TCP/IP Model merupakan sebuah pedoman layaknya OSI Model. Namun, model ini kerap
 
 ### 1.1.A Pengertian
 
-![Telp-Book](images/telp.png)
+![Telp-Book](images/cara-kerja.png)
 
 Bayangkan kalian sedang mencari nomor telepon seseorang di buku kontak ponsel kalian. Umumnya kalian akan mencari dengan menggunakan nama orang yang dituju, bukan nomor teleponnya. Nah, DNS memiliki cara kerja yang sama. Saat kalian ingin mengakses sebuah website, kalian akan mengetik nama website tersebut (contohnya "www.youtube.com"), dan DNS akan mencari tahu nomor IP server yang menyimpan websute tersebut. Setelah itu, komputer kalian akan menghubungi server yang menggunakan alamat IP tersebut.
 
@@ -131,7 +131,7 @@ network) yang terhubung dengan internet. DNS Server berfungsi menerjemahkan nama
 
 ### 1.1.B Cara Kerja
 
-![DNS](images/1.jpg)
+![DNS](images/cara-kerja-2.png)
 
 Berikut adalah cara kerja DNS:
 
@@ -216,8 +216,7 @@ Kita akan membuat node `EniesLobby` sebagai DNS server.
   apk add bind
   ```
 
-![instal bind
-](images\Enies_installbind.png)
+![instal bind](images\Enies_installbind.png)
 
 ### 1.2.B Pembuatan Domain
 
@@ -395,7 +394,7 @@ DNS Slave adalah DNS cadangan yang akan diakses jika server DNS utama mengalami 
   };
   ```
 
-  ![DNS](images/Enies_Slave_Conf.png.png)
+  ![DNS](images/Enies_Slave_Conf.png)
 
 - Lakukan restart bind
 
@@ -563,7 +562,7 @@ Delegasi subdomain adalah proses di mana pemilik domain memberikan wewenang kepa
 
 - Kemudian edit file **its.jarkom2026.com** menjadi seperti dibawah ini
 
-![DNS](images/Water_Delegasi_conf.png.png)
+![DNS](images/Water_Delegasi_conf.png)
 
 - Restart bind
 
