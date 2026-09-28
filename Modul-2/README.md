@@ -216,7 +216,7 @@ Kita akan membuat node `EniesLobby` sebagai DNS server.
   apk add bind
   ```
 
-![instal bind](images\Enies_installbind.png)
+![instal bind](images/Enies_installbind.png)
 
 ### 1.2.B Pembuatan Domain
 
