@@ -72,7 +72,7 @@ Di sinilah peran DHCP sangat dibutuhkan.
 
 **Dynamic Host Configuration Protocol (DHCP)** adalah protokol berbasis arsitektur _client-server_ yang dipakai untuk memudahkan pengalokasian `IP Address` dalam satu jaringan. DHCP secara otomatis akan meminjamkan `IP Address` kepada _host_ yang memintanya.
 
-![cara kerja DHCP](../images/cara-kerja.png)
+![cara kerja DHCP](../../Modul-2/images/cara-kerja.png)
 
 Tanpa DHCP, administrator jaringan harus memasukkan `IP Address` masing-masing komputer dalam suatu jaringan secara manual. Namun jika DHCP dipasang di jaringan, maka semua komputer yang tersambung ke jaringan akan mendapatkan `IP Address` secara otomatis dari `DHCP Server`.
 
@@ -86,9 +86,9 @@ Selain DHCP, terdapat protokol lain yang juga memudahkan pengalokasian `IP Addre
 
 ### **2.1.4 DHCP Message Header**
 
-![DHCP header](../images/DHCP-message-header.png)
+![DHCP header](../../Modul-2/images/DHCP-message-header.png)
 
-![DHCP header legend](../images/DHCP-message-header-keterangan.png)
+![DHCP header legend](../../Modul-2/images/DHCP-message-header-keterangan.png)
 
 ### **2.1.5 Cara Kerja DHCP**
 
@@ -98,7 +98,7 @@ DHCP bekerja dengan melibatkan dua pihak yakni **Server** dan **Client** sebagai
 2. **DHCP Client** adalah mesin _client_ yang menjalankan perangkat lunak _client_ yang memungkinkan mereka untuk dapat berkomunikasi dengan `DHCP Server`.
    `DHCP Server` umumnya memiliki sekumpulan `IP Address` yang didistribusikan yang disebut `DHCP Pool`. Setiap _client_ akan meminjamnya untuk rentan waktu yang ditentukan oleh DHCP sendiri (dalam konfigurasi, yang disebut dengan _leasing time_). Jika masa waktu habis, maka client akan meminta `IP Address` yang baru atau memperpanjangnya. Itulah sebabnya `IP Address` client menjadi dinamis.
 
-![Cara kerja DHCP](../images/DHCP.gif)
+![Cara kerja DHCP](../../Modul-2/images/DHCP.gif)
 
 Terdapat 5 tahapan yang dilakukan dalam proses peminjaman `IP Address` pada DHCP, yaitu sebagai berikut.
 
@@ -108,7 +108,7 @@ Terdapat 5 tahapan yang dilakukan dalam proses peminjaman `IP Address` pada DHCP
 4. **DHCPACK**: DHCP server menyetujui permintaan `IP Address` dari _client_ dengan mengirimkan paket `ACKnoledgment` berupa konfirmasi `IP Address` dan informasi lain. Kemudian, _client_ melakukan inisialisasi dengan mengikat (_binding_) `IP Address` tersebut dan _client_ dapat bekerja pada jaringan tersebut. `DHCP Server` akan mencatat peminjaman yang terjadi.
 5. **DHCPRELEASE**: _Client_ menghentikan peminjaman `IP Address` (apabila waktu peminjaman habis atau menerima `DHCPNAK`).
 
-![Flowchart cara kerja DHCP](../images/cara-kerja-2.png)
+![Flowchart cara kerja DHCP](../../Modul-2/images/cara-kerja-2.png)
 
 Lebih lanjut, kalian dapat menonton atau melihat visualisasi kerja dari DHCP di berbagai sumber untuk menambah pemahaman. Salah satunya, adalah pada video berikut [https://youtu.be/S43CFcpOZSI](https://youtu.be/S43CFcpOZSI).
 
@@ -124,7 +124,7 @@ Sebelumnya, telah disebutkan bahwa DHCP melibatkan dua pihak, yaitu `DHCP Server
 
 Penempatan `DHCP Relay` dalam suatu jaringan bisa diilustrasikan seperti berikut.
 
-![DHCP Relay](../images/relay.png)
+![DHCP Relay](../../Modul-2/images/relay.png)
 
 Sebagai _forwarder_, cara atau tahapan kerja DHCP dengan pelibatan `DHCP Relay` akan sama seperti yang telah dijelaskan sebelumnya, tetapi dengan beberapa penyesuaian. Singkatnya seperti berikut.
 
@@ -180,7 +180,7 @@ Beberapa alasan mengapa pengaturan lease time DHCP itu penting adalah sebagai be
 
 Setelah memahami konsep, lalu bagaimana implementasinya? Untuk implementasi, kita akan menggunakan topologi berikut
 
-![contoh-topologi-dhcp](../images/jarkom-modul-github-dhcp-topologi.png)
+![contoh-topologi-dhcp](../../Modul-2/images/jarkom-modul-github-dhcp-topologi.png)
 
 <!-- ``` -->
 <!--                     NAT / internet -->
@@ -289,7 +289,7 @@ apk add kea-dhcp4
 kea-dhcp4 -V
 ```
 
-![image](./../images/kea-dhcp4_version.png)
+![image](./../../Modul-2/images/kea-dhcp4_version.png)
 
 ### **2.2.2 Konfigurasi DHCP Server**
 
@@ -305,7 +305,7 @@ Silakan edit _file_ konfigurasi di `/etc/kea/kea-dhcp4.conf`
 nano /etc/kea/kea-dhcp4.conf
 ```
 
-![image kea dhcp4 conf default isi](../images/kea-dhcp4_conf_default.png)
+![image kea dhcp4 conf default isi](../../Modul-2/images/kea-dhcp4_conf_default.png)
 
 ##### A.2. Tentukan _Interface_
 
@@ -393,7 +393,7 @@ Pada contoh ini kita menggunakan `8.8.8.8` sebagai DNS. Ganti seluruh isi `/etc/
 }
 ```
 
-![image kea-dhcp4 conf after](../images/kea-dhcp4_conf_after.png)
+![image kea-dhcp4 conf after](../../Modul-2/images/kea-dhcp4_conf_after.png)
 
 <!-- ```conf -->
 <!-- subnet 'NID' netmask 'Netmask' { -->
@@ -432,7 +432,7 @@ Periksa dahulu apakah file konfigurasi tidak memiliki kesalahan:
 kea-dhcp4 -t /etc/kea/kea-dhcp4.conf
 ```
 
-![image kea-dhcp4 test conf normal](../images/kea-dhcp4_conf_test_normal.png)
+![image kea-dhcp4 test conf normal](../../Modul-2/images/kea-dhcp4_conf_test_normal.png)
  
 Keluaran yang benar menampilkan kedua subnet dan tidak memiliki baris `ERROR`. Baris `WARN` tentang multi-threading adalah hal yang normal. Seperti gambar diatas
  
@@ -443,7 +443,7 @@ mkdir -p /var/lib/kea /run/kea
 kea-dhcp4 -d -c /etc/kea/kea-dhcp4.conf
 ```
 
-![kea-dhcp4 run normal](../images/kea-dhcp4_run.png)
+![kea-dhcp4 run normal](../../Modul-2/images/kea-dhcp4_run.png)
  
 Tekan `Ctrl+C` untuk menghentikannya. Untuk menjalankannya di *background*:
  
@@ -475,7 +475,7 @@ apk add dhcp-helper
 dhcp-helper -n -s 10.40.2.2 -i eth1
 ```
 
-![dhcp helper foosha node](../images/dhcp-helper-foosha.png)
+![dhcp helper foosha node](../../Modul-2/images/dhcp-helper-foosha.png)
 
 - `-s 10.40.2.2` adalah alamat IP DHCP Server. Pada kasus ini, yaitu alamat IP **EniesLobby**. Berapa alamat IP-nya?
 - `-i eth1` adalah interface yang mendengarkan permintaan client. Nilainya harus sesuai dengan interface yang terhubung ke client. Pada kasus ini, **Foosha** memiliki interface `eth1` yang terhubung ke client Loguetown dan Alabasta. Jika ada lebih dari satu interface yang terhubung ke client, ulangi opsinya: `-i eth1 -i eth3`.
@@ -531,11 +531,11 @@ iface eth0 inet dhcp
 
 Silahkan start lagi node Alabasta dan seharusnya saat membuka console dari Alabasta, akan terlihat secara otomatis DHCP IP Lease dari EniesLobby
 
-![dapat ip dhcp](../images/dhcp-client-alabasta-inetdhcp.png)
+![dapat ip dhcp](../../Modul-2/images/dhcp-client-alabasta-inetdhcp.png)
 
 atau menggunakan command `udhcpc -i eth0`
 
-![dapat ip dhcp dari udhcpc](../images/dhcp-client-alabasta-udhcpc.png)
+![dapat ip dhcp dari udhcpc](../../Modul-2/images/dhcp-client-alabasta-udhcpc.png)
 
 #### B. Testing
 
@@ -543,7 +543,7 @@ Cek kembali `IP Address` **Alabasta** dengan menjalankan `ip a`.
 
 Periksa juga apakah **Alabasta** sudah mendapatkan `DNS Server` sesuai konfigurasi di `DHCP Server`. Periksa `/etc/resolv.conf` dengan menggunakan perintah sebagai berikut. Selain itu, kalian juga bisa melakukan pemeriksaan dengan melakukan ping kepada `google.com`
 
-![image etc resolv.conf](../images/dhcp-client-alabasta-cek-etcresolv.png)
+![image etc resolv.conf](../../Modul-2/images/dhcp-client-alabasta-cek-etcresolv.png)
 
 Bila `IP Address` dan nameserver **Alabasta** telah berubah sesuai dengan konfigurasi yang diberikan oleh DHCP dan berhasil melakukan ping ke `google.com`, maka selamat kalian telah berhasil! 🎉🎉
 
@@ -642,7 +642,7 @@ Buka dan edit file `/etc/kea/kea-dhcp4.conf` pada **EniesLobby**.
  
 Sebelumnya, cari tahu hardware address Water7. Jalankan `ip a` pada **Water7**, lihat interface yang terhubung ke switch (`eth0`), lalu salin nilai setelah `link/ether`.
 
-![dhcp client water7 cek ip a](../images/dhcp-client-water7-ip-a.png)
+![dhcp client water7 cek ip a](../../Modul-2/images/dhcp-client-water7-ip-a.png)
  
 ##### A.2. Tambahkan Script Berikut
  
@@ -714,7 +714,7 @@ atau
 udhcpc -i eth0
 ```
 
-![water7 dapat ip preserved dari dhcp](../images/dhcp-client-water7-ip-preserved.png)
+![water7 dapat ip preserved dari dhcp](../../Modul-2/images/dhcp-client-water7-ip-preserved.png)
  
 #### C. Testing
  
@@ -741,13 +741,13 @@ IP **Water7** seharusnya sudah berubah menjadi **10.40.2.13**, sesuai fixed addr
 <!-- } -->
 <!-- ``` -->
 <!---->
-<!-- ![image](./../images/host_water7.jpg) -->
+<!-- ![image](./../../Modul-2/images/host_water7.jpg) -->
 <!---->
 <!-- **Penjelasan**: -->
 <!---->
 <!-- - Untuk mencari `hwaddress_milik_Water7` (_hardware_ _address_ milik Water7), kamu bisa mengeksekusi perintah `ip a` di Water7, kemudian lihat _interface_ yang berhubungan dengan `DHCP Relay`, dalam kasus ini adalah `eth0`, dan lihat pada bagian `link/ether`. Silakan _copy_ _address_ tersebut dan masukkan pada konfigurasi `isc-dhcp-server` di **EniesLobby**. -->
 <!---->
-<!-- ![image](./../images/hwaddress_water7.jpg) -->
+<!-- ![image](./../../Modul-2/images/hwaddress_water7.jpg) -->
 <!---->
 <!-- - **fixed-address** adalah `IP Address` yang "disewa" tetap oleh **Water7** -->
 <!---->
@@ -765,7 +765,7 @@ IP **Water7** seharusnya sudah berubah menjadi **10.40.2.13**, sesuai fixed addr
 <!-- hwaddress ether 'hwaddress_milik_Water7' -->
 <!-- ``` -->
 <!---->
-<!-- ![image](./../images/interfaces_jipangu.png) -->
+<!-- ![image](./../../Modul-2/images/interfaces_jipangu.png) -->
 <!---->
 <!-- **Keterangan**: -->
 <!-- _Hardware addresss_ perlu di-_setting_ juga di `/etc/network/interfaces` untuk mencegah bergantinya `hwaddress` saat _project_ GNS3 dimatikan atau di-_export_. -->
@@ -778,7 +778,7 @@ IP **Water7** seharusnya sudah berubah menjadi **10.40.2.13**, sesuai fixed addr
 <!---->
 <!-- Periksa IP **Water7** dengan melakukan `ip a`. -->
 <!---->
-<!-- ![image](./../images/ip_water7.jpg) -->
+<!-- ![image](./../../Modul-2/images/ip_water7.jpg) -->
 <!---->
 <!-- `IP Address` **Water7** telah berubah menjadi `10.40.2.13` sesuai dengan _Fixed_ _Address_ yang diberikan oleh `DHCP Server`. 👋👋👋 -->
 <!---->
