@@ -29,6 +29,7 @@
     + [2.6.1 Konfigurasi DHCP Server (udhcpd)](#261-konfigurasi-dhcp-server-udhcpd)
     + [2.6.2 Konfigurasi DHCP client](#262-konfigurasi-dhcp-client)
     + [2.6.3 Konfigurasi DHCP client manual](#263-konfigurasi-dhcp-client-manual)
+  + [2.7 Konfigurasi DHCP Server menggunakan kea-dhcp4](#konfigurasi-dhcp-server-menggunakan-kea-dhcp4)
 + 3. [Wire Crimping](#3-wire-crimping)
   + [3.1 Peralatan yang dibutuhkan](#31-peralatan-yang-dibutuhkan)
   + [3.2 Jenis-jenis Konfigurasi Kabel UTP](#32-konfigurasi-kabel)
@@ -644,6 +645,12 @@ udhcpc -i eth0 -b
    ![](images/topologi-dasar-20.png)
 
 3. Setelah itu cek kembali IP client, seharusnya sudah mendapatkan IP dari DHCP.
+
+<br>
+
+### 2.7 Konfigurasi DHCP Server menggunakan kea-dhcp4
+
+[DHCP Server kea-dhcp4](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-1/DHCP/README.md) 
 
 <br>
 

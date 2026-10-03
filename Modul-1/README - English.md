@@ -30,6 +30,7 @@
     + [2.6.1 DHCP Server Configuration (udhcpd)](#261-dhcp-server-configuration-udhcpd)
     + [2.6.2 DHCP Client Configuration](#262-dhcp-client-configuration)
     + [2.6.3 Manual DHCP Client Configuration](#263-manual-dhcp-client-configuration)
+  + [2.7 DHCP Server configuration using kea-dhcp4](#dhcp-server-configuration-using-kea-dhcp4)
 + 3. [Wire Crimping](#3-wire-crimping)
   + [3.1 Tools needed](#31-tools-needed)
   + [3.2 Cable Configuration](#32-cable-configuration)
@@ -647,6 +648,10 @@ udhcpc -i eth0 -b
 3. After that, check the client IP again, it should have gotten an IP from DHCP.
 
 <br>
+
+### 2.7 DHCP Server configuration using kea-dhcp4
+
+[DHCP Server kea-dhcp4](https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/blob/master/Modul-1/DHCP/Readme%20-%20English.md)
 
 ## 3. Wire Crimping
 In a computer network, communication occurs between one device to the other. For this to happen, of course there needs a medium. Although there is already wireless communication technology, wires still have a major role in network and can't be replaced. Therefore, in this module, we will learn how to crimp a type of network cable called UTP (Unshielded Twisted Pair).
