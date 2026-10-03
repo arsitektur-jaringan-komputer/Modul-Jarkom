@@ -29,7 +29,7 @@
     + [2.6.1 Konfigurasi DHCP Server (udhcpd)](#261-konfigurasi-dhcp-server-udhcpd)
     + [2.6.2 Konfigurasi DHCP client](#262-konfigurasi-dhcp-client)
     + [2.6.3 Konfigurasi DHCP client manual](#263-konfigurasi-dhcp-client-manual)
-  + [2.7 Konfigurasi DHCP Server menggunakan kea-dhcp4](#konfigurasi-dhcp-server-menggunakan-kea-dhcp4)
+  + [2.7 Konfigurasi DHCP Server menggunakan kea-dhcp4](#27-konfigurasi-dhcp-server-menggunakan-kea-dhcp4)
 + 3. [Wire Crimping](#3-wire-crimping)
   + [3.1 Peralatan yang dibutuhkan](#31-peralatan-yang-dibutuhkan)
   + [3.2 Jenis-jenis Konfigurasi Kabel UTP](#32-konfigurasi-kabel)

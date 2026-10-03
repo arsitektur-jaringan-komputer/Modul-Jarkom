@@ -30,7 +30,7 @@
     + [2.6.1 DHCP Server Configuration (udhcpd)](#261-dhcp-server-configuration-udhcpd)
     + [2.6.2 DHCP Client Configuration](#262-dhcp-client-configuration)
     + [2.6.3 Manual DHCP Client Configuration](#263-manual-dhcp-client-configuration)
-  + [2.7 DHCP Server configuration using kea-dhcp4](#dhcp-server-configuration-using-kea-dhcp4)
+  + [2.7 DHCP Server configuration using kea-dhcp4](#27-dhcp-server-configuration-using-kea-dhcp4)
 + 3. [Wire Crimping](#3-wire-crimping)
   + [3.1 Tools needed](#31-tools-needed)
   + [3.2 Cable Configuration](#32-cable-configuration)
