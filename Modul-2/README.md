@@ -2,6 +2,9 @@
 
 ## Daftar Isi
 
+- [0. Instalasi netics-pc-desktop dan netics-server](#0-instalasi-netics-pc-desktop-dan-netics-server)
+  - [0.1 Appliance GNS3](#01=appliance-gns3)
+  - [0.2 Cara Instalasi](#02-cara-instalasi)
 - [1. Menghubungkan netics-pc ke NAT](#1-menghubungkan-netics-pc-ke-nat)
   - [1.1 Akses Sebuah Node ke Internet](#11-akses-sebuah-node-ke-internet)
   - [1.2 Membuat Topologi](#12-membuat-topologi)
@@ -33,6 +36,43 @@
   - [7.3 Troubleshooting](#73-troubleshooting)
   - [7.4 Referensi](#74-referensi)
 
+## 0. Instalasi netics-pc-desktop dan netics-server 
+
+### 0.1 Appliance GNS3
+
+Silahkan untuk download appliance gns3 desktop dan netics-server melalui link dibawah ini:
+
+- [netics-pc-desktop](https://drive.google.com/file/d/1ZA8s6kTUNig3N9oG0XdAA12DvG9b5sAI/view?usp=sharing)
+- [netics-server](https://drive.google.com/file/d/1Pol2KBgxOomzBzrhNj16rC5OID8T5Wu4/view?usp=sharing)
+
+### 0.2 Cara Instalasi
+
+Langkah-langkah dibawah ini berlaku dan stepnya sama persis untuk instalasi kedua appliance
+
+1. Pilih menu **File → New Template**.
+
+   ![Template](images/netics-pc-desktop-appliance-1.png)
+
+2. Pilih opsi **Import an appliance file**, lalu pilih berkas **netics-pc-desktop.gns3a** yang telah diunduh. Untuk berkas **netics-alpinet.gns3a** bisa anda dapatkan dari [sini](netics-pc-alpinet\netics-alpinet.gns3a)
+
+   ![Appliance](images/netics-pc-desktop-appliance-2.png)
+   ![Appliance](images/netics-pc-desktop-appliance-3.png)
+
+3. Pilih opsi **Install appliance on a remote server**.
+
+   ![Remote](images/netics-pc-desktop-appliance-4.png)
+   ![Remote](images/netics-pc-desktop-appliance-5.png)
+
+4. Pastikan sudah membuka project baru atau yang sudah ada, kemudian drag and drop appliance yang baru di install ke GNS
+
+   ![Drag drop](images/netics-pc-desktop-appliance-6.png)
+
+
+> [!IMPORTANT]
+> Untuk netics-pc-desktop console type nya adalah berupa VNC client, bukan telnet
+> 
+> Sehingga kalian butuh client VNC untuk dapat melihat interface dari nodenya, untuk client nya bebas, dapat menggunakan TightVNC, TigerVNC atau yang lain
+
 ## 1. Menghubungkan netics-pc ke NAT
 
 ### 1.1 Akses Sebuah Node ke Internet
@@ -51,7 +91,7 @@
 
    ![Koneksi](images/using-internet-3.png)
 
-5. Lalu konfigurasi IP dari node netics-pc
+5. Lalu konfigurasi IP dari node netics-pc 
 
    Klik kanan pada node netics-pc-1 dan pilih **Configure** dan tekan tombol **Edit** pada bagian Network Configuration.
 
