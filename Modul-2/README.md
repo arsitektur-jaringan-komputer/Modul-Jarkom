@@ -43,8 +43,7 @@
 Silahkan untuk download appliance gns3 desktop dan netics-server melalui link dibawah ini:
 
 - [netics-pc-desktop](https://drive.google.com/file/d/1ZA8s6kTUNig3N9oG0XdAA12DvG9b5sAI/view?usp=sharing)
-<br>
-- [netics-server](https://drive.google.com/file/d/1Pol2KBgxOomzBzrhNj16rC5OID8T5Wu4/view?usp=drive_link)
+- [netics-server](https://drive.google.com/file/d/1Pol2KBgxOomzBzrhNj16rC5OID8T5Wu4/view?usp=sharing)
 
 ### 0.2 Cara Instalasi
 
