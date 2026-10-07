@@ -30,11 +30,6 @@
   - [6.3 Konfigurasi Zone File](#63-konfigurasi-zone-file)
   - [6.4 Latihan](#64-latihan)
   - [6.5 Referensi](#65-referensi)
-- [7. Static Routing](#7-static-routing)
-  - [7.1 Pengertian](#71-pengertian)
-  - [7.2 Implementasi](#72-implementasi)
-  - [7.3 Troubleshooting](#73-troubleshooting)
-  - [7.4 Referensi](#74-referensi)
 
 ## 0. Instalasi netics-pc-desktop dan netics-server 
 
