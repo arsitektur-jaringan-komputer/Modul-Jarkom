@@ -30,11 +30,6 @@
   - [6.3 Zone File Configuration](#63-zone-file-configuration)
   - [6.4 Exercises](#64-exercises)
   - [6.5 References](#65-references)
-- [7. Static Routing](#7-static-routing)
-  - [7.1 Definition](#71-definition)
-  - [7.2 Implementation](#72-implementation)
-  - [7.3 Troubleshooting](#73-troubleshooting)
-  - [7.4 References](#74-references)
 
 ## 0. Installing netics-pc-desktop and netics-server 
 
