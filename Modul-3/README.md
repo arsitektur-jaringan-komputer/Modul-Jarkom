@@ -1,5 +1,13 @@
 # Modul 3 Jaringan Komputer
 
+## Daftar Isi
+
+- [1. Static Routing](#1-static-routing)
+  - [1.1 Pengertian](#11-pengertian)
+  - [1.2 Implementasi](#12-implementasi)
+  - [1.3 Troubleshooting](#13-troubleshooting)
+  - [1.4 Referensi](#14-referensi)
+
 ## 1. Static Routing
 
 Setelah kita memahami bagaimana cara jaringan komputer di dunia bekerja pada umumnya, perangkat-perangkat yang digunakan untuk mendukung terjadinya komunikasi di internet, protokol yang dipatuhi, dan lain-lainnya, maka kita akan masuk ke dalam konsep yang tak kalah penting dan akan sering kita temui, yaitu **Routing**.
