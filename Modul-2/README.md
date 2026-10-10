@@ -3,8 +3,8 @@
 ## Daftar Isi
 
 - [0. Instalasi netics-pc-desktop dan netics-server](#0-instalasi-netics-pc-desktop-dan-netics-server)
-  - [0.1 Appliance GNS3](#01=appliance-gns3)
-  - [0.2 Cara Instalasi (Windows/Linux)](#02-cara-instalasi-windows-linux)
+  - [0.1 Appliance GNS3](#01-appliance-gns3)
+  - [0.2 Cara Instalasi (Windows/Linux)](#02-cara-instalasi-windowslinux)
   - [0.3 Cara Instalasi (Mac)](#03-cara-instalasi-mac)
 - [1. Menghubungkan netics-pc ke NAT](#1-menghubungkan-netics-pc-ke-nat)
   - [1.1 Akses Sebuah Node ke Internet](#11-akses-sebuah-node-ke-internet)
