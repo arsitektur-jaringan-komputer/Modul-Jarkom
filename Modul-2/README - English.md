@@ -4,7 +4,8 @@
 
 - [0. Installing netics-pc-desktop and netics-server](#0-installing-netics-pc-desktop-and-netics-server)
   - [0.1 GNS3 Appliance](#01-gns3-appliance)
-  - [0.2 Installation Steps](#02-installation-steps)
+  - [0.2 Installation Steps (Windows/Linux)](#02-installation-steps-windowslinux)
+  - [0.3 Installation Steps (Mac)](#03-installation-steps-mac)
 - [1. Connecting netics-pc to NAT](#1-connecting-netics-pc-to-nat)
   - [1.1 Giving a Node Internet Access](#11-giving-a-node-internet-access)
   - [1.2 Creating the Topology](#12-creating-the-topology)
@@ -40,10 +41,14 @@ Please download the GNS3 desktop appliance and the netics-server appliance from 
 - [netics-pc-desktop](https://drive.google.com/file/d/1ZA8s6kTUNig3N9oG0XdAA12DvG9b5sAI/view?usp=sharing)
 - [netics-server](https://drive.google.com/file/d/1Pol2KBgxOomzBzrhNj16rC5OID8T5Wu4/view?usp=sharing)
 
+> [!IMPORTANT]
+> **For netics-pc-desktop, the console type is a VNC client, not telnet**
+> 
+> Therefore, you need a VNC client to view the node's interface. You can use any VNC client, such as TightVNC, TigerVNC, or another alternative.
 
-### 0.2 Installation Steps
+### 0.2 Installation Steps (Windows/Linux)
 
-The steps below apply, and are exactly the same, for installing both appliances.
+The steps below apply and are exactly the same for installing both appliances when using a GNS3 VM on Windows/Linux.
 
 1. Select the menu **File → New Template**.
 
@@ -62,6 +67,46 @@ The steps below apply, and are exactly the same, for installing both appliances.
 4. Make sure you have opened a new or existing project, then drag and drop the newly installed appliance into GNS3.
 
    ![Drag drop](images/netics-pc-desktop-appliance-6.png)
+
+### 0.3 Installation Steps (Mac)
+
+The steps below apply and are exactly the same for installing both appliances when using a GNS3 VM on Mac/arm64.
+
+1. Open your GNS3 web interface and find the menu shown in the image below (template preferences).
+
+   ![template pereference](./images/netic-pc-desktop-arm-template-preferences.png) 
+
+2. Select the Docker section of the menu.
+
+   ![docker template](./images/netics-pc-desktop-arm-docker-template-option.png) 
+
+   Then click the button in the top-right corner to create a new template.
+
+   ![alt text](./images/netics-pc-desktop-arm-add-docker-template-button.png) 
+
+3. Next, make sure to select **Run this docker container locally**.
+
+   ![alt text](./images/netics-pc-desktop-arm-select-docker-run-local.png) 
+
+4. After that, enter the image name for netics-pc-desktop or netics-server.
+
+- netics-server: `royyana/netics-pc:alpinet2-server-arm`
+- netics-pc-desktop: `royyana/netics-pc:alpinet2-desktop-arm`
+
+   ![alt text](./images/netics-pc-desktop-arm-docker-image-name.png) 
+
+5. Then, fill in the container name field according to the image name you entered previously, either `netics-pc-desktop` or `netics-server`.
+
+   ![alt text](./images/netics-pc-desktop-arm-container-node-name.png) 
+
+6. Change the number of network adapters. For `netics-pc-desktop`, one adapter is sufficient; for `netics-server`, change the number to four.
+
+   ![alt text](./images/netics-pc-desktop-arm-network-adapter-num.png) 
+
+7. When installing the `netics-pc-desktop` appliance, **make sure** to change its console type to `vnc`. The `netics-server` appliance should keep `telnet` as the default.
+
+   ![ubah console type](./images/netics-pc-desktop-arm-console-type-change.png) 
+```
 
 
 > [!IMPORTANT]
