@@ -4,7 +4,8 @@
 
 - [0. Instalasi netics-pc-desktop dan netics-server](#0-instalasi-netics-pc-desktop-dan-netics-server)
   - [0.1 Appliance GNS3](#01=appliance-gns3)
-  - [0.2 Cara Instalasi](#02-cara-instalasi)
+  - [0.2 Cara Instalasi (Windows/Linux)](#02-cara-instalasi-windows-linux)
+  - [0.3 Cara Instalasi (Mac)](#03-cara-instalasi-mac)
 - [1. Menghubungkan netics-pc ke NAT](#1-menghubungkan-netics-pc-ke-nat)
   - [1.1 Akses Sebuah Node ke Internet](#11-akses-sebuah-node-ke-internet)
   - [1.2 Membuat Topologi](#12-membuat-topologi)
@@ -40,9 +41,9 @@ Silahkan untuk download appliance gns3 desktop dan netics-server melalui link di
 - [netics-pc-desktop](https://drive.google.com/file/d/1ZA8s6kTUNig3N9oG0XdAA12DvG9b5sAI/view?usp=sharing)
 - [netics-server](https://drive.google.com/file/d/1Pol2KBgxOomzBzrhNj16rC5OID8T5Wu4/view?usp=sharing)
 
-### 0.2 Cara Instalasi
+### 0.2 Cara Instalasi (Windows/Linux)
 
-Langkah-langkah dibawah ini berlaku dan stepnya sama persis untuk instalasi kedua appliance
+Langkah-langkah dibawah ini berlaku dan stepnya sama persis untuk instalasi kedua appliance (untuk yang memakai GNS3 VM di platform Windows/Linux)
 
 1. Pilih menu **File → New Template**.
 
@@ -62,6 +63,37 @@ Langkah-langkah dibawah ini berlaku dan stepnya sama persis untuk instalasi kedu
 
    ![Drag drop](images/netics-pc-desktop-appliance-6.png)
 
+### 0.3 Cara Instalasi (Mac)
+
+Langkah-langkah dibawah ini berlaku dan stepnya sama persis untuk instalasi kedua appliance (untuk yang memakai GNS3 VM di platform Mac/arm64)
+
+1. Buka web interface GNS3 kalian dan cari menu seperti gambar dibawah (tempate references).
+![template pereference](./images/netic-pc-desktop-arm-template-preferences.png) 
+
+2. Pilih menu yang bagian Docker
+![docker template](./images/netics-pc-desktop-arm-docker-template-option.png) 
+
+Dan klik button di pojok kanan atas untuk membuat template baru
+![alt text](./images/netics-pc-desktop-arm-add-docker-template-button.png) 
+
+3. Kemudian pastikan kalian meng-klik pilihan **Run this docker container locally**
+![alt text](./images/netics-pc-desktop-arm-select-docker-run-local.png) 
+
+4. Setelah itu, masukkan nama image netics-pc-desktopnya (atau netics-server)
+
+- netics-server: `royyana/netics-pc:alpinet2-server-arm`
+- netics-pc-desktop: `royyana/netics-pc:alpinet2-desktop-arm`
+
+![alt text](./images/netics-pc-desktop-arm-docker-image-name.png) 
+
+5. Kemudian isi bagian container name sesuai dengan image name yang kalian masukkan sebelumnya, yakni antara `netics-pc-desktop` atau `netics-server`
+![alt text](./images/netics-pc-desktop-arm-container-node-name.png) 
+
+6. Ubah jumlah network adapter, untuk `netics-pc-desktop` cukup 1, untuk `netics-server` ubah menjadi 4
+![alt text](./images/netics-pc-desktop-arm-network-adapter-num.png) 
+
+7. Untuk instalasi appliance `netics-pc-desktop`, **pastikan** untuk mengubah console type nya menjadi `vnc`, appliance `netics-server` tetap `telnet` sebagai default
+![ubah console type](./images/netics-pc-desktop-arm-console-type-change.png) 
 
 > [!IMPORTANT]
 > Untuk netics-pc-desktop console type nya adalah berupa VNC client, bukan telnet
