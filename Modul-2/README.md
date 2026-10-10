@@ -86,7 +86,8 @@ Dan klik button di pojok kanan atas untuk membuat template baru
 
 ![alt text](./images/netics-pc-desktop-arm-docker-image-name.png) 
 
-5. Kemudian isi bagian container name sesuai dengan image name yang kalian masukkan sebelumnya, yakni antara `netics-pc-desktop` atau `netics-server`
+5. Kemudian isi bagian container name sesuai dengan image name yang kalian masukkan sebelumnya, yakni antara `netics-pc-desktop` atau `netics-server`.
+
 ![alt text](./images/netics-pc-desktop-arm-container-node-name.png) 
 
 6. Ubah jumlah network adapter, untuk `netics-pc-desktop` cukup 1, untuk `netics-server` ubah menjadi 4
