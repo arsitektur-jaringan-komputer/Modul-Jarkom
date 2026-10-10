@@ -41,6 +41,11 @@ Silahkan untuk download appliance gns3 desktop dan netics-server melalui link di
 - [netics-pc-desktop](https://drive.google.com/file/d/1ZA8s6kTUNig3N9oG0XdAA12DvG9b5sAI/view?usp=sharing)
 - [netics-server](https://drive.google.com/file/d/1Pol2KBgxOomzBzrhNj16rC5OID8T5Wu4/view?usp=sharing)
 
+> [!IMPORTANT]
+> **Untuk netics-pc-desktop console type nya adalah berupa VNC client, bukan telnet**
+> 
+> Sehingga kalian butuh client VNC untuk dapat melihat interface dari nodenya, untuk client nya bebas, dapat menggunakan TightVNC, TigerVNC atau yang lain
+
 ### 0.2 Cara Instalasi (Windows/Linux)
 
 Langkah-langkah dibawah ini berlaku dan stepnya sama persis untuk instalasi kedua appliance (untuk yang memakai GNS3 VM di platform Windows/Linux)
@@ -96,10 +101,7 @@ Dan klik button di pojok kanan atas untuk membuat template baru
 7. Untuk instalasi appliance `netics-pc-desktop`, **pastikan** untuk mengubah console type nya menjadi `vnc`, appliance `netics-server` tetap `telnet` sebagai default
 ![ubah console type](./images/netics-pc-desktop-arm-console-type-change.png) 
 
-> [!IMPORTANT]
-> Untuk netics-pc-desktop console type nya adalah berupa VNC client, bukan telnet
-> 
-> Sehingga kalian butuh client VNC untuk dapat melihat interface dari nodenya, untuk client nya bebas, dapat menggunakan TightVNC, TigerVNC atau yang lain
+
 
 ## 1. Menghubungkan netics-pc ke NAT
 
