@@ -444,9 +444,7 @@ GNS3 dapat menangkap paket pada sebuah _link_ dan langsung membukanya pada Wires
 
 ![](/Modul-3/images/10-capture-packets.png)
 
-Untuk tutorial lengkapnya bisa dilihat pada video berikut
-
-<video src="/Modul-3/images/12-capture-ws.mp4" controls width="100%"></video>
+Untuk tutorial lengkapnya bisa dilihat pada video berikut: [dokumentasi packet capture wireshark](/Modul-3/images/12-capture-ws.mp4)
 
 #### termshark
 
