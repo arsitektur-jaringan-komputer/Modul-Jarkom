@@ -444,6 +444,10 @@ GNS3 dapat menangkap paket pada sebuah _link_ dan langsung membukanya pada Wires
 
 ![](/Modul-3/images/10-capture-packets.png)
 
+Untuk tutorial lengkapnya bisa dilihat pada video berikut
+
+<video src="Modul-3/images/12-capture-ws.mp4" controls width="100%"></video>
+
 #### termshark
 
 **termshark** merupakan aplikasi dengan tampilan mirip Wireshark yang berjalan pada terminal. termshark membutuhkan `tshark`, yaitu Wireshark versi _command line_ yang sudah kita _install_ pada Loguetown.
