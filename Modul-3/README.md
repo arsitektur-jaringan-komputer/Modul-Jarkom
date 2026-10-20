@@ -66,7 +66,9 @@ Hubungan `SEQ` dan `ACK` dapat dituliskan sebagai berikut:
 ack = seq yang diterima + panjang data (len)
 ```
 
-[add sync sama fin]
+Terdapat pengecualian dari rumus di atas, yaitu paket dengan flag SYN atau FIN dianggap membawa 1 byte data meskipun sebenarnya tidak membawa data apa pun (len = 0). Oleh karena itu, sequence number setelah SYN atau FIN tetap dianggap bertambah 1, seolah-olah len = 1.
+
+Contohnya pada proses three-way handshake di bagian [0.2](#02-three-way-handshake-protokol-tcp): client mengirim SYN dengan seq = m. Walaupun paket SYN ini tidak membawa data, server tetap membalas dengan ack = m + 1 dan bukan ack = m, karena SYN-nya sendiri dihitung sebagai 1 byte. Hal yang sama berlaku untuk FIN saat koneksi ditutup, apabila sender mengirim FIN dengan seq = x, maka balasan ACK-nya adalah ack = x + 1.
 
 ### 0.4 Retransmisi dan ACK Duplikat
 
