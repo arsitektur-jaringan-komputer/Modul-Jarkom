@@ -451,7 +451,9 @@ Untuk tutorial lengkapnya bisa dilihat pada video berikut: [dokumentasi packet c
 
 [![Alt text](https://github.com/user-attachments/assets/4f058e5a-6c89-4966-9b06-63dddb7df3ed)](https://github.com/user-attachments/assets/c377eba0-dfaf-4f8e-9987-69c3b0997a50)
 
-Referensi : [Wireshark + GNS3 Integration](https://gns3.com/step-by-step-setup-wireshark-gns3-integration)
+Referensi : 
+- [Wireshark Download](https://www.wireshark.org/download.html)
+- [Wireshark + GNS3 Integration](https://gns3.com/step-by-step-setup-wireshark-gns3-integration)
 
 #### termshark
 
