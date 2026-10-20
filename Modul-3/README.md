@@ -51,8 +51,8 @@ Berikut proses dari _three-way handshake_ yang terjadi antara _host_ 1 sebagai _
 ![alt text](/Modul-3/images/2-3-way-handhsake.png)
 
 1. _Client_ mengirim paket dengan _flag_ `SYN` ke _server_ untuk me-_request_ koneksi dan nomor urut awal secara acak, misalnya `seq = m`.
-2. _Server_ membalas dengan _flag_ `SYN-ACK` untuk menerima _request_ koneksi. _Server_ mengirimkan nomor urut awal miliknya sendiri (`seq = n`) sekaligus mengonfirmasi `SYN` dari _client_ (`ack = n + 1`).
-3. _Client_ mengonfirmasi `SYN` dari _server_ (`ack = m + 1`) dan membalas lagi dengan `ACK` untuk memulai transfer paket. Setelah tahap ini, status koneksi menjadi _established_ dan data sudah bisa dikirimkan.
+2. _Server_ membalas dengan _flag_ `SYN-ACK` untuk menerima _request_ koneksi. _Server_ mengirimkan nomor urut awal miliknya sendiri (`seq = n`) sekaligus mengonfirmasi `SYN` dari _client_ (`ack = m + 1`).
+3. _Client_ mengonfirmasi `SYN` dari _server_ (`ack = n + 1`) dan membalas lagi dengan `ACK` untuk memulai transfer paket. Setelah tahap ini, status koneksi menjadi _established_ dan data sudah bisa dikirimkan.
 
 ### 0.3 Sequence Number dan ACK Number
 
