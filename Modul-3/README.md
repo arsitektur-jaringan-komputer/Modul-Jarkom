@@ -445,7 +445,10 @@ GNS3 dapat menangkap paket pada sebuah _link_ dan langsung membukanya pada Wires
 ![](/Modul-3/images/10-capture-packets.png)
 
 Untuk tutorial lengkapnya bisa dilihat pada video berikut: [dokumentasi packet capture wireshark](/Modul-3/images/12-capture-ws.mp4)
-[![Watch the video](https://raw.githubusercontent.com/arsitektur-jaringan-komputer/Modul-Jarkom/tata-change/Modul-3/images/12-thumbnail-video.png)](https://raw.githubusercontent.com/arsitektur-jaringan-komputer/Modul-Jarkom/tata-change/Modul-3/images/12-capture-ws.mp4)
+<video controls width="100%">
+  <source src="https://raw.githubusercontent.com/arsitektur-jaringan-komputer/Modul-Jarkom/tata-change/Modul-3/images/12-capture-ws.mp4" type="video/mp4">
+  Your browser does not support HTML video.
+</video>
 
 #### termshark
 
