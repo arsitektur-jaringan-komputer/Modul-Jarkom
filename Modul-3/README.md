@@ -31,7 +31,8 @@
 
 ### 0.1 Pengertian TCP vs UDP
 
-![](/Modul-3/images/1-TCPvsudp.webp)
+<img width="1320" height="600" alt="image" src="https://github.com/user-attachments/assets/71194561-2487-404b-91eb-f891b371bf09" />
+
 
 TCP dan UDP dapat diibaratkan proses dalam transfer barang:
 
@@ -708,6 +709,7 @@ sysctl -p
 - https://www.tutorialspoint.com/data_communication_computer_network/computer_network_models.htm
 - https://www.geeksforgeeks.org/computer-networks/computer-network-models/
 - https://www.lifewire.com/layers-of-the-osi-model-illustrated-818017
+- https://www.avg.com/en/signal/tcp-vs-udp
 
 1. [Web Server](Web%20server/README.md)
 2. [DNS (Domain Name System)](DNS/README.md)
