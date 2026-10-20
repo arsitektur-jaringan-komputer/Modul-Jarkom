@@ -1,7 +1,3 @@
-
-
-https://github.com/user-attachments/assets/d4cff892-5fc7-4b6f-b415-1657bd590172
-
 # Modul 3 Jaringan Komputer
 
 ## Daftar Isi
@@ -451,6 +447,8 @@ GNS3 dapat menangkap paket pada sebuah _link_ dan langsung membukanya pada Wires
 Untuk tutorial lengkapnya bisa dilihat pada video berikut: [dokumentasi packet capture wireshark](/Modul-3/images/12-capture-ws.mp4)
 
 [![Alt text](https://github.com/user-attachments/assets/4f058e5a-6c89-4966-9b06-63dddb7df3ed)](https://github.com/user-attachments/assets/c377eba0-dfaf-4f8e-9987-69c3b0997a50)
+
+Referensi : [Wireshark + GNS3 Integration](https://gns3.com/step-by-step-setup-wireshark-gns3-integration)
 
 #### termshark
 
