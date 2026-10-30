@@ -495,6 +495,46 @@ _Display filter_ pada Wireshark dan termshark menggunakan format yang sama. Beri
 
 #### Contoh Analisis Retransmission dan Duplicate ACK
 
+### 1.6 Troubleshoot Wireshark
+
+#### Mac (GNS3VM + GNS3 Web UI)
+
+1. **Instal GNS3 WebClient Pack**
+   Unduh _file_ `.dmg` dari [GNS3 WebClient Pack v1.0.0b6](https://github.com/GNS3/gns3-webclient-pack/releases/tag/v1.0.0b6), buka, lalu _drag and drop_ aplikasinya ke folder `/Applications`.
+
+   ![wireshark webclient download](./images/13-wireshark-webclient.png) 
+
+2. **Jalankan aplikasinya minimal satu kali**
+   Buka GNS3 WebClient dari Applications/Spotlight. Langkah ini penting karena di macOS, pendaftaran _protocol handler_ (`gns3+telnet`, `gns3+vnc`, `gns3+spice`, `gns3+pcap`) dilakukan otomatis saat aplikasi pertama kali dijalankan.
+
+3. **Pastikan Wireshark sudah ter-_install_**
+   Bisa diunduh langsung dari [wireshark.org](https://www.wireshark.org/download.html) atau melalui _command_ berikut apabila menggunakan Homebrew:
+   ```sh
+   brew install --cask wireshark
+   ```
+
+4. **Izinkan Chrome membuka _protocol_ GNS3 tanpa konfirmasi berulang (opsional)**
+   Jalankan di Terminal:
+   ```sh
+   defaults write com.google.Chrome URLWhitelist -array 'gns3+telnet://*' 'gns3+vnc://*' 'gns3+spice://*' 'gns3+pcap://*'
+   ```
+   Lalu _restart_ Chrome.
+
+5. **Jika "Start Wireshark" tidak merespons sama sekali**
+   - Buka _Developer Tools_ Chrome (`F12`) → tab _Console_, lalu klik "Start Wireshark" lagi. Apabila muncul pesan seperti `Prevented navigation ... due to an unknown protocol`, berarti _protocol handler_ belum terdaftar (ulangi langkah 2).
+   - Uji secara manual dari Terminal untuk memastikan _launcher_-nya sendiri berfungsi:
+     ```sh
+     open "gns3+pcap://localhost:3080?project_id=...&link_id=...&name=test"
+     ```
+   - Cek log _launcher_ di `~/.config/GNS3/WebClient/launcher.log` untuk melihat pesan _error_ yang lebih detail.
+
+Referensi:
+- [GNS3 Webclient Pack](https://github.com/GNS3/gns3-webclient-pack) 
+
+#### Windows (GNS3 VM + GNS3 Desktop App)
+
+TBA
+
 ## 2. Static Routing
 
 Setelah kita memahami bagaimana cara jaringan komputer di dunia bekerja pada umumnya, perangkat-perangkat yang digunakan untuk mendukung terjadinya komunikasi di internet, protokol yang dipatuhi, dan lain-lainnya, maka kita akan masuk ke dalam konsep yang tak kalah penting dan akan sering kita temui, yaitu **Routing**.
