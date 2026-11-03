@@ -20,6 +20,7 @@
     - [e. `tc qdisc show`](#e-tc-qdisc-show)
   - [1.4 TCP Metrics dan Algoritma Congestion Control](#14-tcp-metrics-dan-algoritma-congestion-control)
   - [1.5 Wireshark dan termshark](#15-wireshark-dan-termshark)
+  - [1.6 Troubleshoot Wireshark](#16-troubleshoot-wireshark)
 - [2. Static Routing](#2-static-routing)
   - [2.1 OSI Model dan TCP/IP Model](#21-osi-model-dan-tcpip-model)
   - [2.2 Pengertian](#22-pengertian)
@@ -494,6 +495,54 @@ _Display filter_ pada Wireshark dan termshark menggunakan format yang sama. Beri
 | `tcp.analysis.flags` | Semua anomali TCP |
 
 #### Contoh Analisis Retransmission dan Duplicate ACK
+
+### 1.6 Troubleshoot Wireshark
+
+#### Mac (GNS3VM + GNS3 Web UI)
+
+1. **Install GNS3 WebClient Pack**
+   Unduh _file_ `.dmg` dari [GNS3 WebClient Pack v1.0.0b6](https://github.com/GNS3/gns3-webclient-pack/releases/tag/v1.0.0b6), buka, lalu _drag and drop_ aplikasinya ke folder `/Applications`.
+
+   ![wireshark webclient download](./images/13-wireshark-webclient.png) 
+
+2. **Jalankan aplikasinya minimal satu kali**
+   Buka GNS3 WebClient dari Applications/Spotlight. Langkah ini penting karena di macOS, pendaftaran _protocol handler_ (`gns3+telnet`, `gns3+vnc`, `gns3+spice`, `gns3+pcap`) dilakukan otomatis saat aplikasi pertama kali dijalankan.
+
+3. **Pastikan Wireshark sudah ter-_install_**
+   Bisa diunduh langsung dari [wireshark.org](https://www.wireshark.org/download.html) atau melalui _command_ berikut apabila menggunakan Homebrew:
+   ```sh
+   brew install --cask wireshark
+   ```
+
+4. **Izinkan Chrome membuka _protocol_ GNS3 tanpa konfirmasi berulang (opsional)**
+   Jalankan di Terminal:
+   ```sh
+   defaults write com.google.Chrome URLWhitelist -array 'gns3+telnet://*' 'gns3+vnc://*' 'gns3+spice://*' 'gns3+pcap://*'
+   ```
+   Lalu _restart_ Chrome.
+
+5. **Jika "Start Wireshark" tidak merespons sama sekali**
+   - Buka _Developer Tools_ Chrome (`F12`) → tab _Console_, lalu klik "Start Wireshark" lagi. Apabila muncul pesan seperti `Prevented navigation ... due to an unknown protocol`, berarti _protocol handler_ belum terdaftar (ulangi langkah 2).
+   - Uji secara manual dari Terminal untuk memastikan _launcher_-nya sendiri berfungsi:
+     ```sh
+     open "gns3+pcap://localhost:3080?project_id=...&link_id=...&name=test"
+     ```
+   - Cek log _launcher_ di `~/.config/GNS3/WebClient/launcher.log` untuk melihat pesan _error_ yang lebih detail.
+
+Referensi:
+- [GNS3 Webclient Pack](https://github.com/GNS3/gns3-webclient-pack) 
+
+#### Windows (GNS3 VM + GNS3 Desktop App)
+
+1. **Pastikan Wireshark sudah di install di windows**
+   Jika belum, download dari web resmi Wireshark, [here](https://www.wireshark.org/download.html)
+
+2. **Cek konfigurasi packet capture di GNS3 Desktop App**
+   Di menu `Edit > Preferences`, pastikan settings nya menggunakan `Wireshark Live Traffic Capture`
+
+   ![gns3 configuration](./images/14-wireshark-settings-windows.jpg)
+
+TBA
 
 ## 2. Static Routing
 
