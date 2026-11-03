@@ -20,6 +20,7 @@
     - [e. `tc qdisc show`](#e-tc-qdisc-show)
   - [1.4 TCP Metrics dan Algoritma Congestion Control](#14-tcp-metrics-dan-algoritma-congestion-control)
   - [1.5 Wireshark dan termshark](#15-wireshark-dan-termshark)
+  - [1.6 Troubleshoot Wireshark](#16-troubleshoot-wireshark)
 - [2. Static Routing](#2-static-routing)
   - [2.1 OSI Model dan TCP/IP Model](#21-osi-model-dan-tcpip-model)
   - [2.2 Pengertian](#22-pengertian)
@@ -499,7 +500,7 @@ _Display filter_ pada Wireshark dan termshark menggunakan format yang sama. Beri
 
 #### Mac (GNS3VM + GNS3 Web UI)
 
-1. **Instal GNS3 WebClient Pack**
+1. **Install GNS3 WebClient Pack**
    Unduh _file_ `.dmg` dari [GNS3 WebClient Pack v1.0.0b6](https://github.com/GNS3/gns3-webclient-pack/releases/tag/v1.0.0b6), buka, lalu _drag and drop_ aplikasinya ke folder `/Applications`.
 
    ![wireshark webclient download](./images/13-wireshark-webclient.png) 
@@ -532,6 +533,14 @@ Referensi:
 - [GNS3 Webclient Pack](https://github.com/GNS3/gns3-webclient-pack) 
 
 #### Windows (GNS3 VM + GNS3 Desktop App)
+
+1. **Pastikan Wireshark sudah di install di windows**
+   Jika belum, download dari web resmi Wireshark, [here](https://www.wireshark.org/download.html)
+
+2. **Cek konfigurasi packet capture di GNS3 Desktop App**
+   Di menu `Edit > Preferences`, pastikan settings nya menggunakan `Wireshark Live Traffic Capture`
+
+   ![gns3 configuration](./images/14-wireshark-settings-windows.jpg)
 
 TBA
 
