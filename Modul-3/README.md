@@ -763,7 +763,3 @@ sysctl -p
 - https://www.geeksforgeeks.org/computer-networks/computer-network-models/
 - https://www.lifewire.com/layers-of-the-osi-model-illustrated-818017
 - https://www.avg.com/en/signal/tcp-vs-udp
-
-1. [Web Server](Web%20server/README.md)
-2. [DNS (Domain Name System)](DNS/README.md)
-3. [Reverse Proxy](Reverse%20Proxy/README.md)
