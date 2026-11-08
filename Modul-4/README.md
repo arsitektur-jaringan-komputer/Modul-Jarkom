@@ -285,6 +285,51 @@ Dan untuk me-restore konfigurasi dengan tipe file `.rsc`, menggunakan command:
 
 **Note:** Diatas memang error, dikarenakan konfigurasi yang import sama persis dengan konfigurasi sekarang, yang menyebabkan konfigurasi bertumpuk dan menimbulkan error (perubahan dari import tidak ter-apply).
 
+#### 0.5.3 Cara Export Konfigurasi Ke luar GNS3 menggunakan WinBox
+
+[Download Winbox Official v4.5](https://mikrotik.com/download/winbox) 
+
+File konfigurasi yang di export pada MikroTik-CHR akan tetap ada didalam node itu sendiri, untuk dapat mengexport file backup tersebut keluar node atau export ke luar GNS3, diperlukan aplikasi tambahan yakni `WinBox`
+
+- Download WinBox menggunakan link diatas, kemudian buka WinBox saat node `MikroTik-CHR` masih menyala, di interface WinBox nantinya akan terdeteksi node `Kazdel` seperti gambar dibawah, kemudian klik pilihan Kazdel dan klik tombol Connect pada bagian kiri, atau cukup double-klik pada row `Kazdel`
+
+![winbox 1](./images/mikrotik-winbox-1.png) 
+
+- Jika ada notice untuk merubah password, klik `Cancel` saja
+
+![winbox 2](./images/mikrotik-winbox-2.png)
+
+- Setelah masuk ke interface MikroTik-CHR versi Desktop atau Web UI, klik pada menu `Files` pada sidebar disamping
+
+![winbox 3](./images/mikrotik-winbox-3.png
+
+- Kemudian select file yang ingin di download dengan klik 1 kali dan klik tombol download di sisi kanan, dan file explorer akan terbuka untuk memilih tempat menyimpan file nya
+
+![winbox 4](./images/mikrotik-winbox-4.png)
+![winbox 4b](./images/mikrotik-winbox-4b.png)
+
+#### 0.5.4 Cara Export Konfigurasi Ke luar GNS3 menggunakan SFTP
+
+Cara ini tidak membutuhkan WinBox, hanya perlu memverifikasi apakah layanan SSH berjalan di node `MikroTik`
+
+```
+/ip service print
+```
+
+![sftp 1](./images/mikrotik-sftp-1.png) 
+
+Kemudian menggunakan client SFTP bebas, gunakan command `ls` untuk listing dan `get` untuk download file
+```
+ls
+get <nama file>
+```
+
+![sftp 2](./images/mikrotik-sftp-2.png) 
+
+Untuk mengetahui IP mana yang harus dipakai untuk terhubung ke node MikroTik, dalam hal ini `Kazdel`, adalah menggunakan command `/ip address print` dan menggunakan IP yang diberikan pada ether1 yang terhubung langsung ke NAT
+
+![sftp 3](./images/mikrotik-sftp-3.png)
+
 ## 1. Subnetting
 
 ## 2. Static Routing (Lanjutan) - MikroTik
