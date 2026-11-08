@@ -303,7 +303,7 @@ File konfigurasi yang di export pada MikroTik-CHR akan tetap ada didalam node it
 
 - Setelah masuk ke interface MikroTik-CHR versi Desktop atau Web UI, klik pada menu `Files` pada sidebar disamping
 
-![winbox 3](./images/mikrotik-winbox-3.png
+![winbox 3](./images/mikrotik-winbox-3.png)
 
 - Kemudian select file yang ingin di download dengan klik 1 kali dan klik tombol download di sisi kanan, dan file explorer akan terbuka untuk memilih tempat menyimpan file nya
 
