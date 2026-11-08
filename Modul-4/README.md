@@ -13,6 +13,8 @@
   - [0.5 Menyimpan konfigurasi di MikroTik-CHR](#05-menyimpan-konfigurasi-di-mikrotik-chr)
     - [0.5.1 Export ke binary file](#051-export-ke-binary-file)
     - [0.5.2 Export ke raw text atau readable file](#052-export-ke-raw-text-atau-readable-file)
+    - [0.5.3 Cara Export Konfigurasi Ke luar GNS3 menggunakan WinBox](#053-cara-export-konfigurasi-ke-luar-gns3-menggunakan-winbox)
+    - [0.5.4 Cara Export Konfigurasi Ke luar GNS3 menggunakan SFTP](#054-cara-export-konfigurasi-ke-luar-gns3-menggunakan-sftp)
 - [1. Subnetting](#1-subnetting)
 - [2. Static Routing (Lanjutan) - MikroTik](#2-static-routing-lanjutan---mikrotik)
 - [3. Dynamic Routing - MikroTik](#3-dynamic-routing---mikrotik)
