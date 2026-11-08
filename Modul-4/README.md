@@ -2,6 +2,18 @@
 
 ## Daftar Isi
 
+- [0. Instalasi MikroTik-CHR di GNS3](#0-instalasi-mikrotik-chr-di-gns3)
+  - [0.1 Pengenalan MikroTik CHR RouterOS](#01-pengenalan-mikrotik-chr-routeros)
+    - [0.1.1 RouterOS](#011-routeros)
+    - [0.1.2 MikroTik-CHR](#012-mikrotik-chr)
+    - [0.1.3 MikroTik Routerboard](#013-mikrotik-routerboard)
+  - [0.2 Instalasi di Windows (GNS3 VM)](#02-instalasi-di-windows-gns3-vm)
+  - [0.3 Instalasi di MacOS (GNS3 VM + GNS3 Web UI)](#03-instalasi-di-macos-gns3-vm--gns3-web-ui)
+  - [0.4 Troubleshooting dan Cek Instalasi](#04-troubleshooting-dan-cek-instalasi)
+- [1. Subnetting](#1-subnetting)
+- [2. Static Routing (Lanjutan) - MikroTik](#2-static-routing-lanjutan---mikrotik)
+- [3. Dynamic Routing - MikroTik](#3-dynamic-routing---mikrotik)
+
 ## 0. Instalasi MikroTik-CHR di GNS3
 
 ### 0.1 Pengenalan MikroTik CHR RouterOS
@@ -120,11 +132,11 @@ sek nunggu raynald
 
 ### 0.4 Troubleshooting dan Cek Instalasi
 
-## Subnetting
+## 1. Subnetting
 
-## Static Routing (Lanjutan) - MikroTik
+## 2. Static Routing (Lanjutan) - MikroTik
 
-## Dynamic Routing - MikroTik
+## 3. Dynamic Routing - MikroTik
 <!-- 1. [Subnetting](Subnetting/README.md) -->
 <!-- 2. [Dynamic Routing](Dynamic%20Routing/README.md) -->
 <!-- 3. [Firewall](Firewall/README.md) -->
