@@ -9,7 +9,10 @@
     - [0.1.3 MikroTik Routerboard](#013-mikrotik-routerboard)
   - [0.2 Instalasi di Windows (GNS3 VM)](#02-instalasi-di-windows-gns3-vm)
   - [0.3 Instalasi di MacOS (GNS3 VM + GNS3 Web UI)](#03-instalasi-di-macos-gns3-vm--gns3-web-ui)
-  - [0.4 Troubleshooting dan Cek Instalasi](#04-troubleshooting-dan-cek-instalasi)
+  - [0.4 Membuat Topologi Sederhana](#04-membuat-topologi-sederhana)
+  - [0.5 Menyimpan konfigurasi di MikroTik-CHR](#05-menyimpan-konfigurasi-di-mikrotik-chr)
+    - [0.5.1 Export ke binary file](#051-export-ke-binary-file)
+    - [0.5.2 Export ke raw text atau readable file](#052-export-ke-raw-text-atau-readable-file)
 - [1. Subnetting](#1-subnetting)
 - [2. Static Routing (Lanjutan) - MikroTik](#2-static-routing-lanjutan---mikrotik)
 - [3. Dynamic Routing - MikroTik](#3-dynamic-routing---mikrotik)
@@ -229,11 +232,58 @@ sek nunggu raynald
    ![ping gugel](./images/mikrotik-basic-topology-7.png) 
 
 
-**Note:** node `MikroTik-CHR` umumnya hanya digunakan untuk keperluan routing dan penerapan firewall dan beberapa tool/service networking yang sudah secacra native terinstall (RouterOS), untuk general-purpose node bisa menggunakan `netics-pc` dengan penambahan beberapa package seperti `frr`, `kea-dhcp4`, dll.
-    
+**Note:** **Note:** Node `MikroTik-CHR` umumnya digunakan sebagai perangkat jaringan virtual untuk keperluan routing, firewall, NAT, dan layanan jaringan lainnya melalui RouterOS. Sementara itu, untuk kebutuhan general-purpose networking node, dapat digunakan `netics-pc` berbasis Linux dengan menambahkan berbagai package sesuai kebutuhan, seperti `frr` untuk dynamic routing, `kea-dhcp4/udhcpd` untuk layanan DHCP, `bind9/dnsmasq` untuk DNS, serta `nftables/iptables` untuk firewall.    
+
 ### 0.5 Menyimpan konfigurasi di MikroTik-CHR
 
+> [!TIP]
+> *Secara default, MikroTik-CHR akan menyimpan konfigurasi terakhir secara otomatis dan akan persistent ketika node dinyalakan kembali.*
 
+#### 0.5.1 Export ke binary file
+
+Untuk keperluan preserve, dapat menggunakan command berikut:
+```
+/system backup save name=[Nama Backup]
+
+# untuk menampilkan file-file backup yang telah disimpan
+/file print
+```
+
+![saving config binary](./images/mikrotik-saving-config-1.png) 
+
+Dan untuk me-restore, menggunakan
+```
+/system backup load name=[Nama Backup]
+```
+
+MikroTik-CHR akan memberikan prompt untuk me-restart node, tekan tombol `y` di keyboard, MikroTik-CHR akan melakukan restart dan konfigurasi akan ter-load
+![backup restore](./images/mikrotik-saving-config-2a.png) 
+![backup restore 2](./images/mikrotik-saving-config-2b.png)
+
+#### 0.5.2 Export ke raw text atau readable file
+
+Selain export ke dalam bentuk binary, juga bisa export kedalam bentuk file yang dapat dibaca (readable format) menggunakan command:
+```
+/export file=[Name File]
+
+# jika ingin menampilkan seluruh konfigurasi langsung di terminal
+/export
+```
+
+![export readable](./images/mikrotik-saving-config-3.png) 
+
+command `/export file=` akan menghasilkan file dengan extension `.rsc`
+    
+![export file list](./images/mikrotik-saving-config-3b.png) 
+
+Dan untuk me-restore konfigurasi dengan tipe file `.rsc`, menggunakan command:
+```
+/import file-name=[Nama File]
+```
+
+![import file](./images/mikrotik-saving-config-3c.png) 
+
+**Note:** Diatas memang error, dikarenakan konfigurasi yang import sama persis dengan konfigurasi sekarang, yang menyebabkan konfigurasi bertumpuk dan menimbulkan error (perubahan dari import tidak ter-apply).
 
 ## 1. Subnetting
 
