@@ -32,6 +32,28 @@
     - [1.5.4 Jipangu](#154-jipangu)
     - [1.5.5 Loguetown](#155-loguetown)
     - [1.5.6 Pengujian](#156-pengujian)
+- [2. Static Routing (Lanjutan)](#2-static-routing-lanjutan)
+  - [2.1 Multi-hop Routing](#21-multi-hop-routing)
+  - [2.2 Route Summarization dan Longest Prefix Match](#22-route-summarization-dan-longest-prefix-match)
+    - [2.2.1 Route Summarization](#221-route-summarization)
+    - [2.2.2 Longest Prefix Match](#222-longest-prefix-match)
+  - [2.3 Routing Loop dan TTL](#23-routing-loop-dan-ttl)
+    - [2.3.1 Routing Loop](#231-routing-loop)
+    - [2.3.2 TTL dan Traceroute](#232-ttl-dan-traceroute)
+  - [2.4 Implementasi](#24-implementasi)
+    - [2.4.1 Topologi dan Pembagian IP](#241-topologi-dan-pembagian-ip)
+    - [2.4.2 Foosha](#242-foosha)
+    - [2.4.3 Pucci](#243-pucci)
+    - [2.4.4 Water7](#244-water7)
+    - [2.4.5 Guanhao](#245-guanhao)
+    - [2.4.6 Alabasta](#246-alabasta)
+    - [2.4.7 PC1](#247-pc1)
+    - [2.4.8 PC2](#248-pc2)
+    - [2.4.9 PC3](#249-pc3)
+    - [2.4.10 PC4](#2410-pc4)
+    - [2.4.11 Pengujian Multi-hop](#2411-pengujian-multi-hop)
+    - [2.4.12 Route Summarization](#2412-route-summarization)
+    - [2.4.13 Routing Loop dan TTL](#2413-routing-loop-dan-ttl)
 
 ## 0. Instalasi MikroTik-CHR di GNS3
 
@@ -172,7 +194,7 @@ Dalam jaringan komputer, proses pembagian seperti ini disebut subnetting, yaitu 
 
 Misalkan semua komputer di gedung Departemen Informatika berada dalam satu jaringan yang sama. Akibatnya:
 
-- Paket broadcast dari satu komputer diterima oleh semua komputer di gedung, walaupun tidak berkepentingan.
+- Setiap paket broadcast (paket yang dikirim ke semua host sekaligus) diterima oleh semua komputer di gedung, walaupun tidak berkepentingan.
 - Akses antar laboratorium sulit dibatasi, karena semua komputer berada di jaringan yang sama.
 
 Dengan subnetting, setiap laboratorium mendapatkan subnet sendiri, misalnya:
@@ -186,7 +208,7 @@ Manfaat subnetting:
 - Dapat mengatur kebijakan keamanan sendiri: misalnya router mengizinkan atau memblokir akses dari Lab AJK ke Lab LP.
 - Meningkatkan efisiensi routing: router cukup mengenal satu subnet per laboratorium, bukan alamat setiap komputer.
 
-**Broadcast domain** adalah area jaringan yang dijangkau oleh paket broadcast, yaitu paket yang dikirim ke semua host sekaligus. Paket broadcast tidak diteruskan oleh router, sehingga setiap subnet memiliki broadcast domain sendiri. Dengan membagi jaringan menjadi subnet yang lebih kecil, semakin sedikit host yang ikut menerima paket broadcast.
+**Broadcast domain** adalah area jaringan yang dijangkau oleh paket broadcast. Paket broadcast tidak diteruskan oleh router, sehingga setiap subnet memiliki broadcast domain sendiri.
 
 ### 1.2 Mengenal IP Address
 
@@ -260,6 +282,8 @@ Setiap paket IPv4 yang dikirim melalui jaringan membawa sebuah **header**, yaitu
 **Subnet mask (netmask)** adalah kombinasi angka sepanjang 32 bit yang berfungsi membagi IP ke dalam subnet-subnet dan menentukan rentang IP Address pada subnet yang bisa digunakan. Bit bernilai `1` pada netmask selalu berada di depan, diikuti bit bernilai `0` di belakangnya.
 
 Netmask juga bisa ditulis secara singkat dalam bentuk **prefix**, yaitu jumlah bit bernilai `1` pada netmask yang ditulis di belakang IP. Contohnya, `10.151.36.5/24` berarti IP `10.151.36.5` dengan netmask `255.255.255.0`, karena 24 bit pertama netmask tersebut bernilai `1`.
+
+**Wildcard** adalah kebalikan dari netmask, yaitu bit `1` pada netmask diubah menjadi `0` dan bit `0` diubah menjadi `1`.
 
 Tabel berikut menunjukkan daftar prefix beserta netmask, wildcard, jumlah alamat (Addresses), dan jumlah Available Hosts-nya.
 
@@ -361,7 +385,7 @@ Broadcast Address adalah alamat terakhir dari suatu subnet. Cara mencarinya adal
    bit     : 0000 1010 . 1001 0111 . 0010 0100 . 0000 0101
    ```
 
-2. Ubah netmask ke dalam bentuk biner, lalu balik setiap bitnya (`1` menjadi `0` dan `0` menjadi `1`). Hasilnya disebut **wildcard** (inverted netmask). Nilai ini sama dengan kolom **Wildcard** pada tabel di bagian [Netmask dan Prefix](#123-netmask-dan-prefix).
+2. Ubah netmask ke dalam bentuk biner, lalu balik setiap bitnya (`1` menjadi `0` dan `0` menjadi `1`). Hasilnya adalah wildcard. Nilai ini sama dengan kolom **Wildcard** pada tabel di bagian [Netmask dan Prefix](#123-netmask-dan-prefix).
 
    ```
    netmask  :    255    .    255    .    255    .      0
@@ -683,33 +707,44 @@ Contoh penerapannya, kita akan menggunakan topologi seperti contoh metode Classf
 
 #### 1.3.3 Subnet Calculator
 
-Perhitungan subnet bisa dilakukan secara manual menggunakan pohon seperti pada contoh VLSM di atas. Hasil perhitungan manual tersebut bisa dicek menggunakan **subnet calculator** online, contohnya:
+Perhitungan subnet bisa dilakukan secara manual menggunakan pohon seperti pada contoh VLSM di atas. Hasil perhitungan manual tersebut bisa dicek menggunakan **subnet calculator** online.
 
-- https://www.calculator.net/ip-subnet-calculator.html
-- https://jodies.de/ipcalc
+Contoh berikut mengecek subnet `192.168.1.64/27` menggunakan dua subnet calculator.
 
-Cara menggunakannya (contoh dengan calculator.net):
+##### calculator.net
 
-1. Masukkan IP Address dan netmask dari subnet yang ingin dicek, misalnya `192.168.1.64/27`. Pilih netmask pada kolom **Subnet**, isi kolom **IP Address**, lalu klik **Calculate**.
+Situs: https://www.calculator.net/ip-subnet-calculator.html
 
-   ![Input subnet calculator](images/subnet-calculator-input.png)
+1. Pilih netmask pada kolom **Subnet**, isi IP Address pada kolom **IP Address**, lalu klik **Calculate**.
+
+   ![Input calculator.net](images/subnet-calculator-calculatornet-input.png)
 
 2. Bandingkan hasilnya dengan perhitungan manual.
 
-   ![Hasil subnet calculator](images/subnet-calculator-result.png)
+   ![Hasil calculator.net](images/subnet-calculator-calculatornet-result.png)
 
-   Istilah yang digunakan subnet calculator sedikit berbeda dengan istilah pada modul ini:
+##### jodies.de
 
-   | Modul ini         | calculator.net       | jodies.de           |
-   | ----------------- | -------------------- | ------------------- |
-   | Network ID        | Network Address      | Network             |
-   | Broadcast Address | Broadcast Address    | Broadcast           |
-   | Available Hosts   | Usable Host IP Range | HostMin - HostMax   |
-   | Netmask           | Subnet Mask          | Netmask             |
+Situs: https://jodies.de/ipcalc
 
-Pada jodies.de, IP Address dan prefix diisi pada kolom **Address** dan **Netmask**. Hasilnya juga ditampilkan dalam bentuk biner. Spasi pada bilangan biner tersebut memisahkan bagian network (kiri) dan bagian host (kanan).
+1. Isi IP Address pada kolom **Address** dan prefix pada kolom **Netmask**, lalu klik **Calculate**.
 
-![Hasil jodies.de](images/subnet-calculator-jodies.png)
+   ![Input jodies.de](images/subnet-calculator-jodies-input.png)
+
+2. Bandingkan hasilnya dengan perhitungan manual.
+
+   ![Hasil jodies.de](images/subnet-calculator-jodies-result.png)
+
+   Selain dalam bentuk desimal, hasilnya juga ditampilkan dalam bentuk biner. Spasi pada bilangan biner tersebut memisahkan bagian network (kiri) dan bagian host (kanan).
+
+Istilah yang digunakan kedua subnet calculator sedikit berbeda dengan istilah pada modul ini:
+
+| Modul ini         | calculator.net       | jodies.de         |
+| ----------------- | -------------------- | ----------------- |
+| Network ID        | Network Address      | Network           |
+| Broadcast Address | Broadcast Address    | Broadcast         |
+| Available Hosts   | Usable Host IP Range | HostMin - HostMax |
+| Netmask           | Subnet Mask          | Netmask           |
 
 ### 1.4 Supernetting
 
@@ -981,7 +1016,9 @@ Penulisan perintah di MikroTik bisa dilengkapi otomatis dengan menekan tombol `T
 
    ![Output /ip route print](images/implementasi-ip-route-print.png)
 
-   Route dengan flag `DAc` menunjukkan subnet yang terhubung langsung (_connected_) ke Foosha. Route `0.0.0.0/0` dengan flag `DAd` adalah default route yang didapat dari DHCP client, sehingga paket menuju internet diteruskan ke NAT1 (`192.168.122.1`).
+   Route dengan flag `DAc` menunjukkan subnet yang terhubung langsung (_connected_) ke Foosha.
+
+   Route `0.0.0.0/0` dengan flag `DAd` adalah **default route**, yaitu route yang dipakai untuk semua IP tujuan yang tidak cocok dengan route lain, sama seperti default gateway pada Modul 3. Route ini didapat dari DHCP client, sehingga paket menuju internet diteruskan ke NAT1 (`192.168.122.1`).
 
 #### 1.5.3 Alabasta
 
@@ -994,6 +1031,8 @@ iface eth0 inet static
 	netmask 255.255.255.192
 	gateway 192.168.1.1
 ```
+
+![Edit config Alabasta](images/implementasi-alabasta-edit-config.png)
 
 Cek IP Address yang terpasang pada baris `inet`:
 
@@ -1015,6 +1054,8 @@ iface eth0 inet static
 	gateway 192.168.1.65
 ```
 
+![Edit config Jipangu](images/implementasi-jipangu-edit-config.png)
+
 Cek IP Address yang terpasang pada baris `inet`:
 
 ```
@@ -1034,6 +1075,8 @@ iface eth0 inet static
 	netmask 255.255.255.240
 	gateway 192.168.1.97
 ```
+
+![Edit config Loguetown](images/implementasi-loguetown-edit-config.png)
 
 Cek IP Address yang terpasang pada baris `inet`:
 
@@ -1062,7 +1105,7 @@ ip a show eth0
 
    ![Ping dari Alabasta ke Jipangu dan Loguetown](images/implementasi-alabasta-ping-lan.png)
 
-   Ping berhasil karena paket dikirim ke gateway (Foosha), dan Foosha mengetahui cara meraih semua subnet yang terhubung langsung dengannya. Perhatikan nilai `ttl=63` pada balasannya. Nilai ini lebih kecil 1 dibanding ping ke gateway (`ttl=64`) karena paket balasan melewati satu router, yaitu Foosha.
+   Ping berhasil karena paket dikirim ke gateway (Foosha), dan Foosha mengetahui cara meraih semua subnet yang terhubung langsung dengannya.
 
 3. Dari **Foosha**, lakukan ping ke semua client:
 
@@ -1083,3 +1126,578 @@ ip a show eth0
    ![Ping dari Alabasta ke internet](images/implementasi-alabasta-ping-internet.png)
 
    Ping gagal (`100% packet loss`). Client belum bisa mengakses internet walaupun Foosha sudah terhubung ke NAT1. Agar client bisa mengakses internet, diperlukan konfigurasi NAT tambahan di Foosha.
+
+## 2. Static Routing (Lanjutan)
+
+Pada Modul 3, static routing sudah dikonfigurasi di Linux menggunakan `ip route add` pada topologi dengan sedikit router. Pada bab ini, static routing diterapkan di MikroTik pada topologi yang lebih besar, sehingga paket harus melewati beberapa router sebelum sampai ke tujuan.
+
+### 2.1 Multi-hop Routing
+
+**Multi-hop routing** adalah pengiriman paket yang melewati lebih dari satu router sebelum sampai ke tujuan.
+
+Setiap router tidak mengetahui seluruh jalur menuju tujuan. Router hanya mencocokkan IP tujuan paket dengan routing table, lalu meneruskan paket ke router berikutnya (_next hop_). Langkah ini diulang oleh setiap router yang dilewati (_hop-by-hop_).
+
+Contohnya, paket dari PC1 (LAN Water7) menuju PC4 (LAN Alabasta) melewati lima router:
+
+![Jalur multi-hop dari PC1 ke PC4](images/static-routing-multihop.png)
+
+Angka 1 sampai 5 menunjukkan urutan router yang dilewati paket. Switch tidak dihitung sebagai hop karena switch hanya meneruskan paket di dalam LAN, bukan melakukan routing.
+
+Ada dua hal yang perlu diperhatikan agar komunikasi berhasil:
+
+- **Rute pergi dan rute pulang**: router di jalur pergi harus tahu cara meraih subnet tujuan, dan router di jalur pulang harus tahu cara meraih subnet asal. Jika salah satunya tidak ada, ping tetap gagal walaupun paket sudah sampai ke tujuan.
+- **Default route**: router di ujung topologi, seperti Water7 dan Alabasta, hanya memiliki satu jalan keluar. Router seperti ini cukup diberi satu default route (`0.0.0.0/0`) ke router di atasnya.
+
+Dengan aturan tersebut, route yang dibutuhkan setiap router adalah sebagai berikut:
+
+| Router   | Subnet tujuan        | Next hop |
+| -------- | -------------------- | -------- |
+| Foosha   | A1, A2, A3           | Pucci    |
+| Foosha   | A6, A7, A8           | Guanhao  |
+| Foosha   | Default (internet)   | NAT1     |
+| Pucci    | A1                   | Water7   |
+| Pucci    | Default              | Foosha   |
+| Water7   | Default              | Pucci    |
+| Guanhao  | A7, A8               | Alabasta |
+| Guanhao  | Default              | Foosha   |
+| Alabasta | Default              | Guanhao  |
+
+Subnet yang terhubung langsung ke sebuah router tidak perlu ditambahkan, karena router sudah mengetahuinya secara otomatis.
+
+### 2.2 Route Summarization dan Longest Prefix Match
+
+#### 2.2.1 Route Summarization
+
+**Route summarization** adalah teknik menggabungkan beberapa route menjadi satu route yang mencakup semua subnet tersebut. Caranya sama dengan supernetting: subnet yang berurutan digabung menjadi satu blok dengan prefix yang lebih pendek.
+
+Pada tabel di atas, Foosha membutuhkan 6 route. Padahal, subnet di belakang Pucci (A1, A2, A3) sudah tergabung dalam D1, dan subnet di belakang Guanhao (A6, A7, A8) sudah tergabung dalam D2.
+
+![Penggabungan menjadi D1 dan D2](images/supernetting-4.png)
+
+Routing table Foosha sebelum summarization:
+
+| Subnet tujuan             | Next hop |
+| ------------------------- | -------- |
+| `192.168.0.0/25` (A1)     | Pucci    |
+| `192.168.0.128/30` (A2)   | Pucci    |
+| `192.168.1.0/26` (A3)     | Pucci    |
+| `192.168.4.64/30` (A6)    | Guanhao  |
+| `192.168.4.32/28` (A7)    | Guanhao  |
+| `192.168.4.0/27` (A8)     | Guanhao  |
+
+Routing table Foosha sesudah summarization:
+
+| Subnet tujuan           | Next hop |
+| ----------------------- | -------- |
+| `192.168.0.0/22` (D1)   | Pucci    |
+| `192.168.4.0/24` (D2)   | Guanhao  |
+
+Manfaat route summarization:
+
+- Routing table lebih kecil, sehingga lebih mudah dibaca dan diperiksa.
+- Subnet baru di dalam blok yang sama tidak perlu ditambahkan satu per satu ke router lain.
+
+Syarat route summarization:
+
+- Subnet yang digabung harus berurutan dan berada dalam satu blok, seperti hasil supernetting.
+- Semua subnet tersebut harus bisa diraih melalui next hop yang sama.
+
+> Blok hasil summarization bisa mencakup alamat yang belum dipakai. Misalnya, D1 (`192.168.0.0/22`) juga mencakup `192.168.3.0` hingga `192.168.3.255`, padahal tidak ada subnet yang memakai alamat tersebut. Paket menuju alamat ini tetap diteruskan Foosha ke Pucci.
+
+#### 2.2.2 Longest Prefix Match
+
+Sebuah IP tujuan bisa cocok dengan lebih dari satu route. Contohnya, setelah summarization Foosha memiliki route berikut:
+
+| Route              | Keterangan                          |
+| ------------------ | ----------------------------------- |
+| `0.0.0.0/0`        | Default route ke NAT1               |
+| `192.168.4.0/24`   | D2, melalui Guanhao                 |
+| `192.168.4.128/30` | A5, terhubung langsung ke Foosha    |
+
+Untuk memilih route, router menggunakan aturan **longest prefix match**: dari semua route yang cocok, router memilih route dengan prefix paling panjang (paling spesifik).
+
+| IP tujuan                | Route yang cocok | Route yang dipilih                          |
+| ------------------------ | ---------------- | ------------------------------------------- |
+| `192.168.4.130` (Guanhao) | /0, /24, /30     | `192.168.4.128/30`, terhubung langsung      |
+| `192.168.4.34` (PC3)     | /0, /24          | `192.168.4.0/24`, melalui Guanhao           |
+| `8.8.8.8`                | /0               | `0.0.0.0/0`, melalui NAT1                   |
+
+Default route (/0) cocok dengan semua IP tujuan, tetapi selalu kalah dari route lain yang lebih spesifik. Karena itu, default route hanya dipakai jika tidak ada route lain yang cocok.
+
+Jika ada dua route dengan prefix yang sama, MikroTik memilih route dengan nilai `distance` paling kecil.
+
+### 2.3 Routing Loop dan TTL
+
+#### 2.3.1 Routing Loop
+
+**Routing loop** terjadi ketika paket berputar di antara dua router atau lebih tanpa pernah sampai ke tujuan. Setiap router mengira router lainnya adalah jalan menuju tujuan.
+
+![Routing loop antara Foosha dan Guanhao](images/static-routing-loop.png)
+
+Pada gambar di atas, paket dari PC1 menuju PC4 diteruskan Foosha ke Guanhao. Route di Guanhao salah mengarah kembali ke Foosha, sehingga paket berputar di antara keduanya.
+
+Penyebab yang sering terjadi:
+
+- **Gateway yang salah**: Foosha meneruskan paket ke Guanhao, tetapi route di Guanhao justru mengarah kembali ke Foosha.
+- **Summarization dan default route**: Foosha meneruskan paket menuju `192.168.3.10` ke Pucci karena alamat tersebut termasuk D1. Pucci tidak memiliki subnet tersebut, sehingga paket dikembalikan ke Foosha melalui default route.
+
+Paket yang berputar memenuhi link di antara router tersebut. Agar paket tidak berputar selamanya, IPv4 memiliki batas berupa TTL.
+
+#### 2.3.2 TTL dan Traceroute
+
+Field TTL pada [Header IPv4](#header-ipv4) membatasi jumlah router yang boleh dilewati sebuah paket:
+
+1. Pengirim mengisi TTL dengan nilai awal, misalnya `64` pada Linux dan MikroTik.
+2. Setiap router yang meneruskan paket mengurangi TTL sebesar 1.
+3. Jika TTL mencapai `0`, router membuang paket dan mengirim pesan ICMP Time Exceeded ke pengirim.
+
+Contohnya, saat PC1 melakukan ping ke Water7 (gateway-nya), balasan dari Water7 memiliki `ttl=64` karena tidak melewati router lain. Saat PC1 melakukan ping ke PC4, balasan dari PC4 memiliki `ttl=59` karena melewati lima router, yaitu Alabasta, Guanhao, Foosha, Pucci, dan Water7.
+
+Pada routing loop, TTL terus berkurang hingga `0`, sehingga ping menampilkan pesan `Time to live exceeded`.
+
+Traceroute memanfaatkan TTL untuk mengetahui router yang dilewati paket:
+
+1. Traceroute mengirim paket dengan TTL `1`. Router pertama membuang paket dan membalas Time Exceeded, sehingga alamat router pertama diketahui.
+2. Traceroute mengirim paket dengan TTL `2`, `3`, dan seterusnya. Setiap balasan Time Exceeded menunjukkan router berikutnya.
+3. Proses berhenti ketika paket sampai ke tujuan.
+
+Jika terjadi routing loop, hasil traceroute menampilkan alamat router yang sama secara bergantian dan berulang.
+
+### 2.4 Implementasi
+
+Pada bagian ini, topologi pada [Supernetting](#14-supernetting) dikonfigurasi di GNS3. MikroTik digunakan sebagai router, sedangkan netics-pc digunakan sebagai client.
+
+#### 2.4.1 Topologi dan Pembagian IP
+
+Buat topologi berikut di GNS3:
+
+![Topologi static routing](images/static-routing-topologi.png)
+
+Pembagian IP mengikuti tabel hasil [Supernetting](#14-supernetting). Interface `ether1` setiap router selalu mengarah ke NAT1.
+
+| Node     | Interface | Terhubung ke  | Subnet | IP Address         |
+| -------- | --------- | ------------- | ------ | ------------------ |
+| Foosha   | `ether1`  | NAT1          | -      | DHCP               |
+| Foosha   | `ether2`  | Pucci         | A4     | `192.168.2.1/30`   |
+| Foosha   | `ether3`  | Guanhao       | A5     | `192.168.4.129/30` |
+| Pucci    | `ether1`  | Foosha        | A4     | `192.168.2.2/30`   |
+| Pucci    | `ether2`  | Water7        | A2     | `192.168.0.129/30` |
+| Pucci    | `ether3`  | Switch1 (PC2) | A3     | `192.168.1.1/26`   |
+| Water7   | `ether1`  | Pucci         | A2     | `192.168.0.130/30` |
+| Water7   | `ether2`  | Switch0 (PC1) | A1     | `192.168.0.1/25`   |
+| Guanhao  | `ether1`  | Foosha        | A5     | `192.168.4.130/30` |
+| Guanhao  | `ether2`  | Alabasta      | A6     | `192.168.4.65/30`  |
+| Alabasta | `ether1`  | Guanhao       | A6     | `192.168.4.66/30`  |
+| Alabasta | `ether2`  | Switch2 (PC3) | A7     | `192.168.4.33/28`  |
+| Alabasta | `ether3`  | Switch3 (PC4) | A8     | `192.168.4.1/27`   |
+
+| Node | Subnet | IP Address     | Netmask           | Gateway        |
+| ---- | ------ | -------------- | ----------------- | -------------- |
+| PC1  | A1     | `192.168.0.2`  | `255.255.255.128` | `192.168.0.1`  |
+| PC2  | A3     | `192.168.1.2`  | `255.255.255.192` | `192.168.1.1`  |
+| PC3  | A7     | `192.168.4.34` | `255.255.255.240` | `192.168.4.33` |
+| PC4  | A8     | `192.168.4.2`  | `255.255.255.224` | `192.168.4.1`  |
+
+Konfigurasi setiap router dilakukan melalui console, setelah login seperti pada [Instalasi MikroTik-CHR di GNS3](#0-instalasi-mikrotik-chr-di-gns3).
+
+> Pada Pucci, Water7, Guanhao, dan Alabasta, DHCP client bawaan di `ether1` tidak dipakai karena `ether1` terhubung ke router lain, bukan ke NAT1. Hapus dengan `/ip dhcp-client remove [find interface=ether1]`.
+
+#### 2.4.2 Foosha
+
+Foosha sudah mendapatkan IP dan default route dari NAT1 melalui DHCP client di `ether1`, seperti pada [Foosha](#152-foosha) bab 1.
+
+1. Ganti identity dan tambahkan IP Address:
+
+   ```
+   /system identity set name=Foosha
+   /ip address add address=192.168.2.1/30 interface=ether2 comment=A4
+   /ip address add address=192.168.4.129/30 interface=ether3 comment=A5
+   ```
+
+2. Tambahkan route ke subnet di belakang Pucci dan Guanhao:
+
+   ```
+   /ip route add dst-address=192.168.0.0/25 gateway=192.168.2.2 comment=A1
+   /ip route add dst-address=192.168.0.128/30 gateway=192.168.2.2 comment=A2
+   /ip route add dst-address=192.168.1.0/26 gateway=192.168.2.2 comment=A3
+   /ip route add dst-address=192.168.4.64/30 gateway=192.168.4.130 comment=A6
+   /ip route add dst-address=192.168.4.32/28 gateway=192.168.4.130 comment=A7
+   /ip route add dst-address=192.168.4.0/27 gateway=192.168.4.130 comment=A8
+   ```
+
+   `dst-address` adalah subnet tujuan, sedangkan `gateway` adalah IP next hop, yaitu IP router tetangga pada subnet yang terhubung langsung dengan Foosha.
+
+3. Tambahkan NAT agar subnet di belakang Foosha bisa mengakses internet:
+
+   ```
+   /ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade
+   ```
+
+   Aturan ini mengganti IP pengirim dengan IP `ether1` Foosha setiap kali paket keluar menuju NAT1, sehingga balasan dari internet bisa kembali. Ini adalah konfigurasi NAT tambahan yang disebut pada [Pengujian](#156-pengujian) bab 1.
+
+4. Cek routing table:
+
+   ```
+   /ip route print
+   ```
+
+   ![Output /ip route print di Foosha](images/static-routing-foosha-route-print.png)
+
+   Route yang ditambahkan secara manual memiliki flag `s` (_static_). Flag `A` (_active_) menandakan route tersebut sedang digunakan.
+
+#### 2.4.3 Pucci
+
+1. Ganti identity dan tambahkan IP Address:
+
+   ```
+   /system identity set name=Pucci
+   /ip address add address=192.168.2.2/30 interface=ether1 comment=A4
+   /ip address add address=192.168.0.129/30 interface=ether2 comment=A2
+   /ip address add address=192.168.1.1/26 interface=ether3 comment=A3
+   ```
+
+2. Tambahkan default route ke Foosha dan route ke A1 melalui Water7:
+
+   ```
+   /ip route add dst-address=0.0.0.0/0 gateway=192.168.2.1
+   /ip route add dst-address=192.168.0.0/25 gateway=192.168.0.130 comment=A1
+   ```
+
+3. Pucci tidak mendapatkan DNS server dari DHCP. Atur DNS server secara manual, lalu cek hasilnya:
+
+   ```
+   /ip dns set servers=8.8.8.8
+   /ip dns print
+   ```
+
+   ![Output /ip dns print di Pucci](images/static-routing-pucci-dns-print.png)
+
+   Baris `servers` menampilkan DNS server yang baru diatur.
+
+#### 2.4.4 Water7
+
+1. Ganti identity dan tambahkan IP Address:
+
+   ```
+   /system identity set name=Water7
+   /ip address add address=192.168.0.130/30 interface=ether1 comment=A2
+   /ip address add address=192.168.0.1/25 interface=ether2 comment=A1
+   ```
+
+2. Water7 hanya memiliki satu jalan keluar, yaitu Pucci, sehingga cukup satu default route:
+
+   ```
+   /ip route add dst-address=0.0.0.0/0 gateway=192.168.0.129
+   ```
+
+3. Atur DNS server:
+
+   ```
+   /ip dns set servers=8.8.8.8
+   ```
+
+#### 2.4.5 Guanhao
+
+1. Ganti identity dan tambahkan IP Address:
+
+   ```
+   /system identity set name=Guanhao
+   /ip address add address=192.168.4.130/30 interface=ether1 comment=A5
+   /ip address add address=192.168.4.65/30 interface=ether2 comment=A6
+   ```
+
+2. Tambahkan default route ke Foosha dan route ke A7 dan A8 melalui Alabasta:
+
+   ```
+   /ip route add dst-address=0.0.0.0/0 gateway=192.168.4.129
+   /ip route add dst-address=192.168.4.32/28 gateway=192.168.4.66 comment=A7
+   /ip route add dst-address=192.168.4.0/27 gateway=192.168.4.66 comment=A8
+   ```
+
+3. Atur DNS server:
+
+   ```
+   /ip dns set servers=8.8.8.8
+   ```
+
+#### 2.4.6 Alabasta
+
+1. Ganti identity dan tambahkan IP Address:
+
+   ```
+   /system identity set name=Alabasta
+   /ip address add address=192.168.4.66/30 interface=ether1 comment=A6
+   /ip address add address=192.168.4.33/28 interface=ether2 comment=A7
+   /ip address add address=192.168.4.1/27 interface=ether3 comment=A8
+   ```
+
+2. Alabasta hanya memiliki satu jalan keluar, yaitu Guanhao, sehingga cukup satu default route:
+
+   ```
+   /ip route add dst-address=0.0.0.0/0 gateway=192.168.4.65
+   ```
+
+3. Atur DNS server:
+
+   ```
+   /ip dns set servers=8.8.8.8
+   ```
+
+#### 2.4.7 PC1
+
+Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
+
+```
+auto eth0
+iface eth0 inet static
+	address 192.168.0.2
+	netmask 255.255.255.128
+	gateway 192.168.0.1
+	up echo nameserver 8.8.8.8 > /etc/resolv.conf
+```
+
+![Edit config PC1](images/static-routing-pc1-edit-config.png)
+
+#### 2.4.8 PC2
+
+Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
+
+```
+auto eth0
+iface eth0 inet static
+	address 192.168.1.2
+	netmask 255.255.255.192
+	gateway 192.168.1.1
+	up echo nameserver 8.8.8.8 > /etc/resolv.conf
+```
+
+![Edit config PC2](images/static-routing-pc2-edit-config.png)
+
+#### 2.4.9 PC3
+
+Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
+
+```
+auto eth0
+iface eth0 inet static
+	address 192.168.4.34
+	netmask 255.255.255.240
+	gateway 192.168.4.33
+	up echo nameserver 8.8.8.8 > /etc/resolv.conf
+```
+
+![Edit config PC3](images/static-routing-pc3-edit-config.png)
+
+#### 2.4.10 PC4
+
+Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
+
+```
+auto eth0
+iface eth0 inet static
+	address 192.168.4.2
+	netmask 255.255.255.224
+	gateway 192.168.4.1
+	up echo nameserver 8.8.8.8 > /etc/resolv.conf
+```
+
+![Edit config PC4](images/static-routing-pc4-edit-config.png)
+
+#### 2.4.11 Pengujian Multi-hop
+
+1. Dari **PC1**, lakukan ping ke gateway-nya (Water7):
+
+   ```
+   ping -c 4 192.168.0.1
+   ```
+
+   ![Ping dari PC1 ke gateway](images/static-routing-pc1-ping-gw.png)
+
+   Balasan dari Water7 memiliki `ttl=64` karena tidak melewati router lain.
+
+2. Dari **PC1**, lakukan ping ke PC4:
+
+   ```
+   ping -c 4 192.168.4.2
+   ```
+
+   ![Ping dari PC1 ke PC4](images/static-routing-pc1-ping-pc4.png)
+
+   Balasan dari PC4 melewati lima router, sehingga TTL-nya berkurang dari `64` menjadi `ttl=59`.
+
+3. Dari **PC1**, lihat jalur yang dilewati paket:
+
+   ```
+   traceroute 192.168.4.2
+   ```
+
+   ![Traceroute dari PC1 ke PC4](images/static-routing-pc1-traceroute-pc4.png)
+
+   Hasilnya menampilkan lima router sebelum sampai ke PC4, yaitu Water7 (`192.168.0.1`), Pucci (`192.168.0.129`), Foosha (`192.168.2.1`), Guanhao (`192.168.4.130`), dan Alabasta (`192.168.4.66`).
+
+4. Dari **Water7**, lakukan hal yang sama menggunakan perintah MikroTik:
+
+   ```
+   /ping 192.168.4.2 count=4
+   ```
+
+   ![Ping dari Water7 ke PC4](images/static-routing-water7-ping-pc4.png)
+
+   ```
+   /tool traceroute 192.168.4.2
+   ```
+
+   ![Traceroute dari Water7 ke PC4](images/static-routing-water7-traceroute-pc4.png)
+
+   Traceroute di MikroTik terus berjalan dan memperbarui hasilnya. Tekan `Q` untuk menghentikannya.
+
+5. Uji koneksi internet dari router dan client yang paling jauh dari NAT1:
+
+   - Dari **Alabasta**:
+
+     ```
+     /ping google.com count=4
+     ```
+
+     ![Ping dari Alabasta ke google.com](images/static-routing-alabasta-ping-google.png)
+
+   - Dari **PC4**:
+
+     ```
+     ping -c 4 google.com
+     ```
+
+     ![Ping dari PC4 ke google.com](images/static-routing-pc4-ping-google.png)
+
+#### 2.4.12 Route Summarization
+
+1. Di **Foosha**, hapus semua route yang melalui Pucci dan Guanhao:
+
+   ```
+   /ip route remove [find gateway=192.168.2.2]
+   /ip route remove [find gateway=192.168.4.130]
+   ```
+
+   `[find ...]` mencari route yang sesuai dengan kriteria, lalu hasilnya diberikan ke perintah `remove`.
+
+2. Di **Foosha**, tambahkan dua route hasil summarization:
+
+   ```
+   /ip route add dst-address=192.168.0.0/22 gateway=192.168.2.2 comment=D1
+   /ip route add dst-address=192.168.4.0/24 gateway=192.168.4.130 comment=D2
+   ```
+
+3. Di **Guanhao**, gabungkan route A7 dan A8 menjadi B2 (`192.168.4.0/26`):
+
+   ```
+   /ip route remove [find gateway=192.168.4.66]
+   /ip route add dst-address=192.168.4.0/26 gateway=192.168.4.66 comment=B2
+   ```
+
+4. Di **Foosha**, cek kembali routing table:
+
+   ```
+   /ip route print
+   ```
+
+   ![Routing table Foosha setelah summarization](images/static-routing-foosha-route-print-summary.png)
+
+   Route static di Foosha kini hanya dua, yaitu D1 dan D2. Ulangi ping dari PC1 ke PC4 untuk memastikan semua subnet tetap bisa diraih.
+
+5. Di **Foosha**, tampilkan semua route yang cocok dengan IP Guanhao:
+
+   ```
+   /ip route print where 192.168.4.130 in dst-address
+   ```
+
+   ![Route yang cocok dengan IP Guanhao](images/static-routing-foosha-lpm.png)
+
+   Hasilnya menampilkan tiga route: `0.0.0.0/0`, `192.168.4.0/24`, dan `192.168.4.128/30`. Berdasarkan longest prefix match, Foosha memakai `192.168.4.128/30` karena prefix-nya paling panjang.
+
+#### 2.4.13 Routing Loop dan TTL
+
+Skenario pertama: gateway yang salah.
+
+1. Di **Guanhao**, ubah gateway route B2 ke Foosha untuk menyimulasikan kesalahan konfigurasi:
+
+   ```
+   /ip route set [find comment=B2] gateway=192.168.4.129
+   ```
+
+2. Dari **PC1**, lakukan ping ke PC4:
+
+   ```
+   ping -c 4 192.168.4.2
+   ```
+
+   ![Ping dari PC1 ke PC4 saat terjadi routing loop](images/static-routing-pc1-ping-loop.png)
+
+   Ping gagal dengan pesan `Time to live exceeded`. Paket dari PC1 berputar di antara Foosha dan Guanhao hingga TTL-nya habis di Guanhao (`192.168.4.130`), sehingga Guanhao yang mengirim pesan tersebut.
+
+3. Dari **PC1**, lihat jalur paket:
+
+   ```
+   traceroute 192.168.4.2
+   ```
+
+   ![Traceroute dari PC1 ke PC4 saat terjadi routing loop](images/static-routing-pc1-traceroute-loop.png)
+
+   Mulai hop ke-4, alamat Guanhao (`192.168.4.130`) dan Foosha (`192.168.2.1`) muncul bergantian sampai batas maksimal hop traceroute. Foosha muncul sebagai `192.168.2.1` karena router membalas menggunakan IP interface yang mengarah kembali ke pengirim, yaitu `ether2`.
+
+4. Di **Guanhao**, lihat log yang berkaitan dengan route:
+
+   ```
+   /log print where message~"^route "
+   ```
+
+   ![Log route di Guanhao](images/static-routing-guanhao-log.png)
+
+   Log mencatat setiap perubahan konfigurasi beserta perintahnya. Bagian `where message~"^route "` menyaring log yang diawali kata `route`. Baris terakhir menunjukkan perintah `set` yang mengubah gateway route B2 dan menyebabkan loop.
+
+5. Di **Guanhao**, kembalikan gateway route B2 ke Alabasta, lalu ulangi ping dari PC1:
+
+   ```
+   /ip route set [find comment=B2] gateway=192.168.4.66
+   ```
+
+Skenario kedua: summarization dan default route.
+
+1. Dari **PC1**, lakukan ping ke alamat yang termasuk D1 tetapi tidak dipakai subnet mana pun:
+
+   ```
+   ping -c 4 192.168.3.10
+   ```
+
+   ![Ping dari PC1 ke 192.168.3.10](images/static-routing-pc1-ping-loop-summary.png)
+
+   Ping gagal dengan pesan `Time to live exceeded`. Foosha meneruskan paket ke Pucci karena `192.168.3.10` termasuk D1, lalu Pucci mengembalikannya ke Foosha melalui default route.
+
+2. Di **Pucci**, tambahkan route blackhole untuk seluruh blok D1:
+
+   ```
+   /ip route add dst-address=192.168.0.0/22 blackhole comment=D1-blackhole
+   ```
+
+   Route **blackhole** adalah route yang membuang semua paket yang cocok dengannya. Subnet A1, A2, A3, dan A4 tetap bisa diraih karena route-nya lebih spesifik dari /22. Hanya alamat yang tidak dipakai yang dibuang.
+
+3. Di **Pucci**, cek routing table:
+
+   ```
+   /ip route print
+   ```
+
+   ![Route blackhole di Pucci](images/static-routing-pucci-blackhole.png)
+
+   Route `D1-blackhole` tampil tanpa gateway, karena paket yang cocok dengannya tidak diteruskan ke mana pun.
+
+4. Dari **PC1**, ulangi ping ke `192.168.3.10`:
+
+   ```
+   ping -c 4 192.168.3.10
+   ```
+
+   ![Ping dari PC1 ke 192.168.3.10 setelah blackhole](images/static-routing-pc1-ping-blackhole.png)
+
+   Ping tetap gagal, tetapi tidak ada lagi pesan `Time to live exceeded`. Paket langsung dibuang di Pucci tanpa berputar.
+
+Masalah yang sama bisa terjadi pada D2. Solusinya sama, yaitu menambahkan route blackhole `192.168.4.0/24` di Guanhao.
