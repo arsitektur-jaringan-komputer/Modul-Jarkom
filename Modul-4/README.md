@@ -1,7 +1,3 @@
-
-
-
-
 # Modul 4 Jaringan Komputer
 
 ## Daftar Isi
@@ -114,9 +110,9 @@ MikroTik disini akan menggantikan peran `netics-pc` yang semula menjalankan stat
 sek nunggu raynald
 <!-- https://github.com/user-attachments/assets/85209b75-b72d-4c9e-8a1f-feabd14fb794 -->
 
-<video src="https://github.com/user-attachments/assets/85209b75-b72d-4c9e-8a1f-feabd14fb794" controls width="720"></video>
-
-<video src="./images/mikrotik-mac-video-1.mp4" controls width="720"></video>
+[![▶ Watch MikroTik MAC (ARM64) installation](./images/mikrotik-mac-video-thumbnail-1.png)](./images/mikrotik-mac-video-1.mp4)
+<!-- [](./images/mikrotik-mac-video-1.mp4) -->
+<!-- <video src="./images/mikrotik-mac-video-1.mp4" controls width="720"></video> -->
 
 <!-- 2. Pilih menu **File → New Template**. -->
 <!---->
