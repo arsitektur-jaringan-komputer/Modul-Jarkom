@@ -109,6 +109,8 @@ MikroTik disini akan menggantikan peran `netics-pc` yang semula menjalankan stat
 
 sek nunggu raynald
 
+<video src="./images/mikrotik-mac-video-1.mp4" controls width="720"></video>
+
 <!-- 2. Pilih menu **File → New Template**. -->
 <!---->
 <!--    ![Template](./images/mikrotik-windows-appliance-1.png) -->
