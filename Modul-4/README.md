@@ -112,8 +112,9 @@ MikroTik disini akan menggantikan peran `netics-pc` yang semula menjalankan stat
 1. Download kedua file diatas dan pastikan keduanya berada di direktori yang sama
 
 sek nunggu raynald
+<!-- https://github.com/user-attachments/assets/85209b75-b72d-4c9e-8a1f-feabd14fb794 -->
 
-<video src="https://github.com/user-attachments/assets/be3e91df-801c-4e7b-831b-bad3cdacd5af" controls width="720"></video>
+<video src="https://github.com/user-attachments/assets/85209b75-b72d-4c9e-8a1f-feabd14fb794" controls width="720"></video>
 
 <!-- 2. Pilih menu **File → New Template**. -->
 <!---->
