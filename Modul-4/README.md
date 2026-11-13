@@ -101,44 +101,26 @@ MikroTik disini akan menggantikan peran `netics-pc` yang semula menjalankan stat
 
 ### 0.3 Instalasi di MacOS (GNS3 VM + GNS3 Web UI)
 
-[Download file mikrotik arm .gns3a](https://drive.google.com/file/d/13Neck0VmdecpHNVOlwPO-wrVfcSjSaBB/view?usp=drive_link) 
-    <br>
-[Download file mikrotik arm .img](https://drive.google.com/file/d/1i1rPtBkvkZBEXD9euzd4deNHlh3z2S5M/view?usp=drive_link)
+[Download file mikrotik arm .qcow2](https://drive.google.com/file/d/1LWXCE8xQ3Tj17AtX6222ADaNYxU2IJAs/view?usp=sharing)
+<br>
 
 1. Download kedua file diatas dan pastikan keduanya berada di direktori yang sama
 
-sek nunggu raynald
-<!-- https://github.com/user-attachments/assets/85209b75-b72d-4c9e-8a1f-feabd14fb794 -->
+2. Kemudian copy file .qcow2 kedalam VM GNS3 menggunakan `scp` dengan langkah-langkah berikut (menggunakan terminal dan pastikan VM sudah menyala) :
+
+- Buka terminal di mac, dan ketikkan command berikut, sesuaikan file path qcow2 yang sudah didownload sebelumnya
+```
+scp [FILE PATH QCOW2-NYA] gns3@[IP GNS 3 KALIAN]:/opt/gns3/images/QEMU/
+```    
+
+- Kemudian buka shell di dalam GNS3 VM dan jalankan command dibawah
+```
+sudo chown gns3:gns3 /opt/gns3/images/QEMU/chr-7.24.6-arm64-clean.qcow2
+```
+
+3. Kemudian kalian bisa memfollow tutorial video dibawah untuk setup MikroTik CHR nya
 
 [![▶ Watch MikroTik MAC (ARM64) installation](./images/mikrotik-mac-video-thumbnail-1.png)](./images/mikrotik-mac-video-1.mp4)
-<!-- [](./images/mikrotik-mac-video-1.mp4) -->
-<!-- <video src="./images/mikrotik-mac-video-1.mp4" controls width="720"></video> -->
-
-<!-- 2. Pilih menu **File → New Template**. -->
-<!---->
-<!--    ![Template](./images/mikrotik-windows-appliance-1.png) -->
-<!---->
-<!-- 2. Pilih opsi **Import an appliance file**, lalu pilih file **mikrotik-chr-7.24.6.gns3a** yang sudah di downlaod sebelumnya.  -->
-<!---->
-<!--    ![Appliance](./images/mikrotik-windows-appliance-2.png) -->
-<!---->
-<!-- 3. Pilih opsi **Install appliance on a remote server**. -->
-<!---->
-<!--     ![Appliance](./images/mikrotik-windows-appliance-2b.png) -->
-<!---->
-<!--    ![Remote](./images/mikrotik-windows-appliance-3.png) -->
-<!--    ![Remote](./images/mikrotik-windows-appliance-4.png) -->
-<!---->
-<!-- 4. Pastikan sudah membuka project baru atau yang sudah ada, kemudian drag and drop appliance yang baru di install ke GNS -->
-<!--    ![Jika terinstall dengan benar](./images/mikrotik-windows-appliance-5.png) -->
-<!--    ![](./images/mikrotik-windows-appliance-6.png) -->
-<!---->
-<!-- 5. Untuk masuk ke RouterOS, bagi yang menggunakan Windows/Linux, Username nya adalah `admin` dan password diisi blank (tekan enter saat ada prompt password) -->
-<!--    ![](./images/mikrotik-windows-appliance-6.png) -->
-<!--    ![](./images/mikrotik-windows-appliance-7.png) -->
-<!---->
-<!-- 6. Untuk mematikan node MikroTik, perintah yang digunakan dan direkomendasikan adalah menjalankan `/system shutdown` di terminal RouterOS dan menekan tombol `y` -->
-<!--    ![](./images/mikrotik-windows-appliance-8.png) -->
 
 ### 0.4 Membuat Topologi Sederhana
 
