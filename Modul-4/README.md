@@ -17,8 +17,6 @@
     - [0.5.4 Cara Export Konfigurasi Ke luar GNS3 menggunakan SFTP](#054-cara-export-konfigurasi-ke-luar-gns3-menggunakan-sftp)
 - [1. Subnetting](#1-subnetting)
   - [1.1 Pengenalan Subnetting](#11-pengenalan-subnetting)
-    - [1.1.1 Apa itu Subnetting?](#111-apa-itu-subnetting)
-    - [1.1.2 Mengapa Perlu Subnetting?](#112-mengapa-perlu-subnetting)
   - [1.2 Mengenal IP Address](#12-mengenal-ip-address)
     - [1.2.1 Apa yang Bisa Diketahui?](#121-apa-yang-bisa-diketahui)
     - [1.2.2 IPv4](#122-ipv4)
@@ -31,12 +29,6 @@
     - [1.3.3 Subnet Calculator](#133-subnet-calculator)
   - [1.4 Supernetting](#14-supernetting)
   - [1.5 Implementasi](#15-implementasi)
-    - [1.5.1 Topologi dan Perhitungan](#151-topologi-dan-perhitungan)
-    - [1.5.2 Foosha](#152-foosha)
-    - [1.5.3 Alabasta](#153-alabasta)
-    - [1.5.4 Jipangu](#154-jipangu)
-    - [1.5.5 Loguetown](#155-loguetown)
-    - [1.5.6 Pengujian](#156-pengujian)
 - [2. Static Routing (Lanjutan)](#2-static-routing-lanjutan)
   - [2.1 Multi-hop Routing](#21-multi-hop-routing)
   - [2.2 Route Summarization dan Longest Prefix Match](#22-route-summarization-dan-longest-prefix-match)
@@ -46,23 +38,8 @@
     - [2.3.1 Routing Loop](#231-routing-loop)
     - [2.3.2 TTL dan Traceroute](#232-ttl-dan-traceroute)
   - [2.4 Implementasi](#24-implementasi)
-    - [2.4.1 Topologi dan Pembagian IP](#241-topologi-dan-pembagian-ip)
-    - [2.4.2 Foosha](#242-foosha)
-    - [2.4.3 Pucci](#243-pucci)
-    - [2.4.4 Water7](#244-water7)
-    - [2.4.5 Guanhao](#245-guanhao)
-    - [2.4.6 Alabasta](#246-alabasta)
-    - [2.4.7 PC1](#247-pc1)
-    - [2.4.8 PC2](#248-pc2)
-    - [2.4.9 PC3](#249-pc3)
-    - [2.4.10 PC4](#2410-pc4)
-    - [2.4.11 Pengujian Multi-hop](#2411-pengujian-multi-hop)
-    - [2.4.12 Route Summarization](#2412-route-summarization)
-    - [2.4.13 Routing Loop dan TTL](#2413-routing-loop-dan-ttl)
 - [3. Dynamic Routing](#3-dynamic-routing)
   - [3.1 Pengenalan Dynamic Routing](#31-pengenalan-dynamic-routing)
-    - [3.1.1 Definisi](#311-definisi)
-    - [3.1.2 Tujuan](#312-tujuan)
   - [3.2 Pembagian Routing Protocol](#32-pembagian-routing-protocol)
     - [3.2.1 Berdasarkan Algoritma](#321-berdasarkan-algoritma)
     - [3.2.2 Berdasarkan Wilayah](#322-berdasarkan-wilayah)
@@ -72,15 +49,6 @@
   - [3.4 Redundancy dan Failover](#34-redundancy-dan-failover)
   - [3.5 Routing Convergence](#35-routing-convergence)
   - [3.6 Implementasi](#36-implementasi)
-    - [3.6.1 Topologi dan Pembagian IP](#361-topologi-dan-pembagian-ip)
-    - [3.6.2 Persiapan](#362-persiapan)
-    - [3.6.3 Konfigurasi RIP](#363-konfigurasi-rip)
-    - [3.6.4 Pengujian RIP](#364-pengujian-rip)
-    - [3.6.5 Default Route pada RIP](#365-default-route-pada-rip)
-    - [3.6.6 Redundancy dan Failover pada RIP](#366-redundancy-dan-failover-pada-rip)
-    - [3.6.7 Konfigurasi OSPF](#367-konfigurasi-ospf)
-    - [3.6.8 Pengujian OSPF](#368-pengujian-ospf)
-    - [3.6.9 Failover pada OSPF](#369-failover-pada-ospf)
 
 ## 0. Instalasi MikroTik-CHR di GNS3
 
@@ -1067,7 +1035,7 @@ Jika kalian menggunakan supernetting, blok IP yang dibutuhkan akan menjadi lebih
 
 Pada bagian ini, hasil perhitungan subnet akan diterapkan di GNS3. MikroTik digunakan sebagai router, sedangkan netics-pc digunakan sebagai client.
 
-#### 1.5.1 Topologi dan Perhitungan
+#### Topologi dan Perhitungan
 
 Buat topologi berikut di GNS3:
 
@@ -1131,7 +1099,7 @@ Dari tabel di atas, alamat pertama dari Available Hosts setiap subnet digunakan 
 | Jipangu   | `eth0`    | `192.168.1.66`  | `255.255.255.224` | `192.168.1.65` |
 | Loguetown | `eth0`    | `192.168.1.98`  | `255.255.255.240` | `192.168.1.97` |
 
-#### 1.5.2 Foosha
+#### Foosha
 
 Penulisan perintah di MikroTik bisa dilengkapi otomatis dengan menekan tombol `TAB`.
 
@@ -1193,7 +1161,7 @@ Penulisan perintah di MikroTik bisa dilengkapi otomatis dengan menekan tombol `T
 
    Nilai `received=4` dan `packet-loss=0%` berarti Foosha sudah terhubung ke internet.
 
-6. Tambahkan IP Address untuk setiap interface LAN sesuai tabel pada [Topologi dan Perhitungan](#151-topologi-dan-perhitungan). IP Address ditulis bersama prefix-nya.
+6. Tambahkan IP Address untuk setiap interface LAN sesuai tabel pada [Topologi dan Perhitungan](#topologi-dan-perhitungan). IP Address ditulis bersama prefix-nya.
 
    ```
    /ip address add address=192.168.1.1/26 interface=ether2 comment=LAN-A
@@ -1229,7 +1197,9 @@ Penulisan perintah di MikroTik bisa dilengkapi otomatis dengan menekan tombol `T
 
    Route `0.0.0.0/0` dengan flag `DAd` adalah **default route**, yaitu route yang dipakai untuk semua IP tujuan yang tidak cocok dengan route lain, sama seperti default gateway pada Modul 3. Route ini didapat dari DHCP client, sehingga paket menuju internet diteruskan ke NAT1 (`192.168.122.1`).
 
-#### 1.5.3 Alabasta
+> Berbeda dengan router Linux pada Modul 1 dan Modul 3, MikroTik tidak perlu mengaktifkan IP forwarding dengan `sysctl -w net.ipv4.ip_forward=1`, karena sudah aktif secara default (`ip-forward: yes` pada `/ip settings print`). Konfigurasi MikroTik juga langsung tersimpan saat perintah dijalankan, sehingga tetap ada setelah router di-restart tanpa perlu script seperti `/root/init.sh`.
+
+#### Alabasta
 
 Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
 
@@ -1251,7 +1221,7 @@ ip a show eth0
 
 ![Output ip a di Alabasta](images/implementasi-alabasta-ip.png)
 
-#### 1.5.4 Jipangu
+#### Jipangu
 
 Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
 
@@ -1273,7 +1243,7 @@ ip a show eth0
 
 ![Output ip a di Jipangu](images/implementasi-jipangu-ip.png)
 
-#### 1.5.5 Loguetown
+#### Loguetown
 
 Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
 
@@ -1295,7 +1265,7 @@ ip a show eth0
 
 ![Output ip a di Loguetown](images/implementasi-loguetown-ip.png)
 
-#### 1.5.6 Pengujian
+#### Pengujian
 
 1. Dari **Alabasta**, lakukan ping ke gateway-nya:
 
@@ -1476,7 +1446,7 @@ Jika terjadi routing loop, hasil traceroute menampilkan alamat router yang sama 
 
 Pada bagian ini, topologi pada [Supernetting](#14-supernetting) dikonfigurasi di GNS3. MikroTik digunakan sebagai router, sedangkan netics-pc digunakan sebagai client.
 
-#### 2.4.1 Topologi dan Pembagian IP
+#### Topologi dan Pembagian IP
 
 Buat topologi berikut di GNS3:
 
@@ -1491,7 +1461,7 @@ Pembagian IP mengikuti tabel hasil [Supernetting](#14-supernetting). Interface `
 | Foosha   | `ether3`  | Guanhao       | A5     | `192.168.4.129/30` |
 | Pucci    | `ether1`  | Foosha        | A4     | `192.168.2.2/30`   |
 | Pucci    | `ether2`  | Water7        | A2     | `192.168.0.129/30` |
-| Pucci    | `ether3`  | Switch1 (PC2) | A3     | `192.168.1.1/26`   |
+| Pucci    | `ether3`  | Switch1 (PC2, EniesLobby) | A3     | `192.168.1.1/26`   |
 | Water7   | `ether1`  | Pucci         | A2     | `192.168.0.130/30` |
 | Water7   | `ether2`  | Switch0 (PC1) | A1     | `192.168.0.1/25`   |
 | Guanhao  | `ether1`  | Foosha        | A5     | `192.168.4.130/30` |
@@ -1500,20 +1470,23 @@ Pembagian IP mengikuti tabel hasil [Supernetting](#14-supernetting). Interface `
 | Alabasta | `ether2`  | Switch2 (PC3) | A7     | `192.168.4.33/28`  |
 | Alabasta | `ether3`  | Switch3 (PC4) | A8     | `192.168.4.1/27`   |
 
-| Node | Subnet | IP Address     | Netmask           | Gateway        |
-| ---- | ------ | -------------- | ----------------- | -------------- |
-| PC1  | A1     | `192.168.0.2`  | `255.255.255.128` | `192.168.0.1`  |
-| PC2  | A3     | `192.168.1.2`  | `255.255.255.192` | `192.168.1.1`  |
-| PC3  | A7     | `192.168.4.34` | `255.255.255.240` | `192.168.4.33` |
-| PC4  | A8     | `192.168.4.2`  | `255.255.255.224` | `192.168.4.1`  |
+EniesLobby adalah DHCP Server dengan IP statis. PC1 sampai PC4 mendapatkan IP Address dari EniesLobby melalui DHCP, dengan rentang (_pool_) berikut:
+
+| Node       | Subnet | IP Address                               | Gateway        | DHCP Relay |
+| ---------- | ------ | ---------------------------------------- | -------------- | ---------- |
+| EniesLobby | A3     | `192.168.1.2/26` (statis)                | `192.168.1.1`  | -          |
+| PC1        | A1     | DHCP, `192.168.0.2` - `192.168.0.126`   | `192.168.0.1`  | Water7     |
+| PC2        | A3     | DHCP, `192.168.1.3` - `192.168.1.62`    | `192.168.1.1`  | -          |
+| PC3        | A7     | DHCP, `192.168.4.34` - `192.168.4.46`   | `192.168.4.33` | Alabasta   |
+| PC4        | A8     | DHCP, `192.168.4.2` - `192.168.4.30`    | `192.168.4.1`  | Alabasta   |
 
 Konfigurasi setiap router dilakukan melalui console, setelah login seperti pada [Instalasi MikroTik-CHR di GNS3](#0-instalasi-mikrotik-chr-di-gns3).
 
 > Pada Pucci, Water7, Guanhao, dan Alabasta, DHCP client bawaan di `ether1` tidak dipakai karena `ether1` terhubung ke router lain, bukan ke NAT1. Hapus dengan `/ip dhcp-client remove [find interface=ether1]`.
 
-#### 2.4.2 Foosha
+#### Foosha
 
-Foosha sudah mendapatkan IP dan default route dari NAT1 melalui DHCP client di `ether1`, seperti pada [Foosha](#152-foosha) bab 1.
+Foosha sudah mendapatkan IP dan default route dari NAT1 melalui DHCP client di `ether1`, seperti pada [Foosha](#foosha) bab 1.
 
 1. Ganti identity dan tambahkan IP Address:
 
@@ -1542,7 +1515,7 @@ Foosha sudah mendapatkan IP dan default route dari NAT1 melalui DHCP client di `
    /ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade
    ```
 
-   Aturan ini mengganti IP pengirim dengan IP `ether1` Foosha setiap kali paket keluar menuju NAT1, sehingga balasan dari internet bisa kembali. Ini adalah konfigurasi NAT tambahan yang disebut pada [Pengujian](#156-pengujian) bab 1.
+   Aturan ini mengganti IP pengirim dengan IP `ether1` Foosha setiap kali paket keluar menuju NAT1, sehingga balasan dari internet bisa kembali. Ini adalah konfigurasi NAT tambahan yang disebut pada [Pengujian](#pengujian) bab 1.
 
 4. Cek routing table:
 
@@ -1554,7 +1527,7 @@ Foosha sudah mendapatkan IP dan default route dari NAT1 melalui DHCP client di `
 
    Route yang ditambahkan secara manual memiliki flag `s` (_static_). Flag `A` (_active_) menandakan route tersebut sedang digunakan.
 
-#### 2.4.3 Pucci
+#### Pucci
 
 1. Ganti identity dan tambahkan IP Address:
 
@@ -1583,7 +1556,7 @@ Foosha sudah mendapatkan IP dan default route dari NAT1 melalui DHCP client di `
 
    Baris `servers` menampilkan DNS server yang baru diatur.
 
-#### 2.4.4 Water7
+#### Water7
 
 1. Ganti identity dan tambahkan IP Address:
 
@@ -1605,7 +1578,7 @@ Foosha sudah mendapatkan IP dan default route dari NAT1 melalui DHCP client di `
    /ip dns set servers=8.8.8.8
    ```
 
-#### 2.4.5 Guanhao
+#### Guanhao
 
 1. Ganti identity dan tambahkan IP Address:
 
@@ -1629,7 +1602,7 @@ Foosha sudah mendapatkan IP dan default route dari NAT1 melalui DHCP client di `
    /ip dns set servers=8.8.8.8
    ```
 
-#### 2.4.6 Alabasta
+#### Alabasta
 
 1. Ganti identity dan tambahkan IP Address:
 
@@ -1652,67 +1625,205 @@ Foosha sudah mendapatkan IP dan default route dari NAT1 melalui DHCP client di `
    /ip dns set servers=8.8.8.8
    ```
 
-#### 2.4.7 PC1
+#### EniesLobby
 
-Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
+EniesLobby adalah netics-pc yang berperan sebagai DHCP Server untuk PC1 sampai PC4. DHCP Server yang dipakai adalah Kea, sama seperti pada [Modul 1](../Modul-1/README.md#27-konfigurasi-dhcp-server-menggunakan-kea-dhcp4).
 
-```
-auto eth0
-iface eth0 inet static
-	address 192.168.0.2
-	netmask 255.255.255.128
-	gateway 192.168.0.1
-	up echo nameserver 8.8.8.8 > /etc/resolv.conf
-```
+1. Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
 
-![Edit config PC1](images/static-routing-pc1-edit-config.png)
+   ```
+   auto eth0
+   iface eth0 inet static
+   	address 192.168.1.2
+   	netmask 255.255.255.192
+   	gateway 192.168.1.1
+   	up echo nameserver 8.8.8.8 > /etc/resolv.conf
+   ```
 
-#### 2.4.8 PC2
+   ![Edit config EniesLobby](images/static-routing-enieslobby-edit-config.png)
 
-Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
+   EniesLobby memakai IP statis karena alamat DHCP Server harus tetap. Alamat ini juga yang nanti dituju oleh DHCP relay.
 
-```
-auto eth0
-iface eth0 inet static
-	address 192.168.1.2
-	netmask 255.255.255.192
-	gateway 192.168.1.1
-	up echo nameserver 8.8.8.8 > /etc/resolv.conf
-```
+2. Di **EniesLobby**, install Kea, lalu cek versinya:
 
-![Edit config PC2](images/static-routing-pc2-edit-config.png)
+   ```
+   apk update
+   apk add kea-dhcp4
+   kea-dhcp4 -V
+   ```
 
-#### 2.4.9 PC3
+   ![Versi Kea di EniesLobby](images/static-routing-enieslobby-kea-version.png)
 
-Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
+   Instalasi membutuhkan akses internet, yang sudah tersedia melalui default route di Pucci dan NAT di Foosha.
 
-```
-auto eth0
-iface eth0 inet static
-	address 192.168.4.34
-	netmask 255.255.255.240
-	gateway 192.168.4.33
-	up echo nameserver 8.8.8.8 > /etc/resolv.conf
-```
+3. Di **EniesLobby**, ganti seluruh isi `/etc/kea/kea-dhcp4.conf` dengan konfigurasi berikut:
 
-![Edit config PC3](images/static-routing-pc3-edit-config.png)
+   ```json
+   {
+     "Dhcp4": {
+       "interfaces-config": {
+         "interfaces": ["eth0"]
+       },
+       "lease-database": {
+         "type": "memfile",
+         "persist": true,
+         "name": "/var/lib/kea/kea-leases4.csv"
+       },
+       "valid-lifetime": 600,
+       "max-valid-lifetime": 7200,
+       "option-data": [
+         { "name": "domain-name-servers", "data": "8.8.8.8" }
+       ],
+       "subnet4": [
+         {
+           "id": 1,
+           "subnet": "192.168.0.0/25",
+           "pools": [ { "pool": "192.168.0.2 - 192.168.0.126" } ],
+           "option-data": [ { "name": "routers", "data": "192.168.0.1" } ]
+         },
+         {
+           "id": 2,
+           "subnet": "192.168.1.0/26",
+           "pools": [ { "pool": "192.168.1.3 - 192.168.1.62" } ],
+           "option-data": [ { "name": "routers", "data": "192.168.1.1" } ]
+         },
+         {
+           "id": 3,
+           "subnet": "192.168.4.32/28",
+           "pools": [ { "pool": "192.168.4.34 - 192.168.4.46" } ],
+           "option-data": [ { "name": "routers", "data": "192.168.4.33" } ]
+         },
+         {
+           "id": 4,
+           "subnet": "192.168.4.0/27",
+           "pools": [ { "pool": "192.168.4.2 - 192.168.4.30" } ],
+           "option-data": [ { "name": "routers", "data": "192.168.4.1" } ]
+         }
+       ]
+     }
+   }
+   ```
 
-#### 2.4.10 PC4
+   - `subnet4` berisi empat subnet client, yaitu A1, A3, A7, dan A8. Kea memilih subnet berdasarkan alamat relay yang meneruskan permintaan, atau berdasarkan interface jika client berada di subnet yang sama (A3).
+   - Setiap pool dimulai dari host kedua, karena host pertama dipakai gateway. Pool A3 dimulai dari `192.168.1.3` karena `192.168.1.2` dipakai EniesLobby.
+   - `routers` adalah gateway untuk masing-masing subnet. `domain-name-servers` ditulis di luar `subnet4`, sehingga berlaku untuk semua subnet.
 
-Atur IP Address melalui **Edit config**, lalu restart node agar konfigurasi diterapkan:
+4. Di **EniesLobby**, cek apakah konfigurasi sudah benar:
 
-```
-auto eth0
-iface eth0 inet static
-	address 192.168.4.2
-	netmask 255.255.255.224
-	gateway 192.168.4.1
-	up echo nameserver 8.8.8.8 > /etc/resolv.conf
-```
+   ```
+   kea-dhcp4 -t /etc/kea/kea-dhcp4.conf
+   ```
 
-![Edit config PC4](images/static-routing-pc4-edit-config.png)
+   ![Hasil pengecekan konfigurasi Kea](images/static-routing-enieslobby-kea-test.png)
 
-#### 2.4.11 Pengujian Multi-hop
+   Keempat subnet muncul pada baris `DHCPSRV_CFGMGR_NEW_SUBNET4` dan tidak ada baris `ERROR`. Baris `WARN` tentang multi-threading adalah hal yang normal.
+
+5. Di **EniesLobby**, jalankan Kea di background:
+
+   ```
+   mkdir -p /var/lib/kea /run/kea
+   kea-dhcp4 -c /etc/kea/kea-dhcp4.conf > /root/kea.log 2>&1 &
+   ```
+
+#### DHCP Relay
+
+PC1, PC3, dan PC4 berada di subnet yang berbeda dengan EniesLobby. Client mengirim permintaan DHCP secara broadcast, sedangkan router tidak meneruskan broadcast ke subnet lain. Karena itu, router yang terhubung ke subnet client harus menjadi **DHCP relay**, yaitu perantara yang meneruskan permintaan client ke DHCP Server.
+
+Konsep DHCP relay sama dengan [DHCP Relay](../Modul-1/README.md#dhcp-relay) pada Modul 1. Bedanya, MikroTik sudah memiliki DHCP relay bawaan, sehingga tidak perlu menginstal `dhcp-helper` dan mengaktifkan IP forwarding.
+
+Parameter yang dipakai:
+
+| Parameter      | Fungsi                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------ |
+| `name`         | Nama relay                                                                                                   |
+| `interface`    | Interface yang terhubung ke subnet client. Relay menerima broadcast DHCP dari interface ini                  |
+| `dhcp-server`  | IP Address DHCP Server, yaitu EniesLobby (`192.168.1.2`)                                                     |
+| `local-address`| IP Address router pada subnet client. Kea memakai alamat ini untuk memilih subnet, lalu mengirim balasan ke alamat ini |
+| `disabled=no`  | Mengaktifkan relay, karena relay baru dibuat dalam keadaan nonaktif                                          |
+
+1. Di **Water7**, tambahkan relay untuk A1, lalu cek hasilnya:
+
+   ```
+   /ip dhcp-relay add name=relay-A1 interface=ether2 dhcp-server=192.168.1.2 local-address=192.168.0.1 disabled=no
+   /ip dhcp-relay print
+   ```
+
+   ![DHCP relay di Water7](images/static-routing-water7-dhcp-relay.png)
+
+   Tanpa `disabled=no`, relay muncul dengan flag `X` (_disabled_) dan tidak meneruskan permintaan apa pun.
+
+2. Di **Alabasta**, tambahkan relay untuk A7 dan A8, lalu cek hasilnya:
+
+   ```
+   /ip dhcp-relay add name=relay-A7 interface=ether2 dhcp-server=192.168.1.2 local-address=192.168.4.33 disabled=no
+   /ip dhcp-relay add name=relay-A8 interface=ether3 dhcp-server=192.168.1.2 local-address=192.168.4.1 disabled=no
+   /ip dhcp-relay print
+   ```
+
+   ![DHCP relay di Alabasta](images/static-routing-alabasta-dhcp-relay.png)
+
+   Alabasta membutuhkan dua relay karena terhubung ke dua subnet client.
+
+Pucci tidak memerlukan relay, karena PC2 berada di subnet yang sama dengan EniesLobby.
+
+> Balasan EniesLobby dikirim ke `local-address` relay, sehingga EniesLobby harus memiliki jalur ke A1, A7, dan A8. Jalur ini sudah tersedia dari static route yang dibuat sebelumnya. Jika route tersebut belum ada, balasan dari EniesLobby tidak akan sampai ke client.
+
+#### PC1 sampai PC4
+
+1. Atur **PC1**, **PC2**, **PC3**, dan **PC4** melalui **Edit config** dengan konfigurasi yang sama, lalu restart node agar konfigurasi diterapkan:
+
+   ```
+   auto eth0
+   iface eth0 inet dhcp
+   ```
+
+   ![Edit config PC1](images/static-routing-pc1-edit-config.png)
+
+   `inet dhcp` membuat PC meminta IP Address, gateway, dan DNS server ke DHCP Server saat node dinyalakan.
+
+2. Di setiap PC, cek IP Address dan gateway yang didapatkan:
+
+   ```
+   ip -4 addr show eth0
+   ip route
+   ```
+
+   - **PC1**:
+
+     ![IP Address PC1 dari DHCP](images/static-routing-pc1-dhcp.png)
+
+   - **PC2**:
+
+     ![IP Address PC2 dari DHCP](images/static-routing-pc2-dhcp.png)
+
+   - **PC3**:
+
+     ![IP Address PC3 dari DHCP](images/static-routing-pc3-dhcp.png)
+
+   - **PC4**:
+
+     ![IP Address PC4 dari DHCP](images/static-routing-pc4-dhcp.png)
+
+   | Node | IP Address        | Gateway        | Didapatkan melalui        |
+   | ---- | ----------------- | -------------- | ------------------------- |
+   | PC1  | `192.168.0.2/25`  | `192.168.0.1`  | Relay `relay-A1` (Water7) |
+   | PC2  | `192.168.1.3/26`  | `192.168.1.1`  | Langsung, tanpa relay     |
+   | PC3  | `192.168.4.34/28` | `192.168.4.33` | Relay `relay-A7` (Alabasta) |
+   | PC4  | `192.168.4.2/27`  | `192.168.4.1`  | Relay `relay-A8` (Alabasta) |
+
+   Pada percobaan ini, setiap PC mendapatkan alamat pertama dari pool subnetnya. Gateway setiap PC juga sesuai dengan `routers` pada subnet tersebut.
+
+3. Di **EniesLobby**, lihat daftar IP Address yang sudah dipinjamkan (_lease_):
+
+   ```
+   cut -d, -f1,2,6 /var/lib/kea/kea-leases4.csv
+   ```
+
+   ![Daftar lease di EniesLobby](images/static-routing-enieslobby-leases.png)
+
+   `cut` dipakai untuk menampilkan kolom alamat, MAC address, dan subnet saja. Kolom `subnet_id` sesuai dengan `id` pada `subnet4`, sehingga terlihat bahwa setiap PC mendapatkan IP dari subnetnya masing-masing.
+
+#### Pengujian Multi-hop
 
 1. Dari **PC1**, lakukan ping ke gateway-nya (Water7):
 
@@ -1778,7 +1889,7 @@ iface eth0 inet static
 
      ![Ping dari PC4 ke google.com](images/static-routing-pc4-ping-google.png)
 
-#### 2.4.12 Route Summarization
+#### Route Summarization
 
 1. Di **Foosha**, hapus semua route yang melalui Pucci dan Guanhao:
 
@@ -1823,7 +1934,7 @@ iface eth0 inet static
 
    Hasilnya menampilkan tiga route: `0.0.0.0/0`, `192.168.4.0/24`, dan `192.168.4.128/30`. Berdasarkan longest prefix match, Foosha memakai `192.168.4.128/30` karena prefix-nya paling panjang.
 
-#### 2.4.13 Routing Loop dan TTL
+#### Routing Loop dan TTL
 
 Skenario pertama: gateway yang salah.
 
@@ -2175,20 +2286,20 @@ Karena itu, OSPF umumnya konvergen jauh lebih cepat daripada RIP.
 
 Pada bagian ini, static route dari bab 2 diganti dengan RIP, lalu dengan OSPF. Kedua protokol diuji pada topologi yang sama, termasuk saat link A9 putus.
 
-#### 3.6.1 Topologi dan Pembagian IP
+#### Topologi dan Pembagian IP
 
 Topologi melanjutkan [Implementasi](#24-implementasi) bab 2, ditambah link A9 antara Pucci dan Guanhao seperti pada [Redundancy dan Failover](#34-redundancy-dan-failover):
 
 ![Topologi dynamic routing](images/dynamic-routing-topologi.png)
 
-Pembagian IP sama dengan [Topologi dan Pembagian IP](#241-topologi-dan-pembagian-ip) bab 2, termasuk konfigurasi PC1 sampai PC4, ditambah IP Address untuk A9 berikut:
+Pembagian IP sama dengan [Topologi dan Pembagian IP](#topologi-dan-pembagian-ip) bab 2, termasuk EniesLobby, DHCP relay, dan PC1 sampai PC4, ditambah IP Address untuk A9 berikut:
 
 | Node    | Interface | Terhubung ke | Subnet | IP Address       |
 | ------- | --------- | ------------ | ------ | ---------------- |
 | Pucci   | `ether4`  | Guanhao      | A9     | `192.168.5.1/30` |
 | Guanhao | `ether3`  | Pucci        | A9     | `192.168.5.2/30` |
 
-#### 3.6.2 Persiapan
+#### Persiapan
 
 1. Di GNS3, tambahkan link antara `ether4` Pucci dan `ether3` Guanhao. Link bisa ditambahkan saat node sedang menyala.
 
@@ -2220,9 +2331,9 @@ Pembagian IP sama dengan [Topologi dan Pembagian IP](#241-topologi-dan-pembagian
 
    ![Routing table Pucci setelah static route dihapus](images/dynamic-routing-pucci-persiapan.png)
 
-   Routing table hanya berisi route dengan flag `c` (_connected_), yaitu subnet yang terhubung langsung. Pada tahap ini, router belum mengetahui subnet di belakang router lain, sehingga PC1 tidak bisa menjangkau PC4.
+   Routing table hanya berisi route dengan flag `c` (_connected_), yaitu subnet yang terhubung langsung. Pada tahap ini, router belum mengetahui subnet di belakang router lain, sehingga PC1 tidak bisa menjangkau PC4. DHCP relay di Water7 dan Alabasta juga belum bisa menjangkau EniesLobby.
 
-#### 3.6.3 Konfigurasi RIP
+#### Konfigurasi RIP
 
 Konfigurasi RIP di MikroTik terdiri dari dua bagian. Keduanya harus dibuat berurutan, karena interface-template merujuk ke nama instance:
 
@@ -2366,7 +2477,7 @@ Link A9 juga belum dimasukkan, sehingga hasilnya bisa dibandingkan dengan static
 
    ![Konfigurasi RIP di Alabasta](images/dynamic-routing-alabasta-rip-config.png)
 
-#### 3.6.4 Pengujian RIP
+#### Pengujian RIP
 
 1. Di **Foosha**, cek interface yang menjalankan RIP:
 
@@ -2428,7 +2539,17 @@ Link A9 juga belum dimasukkan, sehingga hasilnya bisa dibandingkan dengan static
 
    Jalurnya sama dengan static routing bab 2, yaitu Water7, Pucci, Foosha, Guanhao, dan Alabasta. Bedanya, tidak ada satu pun route yang ditambahkan secara manual.
 
-#### 3.6.5 Default Route pada RIP
+7. Dari **PC4**, minta IP Address ulang ke DHCP Server:
+
+   ```
+   udhcpc -i eth0 -n -q
+   ```
+
+   ![PC4 mendapatkan IP dari EniesLobby dengan RIP](images/dynamic-routing-pc4-rip-dhcp.png)
+
+   PC4 tetap mendapatkan `192.168.4.2` dari EniesLobby (`192.168.1.2`) melalui relay di Alabasta. Paket antara relay dan EniesLobby kini mengikuti route hasil RIP, sehingga konfigurasi DHCP relay dari bab 2 tidak perlu diubah. Opsi `-n` membuat `udhcpc` berhenti jika tidak mendapatkan IP, sedangkan `-q` membuatnya keluar setelah IP didapatkan.
+
+#### Default Route pada RIP
 
 1. Dari **Alabasta**, lakukan ping ke internet:
 
@@ -2446,7 +2567,7 @@ Link A9 juga belum dimasukkan, sehingga hasilnya bisa dibandingkan dengan static
    /routing rip instance set [find name=rip1] redistribute=connected,rip,dhcp originate-default=if-installed
    ```
 
-   - `dhcp` ditambahkan ke `redistribute` karena default route Foosha berasal dari DHCP client di `ether1`, seperti pada [Foosha](#152-foosha) bab 1.
+   - `dhcp` ditambahkan ke `redistribute` karena default route Foosha berasal dari DHCP client di `ether1`, seperti pada [Foosha](#foosha) bab 1.
    - `originate-default=if-installed` mengizinkan default route diumumkan selama Foosha memiliki default route. Nilai bawaannya `never`, yang membuat default route tidak pernah diumumkan.
 
    > Pada RouterOS 7.24.6 yang dipakai di modul ini, kedua parameter tersebut harus diatur bersamaan. Mengatur `originate-default` saja tanpa `dhcp` pada `redistribute` tidak membuat default route diumumkan.
@@ -2485,7 +2606,7 @@ Link A9 juga belum dimasukkan, sehingga hasilnya bisa dibandingkan dengan static
 
    ![Ping dari PC4 ke google.com dengan RIP](images/dynamic-routing-pc4-rip-ping-google.png)
 
-#### 3.6.6 Redundancy dan Failover pada RIP
+#### Redundancy dan Failover pada RIP
 
 Sejauh ini link A9 belum menjalankan RIP, sehingga hanya ada satu jalur dari PC1 ke PC4. Langkah berikut mengaktifkan RIP di A9, lalu menguji failover saat A9 putus.
 
@@ -2597,7 +2718,7 @@ Sejauh ini link A9 belum menjalankan RIP, sehingga hanya ada satu jalur dari PC1
     /interface enable ether4
     ```
 
-#### 3.6.7 Konfigurasi OSPF
+#### Konfigurasi OSPF
 
 Sebelum OSPF dikonfigurasi, hapus konfigurasi RIP di **Foosha**, **Pucci**, **Water7**, **Guanhao**, dan **Alabasta**. Urutan penghapusan adalah kebalikan dari urutan pembuatan:
 
@@ -2810,7 +2931,7 @@ Guanhao terhubung ke backbone area dan area2, sehingga Guanhao juga berperan seb
 
    ![Konfigurasi OSPF di Alabasta](images/dynamic-routing-alabasta-ospf-config.png)
 
-#### 3.6.8 Pengujian OSPF
+#### Pengujian OSPF
 
 Tunggu sekitar 40 detik setelah semua router dikonfigurasi, sampai semua router selesai bertukar LSA.
 
@@ -2876,7 +2997,17 @@ Tunggu sekitar 40 detik setelah semua router dikonfigurasi, sampai semua router 
 
    ![Ping dari PC4 ke google.com dengan OSPF](images/dynamic-routing-pc4-ospf-ping-google.png)
 
-#### 3.6.9 Failover pada OSPF
+7. Dari **PC4**, minta IP Address ulang ke DHCP Server:
+
+   ```
+   udhcpc -i eth0 -n -q
+   ```
+
+   ![PC4 mendapatkan IP dari EniesLobby dengan OSPF](images/dynamic-routing-pc4-ospf-dhcp.png)
+
+   Hasilnya sama dengan RIP, tetapi kali ini route menuju EniesLobby berasal dari OSPF. DHCP relay tidak bergantung pada routing protocol yang dipakai, selama ada route antara relay dan DHCP Server.
+
+#### Failover pada OSPF
 
 1. Dari **PC1**, lakukan ping 12 kali ke PC4:
 
