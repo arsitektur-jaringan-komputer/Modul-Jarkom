@@ -153,6 +153,11 @@ sudo chown gns3:gns3 /opt/gns3/images/QEMU/chr-7.24.6-arm64-clean.qcow2
 
 [![▶ Watch MikroTik MAC (ARM64) installation](./images/mikrotik-mac-video-thumbnail-1.png)](https://drive.google.com/file/d/1PnNqDhqVFj3J7xPkYc-8gqH53oGwuEJ8/view?usp=sharing)
 
+- Isi field option saat instalasi
+```
+-machine virt,accel=tcg -cpu cortex-a72 -bios /usr/share/qemu-efi-aarch64/QEMU_EFI.fd  -boot order=c   -display none   -serial stdio   -monitor none
+```
+
 ### 0.4 Membuat Topologi Sederhana
 
 1. Buatlah topologi seperti gambar dibawah dengan keterangan node `Kazdel` menggunakan `MikroTik-CHR` yang sudah diinstall sebelumnya, sedangkan selain `Kazdel` tetap menggunakan appliance `netics-pc`.
