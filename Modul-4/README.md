@@ -689,7 +689,7 @@ Contoh penerapan pembagian IP Address dengan metode Classful sebagai berikut.
 
 ![Topologi contoh subnetting](images/topologi-subnetting.png)
 
-Anggap kita memiliki topologi jaringan seperti gambar di atas, dengan jumlah host yang dibutuhkan tertera di bawah setiap PC. Lalu, tentukan jumlah subnet yang ada di dalam topologi tersebut.
+Anggap kita memiliki topologi jaringan seperti gambar di atas, dengan jumlah host yang dibutuhkan setiap LAN tertera di bawahnya. Jumlah 50 host pada LAN PC2 sudah termasuk EniesLobby, yaitu DHCP Server yang akan dikonfigurasi pada [Implementasi bab 2](#enieslobby). Lalu, tentukan jumlah subnet yang ada di dalam topologi tersebut.
 
 ![Subnet pada topologi contoh](images/topologi-classful.png)
 
