@@ -151,7 +151,7 @@ sudo chown gns3:gns3 /opt/gns3/images/QEMU/chr-7.24.6-arm64-clean.qcow2
 
 3. Kemudian kalian bisa memfollow tutorial video dibawah untuk setup MikroTik CHR nya
 
-[![▶ Watch MikroTik MAC (ARM64) installation](./images/mikrotik-mac-video-thumbnail-1.png)](./images/mikrotik-mac-video-1.mp4)
+[![▶ Watch MikroTik MAC (ARM64) installation](./images/mikrotik-mac-video-thumbnail-1.png)](https://drive.google.com/file/d/1PnNqDhqVFj3J7xPkYc-8gqH53oGwuEJ8/view?usp=sharing)
 
 ### 0.4 Membuat Topologi Sederhana
 
